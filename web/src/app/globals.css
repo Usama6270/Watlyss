@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-serif: var(--font-fraunces), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Noto Serif Urdu", "Segoe UI", serif;
+  --color-brand-blue: #0064D0;
+}
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #111111;
+  --muted-text: #666666;
+  --card-bg: #FAFAFA;
+  --border-color: #E5E7EB;
+  --accent: #0064D0;
+}
+
+.dark {
+  --background: #0A0A0A;
+  --foreground: #FAFAFA;
+  --muted-text: #AAAAAA;
+  --card-bg: #111111;
+  --border-color: #262626;
+}
+
+/* Global Smooth Scroll & Overflow Controls */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body, * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Centralized Responsive Container */
+.container-custom {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 3rem);
+  padding-right: clamp(1rem, 4vw, 3rem);
+}
+
+/* Premium Section Spacing Utilities */
+.section-padding {
+  padding-top: clamp(3.5rem, 8vw, 7.5rem);
+  padding-bottom: clamp(3.5rem, 8vw, 7.5rem);
+}
+
+/* Premium Typography adjustments */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.font-urdu {
+  font-family: var(--font-urdu);
+  line-height: 1.8;
+}
+
+/* Clean transparent glass */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass {
+  background: rgba(10, 10, 10, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Custom Scrollbar for Luxury Aesthetics */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 100, 208, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 100, 208, 0.5);
+}
+
+
+
