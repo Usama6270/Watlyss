@@ -2,7 +2,21 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type TranslationDict = {
+export type TranslationDict = {
+  ourWater: string;
+  howItWorks: string;
+  services: string;
+  sustainability: string;
+  aboutUs: string;
+  locations: string;
+  heroTag: string;
+  heroTitle: string;
+  heroDesc: string;
+  whatsapp: string;
+  product: string;
+  company: string;
+  support: string;
+  rights: string;
   nav: {
     home: string;
     ourWater: string;
@@ -109,6 +123,20 @@ type TranslationDict = {
 
 const translations: Record<'en' | 'ur', TranslationDict> = {
   en: {
+    ourWater: "OUR WATER (19L)",
+    howItWorks: "HOW IT WORKS",
+    services: "SERVICES",
+    sustainability: "SUSTAINABILITY",
+    aboutUs: "ABOUT US",
+    locations: "LOCATIONS",
+    heroTag: "PAKISTAN'S PREMIER 19L WATER",
+    heroTitle: "Pure Water. Delivered Simply.",
+    heroDesc: "Pakistan’s premier 19L mineral water delivery across Lahore, Karachi & Islamabad.",
+    whatsapp: "WHATSAPP ORDER",
+    product: "PRODUCT",
+    company: "COMPANY",
+    support: "SUPPORT",
+    rights: "All rights reserved.",
     nav: {
       home: 'Home',
       ourWater: 'Our Water (19L)',
@@ -133,7 +161,7 @@ const translations: Record<'en' | 'ur', TranslationDict> = {
     },
     hero: {
       tagline: 'Pure Water. Delivered Simply.',
-      subtitle: 'Premium 19-Liter mineral drinking water delivered reliably to homes, hostels, and offices across Pakistan.',
+      subtitle: 'Pakistan’s premier 19L mineral water delivery across Lahore, Karachi & Islamabad.',
       ctaOrder: 'Order 19L Water',
       ctaWorks: 'How It Works',
       ctaWhatsapp: 'WhatsApp Concierge',
@@ -243,6 +271,20 @@ const translations: Record<'en' | 'ur', TranslationDict> = {
     },
   },
   ur: {
+    ourWater: "ہمارا پانی (19 لیٹر)",
+    howItWorks: "یہ کیسے کام کرتا ہے",
+    services: "خدمات",
+    sustainability: "پائیداری",
+    aboutUs: "ہمارے بارے میں",
+    locations: "مواقع / شہر",
+    heroTag: "پاکستان کا بہترین 19 لیٹر منرل واٹر",
+    heroTitle: "خالص پانی۔ آسان ترسیل۔",
+    heroDesc: "لاہور، کراچی اور اسلام آباد میں 19 لیٹر خالص منرل واٹر کی ہوم ڈیلیوری۔",
+    whatsapp: "واٹس ایپ پر آرڈر کریں",
+    product: "پروڈکٹس",
+    company: "کمپنی",
+    support: "معاونت",
+    rights: "جملہ حقوق محفوظ ہیں۔",
     nav: {
       home: 'ہوم',
       ourWater: 'ہمارا پانی (19 لیٹر)',
@@ -266,8 +308,8 @@ const translations: Record<'en' | 'ur', TranslationDict> = {
       whatsapp: 'واٹس ایپ پر رابطہ کریں',
     },
     hero: {
-      tagline: 'خالص پانی۔ آسان ڈیلیوری۔',
-      subtitle: 'پاکستان بھر میں گھروں، ہاسٹلز اور دفاتر کے لیے پریمیم 19 لیٹر منرل واٹر کی بروقت ڈیلیوری۔',
+      tagline: 'خالص پانی۔ آسان ترسیل۔',
+      subtitle: 'لاہور، کراچی اور اسلام آباد میں 19 لیٹر خالص منرل واٹر کی ہوم ڈیلیوری۔',
       ctaOrder: '19L پانی کا آرڈر دیں',
       ctaWorks: 'یہ کیسے کام کرتا ہے',
       ctaWhatsapp: 'واٹس ایپ کونسیئرج',
@@ -363,7 +405,7 @@ const translations: Record<'en' | 'ur', TranslationDict> = {
       success: 'واٹس واٹر ان سائٹس کو سبسکرائب کرنے کا شکریہ۔',
     },
     footer: {
-      rights: 'واٹس پیور واٹر پاکستان۔ جملہ حقوق محفوظ ہیں۔',
+      rights: 'جملہ حقوق محفوظ ہیں۔',
     },
     about: {
       title: 'ہمارے بارے میں',
@@ -409,7 +451,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, isRtl }}>
-      <div className={isRtl ? 'font-urdu' : 'font-sans'}>{children}</div>
+      <div className={isRtl ? 'font-urdu text-right' : 'font-sans'}>{children}</div>
     </LanguageContext.Provider>
   );
 }

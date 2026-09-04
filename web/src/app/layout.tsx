@@ -2,23 +2,17 @@ import { SanityLive } from '@/sanity/live';
 import { VisualEditing } from 'next-sanity/visual-editing';
 import { draftMode } from 'next/headers';
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/auth';
 import { CartProvider } from '@/context/cart';
 import { LanguageProvider } from '@/context/language';
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+const velocitySans = localFont({
+  src: '../fonts/Velocity-Sans.otf',
+  variable: '--font-velocity-sans',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -32,10 +26,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
+      className={`${velocitySans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-white dark:bg-[#0A0A0A] text-[#111111] dark:text-[#FAFAFA] font-sans transition-colors duration-400">
+      <body
+        className="min-h-full flex flex-col bg-white dark:bg-[#0A0A0A] text-[#111111] dark:text-[#FAFAFA] font-sans transition-colors duration-400"
+        suppressHydrationWarning
+      >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <LanguageProvider>
             <AuthProvider>

@@ -3,8 +3,9 @@
 import React, { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/context/language'
-import { MessageCircle, Mail, MapPin } from 'lucide-react'
+import { MessageCircle, Mail, MapPin, ChevronDown } from 'lucide-react'
 import FooterWaterEffect from '@/components/footer-water-effect'
 
 export default function FooterSection() {
@@ -12,7 +13,12 @@ export default function FooterSection() {
   const [email, setEmail] = useState('')
   const [success, setSuccess] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [openSection, setOpenSection] = useState<string | null>(null)
   const footerRef = useRef<HTMLElement>(null)
+
+  const toggleSection = (section: string) => {
+    setOpenSection(prev => (prev === section ? null : section))
+  }
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,27 +30,69 @@ export default function FooterSection() {
     }, 3000)
   }
 
+  const sections = [
+    {
+      id: 'product',
+      title: 'PRODUCT',
+      links: [
+        { label: '19L Water Bottle', href: '/our-water' },
+        { label: 'Build 19L Water Plan', href: '/order' },
+        { label: 'Student & Hostel Plan', href: '/order?plan=student' },
+        { label: 'Family Household Plan', href: '/order?plan=family' },
+        { label: 'Corporate Suite Plan', href: '/order?plan=office' },
+      ],
+    },
+    {
+      id: 'services',
+      title: 'SERVICES',
+      links: [
+        { label: '19L Water Delivery', href: '/services/water-delivery' },
+        { label: 'Free Bottle Installation', href: '/services/free-bottle-installation' },
+        { label: 'Water Testing Assay', href: '/services/water-testing' },
+        { label: 'Dispenser Service', href: '/services/dispenser-service' },
+      ],
+    },
+    {
+      id: 'company',
+      title: 'COMPANY',
+      links: [
+        { label: 'About Watlys', href: '/about' },
+        { label: 'Water Process', href: '/process' },
+        { label: 'Sustainability', href: '/sustainability' },
+        { label: 'Water Insights', href: '/insights' },
+        { label: 'Certifications', href: '/certifications' },
+      ],
+    },
+    {
+      id: 'support',
+      title: 'SUPPORT',
+      links: [
+        { label: 'FAQ', href: '/faq' },
+        { label: 'Coverage Areas', href: '/locations' },
+        { label: 'Contact Concierge', href: '/contact' },
+      ],
+    },
+  ]
+
   return (
     <footer
       id="footer"
       ref={footerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden ${
-        isHovered
+      className={`relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden ${isHovered
           ? 'bg-[#ebf4fd] dark:bg-[#0D1520] border-[#c0dcfa] dark:border-zinc-800'
           : 'bg-white dark:bg-[#0A0A0A] border-zinc-200/60 dark:border-zinc-800/60'
-      }`}
+        }`}
     >
       {/* Subtle Premium Cursor Water Effect Canvas */}
       <FooterWaterEffect containerRef={footerRef} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 space-y-16 pointer-events-auto">
-        
+      <div className="relative z-10 max-w-7xl mx-auto px-6 space-y-12 sm:space-y-16 pointer-events-auto">
+
         {/* Brand Statement Lead-in */}
-        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b transition-colors duration-700 items-start ${
-          isHovered ? 'border-[#c0dcfa] dark:border-zinc-800' : 'border-zinc-200/60 dark:border-zinc-800/60'
-        }`}>
+        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-16 border-b transition-colors duration-700 items-start ${isHovered ? 'border-[#c0dcfa] dark:border-zinc-800' : 'border-zinc-200/60 dark:border-zinc-800/60'
+          }`}>
           <div className="lg:col-span-6 space-y-4">
             <Link href="/" className="relative block h-14 w-48">
               <Image
@@ -55,8 +103,8 @@ export default function FooterSection() {
                 className="object-contain dark:invert dark:brightness-200"
               />
             </Link>
-            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-light leading-relaxed max-w-md">
-              Pakistan’s premier 19-Liter mineral drinking water subscription service. Delivering subterranean aquifer water directly to homes, student hostels, and corporate offices across Lahore, Karachi, and Islamabad.
+            <p className="text-xs sm:text-sm text-slate-500 font-medium tracking-tight whitespace-normal max-w-md">
+              Pakistan’s premier 19L mineral water delivery across Lahore, Karachi &amp; Islamabad.
             </p>
           </div>
 
@@ -86,57 +134,77 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* Structured 5-Column Footer Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-xs font-light">
-          
-          {/* Column 1: PRODUCT */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">PRODUCT</h4>
-            <ul className="space-y-2.5 text-zinc-700 dark:text-zinc-300">
-              <li><Link href="/our-water" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">19L Water Bottle</Link></li>
-              <li><Link href="/order" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Build 19L Water Plan</Link></li>
-              <li><Link href="/order?plan=student" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Student & Hostel Plan</Link></li>
-              <li><Link href="/order?plan=family" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Family Household Plan</Link></li>
-              <li><Link href="/order?plan=office" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Corporate Suite Plan</Link></li>
-            </ul>
-          </div>
+        {/* Structured Grid with Mobile Accordions & Desktop Fallback */}
+        <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-8 text-xs font-light">
 
-          {/* Column 2: SERVICES */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">SERVICES</h4>
-            <ul className="space-y-2.5 text-zinc-700 dark:text-zinc-300">
-              <li><Link href="/services/water-delivery" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">19L Water Delivery</Link></li>
-              <li><Link href="/services/free-bottle-installation" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Free Bottle Installation</Link></li>
-              <li><Link href="/services/water-testing" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Water Testing Assay</Link></li>
-              <li><Link href="/services/dispenser-service" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Dispenser Service</Link></li>
-            </ul>
-          </div>
+          {/* Mapped Accordion Sections for Product, Services, Company, Support */}
+          {sections.map((sec) => {
+            const isOpen = openSection === sec.id
+            return (
+              <div key={sec.id} className="space-y-3 sm:space-y-4">
+                {/* Header: Clickable Accordion Button on Mobile (<640px), Static Heading on Desktop */}
+                <button
+                  onClick={() => toggleSection(sec.id)}
+                  className="flex justify-between items-center w-full py-3 border-b border-slate-200/60 dark:border-zinc-800/60 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-zinc-200 sm:border-none sm:py-0 sm:mb-3 sm:cursor-default"
+                >
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
+                    {sec.title}
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`sm:hidden text-zinc-500 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#0064D0]' : ''
+                      }`}
+                  />
+                </button>
 
-          {/* Column 3: COMPANY */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">COMPANY</h4>
-            <ul className="space-y-2.5 text-zinc-700 dark:text-zinc-300">
-              <li><Link href="/about" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">About Watlys</Link></li>
-              <li><Link href="/process" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Water Process</Link></li>
-              <li><Link href="/sustainability" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Sustainability</Link></li>
-              <li><Link href="/insights" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Water Insights</Link></li>
-              <li><Link href="/certifications" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Certifications</Link></li>
-            </ul>
-          </div>
+                {/* Animated Mobile Dropdown list + Permanently Expanded Desktop View */}
+                <div className="sm:block">
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.ul
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="sm:hidden space-y-2.5 pt-1 pb-3 text-zinc-700 dark:text-zinc-300 overflow-hidden"
+                      >
+                        {sec.links.map((link) => (
+                          <li key={link.label}>
+                            <Link
+                              href={link.href}
+                              className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors block py-0.5"
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </motion.ul>
+                    )}
+                  </AnimatePresence>
 
-          {/* Column 4: SUPPORT */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">SUPPORT</h4>
-            <ul className="space-y-2.5 text-zinc-700 dark:text-zinc-300">
-              <li><Link href="/faq" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">FAQ</Link></li>
-              <li><Link href="/locations" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Coverage Areas</Link></li>
-              <li><Link href="/contact" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Contact Concierge</Link></li>
-            </ul>
-          </div>
+                  {/* Permanent Static Desktop Links */}
+                  <ul className="hidden sm:block space-y-2.5 text-zinc-700 dark:text-zinc-300">
+                    {sec.links.map((link) => (
+                      <li key={link.label}>
+                        <Link
+                          href={link.href}
+                          className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )
+          })}
 
-          {/* Column 5: PAKISTAN CONTACT */}
-          <div className="col-span-2 md:col-span-4 lg:col-span-1 space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">PAKISTAN CONCIERGE</h4>
+          {/* Column 5: PAKISTAN CONTACT / CONCIERGE (Always Visible) */}
+          <div className="col-span-1 sm:col-span-4 lg:col-span-1 space-y-4 pt-4 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-zinc-800/60">
+            <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
+              PAKISTAN CONCIERGE
+            </h4>
             <div className="space-y-3 text-zinc-700 dark:text-zinc-300">
               <a
                 href="https://wa.me/923001234567?text=Hi%20Watlys%20I%20want%20to%20order%2019L%20drinking%20water%20bottles"
@@ -161,9 +229,8 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom Rights & Legal Row */}
-        <div className={`pt-8 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] text-zinc-500 dark:text-zinc-400 gap-4 ${
-          isHovered ? 'border-[#c0dcfa] dark:border-zinc-800' : 'border-zinc-200/60 dark:border-zinc-800/60'
-        }`}>
+        <div className={`pt-8 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] text-zinc-500 dark:text-zinc-400 gap-4 ${isHovered ? 'border-[#c0dcfa] dark:border-zinc-800' : 'border-zinc-200/60 dark:border-zinc-800/60'
+          }`}>
           <p>{t.footer.rights}</p>
           <div className="flex items-center space-x-6">
             <Link href="/privacy-policy" className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">Privacy Policy</Link>

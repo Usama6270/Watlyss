@@ -16,7 +16,7 @@ export default function PackagesSection() {
 
   return (
     <section id="packages" className="py-24 px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-zinc-800/40 bg-white dark:bg-[#0A0A0A] font-sans">
-      
+
       {/* Editorial Header */}
       <div className="text-center space-y-4 mb-16">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
@@ -43,11 +43,10 @@ export default function PackagesSection() {
               <button
                 key={tab.id}
                 onClick={() => setFrequency(tab.id as any)}
-                className={`px-5 py-2.5 text-[11px] font-bold tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
-                  frequency === tab.id
+                className={`px-5 py-2.5 text-[11px] font-bold tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${frequency === tab.id
                     ? 'bg-[#0064D0] text-white shadow-md'
                     : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -58,7 +57,7 @@ export default function PackagesSection() {
 
       {/* FOUR PRIMARY PACKAGE CARDS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-        
+
         {/* 1. STUDENT PACKAGE */}
         <div className="flex flex-col justify-between bg-white dark:bg-[#111111] border border-zinc-200/80 dark:border-zinc-800/80 p-8 rounded-2xl transition-all duration-400 hover:border-[#0064D0] shadow-sm group">
           <div className="space-y-6">
@@ -70,9 +69,9 @@ export default function PackagesSection() {
               <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">STUDENT</h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">For individuals and students.</p>
             </div>
-            
+
             <div className="py-4 border-y border-zinc-100 dark:border-zinc-800">
-              <span className="text-3xl font-serif font-light text-zinc-900 dark:text-white">
+              <span className="text-3xl font-black text-zinc-900 dark:text-white">
                 {studentPrice}
               </span>
               <span className="text-[10px] text-zinc-400 font-light block mt-1">{freqLabel}</span>
@@ -97,7 +96,7 @@ export default function PackagesSection() {
 
         {/* 2. FAMILY PACKAGE — FEATURED "MOST POPULAR" */}
         <div className="relative flex flex-col justify-between bg-white dark:bg-[#111111] border-2 border-[#0064D0] p-8 rounded-2xl shadow-xl transition-all duration-400 transform lg:-translate-y-2">
-          
+
           {/* MOST POPULAR BADGE */}
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0064D0] text-white px-4 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center space-x-1.5 shadow-md">
             <Star size={11} className="fill-white" />
@@ -113,9 +112,9 @@ export default function PackagesSection() {
               <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">FAMILY</h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">For regular household water needs.</p>
             </div>
-            
+
             <div className="py-4 border-y border-zinc-100 dark:border-zinc-800">
-              <span className="text-4xl font-serif font-light text-[#0064D0]">
+              <span className="text-4xl font-black text-[#0064D0]">
                 {familyPrice}
               </span>
               <span className="text-[10px] text-zinc-400 font-light block mt-1">{freqLabel}</span>
@@ -149,9 +148,9 @@ export default function PackagesSection() {
               <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">CORPORATE</h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">For offices and businesses.</p>
             </div>
-            
+
             <div className="py-4 border-y border-zinc-100 dark:border-zinc-800">
-              <span className="text-3xl font-serif font-light text-zinc-900 dark:text-white">
+              <span className="text-3xl font-black text-zinc-900 dark:text-white">
                 {corporatePrice}
               </span>
               <span className="text-[10px] text-zinc-400 font-light block mt-1">{freqLabel}</span>
@@ -185,7 +184,7 @@ export default function PackagesSection() {
               <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">CUSTOM</h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">Build a plan according to your exact requirements.</p>
             </div>
-            
+
             <div className="py-4 border-y border-zinc-200/60 dark:border-zinc-800">
               <span className="text-xl font-serif font-light text-[#0064D0]">
                 Configurable Pricing
