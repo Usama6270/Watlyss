@@ -1,133 +1,139 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import React, { useRef, useState } from 'react'
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useLanguage } from '@/context/language'
+import ProcessScrollCanvas from '@/components/ProcessScrollCanvas'
+import { Droplet } from 'lucide-react'
 
 export default function ProcessSection() {
   const { t, isRtl } = useLanguage()
   const sectionRef = useRef<HTMLDivElement>(null)
-  const pinRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
 
+  // 3D Card Hover Tilt Motion
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 })
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 })
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['6deg', '-6deg'])
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-6deg', '6deg'])
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+
+    x.set(mouseX / width - 0.5)
+    y.set(mouseY / height - 0.5)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
   const steps = [
-    {
-      ...t.process.step1,
-      image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1000&q=80',
-    },
-    {
-      ...t.process.step2,
-      image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80',
-    },
-    {
-      ...t.process.step3,
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=80',
-    },
-    {
-      ...t.process.step4,
-      image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1000&q=80',
-    },
-    {
-      ...t.process.step5,
-      image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80',
-    },
+    { ...t.process.step1 },
+    { ...t.process.step2 },
+    { ...t.process.step3 },
+    { ...t.process.step4 },
+    { ...t.process.step5 },
   ]
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
 
-    const pin = pinRef.current
-    const section = sectionRef.current
-    if (!pin || !section) return
-
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-      onUpdate: (self) => {
-        const progress = self.progress
-        const stepIndex = Math.min(
-          Math.floor(progress * steps.length),
-          steps.length - 1
-        )
-        setActiveStep(stepIndex)
-      },
-    })
-
-    return () => {
-      trigger.kill()
-    }
-  }, [steps.length])
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    const stepIndex = Math.min(4, Math.max(0, Math.floor(latest * 5)))
+    setActiveStep(stepIndex)
+  })
 
   return (
-    <div id="process" ref={sectionRef} className="relative w-full h-[200vh] sm:h-[280vh] md:h-[350vh] bg-white dark:bg-[#0b1329] transition-colors duration-300 z-10">
-      {/* Pinned Sticky Box */}
-      <div ref={pinRef} className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-10 bg-white dark:bg-[#0b1329] transition-colors duration-300">
+    <section id="process" ref={sectionRef} className="relative w-full py-16 sm:py-24 lg:py-28 px-4 bg-gradient-to-b from-slate-50 via-white to-sky-50/30 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] transition-colors duration-300 z-10 border-t border-slate-200/50 dark:border-slate-800/60 overflow-hidden font-sans">
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-20 items-center w-full">
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-[#0064D0]/10 rounded-full blur-[150px] pointer-events-none" />
 
-          {/* Frame Image Column (span 6) */}
-          <div className="lg:col-span-6 relative aspect-square h-[220px] sm:h-[380px] lg:h-[480px] w-full bg-zinc-50 dark:bg-[#131c38] overflow-hidden border border-zinc-200/20 dark:border-slate-800 rounded-2xl mx-auto">
-            {steps.map((step, idx) => (
-              <div
-                key={idx}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${activeStep === idx ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'
-                  }`}
+      <div className="max-w-5xl mx-auto w-full flex flex-col items-center justify-center space-y-6 sm:space-y-10 text-center relative z-10">
+
+        {/* TOP HEADING HEADER (Positioned spacious below navbar with zero overlap) */}
+        <div className="space-y-3 sm:space-y-4">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] inline-flex items-center gap-1.5 bg-[#0064D0]/10 px-4 py-1.5 rounded-full border border-[#0064D0]/20 shadow-sm">
+            <Droplet size={14} />
+            <span>{isRtl ? 'ہماری تیاری کا عمل' : 'OUR PURIFICATION PROCESS'}</span>
+          </span>
+
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight pt-1">
+            5-Stage Subterranean Process
+          </h2>
+
+          {/* Dynamic Animated Step Title & Description */}
+          <div className="relative h-16 sm:h-20 flex items-center justify-center overflow-hidden max-w-xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="absolute inset-0 flex flex-col items-center justify-center space-y-1"
               >
-                <Image
-                  src={step.image}
-                  alt={step.title}
-                  fill
-                  className="object-cover grayscale"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
+                <span className="text-xs sm:text-base font-bold uppercase tracking-wider text-[#0064D0]">
+                  0{activeStep + 1} / 0{steps.length} — {steps[activeStep]?.title}
+                </span>
+                <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-300 font-light max-w-lg mx-auto line-clamp-2 leading-relaxed">
+                  {steps[activeStep]?.desc}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Stepper Progress Indicator */}
+          <div className="flex justify-center items-center space-x-2.5 pt-1">
+            {steps.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setActiveStep(idx)}
+                className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${activeStep === idx ? 'w-10 bg-[#0064D0] shadow-md shadow-[#0064D0]/40' : 'w-2.5 bg-zinc-200 dark:bg-slate-800 hover:bg-zinc-400'
+                  }`}
+              />
             ))}
           </div>
-
-          {/* Description Caption Column (span 6) */}
-          <div className={`lg:col-span-6 flex flex-col justify-center min-h-[180px] sm:min-h-[250px] relative ${isRtl ? 'text-right' : 'text-left'}`}>
-            <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-zinc-400 dark:text-slate-400 block mb-2 sm:mb-4">
-              0{activeStep + 1} / 0{steps.length} — {isRtl ? 'عمل' : 'PROCESS'}
-            </span>
-
-            {/* Stepper details */}
-            <div className="relative w-full">
-              {steps.map((step, idx) => (
-                <div
-                  key={idx}
-                  className={`transition-all duration-700 absolute top-0 left-0 right-0 ${activeStep === idx
-                      ? 'opacity-100 translate-y-0 relative z-10'
-                      : 'opacity-0 translate-y-6 pointer-events-none absolute z-0'
-                    }`}
-                >
-                  <h3 className="text-xl sm:text-3xl md:text-5xl font-sans font-bold tracking-wide text-zinc-900 dark:text-white mb-3 sm:mb-6">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light leading-relaxed max-w-lg">
-                    {step.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Stepper Progress Indicator (Muted grey bars) */}
-            <div className="flex space-x-3 mt-16 z-20 relative">
-              {steps.map((_, idx) => (
-                <div
-                  key={idx}
-                  className={`h-0.5 rounded-full transition-all duration-500 ${activeStep === idx ? 'w-10 bg-zinc-950 dark:bg-white' : 'w-2 bg-zinc-200 dark:bg-zinc-800'
-                    }`}
-                />
-              ))}
-            </div>
-          </div>
-
         </div>
+
+        {/* 3D INTERACTIVE TILT VIEWPORT CARD */}
+        <div style={{ perspective: 1000 }} className="w-full max-w-3xl">
+          <motion.div
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              rotateY,
+              rotateX,
+              transformStyle: 'preserve-3d',
+            }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="relative aspect-video sm:aspect-[16/9] h-[280px] sm:h-[400px] md:h-[480px] w-full bg-slate-950 rounded-3xl overflow-hidden shadow-2xl shadow-[#0064D0]/20 border-2 border-[#0064D0]/40 hover:border-[#0064D0] transition-all duration-300 group"
+          >
+            {/* High-DPI HD Sharp 3D Canvas */}
+            <div style={{ transform: 'translateZ(20px)' }} className="w-full h-full">
+              <ProcessScrollCanvas onStepChange={(step) => setActiveStep(step)} />
+            </div>
+
+            {/* Specular Light Reflection Overlay */}
+            <div className="absolute inset-0 pointer-events-none rounded-3xl border border-white/20 bg-gradient-to-tr from-transparent via-white/5 to-white/15" />
+          </motion.div>
+        </div>
+
       </div>
-    </div>
+    </section>
   )
 }

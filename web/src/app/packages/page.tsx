@@ -4,6 +4,7 @@ import React from 'react'
 import Navbar from '@/components/navbar'
 import FooterSection from '@/components/footer-section'
 import PackageCalculator from '@/components/package-calculator'
+import PricingCard3D from '@/components/PricingCard3D'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Check, ArrowRight, ShieldCheck, Zap, Building } from 'lucide-react'
@@ -93,42 +94,41 @@ export default function PackagesOverviewPage() {
         {/* Package Grid */}
         <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
           {packages.map((pkg) => (
-            <div
-              key={pkg.id}
-              className="group relative flex flex-col bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm hover:border-[#0064D0] dark:hover:border-[#0064D0] transition-all duration-300"
-            >
-              <div className="space-y-4 flex-1">
-                <span className="inline-block text-[9px] font-bold uppercase tracking-widest text-[#0064D0] bg-[#0064D0]/10 px-3 py-1 rounded-full border border-[#0064D0]/20">
-                  {pkg.tag}
-                </span>
-                <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">{pkg.title}</h2>
-                <p className="text-xs text-zinc-500 dark:text-slate-200 leading-relaxed font-light">{pkg.desc}</p>
+            <PricingCard3D key={pkg.id} isPopular={pkg.id === 'family'}>
+              <div className="group relative flex flex-col justify-between h-full bg-white dark:bg-[#131c38] p-8 sm:p-10 rounded-2xl shadow-sm">
+                <div className="space-y-4 flex-1">
+                  <span className="inline-block text-[9px] font-bold uppercase tracking-widest text-[#0064D0] bg-[#0064D0]/10 px-3 py-1 rounded-full border border-[#0064D0]/20">
+                    {pkg.tag}
+                  </span>
+                  <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">{pkg.title}</h2>
+                  <p className="text-xs text-zinc-500 dark:text-slate-200 leading-relaxed font-light">{pkg.desc}</p>
 
-                <div className="pt-4 pb-6 border-b border-zinc-100 dark:border-slate-800">
-                  <span className="text-3xl font-serif font-light text-zinc-900 dark:text-white">{pkg.price}</span>
-                  <span className="text-[10px] text-zinc-400 block mt-1 uppercase tracking-widest font-semibold">{pkg.deliveries}</span>
+                  <div className="pt-4 pb-6 border-b border-zinc-100 dark:border-slate-800">
+                    <span className="text-3xl font-serif font-light text-zinc-900 dark:text-white">{pkg.price}</span>
+                    <span className="text-[10px] text-zinc-400 block mt-1 uppercase tracking-widest font-semibold">{pkg.deliveries}</span>
+                  </div>
+
+                  <ul className="space-y-3 pt-6">
+                    {pkg.features.map((feat, idx) => (
+                      <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-slate-200 font-light">
+                        <Check size={14} className="text-[#0064D0] flex-shrink-0" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                <ul className="space-y-3 pt-6">
-                  {pkg.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-slate-200 font-light">
-                      <Check size={14} className="text-[#0064D0] flex-shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="pt-8" style={{ transform: 'translateZ(20px)' }}>
+                  <Link
+                    href={pkg.href}
+                    className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-sm shadow-[#0064D0]/20"
+                  >
+                    <span>Explore Plan Details</span>
+                    <ArrowRight size={14} />
+                  </Link>
+                </div>
               </div>
-
-              <div className="pt-8">
-                <Link
-                  href={pkg.href}
-                  className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-sm"
-                >
-                  <span>Explore Plan Details</span>
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
-            </div>
+            </PricingCard3D>
           ))}
         </section>
 

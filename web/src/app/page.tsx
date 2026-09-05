@@ -1,19 +1,22 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/navbar';
-import PackagesSection from '@/components/packages-section';
-import PackageCalculator from '@/components/package-calculator';
-import ProcessSection from '@/components/process-section';
-import KnowledgeSeries from '@/components/knowledge-series';
-import TrustSection from '@/components/trust-section';
-import CertificationsSection from '@/components/certifications-section';
-import FooterSection from '@/components/footer-section';
 import HeroScrollCanvas from '@/components/HeroScrollCanvas';
+import PackagesSection from '@/components/packages-section';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ShieldCheck, Truck, Calendar, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/language';
+
+// Dynamic Lazy Imports for Below-the-fold Heavy Components (Code-Splitting Optimization)
+const PackageCalculator = dynamic(() => import('@/components/package-calculator'), { ssr: false });
+const ProcessSection = dynamic(() => import('@/components/process-section'));
+const KnowledgeSeries = dynamic(() => import('@/components/knowledge-series'));
+const TrustSection = dynamic(() => import('@/components/trust-section'));
+const CertificationsSection = dynamic(() => import('@/components/certifications-section'));
+const MapSection = dynamic(() => import('@/components/map-section'), { ssr: false });
+const FooterSection = dynamic(() => import('@/components/footer-section'));
 
 export default function Home() {
   const { t } = useLanguage();
@@ -105,11 +108,7 @@ export default function Home() {
       <CertificationsSection />
 
       {/* SECTION 08 — FINAL CTA */}
-      <section className="relative py-14 sm:py-24 px-4 sm:px-8 lg:px-12 bg-white/60 dark:bg-[#0a1128] text-slate-900 dark:text-white text-center overflow-hidden border-t border-slate-200/50 dark:border-slate-800/60 transition-colors duration-300">
-        <div className="absolute inset-0 pointer-events-none opacity-15 flex items-center justify-center">
-          <div className="w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full bg-[#0064D0] blur-3xl" />
-        </div>
-
+      <section className="relative py-14 sm:py-24 px-4 sm:px-8 lg:px-12 bg-white dark:bg-[#0a1128] text-slate-900 dark:text-white text-center overflow-hidden border-t border-slate-200/50 dark:border-slate-800/60 transition-colors duration-300">
         <div className="max-w-3xl mx-auto space-y-5 sm:space-y-6 relative z-10 font-sans px-2">
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0]">
             START YOUR SUBSCRIPTION
@@ -137,6 +136,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* SECTION 08.5 — 3D ISLAMABAD & REGIONAL MAP SECTION */}
+      <MapSection />
 
       {/* SECTION 09 — FOOTER */}
       <FooterSection />

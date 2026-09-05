@@ -124,18 +124,18 @@ export default function HeroScrollCanvas() {
     const bottomPadding = isMobile ? 60 : 40;
     const availableH = Math.max(200, h - navOffset - bottomPadding);
 
-    // On mobile, scale bottle to ~65% of available height so entire bottle (cap to base) is fully visible
+    // On mobile, scale bottle to ~55% of available height so entire bottle sits comfortably with ample margin
     const scale = isMobile
-      ? (availableH * 0.65) / imgH
+      ? (availableH * 0.55) / imgH
       : Math.min((w * 0.95) / imgW, availableH / imgH);
 
     const renderW = imgW * scale;
     const renderH = imgH * scale;
 
     const x = (w - renderW) / 2;
-    // On mobile, position bottle cap ~36px below navbar for an attractive, spacious aesthetic
+    // On mobile, position bottle with generous breathing room below navbar
     const y = isMobile
-      ? navOffset + 36 - (renderH * 0.16)
+      ? navOffset + 60
       : navOffset + (availableH - renderH) / 2;
 
     ctx.drawImage(img, x, y, renderW, renderH);
@@ -143,8 +143,15 @@ export default function HeroScrollCanvas() {
   };
 
   // Re-render frame when frameIndex changes smoothly via spring physics
+  const tickingRef = useRef(false);
   useMotionValueEvent(frameIndex, 'change', (latest) => {
-    requestAnimationFrame(() => renderFrame(latest));
+    if (!tickingRef.current) {
+      tickingRef.current = true;
+      requestAnimationFrame(() => {
+        renderFrame(latest);
+        tickingRef.current = false;
+      });
+    }
   });
 
   // Window resize handler

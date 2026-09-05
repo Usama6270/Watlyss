@@ -80,10 +80,7 @@ export default function FooterSection() {
       ref={footerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden ${isHovered
-          ? 'bg-[#ebf4fd] dark:bg-[#0D1520] border-[#c0dcfa] dark:border-slate-800'
-          : 'bg-white dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60'
-        }`}
+      className="relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden bg-white dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60"
     >
       {/* Subtle Premium Cursor Water Effect Canvas */}
       <FooterWaterEffect containerRef={footerRef} />
@@ -94,13 +91,13 @@ export default function FooterSection() {
         <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-16 border-b transition-colors duration-700 items-start ${isHovered ? 'border-[#c0dcfa] dark:border-slate-800' : 'border-zinc-200/60 dark:border-slate-800/60'
           }`}>
           <div className="lg:col-span-6 space-y-4">
-            <Link href="/" className="relative block h-14 w-48">
+            <Link href="/" className="relative block h-16 sm:h-20 w-52 sm:w-64">
               <Image
                 src="/logo.png"
                 alt="Watlys 19L Pure Water Logo"
                 fill
                 priority
-                className="object-contain dark:invert dark:brightness-200"
+                className="object-contain object-left transition-transform duration-300 hover:scale-105"
               />
             </Link>
             <p className="text-xs sm:text-sm text-slate-500 font-medium tracking-tight whitespace-normal max-w-md">

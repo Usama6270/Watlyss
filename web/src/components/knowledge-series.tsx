@@ -76,8 +76,8 @@ export default function KnowledgeSeries() {
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
               className={`pb-1 text-[10px] uppercase tracking-widest font-semibold transition-all cursor-pointer border-b ${selectedCategory === cat.id
-                  ? 'border-zinc-950 dark:border-white text-[#111111] dark:text-[#FAFAFA]'
-                  : 'border-transparent text-zinc-400 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                ? 'border-zinc-950 dark:border-white text-[#111111] dark:text-[#FAFAFA]'
+                : 'border-transparent text-zinc-400 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                 }`}
             >
               {cat.label}

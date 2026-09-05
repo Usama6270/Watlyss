@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Check, Star, Sparkles, Droplets } from 'lucide-react'
 
+import PricingCard3D from '@/components/PricingCard3D'
+
 export default function PackagesSection() {
   const [frequency, setFrequency] = useState<'weekly' | 'monthly' | 'annual'>('monthly')
 
@@ -44,8 +46,8 @@ export default function PackagesSection() {
                 key={tab.id}
                 onClick={() => setFrequency(tab.id as any)}
                 className={`px-3 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] font-bold tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${frequency === tab.id
-                    ? 'bg-[#0064D0] text-white shadow-md'
-                    : 'text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
+                  ? 'bg-[#0064D0] text-white shadow-md'
+                  : 'text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
                   }`}
               >
                 {tab.label}
@@ -55,159 +57,170 @@ export default function PackagesSection() {
         </div>
       </div>
 
-      {/* FOUR PRIMARY PACKAGE CARDS GRID */}
+      {/* FOUR PRIMARY PACKAGE CARDS GRID WITH 3D PERSPECTIVE */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
 
         {/* 1. STUDENT PACKAGE */}
-        <div className="flex flex-col justify-between bg-white dark:bg-[#162447]/90 border border-zinc-200/80 dark:border-slate-700/60 p-6 sm:p-8 rounded-2xl transition-all duration-300 hover:border-[#0064D0] shadow-lg shadow-black/10 group">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-slate-400">01 / INDIVIDUALS</span>
-              <Droplets size={18} className="text-[#0064D0]" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">STUDENT</h3>
-              <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">For individuals and students.</p>
+        <PricingCard3D>
+          <div className="flex flex-col justify-between h-full bg-white dark:bg-[#162447]/90 p-6 sm:p-8 rounded-2xl shadow-lg shadow-black/10 group">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-slate-400">01 / INDIVIDUALS</span>
+                <Droplets size={18} className="text-[#0064D0]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">STUDENT</h3>
+                <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">For individuals and students.</p>
+              </div>
+
+              <div className="py-4 border-y border-zinc-100 dark:border-slate-700/60">
+                <span className="text-3xl font-black text-zinc-900 dark:text-white">
+                  {studentPrice}
+                </span>
+                <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">{freqLabel}</span>
+              </div>
+
+              <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>1–2 bottles per delivery</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Flexible delivery schedule</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Budget friendly rates</span></li>
+              </ul>
             </div>
 
-            <div className="py-4 border-y border-zinc-100 dark:border-slate-700/60">
-              <span className="text-3xl font-black text-zinc-900 dark:text-white">
-                {studentPrice}
-              </span>
-              <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">{freqLabel}</span>
+            <div className="pt-8" style={{ transform: 'translateZ(20px)' }}>
+              <Link
+                href="/order?plan=student"
+                className="w-full py-3.5 bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-md group-hover:bg-[#0064D0] group-hover:text-white"
+              >
+                Choose Plan
+              </Link>
             </div>
-
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>1–2 bottles per delivery</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Flexible delivery schedule</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Budget friendly rates</span></li>
-            </ul>
           </div>
-
-          <div className="pt-8">
-            <Link
-              href="/order?plan=student"
-              className="w-full py-3.5 bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-md"
-            >
-              Choose Plan
-            </Link>
-          </div>
-        </div>
+        </PricingCard3D>
 
         {/* 2. FAMILY PACKAGE — FEATURED "MOST POPULAR" */}
-        <div className="relative flex flex-col justify-between bg-white dark:bg-[#162447]/90 border-2 border-[#0064D0] p-6 sm:p-8 rounded-2xl shadow-xl transition-all duration-300 transform lg:-translate-y-2">
+        <PricingCard3D isPopular>
+          <div className="relative flex flex-col justify-between h-full bg-white dark:bg-[#162447]/90 p-6 sm:p-8 rounded-2xl">
 
-          {/* MOST POPULAR BADGE */}
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0064D0] text-white px-4 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center space-x-1.5 shadow-md">
-            <Star size={11} className="fill-white" />
-            <span>MOST POPULAR</span>
-          </div>
-
-          <div className="space-y-6 pt-2">
-            <div className="flex justify-between items-center">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-[#0064D0]">02 / HOUSEHOLDS</span>
-              <Sparkles size={18} className="text-[#0064D0]" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">FAMILY</h3>
-              <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">For regular household water needs.</p>
-            </div>
-
-            <div className="py-4 border-y border-zinc-100 dark:border-slate-700/60">
-              <span className="text-4xl font-black text-[#0064D0]">
-                {familyPrice}
-              </span>
-              <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">{freqLabel}</span>
-            </div>
-
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Multiple 19L bottles</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Scheduled recurring delivery</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Priority convenience & refills</span></li>
-            </ul>
-          </div>
-
-          <div className="pt-8">
-            <Link
-              href="/order?plan=family"
-              className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-md"
+            {/* MOST POPULAR BADGE — ELEVATED IN 3D SPACE */}
+            <div
+              className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0064D0] text-white px-4 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest flex items-center space-x-1.5 shadow-lg shadow-[#0064D0]/40 z-20"
+              style={{ transform: 'translateZ(45px) translateX(-50%)' }}
             >
-              Choose Plan
-            </Link>
+              <Star size={11} className="fill-white" />
+              <span>MOST POPULAR</span>
+            </div>
+
+            <div className="space-y-6 pt-2">
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#0064D0]">02 / HOUSEHOLDS</span>
+                <Sparkles size={18} className="text-[#0064D0]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">FAMILY</h3>
+                <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">For regular household water needs.</p>
+              </div>
+
+              <div className="py-4 border-y border-zinc-100 dark:border-slate-700/60">
+                <span className="text-4xl font-black text-[#0064D0]">
+                  {familyPrice}
+                </span>
+                <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">{freqLabel}</span>
+              </div>
+
+              <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Multiple 19L bottles</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Scheduled recurring delivery</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Priority convenience & refills</span></li>
+              </ul>
+            </div>
+
+            <div className="pt-8" style={{ transform: 'translateZ(25px)' }}>
+              <Link
+                href="/order?plan=family"
+                className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-xl shadow-[#0064D0]/30 hover:shadow-[#0064D0]/50"
+              >
+                Choose Plan
+              </Link>
+            </div>
           </div>
-        </div>
+        </PricingCard3D>
 
         {/* 3. CORPORATE PACKAGE */}
-        <div className="flex flex-col justify-between bg-white dark:bg-[#162447]/90 border border-zinc-200/80 dark:border-slate-700/60 p-6 sm:p-8 rounded-2xl transition-all duration-300 hover:border-[#0064D0] shadow-lg shadow-black/10 group">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-slate-400">03 / BUSINESSES</span>
-              <Droplets size={18} className="text-[#0064D0]" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">CORPORATE</h3>
-              <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">For offices and businesses.</p>
+        <PricingCard3D>
+          <div className="flex flex-col justify-between h-full bg-white dark:bg-[#162447]/90 p-6 sm:p-8 rounded-2xl shadow-lg shadow-black/10 group">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-slate-400">03 / BUSINESSES</span>
+                <Droplets size={18} className="text-[#0064D0]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">CORPORATE</h3>
+                <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">For offices and businesses.</p>
+              </div>
+
+              <div className="py-4 border-y border-zinc-100 dark:border-slate-700/60">
+                <span className="text-3xl font-black text-zinc-900 dark:text-white">
+                  {corporatePrice}
+                </span>
+                <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">{freqLabel}</span>
+              </div>
+
+              <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Bulk requirements supply</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Scheduled deliveries</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Reliable recurring service</span></li>
+              </ul>
             </div>
 
-            <div className="py-4 border-y border-zinc-100 dark:border-slate-700/60">
-              <span className="text-3xl font-black text-zinc-900 dark:text-white">
-                {corporatePrice}
-              </span>
-              <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">{freqLabel}</span>
+            <div className="pt-8" style={{ transform: 'translateZ(20px)' }}>
+              <Link
+                href="/order?plan=corporate"
+                className="w-full py-3.5 bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-md group-hover:bg-[#0064D0] group-hover:text-white"
+              >
+                Choose Plan
+              </Link>
             </div>
-
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Bulk requirements supply</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Scheduled deliveries</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Reliable recurring service</span></li>
-            </ul>
           </div>
-
-          <div className="pt-8">
-            <Link
-              href="/order?plan=corporate"
-              className="w-full py-3.5 bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-md"
-            >
-              Choose Plan
-            </Link>
-          </div>
-        </div>
+        </PricingCard3D>
 
         {/* 4. CUSTOM PACKAGE */}
-        <div className="flex flex-col justify-between bg-zinc-50/80 dark:bg-[#162447]/90 border border-zinc-200/80 dark:border-slate-700/60 p-6 sm:p-8 rounded-2xl transition-all duration-300 hover:border-[#0064D0] shadow-lg shadow-black/10 group">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-[#0064D0]">04 / TAILORED</span>
-              <Droplets size={18} className="text-[#0064D0]" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">CUSTOM</h3>
-              <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">Build a plan according to your exact requirements.</p>
+        <PricingCard3D>
+          <div className="flex flex-col justify-between h-full bg-zinc-50/80 dark:bg-[#162447]/90 p-6 sm:p-8 rounded-2xl shadow-lg shadow-black/10 group">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#0064D0]">04 / TAILORED</span>
+                <Droplets size={18} className="text-[#0064D0]" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">CUSTOM</h3>
+                <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">Build a plan according to your exact requirements.</p>
+              </div>
+
+              <div className="py-4 border-y border-zinc-200/60 dark:border-slate-700/60">
+                <span className="text-xl font-serif font-light text-[#0064D0]">
+                  Configurable Pricing
+                </span>
+                <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">Calculated in real time</span>
+              </div>
+
+              <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Choose exact bottle count</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Flexible delivery dates</span></li>
+                <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Instant calculator breakdown</span></li>
+              </ul>
             </div>
 
-            <div className="py-4 border-y border-zinc-200/60 dark:border-slate-700/60">
-              <span className="text-xl font-serif font-light text-[#0064D0]">
-                Configurable Pricing
-              </span>
-              <span className="text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-1">Calculated in real time</span>
+            <div className="pt-8" style={{ transform: 'translateZ(20px)' }}>
+              <a
+                href="#calculator"
+                className="w-full py-3.5 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-sm"
+              >
+                Build Your Plan
+              </a>
             </div>
-
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-slate-200 font-light">
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Choose exact bottle count</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Flexible delivery dates</span></li>
-              <li className="flex items-center space-x-2.5"><Check size={14} className="text-[#0064D0]" /><span>Instant calculator breakdown</span></li>
-            </ul>
           </div>
-
-          <div className="pt-8">
-            <a
-              href="#calculator"
-              className="w-full py-3.5 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 shadow-sm"
-            >
-              Build Your Plan
-            </a>
-          </div>
-        </div>
+        </PricingCard3D>
 
       </div>
     </section>

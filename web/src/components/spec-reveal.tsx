@@ -84,7 +84,7 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
       </div>
 
       <div className="relative max-w-4xl mx-auto aspect-square sm:aspect-[16/10] bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/40 dark:border-slate-800/60 flex items-center justify-center p-8 overflow-hidden rounded-2xl">
-        
+
         {/* Product selector buttons if multiple products */}
         {safeProducts.length > 1 && (
           <div className="absolute top-6 left-6 z-20 flex space-x-2">
@@ -92,11 +92,10 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
               <button
                 key={p._id}
                 onClick={() => setSelectedIdx(idx)}
-                className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-lg border transition-all ${
-                  selectedIdx === idx
-                    ? 'bg-[#0064D0] border-[#0064D0] text-white'
-                    : 'border-zinc-200 dark:border-slate-800 text-zinc-400'
-                }`}
+                className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-lg border transition-all ${selectedIdx === idx
+                  ? 'bg-[#0064D0] border-[#0064D0] text-white'
+                  : 'border-zinc-200 dark:border-slate-800 text-zinc-400'
+                  }`}
               >
                 {p.title}
               </button>
@@ -105,7 +104,7 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
         )}
 
         {/* Central Bottle Image */}
-        <div 
+        <div
           className="relative h-full w-full max-w-[320px] transition-transform duration-700 hover:scale-105"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -125,9 +124,8 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
           return (
             <div
               key={idx}
-              className={`absolute flex items-center space-x-3 transition-all duration-500 ${
-                isLeft ? 'left-6 sm:left-12 flex-row' : 'right-6 sm:right-12 flex-row-reverse space-x-reverse'
-              }`}
+              className={`absolute flex items-center space-x-3 transition-all duration-500 ${isLeft ? 'left-6 sm:left-12 flex-row' : 'right-6 sm:right-12 flex-row-reverse space-x-reverse'
+                }`}
               style={{ top: spec.top }}
             >
               {/* Dot */}
@@ -137,9 +135,8 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
               </div>
 
               {/* Text Card */}
-              <div className={`p-4 bg-white/95 dark:bg-[#0a1128]/95 border border-zinc-200/60 dark:border-slate-800/60 rounded-xl shadow-sm max-w-[200px] sm:max-w-[240px] ${
-                isRtl ? 'text-right' : isLeft ? 'text-left' : 'text-right'
-              }`}>
+              <div className={`p-4 bg-white/95 dark:bg-[#0a1128]/95 border border-zinc-200/60 dark:border-slate-800/60 rounded-xl shadow-sm max-w-[200px] sm:max-w-[240px] ${isRtl ? 'text-right' : isLeft ? 'text-left' : 'text-right'
+                }`}>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-[#0064D0] block mb-1">
                   {spec.title}
                 </span>

@@ -41,7 +41,7 @@ const TESTIMONIALS = [
 export default function TrustSection() {
   return (
     <section id="trust" className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] space-y-12 sm:space-y-20 transition-colors duration-300 font-sans">
-      
+
       {/* 1. TESTIMONIALS SECTION */}
       <div className="space-y-8 sm:space-y-12 text-center">
         <div className="space-y-3 sm:space-y-4">
