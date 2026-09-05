@@ -34,44 +34,69 @@ export default function HeroScrollCanvas() {
   const ctaY = useTransform(smoothProgress, [0.75, 0.88, 1], [30, 0, 0]);
   const ctaScale = useTransform(smoothProgress, [0.75, 0.88, 1], [0.92, 1, 1]);
 
-  // 1. Preload 150 Transparent PNG Images into Memory
+  // 1. Preload 150 Transparent PNG Images into Memory (Non-blocking Instant Load)
   useEffect(() => {
-    let loadedCount = 0;
-    const loadedImages: HTMLImageElement[] = [];
+    let isMounted = true;
+    const loadedImages: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+    imagesRef.current = loadedImages;
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+    // Load Frame 1 with high priority to render hero image immediately
+    const firstImg = new Image();
+    firstImg.src = '/frames/ezgif-frame-001.png';
+    firstImg.onload = () => {
+      if (!isMounted) return;
+      loadedImages[0] = firstImg;
+      renderFrame(1);
+      setImagesLoaded(true); // Instantly unlock page rendering!
+    };
+    firstImg.onerror = () => {
+      if (!isMounted) return;
+      setImagesLoaded(true); // Unlock even on error fallback
+    };
+
+    // Background load remaining frames 2..150 progressively
+    for (let i = 2; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       const frameNum = String(i).padStart(3, '0');
       img.src = `/frames/ezgif-frame-${frameNum}.png`;
-
       img.onload = () => {
-        loadedCount++;
-        if (i === 1) {
-          renderFrame(1);
-        }
-        if (loadedCount === TOTAL_FRAMES) {
-          setImagesLoaded(true);
-        }
+        if (!isMounted) return;
+        loadedImages[i - 1] = img;
       };
-
-      img.onerror = () => {
-        console.error(`Failed to load frame: /frames/ezgif-frame-${frameNum}.png`);
-      };
-
-      loadedImages.push(img);
     }
-    imagesRef.current = loadedImages;
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // 2. High-DPI Sharp Canvas Render Function
+  // 2. High-DPI Sharp Canvas Render Function (With Smart Nearest-Frame Fallback)
   const renderFrame = (index: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const frameNum = Math.min(TOTAL_FRAMES, Math.max(1, Math.floor(index)));
-    const img = imagesRef.current[frameNum - 1];
+    const targetFrame = Math.min(TOTAL_FRAMES, Math.max(1, Math.floor(index)));
+
+    // Find nearest available loaded frame for instant rendering without blank frames
+    let img: HTMLImageElement | undefined;
+    for (let f = targetFrame; f >= 1; f--) {
+      const candidate = imagesRef.current[f - 1];
+      if (candidate && candidate.complete && candidate.naturalWidth > 0) {
+        img = candidate;
+        break;
+      }
+    }
+    if (!img) {
+      for (let f = targetFrame + 1; f <= TOTAL_FRAMES; f++) {
+        const candidate = imagesRef.current[f - 1];
+        if (candidate && candidate.complete && candidate.naturalWidth > 0) {
+          img = candidate;
+          break;
+        }
+      }
+    }
 
     if (!img || !img.complete || img.naturalWidth === 0) return;
 
@@ -150,17 +175,7 @@ export default function HeroScrollCanvas() {
           className="absolute inset-0 h-full w-full pointer-events-none z-10 block"
         />
 
-        {/* Loading Spinner */}
-        {!imagesLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/60 dark:bg-[#0a1128]/80 backdrop-blur-md z-30 pointer-events-none">
-            <div className="flex flex-col items-center gap-3">
-              <div className="h-9 w-9 animate-spin rounded-full border-4 border-sky-500 border-t-transparent" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-slate-600 dark:text-slate-400">
-                Loading Purity Experience...
-              </span>
-            </div>
-          </div>
-        )}
+
 
         {/* Premium "Order Now" Button Lock At End of Scroll (75% - 100%) */}
         <motion.div
