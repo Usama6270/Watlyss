@@ -61,16 +61,16 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-[#FAFAFA]">Your Cart</h1>
 
         {cart.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center space-y-6 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl bg-white dark:bg-[#111111] shadow-sm">
+          <div className="flex flex-col items-center justify-center py-24 text-center space-y-6 border border-dashed border-zinc-200 dark:border-slate-800 rounded-3xl bg-white dark:bg-[#131c38] shadow-sm">
             <h3 className="text-2xl font-bold text-zinc-850 dark:text-[#FAFAFA]">Your cart is empty</h3>
-            <p className="text-zinc-400 dark:text-[#AAAAAA] max-w-sm">Looks like you haven't added any items to your hydration collection yet.</p>
+            <p className="text-zinc-400 dark:text-slate-200 max-w-sm">Looks like you haven't added any items to your hydration collection yet.</p>
             <Link
               href="/shop"
               className="px-8 py-3.5 bg-[#0064D0] text-white rounded-full font-bold hover:bg-[#0064D0]/85 transition-colors shadow-sm"
@@ -85,10 +85,10 @@ export default function CartPage() {
               {cart.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-center justify-between p-6 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl gap-6 shadow-sm"
+                  className="flex flex-col sm:flex-row items-center justify-between p-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl gap-6 shadow-sm"
                 >
                   <div className="flex items-center space-x-6 w-full sm:w-auto">
-                    <div className="relative h-20 w-20 bg-slate-50 dark:bg-[#0A0A0A] rounded-xl overflow-hidden flex-shrink-0 border border-zinc-100 dark:border-zinc-800">
+                    <div className="relative h-20 w-20 bg-slate-50 dark:bg-[#0a1128] rounded-xl overflow-hidden flex-shrink-0 border border-zinc-100 dark:border-slate-800">
                       <Image
                         src={item.imageUrl || 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80'}
                         alt={item.title}
@@ -98,23 +98,23 @@ export default function CartPage() {
                     </div>
                     <div>
                       <h3 className="font-extrabold text-zinc-900 dark:text-[#FAFAFA] text-lg">{item.title}</h3>
-                      {item.capacity && <span className="text-xs text-zinc-450 dark:text-zinc-400 font-medium">Capacity: {item.capacity}</span>}
+                      {item.capacity && <span className="text-xs text-zinc-450 dark:text-slate-200 font-medium">Capacity: {item.capacity}</span>}
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between w-full sm:w-auto gap-8">
                     {/* Quantity Selector */}
-                    <div className="flex items-center border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-[#0A0A0A] rounded-lg overflow-hidden shadow-inner">
+                    <div className="flex items-center border border-zinc-200 dark:border-slate-800 bg-zinc-50 dark:bg-[#0a1128] rounded-lg overflow-hidden shadow-inner">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-zinc-400 font-bold"
+                        className="px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-slate-200 font-bold"
                       >
                         -
                       </button>
                       <span className="px-3 font-bold text-sm text-zinc-800 dark:text-[#FAFAFA]">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-zinc-400 font-bold"
+                        className="px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-slate-200 font-bold"
                       >
                         +
                       </button>
@@ -140,12 +140,12 @@ export default function CartPage() {
 
             {/* Summary details */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="p-6 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl space-y-6 shadow-sm">
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-[#FAFAFA] border-b border-zinc-100 dark:border-zinc-800 pb-4">Order Summary</h3>
+              <div className="p-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-6 shadow-sm">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-[#FAFAFA] border-b border-zinc-100 dark:border-slate-800 pb-4">Order Summary</h3>
 
                 <div className="space-y-4 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-zinc-500 dark:text-[#AAAAAA]">Subtotal</span>
+                    <span className="text-zinc-500 dark:text-slate-200">Subtotal</span>
                     <span className="font-semibold text-zinc-800 dark:text-zinc-200">${cartTotal.toFixed(2)}</span>
                   </div>
 
@@ -157,11 +157,11 @@ export default function CartPage() {
                   )}
 
                   <div className="flex justify-between">
-                    <span className="text-zinc-500 dark:text-[#AAAAAA]">Shipping</span>
+                    <span className="text-zinc-500 dark:text-slate-200">Shipping</span>
                     <span className="text-green-600 dark:text-green-400 font-semibold">Free</span>
                   </div>
 
-                  <div className="flex justify-between border-t border-zinc-100 dark:border-zinc-800 pt-4 text-base">
+                  <div className="flex justify-between border-t border-zinc-100 dark:border-slate-800 pt-4 text-base">
                     <span className="font-bold text-zinc-900 dark:text-[#FAFAFA]">Total</span>
                     <span className="font-extrabold text-zinc-950 dark:text-white">${finalTotal.toFixed(2)}</span>
                   </div>
@@ -175,11 +175,11 @@ export default function CartPage() {
                       placeholder="Promo Code"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
-                      className="flex-1 px-4 py-2 bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                      className="flex-1 px-4 py-2 bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 rounded-lg text-sm text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-white dark:bg-[#111111] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-900 dark:text-white rounded-lg text-sm font-semibold transition-colors shadow-sm cursor-pointer"
+                      className="px-4 py-2 bg-white dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-900 dark:text-white rounded-lg text-sm font-semibold transition-colors shadow-sm cursor-pointer"
                     >
                       Apply
                     </button>

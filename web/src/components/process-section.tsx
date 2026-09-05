@@ -46,7 +46,6 @@ export default function ProcessSection() {
       trigger: section,
       start: 'top top',
       end: 'bottom bottom',
-      pin: pin,
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress
@@ -64,14 +63,14 @@ export default function ProcessSection() {
   }, [steps.length])
 
   return (
-    <div id="process" ref={sectionRef} className="relative w-full h-[350vh] bg-white dark:bg-[#0A0A0A]">
+    <div id="process" ref={sectionRef} className="relative w-full h-[200vh] sm:h-[280vh] md:h-[350vh] bg-white dark:bg-[#0b1329] transition-colors duration-300 z-10">
       {/* Pinned Sticky Box */}
-      <div ref={pinRef} className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+      <div ref={pinRef} className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-10 bg-white dark:bg-[#0b1329] transition-colors duration-300">
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-20 items-center w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-20 items-center w-full">
 
           {/* Frame Image Column (span 6) */}
-          <div className="lg:col-span-6 relative aspect-square sm:h-[480px] w-full bg-zinc-50 dark:bg-[#111111] overflow-hidden border border-zinc-200/20 dark:border-zinc-800/30">
+          <div className="lg:col-span-6 relative aspect-square h-[220px] sm:h-[380px] lg:h-[480px] w-full bg-zinc-50 dark:bg-[#131c38] overflow-hidden border border-zinc-200/20 dark:border-slate-800 rounded-2xl mx-auto">
             {steps.map((step, idx) => (
               <div
                 key={idx}
@@ -83,15 +82,15 @@ export default function ProcessSection() {
                   alt={step.title}
                   fill
                   className="object-cover grayscale"
-                  sizes="(max-w-1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             ))}
           </div>
 
           {/* Description Caption Column (span 6) */}
-          <div className={`lg:col-span-6 flex flex-col justify-center min-h-[250px] relative ${isRtl ? 'text-right' : 'text-left'}`}>
-            <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-zinc-400 block mb-4">
+          <div className={`lg:col-span-6 flex flex-col justify-center min-h-[180px] sm:min-h-[250px] relative ${isRtl ? 'text-right' : 'text-left'}`}>
+            <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-zinc-400 dark:text-slate-400 block mb-2 sm:mb-4">
               0{activeStep + 1} / 0{steps.length} — {isRtl ? 'عمل' : 'PROCESS'}
             </span>
 
@@ -105,10 +104,10 @@ export default function ProcessSection() {
                       : 'opacity-0 translate-y-6 pointer-events-none absolute z-0'
                     }`}
                 >
-                  <h3 className="text-3xl sm:text-5xl font-sans font-light tracking-wide text-zinc-900 dark:text-[#FAFAFA] mb-6">
+                  <h3 className="text-xl sm:text-3xl md:text-5xl font-sans font-bold tracking-wide text-zinc-900 dark:text-white mb-3 sm:mb-6">
                     {step.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-zinc-500 dark:text-[#AAAAAA] font-light leading-relaxed max-w-lg">
+                  <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light leading-relaxed max-w-lg">
                     {step.desc}
                   </p>
                 </div>

@@ -82,7 +82,7 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200/20 dark:border-zinc-800/20"
+      className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200/20 dark:border-slate-800/60"
     >
       {/* Delicate background accent */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_var(--tw-gradient-stops))] from-brand-blue/5 via-transparent to-transparent pointer-events-none" />
@@ -142,14 +142,14 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
       <div className={`absolute bottom-8 z-20 flex items-center space-x-4 ${isRtl ? 'left-8' : 'right-8'}`}>
         <button
           onClick={handlePrev}
-          className="p-3 border border-zinc-200 dark:border-zinc-800 text-zinc-650 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
+          className="p-3 border border-zinc-200 dark:border-slate-800 text-zinc-650 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
           aria-label="Previous slide"
         >
           <ArrowLeft size={16} />
         </button>
         <button
           onClick={handleNext}
-          className="p-3 border border-zinc-200 dark:border-zinc-800 text-zinc-650 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
+          className="p-3 border border-zinc-200 dark:border-slate-800 text-zinc-650 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
           aria-label="Next slide"
         >
           <ArrowRight size={16} />

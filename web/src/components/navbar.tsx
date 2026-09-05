@@ -79,9 +79,9 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 border-b ${isScrolled
-            ? 'bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-md border-zinc-200/20 dark:border-zinc-800/40 shadow-[0_2px_20px_rgba(0,0,0,0.03)]'
-            : 'bg-white dark:bg-[#0A0A0A] border-zinc-100 dark:border-zinc-900'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
+            ? 'bg-white/95 dark:bg-[#0a1128]/95 backdrop-blur-md border-zinc-200/20 dark:border-slate-800/60 shadow-[0_2px_20px_rgba(0,0,0,0.1)]'
+            : 'bg-white dark:bg-[#0a1128] border-zinc-100 dark:border-slate-800/40'
           }`}
       >
         {/* DESKTOP NAVBAR CONTAINER — ABSOLUTE CENTERED LOGO */}
@@ -97,12 +97,12 @@ export default function Navbar() {
                 onMouseLeave={() => link.type === 'dropdown' && setActiveDropdown(null)}
               >
                 {link.type === 'dropdown' ? (
-                  <button className="flex items-center space-x-1.5 py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
+                  <button className="flex items-center space-x-1.5 py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
                     <span>{link.label}</span>
                     <ChevronDown size={11} className={`text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
                   </button>
                 ) : (
-                  <Link href={link.href || '#'} className="py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
+                  <Link href={link.href || '#'} className="py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
                     {link.label}
                   </Link>
                 )}
@@ -115,13 +115,13 @@ export default function Navbar() {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-full left-0 mt-1 w-60 bg-white dark:bg-[#111111] border border-zinc-200/80 dark:border-zinc-800 py-3 shadow-xl rounded-xl z-50"
+                      className="absolute top-full left-0 mt-1 w-60 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
                     >
                       {link.items?.map((item) => (
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="block px-4 py-2.5 text-[11px] text-zinc-600 dark:text-zinc-300 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
+                          className="block px-4 py-2.5 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
                         >
                           {item.label}
                         </Link>
@@ -159,12 +159,12 @@ export default function Navbar() {
                   onMouseLeave={() => link.type === 'dropdown' && setActiveDropdown(null)}
                 >
                   {link.type === 'dropdown' ? (
-                    <button className="flex items-center space-x-1.5 py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
+                    <button className="flex items-center space-x-1.5 py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
                       <span>{link.label}</span>
                       <ChevronDown size={11} className={`text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
                     </button>
                   ) : (
-                    <Link href={link.href || '#'} className="py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
+                    <Link href={link.href || '#'} className="py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
                       {link.label}
                     </Link>
                   )}
@@ -177,13 +177,13 @@ export default function Navbar() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute top-full right-0 mt-1 w-56 bg-white dark:bg-[#111111] border border-zinc-200/80 dark:border-zinc-800 py-3 shadow-xl rounded-xl z-50"
+                        className="absolute top-full right-0 mt-1 w-56 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
                       >
                         {link.items?.map((item) => (
                           <Link
                             key={item.label}
                             href={item.href}
-                            className="block px-4 py-2.5 text-[11px] text-zinc-600 dark:text-zinc-300 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
+                            className="block px-4 py-2.5 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
                           >
                             {item.label}
                           </Link>
@@ -207,7 +207,7 @@ export default function Navbar() {
               <Link
                 href="/cart"
                 aria-label="Shopping Bag"
-                className="relative w-8 h-8 flex items-center justify-center text-zinc-600 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white transition-colors duration-300"
+                className="relative w-8 h-8 flex items-center justify-center text-zinc-600 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white transition-colors duration-300"
               >
                 <ShoppingBag size={17} />
                 {totalItems > 0 && (
@@ -223,7 +223,7 @@ export default function Navbar() {
         </div>
 
         {/* MOBILE HEADER (< xl) — RE-ARCHITECTED NON-OVERLAPPING LAYOUT */}
-        <div className="relative w-full h-16 px-4 flex xl:hidden items-center justify-between z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+        <div className="relative w-full h-16 px-4 flex xl:hidden items-center justify-between z-50 bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
 
           {/* Left Slot: Navigation Menu Trigger */}
           <div className="flex items-center z-10">
@@ -260,7 +260,7 @@ export default function Navbar() {
             <Link
               href="/cart"
               aria-label="Shopping Cart"
-              className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-zinc-700 dark:text-zinc-300 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-zinc-700 dark:text-slate-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <ShoppingBag size={17} />
               {totalItems > 0 && (
@@ -280,10 +280,10 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-0 z-50 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-xl flex flex-col justify-between p-6 sm:p-8 xl:hidden overflow-y-auto font-sans"
+              className="fixed inset-0 z-50 bg-white/95 dark:bg-[#0a1128]/95 backdrop-blur-xl flex flex-col justify-between p-6 sm:p-8 xl:hidden overflow-y-auto font-sans"
             >
               {/* TOP BAR INSIDE OVERLAY: LOGO + UTILITIES + CLOSE */}
-              <div className="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-zinc-800/80">
+              <div className="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-slate-800/60">
                 <Link href="/" onClick={() => setIsOpen(false)} className="relative block h-10 w-36">
                   <Image
                     src="/logo.png"
@@ -360,7 +360,7 @@ export default function Navbar() {
               </div>
 
               {/* COMPACT FOOTER & CTA SECTION */}
-              <div className="pt-6 border-t border-slate-100 dark:border-zinc-800/80 space-y-4">
+              <div className="pt-6 border-t border-slate-100 dark:border-slate-800/60 space-y-4">
 
                 {/* WhatsApp Order Button */}
                 <a
@@ -374,7 +374,7 @@ export default function Navbar() {
                 </a>
 
                 {/* 2-Column Secondary Links Grid */}
-                <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 dark:text-zinc-400 pt-1 font-medium">
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 dark:text-slate-200 pt-1 font-medium">
                   <Link
                     href="/sustainability"
                     onClick={() => setIsOpen(false)}

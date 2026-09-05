@@ -44,7 +44,7 @@ export default function ServicesOverviewPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full space-y-24 pb-24">
@@ -62,7 +62,7 @@ export default function ServicesOverviewPage() {
           >
             Watlys Concierge Services
           </motion.h1>
-          <p className="text-zinc-550 dark:text-zinc-400 max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-zinc-550 dark:text-slate-200 max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
             From certified aquifer laboratory testing to custom glass dispenser installation, explore our end-to-end hydration services.
           </p>
         </section>
@@ -72,7 +72,7 @@ export default function ServicesOverviewPage() {
           {services.map((srv) => (
             <div
               key={srv.slug}
-              className="group flex flex-col justify-between bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 sm:p-12 rounded-2xl shadow-sm hover:border-[#0064D0] transition-all duration-300"
+              className="group flex flex-col justify-between bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-12 rounded-2xl shadow-sm hover:border-[#0064D0] transition-all duration-300"
             >
               <div className="space-y-6">
                 <div className="flex justify-between items-start">
@@ -85,11 +85,11 @@ export default function ServicesOverviewPage() {
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">{srv.title}</h2>
-                <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-400 font-light leading-relaxed">{srv.desc}</p>
+                <p className="text-xs sm:text-sm text-zinc-550 dark:text-slate-200 font-light leading-relaxed">{srv.desc}</p>
 
-                <ul className="space-y-2.5 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                <ul className="space-y-2.5 pt-4 border-t border-zinc-100 dark:border-slate-800">
                   {srv.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-zinc-300 font-light">
+                    <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-slate-200 font-light">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#0064D0]" />
                       <span>{feat}</span>
                     </li>

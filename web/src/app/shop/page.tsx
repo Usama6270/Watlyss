@@ -124,14 +124,14 @@ export default function Shop() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
         {/* Page Title */}
         <div className="space-y-4">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#111827] dark:text-[#FAFAFA]">Catalog</h1>
-          <p className="text-zinc-550 dark:text-[#AAAAAA] max-w-md">Browse our curated collection of pristine water designs.</p>
+          <p className="text-zinc-550 dark:text-slate-200 max-w-md">Browse our curated collection of pristine water designs.</p>
         </div>
 
         {/* Filters and Controls */}
@@ -143,7 +143,7 @@ export default function Shop() {
               placeholder="Search catalog..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-[#111111] border border-zinc-200 dark:border-zinc-800 text-[#111827] dark:text-[#FAFAFA] placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-sm transition-colors"
+              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 text-[#111827] dark:text-[#FAFAFA] placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-sm transition-colors"
             />
           </div>
 
@@ -156,7 +156,7 @@ export default function Shop() {
                 className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
                   selectedCategory === cat
                     ? 'bg-[#0064D0] text-white shadow-sm'
-                    : 'bg-white dark:bg-[#111111] border border-zinc-200 dark:border-zinc-800 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700 shadow-sm'
+                    : 'bg-white dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 text-zinc-550 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700 shadow-sm'
                 }`}
               >
                 {cat}
@@ -169,7 +169,7 @@ export default function Shop() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-[#111111] border border-zinc-200 dark:border-zinc-800 text-[#111827] dark:text-[#FAFAFA] focus:outline-none focus:border-[#0064D0] shadow-sm transition-colors"
+              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 text-[#111827] dark:text-[#FAFAFA] focus:outline-none focus:border-[#0064D0] shadow-sm transition-colors"
             >
               <option value="newest">Sort by: Newest</option>
               <option value="price-low">Price: Low to High</option>
@@ -185,14 +185,14 @@ export default function Shop() {
               return (
                 <div
                   key={p._id}
-                  className="group relative flex flex-col rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800 bg-white dark:bg-[#111111] p-8 text-center justify-between min-h-[350px] shadow-sm"
+                  className="group relative flex flex-col rounded-2xl border border-dashed border-zinc-300 dark:border-slate-800 bg-white dark:bg-[#131c38] p-8 text-center justify-between min-h-[350px] shadow-sm"
                 >
                   <div className="space-y-4">
                     <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#0064D0] bg-[#0064D0]/10 px-3 py-1 rounded-full border border-[#0064D0]/20">
                       Coming Soon
                     </span>
                     <h3 className="text-xl font-bold text-[#111827] dark:text-[#FAFAFA]">{p.title}</h3>
-                    <p className="text-sm text-zinc-500 dark:text-[#AAAAAA]">{p.description}</p>
+                    <p className="text-sm text-zinc-500 dark:text-slate-200">{p.description}</p>
                     {p.capacity && <span className="text-xs text-zinc-400 dark:text-zinc-500 block font-medium">Capacity: {p.capacity}</span>}
                   </div>
 
@@ -207,7 +207,7 @@ export default function Shop() {
                           value={notifyEmail}
                           onChange={(e) => setNotifyEmail(e.target.value)}
                           required
-                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-xs text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                         />
                         <button
                           type="submit"

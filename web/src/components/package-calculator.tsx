@@ -73,34 +73,34 @@ export default function PackageCalculator() {
   const monthlySavings = Math.round(discountAmount / months)
 
   return (
-    <section id="calculator" className="py-24 px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-zinc-800/40 bg-white dark:bg-[#0A0A0A] font-sans">
+    <section id="calculator" className="py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] transition-colors duration-300 font-sans">
       
       {/* Editorial Header */}
-      <div className="text-center space-y-4 mb-16">
+      <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
           INTERACTIVE CONFIGURATOR
         </span>
-        <h2 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-[#FAFAFA] tracking-wide">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight">
           Build Your Perfect Water Plan.
         </h2>
-        <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-light max-w-lg mx-auto">
+        <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light max-w-lg mx-auto">
           Tell us what you need. We'll calculate your estimated plan instantly.
         </p>
       </div>
 
       {/* 50/50 CONFIGURATOR LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">
         
         {/* LEFT PANEL: INTERACTIVE CONTROLS (Span 6) */}
-        <div className="lg:col-span-6 bg-zinc-50/80 dark:bg-[#111111] p-8 sm:p-10 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 space-y-8 shadow-sm">
+        <div className="lg:col-span-6 bg-zinc-50/80 dark:bg-[#162447]/90 p-5 sm:p-8 lg:p-10 rounded-2xl border border-zinc-200/80 dark:border-slate-700/60 space-y-6 sm:space-y-8 shadow-xl shadow-black/10">
           
           {/* Variable 1: Number of Bottles */}
           <div className="space-y-3">
-            <div className="flex justify-between items-baseline">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300">
+            <div className="flex justify-between items-baseline flex-wrap gap-1">
+              <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200">
                 1. Number of Bottles
               </label>
-              <span className="text-2xl font-serif font-light text-[#0064D0]">
+              <span className="text-xl sm:text-2xl font-serif font-bold text-[#0064D0]">
                 {bottlesPerDelivery} × 19L Bottles
               </span>
             </div>
@@ -110,9 +110,9 @@ export default function PackageCalculator() {
               max="30"
               value={bottlesPerDelivery}
               onChange={(e) => setBottlesPerDelivery(parseInt(e.target.value))}
-              className="w-full h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
+              className="w-full h-2 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
             />
-            <div className="flex justify-between text-[10px] font-semibold text-zinc-400">
+            <div className="flex justify-between text-[10px] font-semibold text-zinc-400 dark:text-slate-400">
               <span>1 Bottle</span>
               <span>15 Bottles</span>
               <span>30 Bottles</span>
@@ -121,7 +121,7 @@ export default function PackageCalculator() {
 
           {/* Variable 2: Delivery Frequency */}
           <div className="space-y-3">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 block">
+            <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200 block">
               2. Delivery Frequency
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -130,10 +130,10 @@ export default function PackageCalculator() {
                   key={f.id}
                   type="button"
                   onClick={() => setFrequencyId(f.id)}
-                  className={`py-3 px-2 text-[11px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${
+                  className={`py-2.5 px-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${
                     frequencyId === f.id
                       ? 'border-[#0064D0] bg-[#0064D0] text-white shadow-sm'
-                      : 'border-zinc-200/80 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-[#0A0A0A]'
+                      : 'border-zinc-200/80 dark:border-slate-800 text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-[#0b1329]'
                   }`}
                 >
                   {f.name}
@@ -144,11 +144,11 @@ export default function PackageCalculator() {
 
           {/* Variable 3: Number of Months Slider */}
           <div className="space-y-3">
-            <div className="flex justify-between items-baseline">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300">
+            <div className="flex justify-between items-baseline flex-wrap gap-1">
+              <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200">
                 3. Number of Months
               </label>
-              <span className="text-xl font-serif font-light text-zinc-900 dark:text-white">
+              <span className="text-lg sm:text-xl font-serif font-bold text-zinc-900 dark:text-white">
                 {months} Months
               </span>
             </div>
@@ -158,9 +158,9 @@ export default function PackageCalculator() {
               max="12"
               value={months}
               onChange={(e) => setMonths(parseInt(e.target.value))}
-              className="w-full h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
+              className="w-full h-2 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
             />
-            <div className="flex justify-between text-[10px] font-semibold text-zinc-400">
+            <div className="flex justify-between text-[10px] font-semibold text-zinc-400 dark:text-slate-400">
               <span>1 Month</span>
               <span>6 Months</span>
               <span>12 Months</span>
@@ -169,19 +169,19 @@ export default function PackageCalculator() {
 
           {/* Variable 4: Customer Type */}
           <div className="space-y-3">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 block">
+            <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200 block">
               4. Customer Type
             </label>
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
               {PRICING_CONFIG.customerTypes.map((c) => (
                 <button
                   key={c.id}
                   type="button"
                   onClick={() => setCustomerTypeId(c.id)}
-                  className={`py-2.5 px-1 text-[10px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${
+                  className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${
                     customerTypeId === c.id
                       ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                      : 'border-zinc-200/80 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-[#0A0A0A]'
+                      : 'border-zinc-200/80 dark:border-slate-800 text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-[#0b1329]'
                   }`}
                 >
                   {c.name}
@@ -192,13 +192,13 @@ export default function PackageCalculator() {
 
           {/* Variable 5: Delivery Location Dropdown */}
           <div className="space-y-3">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 block">
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200 block">
               5. Delivery Location
             </label>
             <select
               value={locationId}
               onChange={(e) => setLocationId(e.target.value)}
-              className="w-full px-4 py-3.5 bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-zinc-800 text-xs rounded-xl font-medium focus:outline-none focus:border-[#0064D0]"
+              className="w-full px-4 py-3.5 bg-white dark:bg-[#0b1329] border border-zinc-200/80 dark:border-slate-800 text-xs text-zinc-900 dark:text-white rounded-xl font-medium focus:outline-none focus:border-[#0064D0]"
             >
               {PRICING_CONFIG.locations.map((loc) => (
                 <option key={loc.id} value={loc.id}>
@@ -211,28 +211,28 @@ export default function PackageCalculator() {
         </div>
 
         {/* RIGHT PANEL: LIVE RESULT CARD (Span 6) */}
-        <div className="lg:col-span-6 bg-white dark:bg-[#0E0E0E] p-8 sm:p-10 rounded-2xl border-2 border-[#0064D0] shadow-xl flex flex-col justify-between space-y-6">
+        <div className="lg:col-span-6 bg-white dark:bg-[#162447] p-6 sm:p-8 lg:p-10 rounded-2xl border-2 border-[#0064D0] shadow-xl flex flex-col justify-between space-y-6">
           <div className="space-y-6">
-            <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-4">
+            <div className="flex justify-between items-center border-b border-zinc-100 dark:border-slate-700 pb-4">
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0]">
                 YOUR CUSTOM PLAN
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500 dark:text-slate-300 bg-zinc-100 dark:bg-[#0b1329] px-3 py-1 rounded-full border dark:border-slate-800">
                 Estimated Price
               </span>
             </div>
 
             <div className="space-y-1">
-              <span className="text-3xl sm:text-4xl font-serif font-light text-zinc-900 dark:text-white block">
+              <span className="text-3xl sm:text-4xl font-serif font-bold text-zinc-900 dark:text-white block">
                 {bottlesPerDelivery} × 19L BOTTLES
               </span>
-              <span className="text-sm font-serif font-light text-[#0064D0] block">
+              <span className="text-sm font-serif font-medium text-[#0064D0] block">
                 Approximately <CountUp value={totalLiters} /> LITERS ({totalBottles} bottles total)
               </span>
             </div>
 
             {/* Price Line Breakdown */}
-            <div className="p-6 bg-zinc-50/70 dark:bg-[#151515] rounded-xl border border-zinc-200/60 dark:border-zinc-800/60 space-y-3 text-xs font-light text-zinc-600 dark:text-zinc-300">
+            <div className="p-6 bg-zinc-50/70 dark:bg-[#0b1329]/80 rounded-xl border border-zinc-200/60 dark:border-slate-800 space-y-3 text-xs font-light text-zinc-600 dark:text-slate-200">
               <div className="flex justify-between">
                 <span>Water ({totalBottles} x 19L Bottles):</span>
                 <span className="font-semibold text-zinc-900 dark:text-white">PKR <CountUp value={subtotal} /></span>
@@ -245,18 +245,18 @@ export default function PackageCalculator() {
                 <span>Discount ({Math.round(totalDiscountRate * 100)}%):</span>
                 <span>- PKR <CountUp value={discountAmount} /></span>
               </div>
-              <div className="pt-3 border-t border-zinc-200/60 dark:border-zinc-800 flex justify-between items-baseline">
+              <div className="pt-3 border-t border-zinc-200/60 dark:border-slate-800 flex justify-between items-baseline">
                 <span className="text-sm font-bold uppercase tracking-wider text-zinc-900 dark:text-white">TOTAL:</span>
-                <span className="text-2xl font-serif font-light text-[#0064D0]">
+                <span className="text-2xl font-serif font-bold text-[#0064D0]">
                   PKR <CountUp value={estimatedTotal} />
                 </span>
               </div>
             </div>
 
             {/* Estimated Monthly Summary */}
-            <div className="flex justify-between items-center text-xs text-zinc-500 font-light px-1">
-              <span>Estimated Monthly Cost: <strong className="text-zinc-900 dark:text-white">PKR <CountUp value={monthlyEstimatedCost} /></strong></span>
-              <span>Estimated Savings: <strong className="text-emerald-600 dark:text-emerald-400">PKR <CountUp value={monthlySavings} /></strong></span>
+            <div className="flex justify-between items-center text-xs text-zinc-500 dark:text-slate-300 font-light px-1 flex-wrap gap-2">
+              <span>Estimated Monthly Cost: <strong className="text-zinc-900 dark:text-white font-bold">PKR <CountUp value={monthlyEstimatedCost} /></strong></span>
+              <span>Estimated Savings: <strong className="text-emerald-600 dark:text-emerald-400 font-bold">PKR <CountUp value={monthlySavings} /></strong></span>
             </div>
           </div>
 
@@ -271,7 +271,7 @@ export default function PackageCalculator() {
 
             <Link
               href="/contact"
-              className="w-full py-3.5 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 text-zinc-900 dark:text-white rounded-xl text-[10px] font-bold uppercase tracking-[0.18em] inline-flex items-center justify-center transition-all duration-300"
+              className="w-full py-3.5 bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 rounded-xl text-[10px] font-bold uppercase tracking-[0.18em] inline-flex items-center justify-center transition-all duration-300"
             >
               Talk to WATLYS
             </Link>

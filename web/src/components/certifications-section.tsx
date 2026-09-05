@@ -32,15 +32,15 @@ export default function CertificationsSection() {
   ]
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-zinc-800/40 bg-white dark:bg-[#0A0A0A] font-sans">
-      <div className="text-center space-y-4 mb-14">
+    <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] transition-colors duration-300 font-sans">
+      <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-14">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
           CERTIFICATIONS & QUALITY CONTROL
         </span>
-        <h2 className="text-3xl sm:text-5xl font-serif font-light text-zinc-900 dark:text-white">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white leading-tight">
           Quality You Can Trust.
         </h2>
-        <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-light max-w-lg mx-auto">
+        <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light max-w-lg mx-auto">
           Every batch of Watlys 19L drinking water undergoes rigorous testing and compliance procedures.
         </p>
       </div>
@@ -51,19 +51,19 @@ export default function CertificationsSection() {
           return (
             <div
               key={idx}
-              className="p-6 bg-zinc-50/70 dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl space-y-4 flex flex-col justify-between shadow-sm hover:border-[#0064D0] transition-colors"
+              className="p-6 bg-zinc-50/70 dark:bg-[#162447]/90 border border-zinc-200/60 dark:border-slate-700/60 rounded-2xl space-y-4 flex flex-col justify-between shadow-lg shadow-black/10 hover:border-[#0064D0] transition-colors"
             >
               <div className="space-y-3">
                 <div className="inline-flex p-3 rounded-xl bg-[#0064D0]/10 text-[#0064D0]">
                   <IconComponent size={24} />
                 </div>
                 <h3 className="text-base font-serif font-light text-zinc-900 dark:text-white">{cert.name}</h3>
-                <p className="text-xs text-zinc-600 dark:text-zinc-300 font-light leading-relaxed">
+                <p className="text-xs text-zinc-600 dark:text-slate-200 font-light leading-relaxed">
                   {cert.desc}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-zinc-200/40 dark:border-zinc-800/40">
+              <div className="pt-3 border-t border-zinc-200/40 dark:border-slate-800/60">
                 <span className="text-[9px] font-bold uppercase tracking-wider text-[#0064D0]">
                   ✓ {cert.status}
                 </span>

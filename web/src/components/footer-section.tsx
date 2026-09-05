@@ -81,8 +81,8 @@ export default function FooterSection() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden ${isHovered
-          ? 'bg-[#ebf4fd] dark:bg-[#0D1520] border-[#c0dcfa] dark:border-zinc-800'
-          : 'bg-white dark:bg-[#0A0A0A] border-zinc-200/60 dark:border-zinc-800/60'
+          ? 'bg-[#ebf4fd] dark:bg-[#0D1520] border-[#c0dcfa] dark:border-slate-800'
+          : 'bg-white dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60'
         }`}
     >
       {/* Subtle Premium Cursor Water Effect Canvas */}
@@ -91,7 +91,7 @@ export default function FooterSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 space-y-12 sm:space-y-16 pointer-events-auto">
 
         {/* Brand Statement Lead-in */}
-        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-16 border-b transition-colors duration-700 items-start ${isHovered ? 'border-[#c0dcfa] dark:border-zinc-800' : 'border-zinc-200/60 dark:border-zinc-800/60'
+        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-16 border-b transition-colors duration-700 items-start ${isHovered ? 'border-[#c0dcfa] dark:border-slate-800' : 'border-zinc-200/60 dark:border-slate-800/60'
           }`}>
           <div className="lg:col-span-6 space-y-4">
             <Link href="/" className="relative block h-14 w-48">
@@ -119,7 +119,7 @@ export default function FooterSection() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t.newsletter.emailPlaceholder}
                 required
-                className="flex-1 px-4 py-3 bg-white dark:bg-[#111822] border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#0064D0] rounded-xl shadow-sm"
+                className="flex-1 px-4 py-3 bg-white dark:bg-[#111822] border border-zinc-200 dark:border-slate-800 text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#0064D0] rounded-xl shadow-sm"
               />
               <button
                 type="submit"
@@ -145,7 +145,7 @@ export default function FooterSection() {
                 {/* Header: Clickable Accordion Button on Mobile (<640px), Static Heading on Desktop */}
                 <button
                   onClick={() => toggleSection(sec.id)}
-                  className="flex justify-between items-center w-full py-3 border-b border-slate-200/60 dark:border-zinc-800/60 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-zinc-200 sm:border-none sm:py-0 sm:mb-3 sm:cursor-default"
+                  className="flex justify-between items-center w-full py-3 border-b border-slate-200/60 dark:border-slate-800/60 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-zinc-200 sm:border-none sm:py-0 sm:mb-3 sm:cursor-default"
                 >
                   <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
                     {sec.title}
@@ -166,7 +166,7 @@ export default function FooterSection() {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className="sm:hidden space-y-2.5 pt-1 pb-3 text-zinc-700 dark:text-zinc-300 overflow-hidden"
+                        className="sm:hidden space-y-2.5 pt-1 pb-3 text-zinc-700 dark:text-slate-200 overflow-hidden"
                       >
                         {sec.links.map((link) => (
                           <li key={link.label}>
@@ -183,7 +183,7 @@ export default function FooterSection() {
                   </AnimatePresence>
 
                   {/* Permanent Static Desktop Links */}
-                  <ul className="hidden sm:block space-y-2.5 text-zinc-700 dark:text-zinc-300">
+                  <ul className="hidden sm:block space-y-2.5 text-zinc-700 dark:text-slate-200">
                     {sec.links.map((link) => (
                       <li key={link.label}>
                         <Link
@@ -201,11 +201,11 @@ export default function FooterSection() {
           })}
 
           {/* Column 5: PAKISTAN CONTACT / CONCIERGE (Always Visible) */}
-          <div className="col-span-1 sm:col-span-4 lg:col-span-1 space-y-4 pt-4 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-zinc-800/60">
+          <div className="col-span-1 sm:col-span-4 lg:col-span-1 space-y-4 pt-4 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-slate-800/60">
             <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
               PAKISTAN CONCIERGE
             </h4>
-            <div className="space-y-3 text-zinc-700 dark:text-zinc-300">
+            <div className="space-y-3 text-zinc-700 dark:text-slate-200">
               <a
                 href="https://wa.me/923001234567?text=Hi%20Watlys%20I%20want%20to%20order%2019L%20drinking%20water%20bottles"
                 target="_blank"
@@ -215,11 +215,11 @@ export default function FooterSection() {
                 <MessageCircle size={14} />
                 <span>WhatsApp Order</span>
               </a>
-              <div className="flex items-center space-x-2 text-zinc-600 dark:text-zinc-400 text-xs">
+              <div className="flex items-center space-x-2 text-zinc-600 dark:text-slate-200 text-xs">
                 <Mail size={14} className="text-[#0064D0]" />
                 <span className="hover:text-[#0064D0] transition-colors">concierge@watlys.pk</span>
               </div>
-              <div className="flex items-center space-x-2 text-zinc-600 dark:text-zinc-400 text-xs">
+              <div className="flex items-center space-x-2 text-zinc-600 dark:text-slate-200 text-xs">
                 <MapPin size={14} className="text-[#0064D0]" />
                 <span>Lahore • Karachi • Islamabad</span>
               </div>
@@ -229,7 +229,7 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom Rights & Legal Row */}
-        <div className={`pt-8 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] text-zinc-500 dark:text-zinc-400 gap-4 ${isHovered ? 'border-[#c0dcfa] dark:border-zinc-800' : 'border-zinc-200/60 dark:border-zinc-800/60'
+        <div className={`pt-8 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] text-zinc-500 dark:text-slate-200 gap-4 ${isHovered ? 'border-[#c0dcfa] dark:border-slate-800' : 'border-zinc-200/60 dark:border-slate-800/60'
           }`}>
           <p>{t.footer.rights}</p>
           <div className="flex items-center space-x-6">

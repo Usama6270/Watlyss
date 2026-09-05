@@ -151,7 +151,7 @@ export default function InsightsCatalogPage() {
     : ARTICLES_DATA.filter((art) => art.category === selectedCat)
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 space-y-16">
@@ -163,13 +163,13 @@ export default function InsightsCatalogPage() {
         </div>
 
         {/* Hero Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 border-b border-zinc-200/50 dark:border-zinc-800/50 pb-12">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 border-b border-zinc-200/50 dark:border-slate-800/60 pb-12">
           <div className="space-y-4">
             <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">RESEARCH & PAPERS</span>
             <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
               Watlys Knowledge Series
             </h1>
-            <p className="text-zinc-550 dark:text-zinc-400 text-sm font-light max-w-lg">
+            <p className="text-zinc-550 dark:text-slate-200 text-sm font-light max-w-lg">
               Explore scientific research papers, geological assays, WHO guidelines, and health studies on premium hydration.
             </p>
           </div>
@@ -190,7 +190,7 @@ export default function InsightsCatalogPage() {
                 className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
                   selectedCat === cat.id
                     ? 'bg-[#0064D0] text-white shadow-sm'
-                    : 'bg-white dark:bg-[#111111] border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                    : 'bg-white dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
                 {cat.label}
@@ -204,7 +204,7 @@ export default function InsightsCatalogPage() {
           {filteredArticles.map((art) => (
             <article
               key={art.slug}
-              className="group flex flex-col justify-between bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 rounded-2xl shadow-sm hover:border-[#0064D0] transition-all duration-300"
+              className="group flex flex-col justify-between bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl shadow-sm hover:border-[#0064D0] transition-all duration-300"
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-zinc-400">
@@ -218,12 +218,12 @@ export default function InsightsCatalogPage() {
                   {art.title}
                 </h2>
 
-                <p className="text-xs text-zinc-550 dark:text-zinc-400 font-light leading-relaxed">
+                <p className="text-xs text-zinc-550 dark:text-slate-200 font-light leading-relaxed">
                   {art.excerpt}
                 </p>
               </div>
 
-              <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 mt-6 flex justify-between items-center text-xs">
+              <div className="pt-6 border-t border-zinc-100 dark:border-slate-800 mt-6 flex justify-between items-center text-xs">
                 <span className="text-[10px] text-zinc-400">{art.date}</span>
                 <Link
                   href={`/insights/${art.slug}`}

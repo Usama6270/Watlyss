@@ -19,21 +19,21 @@ export default function FAQPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-3xl mx-auto px-6 py-16 flex-1 w-full space-y-12">
         <div className="space-y-4 text-center">
           <span className="text-xs uppercase tracking-[0.25em] text-[#0064D0] font-bold">Inquiries</span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#111827] dark:text-[#FAFAFA]">Frequently Asked Questions</h1>
-          <p className="text-zinc-500 dark:text-[#AAAAAA]">Everything you need to know about the premium hydration standard.</p>
+          <p className="text-zinc-500 dark:text-slate-200">Everything you need to know about the premium hydration standard.</p>
         </div>
 
         <div className="space-y-6 pt-8">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="p-6 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl space-y-2 shadow-sm">
+            <div key={idx} className="p-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-2 shadow-sm">
               <h3 className="font-bold text-zinc-950 dark:text-[#FAFAFA] text-lg">{faq.q}</h3>
-              <p className="text-zinc-550 dark:text-[#AAAAAA] text-sm leading-relaxed">{faq.a}</p>
+              <p className="text-zinc-550 dark:text-slate-200 text-sm leading-relaxed">{faq.a}</p>
             </div>
           ))}
         </div>

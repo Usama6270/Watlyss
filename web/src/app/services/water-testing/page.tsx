@@ -15,7 +15,7 @@ export default function WaterTestingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -36,18 +36,18 @@ export default function WaterTestingPage() {
           <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
             Chemical & TDS Assay Testing
           </h1>
-          <p className="text-zinc-550 dark:text-zinc-400 text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-zinc-550 dark:text-slate-200 text-sm sm:text-base font-light leading-relaxed">
             We believe in total scientific transparency. Our certified hydro-chemists conduct continuous batch assays on every aquifer collection, verifying TDS balance, pH levels, and zero microplastic purity.
           </p>
         </div>
 
         {/* Assay Table */}
-        <div className="space-y-6 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 rounded-2xl shadow-sm">
+        <div className="space-y-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl shadow-sm">
           <h2 className="text-xl font-bold text-zinc-900 dark:text-white">Assay Report Parameters</h2>
           <div className="overflow-x-auto w-full">
             <table className="w-full text-left text-xs font-light">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[9px] uppercase tracking-wider text-zinc-400 font-bold">
+                <tr className="border-b border-zinc-200 dark:border-slate-800 text-[9px] uppercase tracking-wider text-zinc-400 font-bold">
                   <th className="py-3">Parameter Analyzed</th>
                   <th className="py-3">WHO Regulatory Standard</th>
                   <th className="py-3">Watlys Certified Level</th>
@@ -56,7 +56,7 @@ export default function WaterTestingPage() {
               </thead>
               <tbody>
                 {testParameters.map((row, idx) => (
-                  <tr key={idx} className="border-b border-zinc-100 dark:border-zinc-800/50">
+                  <tr key={idx} className="border-b border-zinc-100 dark:border-slate-800/60">
                     <td className="py-4 font-semibold text-zinc-900 dark:text-white">{row.name}</td>
                     <td className="py-4 text-zinc-500">{row.standard}</td>
                     <td className="py-4 font-bold text-[#0064D0]">{row.watlys}</td>
@@ -69,9 +69,9 @@ export default function WaterTestingPage() {
         </div>
 
         {/* Custom Water Test Request */}
-        <div className="p-10 bg-zinc-50 dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl text-center space-y-6">
+        <div className="p-10 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Request a Private Home Water Test</h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto">
+          <p className="text-xs text-zinc-500 dark:text-slate-200 max-w-md mx-auto">
             Concerned about tap water contaminants in your residential area? Order a certified Watlys sample collection kit.
           </p>
           <div className="pt-2">

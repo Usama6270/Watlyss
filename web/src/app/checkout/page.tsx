@@ -86,7 +86,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
@@ -94,99 +94,99 @@ export default function CheckoutPage() {
 
         {cart.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-zinc-400 dark:text-[#AAAAAA]">Your cart is empty. Cannot checkout.</p>
+            <p className="text-zinc-400 dark:text-slate-200">Your cart is empty. Cannot checkout.</p>
           </div>
         ) : (
           <form onSubmit={handleCheckoutSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Address and account Form */}
-            <div className="lg:col-span-8 space-y-8 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 rounded-2xl shadow-sm">
-              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[#FAFAFA] border-b border-zinc-100 dark:border-zinc-800 pb-4">Shipping Information</h2>
+            <div className="lg:col-span-8 space-y-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl shadow-sm">
+              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[#FAFAFA] border-b border-zinc-100 dark:border-slate-800 pb-4">Shipping Information</h2>
 
               {error && <p className="text-sm text-red-500 font-semibold">{error}</p>}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">Email Address</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">Email Address</label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">Full Name</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">Full Name</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
 
                 <div className="sm:col-span-2 space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">Address Line 1</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">Address Line 1</label>
                   <input
                     type="text"
                     value={line1}
                     onChange={(e) => setLine1(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
 
                 <div className="sm:col-span-2 space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">Address Line 2 (Optional)</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">Address Line 2 (Optional)</label>
                   <input
                     type="text"
                     value={line2}
                     onChange={(e) => setLine2(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">City</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">City</label>
                   <input
                     type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">State / Province</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">State / Province</label>
                   <input
                     type="text"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">Postal / ZIP Code</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">Postal / ZIP Code</label>
                   <input
                     type="text"
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#0064D0] shadow-inner"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider">Country</label>
+                  <label className="text-xs text-zinc-500 dark:text-slate-200 font-bold uppercase tracking-wider">Country</label>
                   <select
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
                   >
                     <option value="US">United States</option>
                     <option value="PK">Pakistan</option>
@@ -197,7 +197,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Payment Methods */}
-              <div className="space-y-4 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+              <div className="space-y-4 pt-6 border-t border-zinc-100 dark:border-slate-800">
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-[#FAFAFA]">Payment Method</h3>
                 <div className="grid grid-cols-3 gap-4">
                   <button
@@ -206,7 +206,7 @@ export default function CheckoutPage() {
                     className={`p-4 rounded-xl border flex flex-col items-center justify-center font-bold text-sm transition-all shadow-sm cursor-pointer ${
                       paymentMethod === 'stripe'
                         ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#111111] text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white'
+                        : 'border-zinc-200 dark:border-slate-800 bg-white dark:bg-[#131c38] text-zinc-500 dark:text-slate-200 hover:text-black dark:hover:text-white'
                     }`}
                   >
                     Stripe / Card
@@ -217,7 +217,7 @@ export default function CheckoutPage() {
                     className={`p-4 rounded-xl border flex flex-col items-center justify-center font-bold text-sm transition-all shadow-sm cursor-pointer ${
                       paymentMethod === 'jazzcash'
                         ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#111111] text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white'
+                        : 'border-zinc-200 dark:border-slate-800 bg-white dark:bg-[#131c38] text-zinc-500 dark:text-slate-200 hover:text-black dark:hover:text-white'
                     }`}
                   >
                     JazzCash
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
                     className={`p-4 rounded-xl border flex flex-col items-center justify-center font-bold text-sm transition-all shadow-sm cursor-pointer ${
                       paymentMethod === 'easypaisa'
                         ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#111111] text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white'
+                        : 'border-zinc-200 dark:border-slate-800 bg-white dark:bg-[#131c38] text-zinc-500 dark:text-slate-200 hover:text-black dark:hover:text-white'
                     }`}
                   >
                     EasyPaisa
@@ -239,8 +239,8 @@ export default function CheckoutPage() {
 
             {/* Summary Details */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="p-6 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl space-y-6 shadow-sm">
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-[#FAFAFA] border-b border-zinc-100 dark:border-zinc-800 pb-4">Order Summary</h3>
+              <div className="p-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-6 shadow-sm">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-[#FAFAFA] border-b border-zinc-100 dark:border-slate-800 pb-4">Order Summary</h3>
 
                 {/* Items */}
                 <div className="space-y-4 max-h-[200px] overflow-y-auto pr-2">
@@ -248,16 +248,16 @@ export default function CheckoutPage() {
                     <div key={item.id} className="flex justify-between items-center text-sm">
                       <div className="flex-1">
                         <span className="font-semibold text-zinc-800 dark:text-[#FAFAFA] block">{item.title}</span>
-                        <span className="text-xs text-zinc-450 dark:text-zinc-400">Qty: {item.quantity}</span>
+                        <span className="text-xs text-zinc-450 dark:text-slate-200">Qty: {item.quantity}</span>
                       </div>
                       <span className="font-bold text-zinc-900 dark:text-[#FAFAFA]">${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="space-y-4 text-sm border-t border-zinc-100 dark:border-zinc-800 pt-4">
+                <div className="space-y-4 text-sm border-t border-zinc-100 dark:border-slate-800 pt-4">
                   <div className="flex justify-between">
-                    <span className="text-zinc-500 dark:text-[#AAAAAA]">Subtotal</span>
+                    <span className="text-zinc-500 dark:text-slate-200">Subtotal</span>
                     <span className="font-semibold text-zinc-800 dark:text-zinc-200">${cartTotal.toFixed(2)}</span>
                   </div>
 
@@ -269,11 +269,11 @@ export default function CheckoutPage() {
                   )}
 
                   <div className="flex justify-between">
-                    <span className="text-zinc-500 dark:text-[#AAAAAA]">Shipping</span>
+                    <span className="text-zinc-500 dark:text-slate-200">Shipping</span>
                     <span className="text-green-600 dark:text-green-400 font-semibold">Free</span>
                   </div>
 
-                  <div className="flex justify-between border-t border-zinc-100 dark:border-zinc-800 pt-4 text-base">
+                  <div className="flex justify-between border-t border-zinc-100 dark:border-slate-800 pt-4 text-base">
                     <span className="font-bold text-zinc-900 dark:text-[#FAFAFA]">Total</span>
                     <span className="font-extrabold text-zinc-950 dark:text-white">${finalTotal.toFixed(2)}</span>
                   </div>

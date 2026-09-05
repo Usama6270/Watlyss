@@ -67,7 +67,7 @@ export default function PackagesOverviewPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full space-y-24 pb-24">
@@ -85,7 +85,7 @@ export default function PackagesOverviewPage() {
           >
             Watlys Hydration Plans
           </motion.h1>
-          <p className="text-zinc-500 dark:text-zinc-400 max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-zinc-500 dark:text-slate-200 max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
             Select a tailored recurring glass-bottled mineral water subscription designed for individual, household, or corporate wellness.
           </p>
         </section>
@@ -95,23 +95,23 @@ export default function PackagesOverviewPage() {
           {packages.map((pkg) => (
             <div
               key={pkg.id}
-              className="group relative flex flex-col bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 sm:p-10 rounded-2xl shadow-sm hover:border-[#0064D0] dark:hover:border-[#0064D0] transition-all duration-300"
+              className="group relative flex flex-col bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm hover:border-[#0064D0] dark:hover:border-[#0064D0] transition-all duration-300"
             >
               <div className="space-y-4 flex-1">
                 <span className="inline-block text-[9px] font-bold uppercase tracking-widest text-[#0064D0] bg-[#0064D0]/10 px-3 py-1 rounded-full border border-[#0064D0]/20">
                   {pkg.tag}
                 </span>
                 <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">{pkg.title}</h2>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-light">{pkg.desc}</p>
+                <p className="text-xs text-zinc-500 dark:text-slate-200 leading-relaxed font-light">{pkg.desc}</p>
 
-                <div className="pt-4 pb-6 border-b border-zinc-100 dark:border-zinc-800">
+                <div className="pt-4 pb-6 border-b border-zinc-100 dark:border-slate-800">
                   <span className="text-3xl font-serif font-light text-zinc-900 dark:text-white">{pkg.price}</span>
                   <span className="text-[10px] text-zinc-400 block mt-1 uppercase tracking-widest font-semibold">{pkg.deliveries}</span>
                 </div>
 
                 <ul className="space-y-3 pt-6">
                   {pkg.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-zinc-300 font-light">
+                    <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-slate-200 font-light">
                       <Check size={14} className="text-[#0064D0] flex-shrink-0" />
                       <span>{feat}</span>
                     </li>

@@ -16,7 +16,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-5xl mx-auto px-6 py-16 flex-1 w-full space-y-12">
@@ -30,7 +30,7 @@ export default function ContactPage() {
         <div className="space-y-4 text-center max-w-xl mx-auto">
           <span className="text-xs uppercase tracking-[0.25em] text-[#0064D0] font-bold">PAKISTAN CONCIERGE</span>
           <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-[#FAFAFA]">Contact Watlys Pure Water</h1>
-          <p className="text-xs sm:text-sm text-zinc-550 dark:text-[#AAAAAA] font-light">
+          <p className="text-xs sm:text-sm text-zinc-550 dark:text-slate-200 font-light">
             Have questions about 19L bottle delivery, custom corporate orders, or water testing? Reach out directly via WhatsApp or email.
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function ContactPage() {
           <div className="space-y-1 text-center sm:text-left">
             <span className="text-xs font-bold uppercase tracking-wider text-[#25D366]">FASTEST RESPONSE</span>
             <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Instant WhatsApp Order & Inquiry</h3>
-            <p className="text-xs text-zinc-600 dark:text-zinc-300">Connect with our Pakistani concierge team immediately on WhatsApp.</p>
+            <p className="text-xs text-zinc-600 dark:text-slate-200">Connect with our Pakistani concierge team immediately on WhatsApp.</p>
           </div>
           <a
             href="https://wa.me/923001234567?text=Hi%20Watlys%20I%20want%20to%20inquire%20about%2019L%20drinking%20water%20bottles"
@@ -58,14 +58,14 @@ export default function ContactPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-[#FAFAFA]">Headquarters & Hubs</h2>
             
-            <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-300 font-light">
-              <div className="p-6 bg-zinc-50 dark:bg-[#111111] rounded-2xl border border-zinc-200/50 dark:border-zinc-800 space-y-2">
+            <div className="space-y-4 text-xs text-zinc-600 dark:text-slate-200 font-light">
+              <div className="p-6 bg-zinc-50 dark:bg-[#131c38] rounded-2xl border border-zinc-200/50 dark:border-slate-800 space-y-2">
                 <span className="text-[#0064D0] font-bold block uppercase tracking-wider text-[10px]">Lahore Operations Hub</span>
                 <p>Industrial Estate Phase 2, Lahore, Pakistan</p>
                 <p className="text-zinc-400">+92 42 111 928 597</p>
               </div>
 
-              <div className="p-6 bg-zinc-50 dark:bg-[#111111] rounded-2xl border border-zinc-200/50 dark:border-zinc-800 space-y-2">
+              <div className="p-6 bg-zinc-50 dark:bg-[#131c38] rounded-2xl border border-zinc-200/50 dark:border-slate-800 space-y-2">
                 <span className="text-[#0064D0] font-bold block uppercase tracking-wider text-[10px]">Email Concierge</span>
                 <p>concierge@watlys.pk</p>
                 <p className="text-zinc-400">Response within 2 hours</p>
@@ -74,14 +74,14 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 rounded-2xl shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-4 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl shadow-sm">
             <h3 className="text-xl font-serif font-light text-zinc-900 dark:text-white mb-2">Send an Inquiry</h3>
             <div className="space-y-1.5">
               <label className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Your Name</label>
               <input
                 type="text"
                 required
-                className="w-full px-4 py-3 bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                className="w-full px-4 py-3 bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
               />
             </div>
             <div className="space-y-1.5">
@@ -90,7 +90,7 @@ export default function ContactPage() {
                 type="tel"
                 required
                 placeholder="+92 300 1234567"
-                className="w-full px-4 py-3 bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                className="w-full px-4 py-3 bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
               />
             </div>
             <div className="space-y-1.5">
@@ -99,7 +99,7 @@ export default function ContactPage() {
                 required
                 rows={3}
                 placeholder="Tell us your 19L bottle requirements or location..."
-                className="w-full px-4 py-3 bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                className="w-full px-4 py-3 bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-800 dark:text-white focus:outline-none focus:border-[#0064D0]"
               />
             </div>
             <button

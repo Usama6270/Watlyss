@@ -32,7 +32,7 @@ export default function CertificationsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -51,7 +51,7 @@ export default function CertificationsPage() {
           <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
             Certified Quality Standards
           </h1>
-          <p className="text-zinc-550 dark:text-zinc-400 text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-zinc-550 dark:text-slate-200 text-sm sm:text-base font-light leading-relaxed">
             Our geological water sources and bottling processes undergo independent quarterly audits by internationally recognized accreditation bodies.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function CertificationsPage() {
           {certifications.map((cert, idx) => (
             <div
               key={idx}
-              className="p-8 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl space-y-4 shadow-sm flex flex-col sm:flex-row items-start gap-6"
+              className="p-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-4 shadow-sm flex flex-col sm:flex-row items-start gap-6"
             >
               <div className="w-12 h-12 rounded-xl bg-[#0064D0]/10 flex items-center justify-center text-[#0064D0] flex-shrink-0">
                 <cert.icon size={24} />
@@ -74,7 +74,7 @@ export default function CertificationsPage() {
                   </span>
                 </div>
                 <span className="text-xs font-semibold text-zinc-400 block">{cert.authority}</span>
-                <p className="text-xs text-zinc-550 dark:text-zinc-400 font-light leading-relaxed pt-1">
+                <p className="text-xs text-zinc-550 dark:text-slate-200 font-light leading-relaxed pt-1">
                   {cert.desc}
                 </p>
               </div>
@@ -83,9 +83,9 @@ export default function CertificationsPage() {
         </div>
 
         {/* Download PDF Audit Reports */}
-        <div className="p-10 bg-zinc-50 dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl text-center space-y-6">
+        <div className="p-10 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Download Full Lab Audit Certificates</h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto">
+          <p className="text-xs text-zinc-500 dark:text-slate-200 max-w-md mx-auto">
             Access our latest unedited chemical laboratory assay reports and ISO compliance documentation.
           </p>
           <div className="pt-2">

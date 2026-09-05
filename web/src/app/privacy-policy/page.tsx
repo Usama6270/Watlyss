@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-12 space-y-12">
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
           <p className="text-xs text-zinc-400">Last updated: August 2026 | Watlys Pure Water Pakistan</p>
         </div>
 
-        <div className="prose dark:prose-invert max-w-none text-xs sm:text-sm font-light leading-relaxed space-y-6 text-zinc-650 dark:text-zinc-300">
+        <div className="prose dark:prose-invert max-w-none text-xs sm:text-sm font-light leading-relaxed space-y-6 text-zinc-650 dark:text-slate-200">
           <p>
             Watlys Pure Water ("Watlys", "we", "our") respects your privacy and is committed to protecting your personal data when you order 19-Liter drinking water bottles or utilize our concierge services across Pakistan.
           </p>

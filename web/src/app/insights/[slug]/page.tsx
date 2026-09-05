@@ -21,7 +21,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-white flex items-center justify-center">
         <span className="font-bold text-[#0064D0]">Loading research document...</span>
       </div>
     )
@@ -30,7 +30,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
   const relatedArticles = ARTICLES_DATA.filter((a) => a.slug !== article.slug).slice(0, 2)
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-12 space-y-12">
@@ -44,7 +44,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* Header Block */}
-        <div className="space-y-6 border-b border-zinc-200/50 dark:border-zinc-800/50 pb-8">
+        <div className="space-y-6 border-b border-zinc-200/50 dark:border-slate-800/60 pb-8">
           <span className="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-[#0064D0] bg-[#0064D0]/10 px-3 py-1 rounded-full border border-[#0064D0]/20">
             {article.categoryLabel}
           </span>
@@ -59,12 +59,12 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* Abstract Box */}
-        <div className="p-6 bg-zinc-50 dark:bg-[#111111] border-l-4 border-[#0064D0] rounded-r-xl text-sm font-light text-zinc-600 dark:text-zinc-300 italic leading-relaxed">
+        <div className="p-6 bg-zinc-50 dark:bg-[#131c38] border-l-4 border-[#0064D0] rounded-r-xl text-sm font-light text-zinc-600 dark:text-slate-200 italic leading-relaxed">
           "{article.excerpt}"
         </div>
 
         {/* Article Body Content */}
-        <article className="prose dark:prose-invert max-w-none text-sm sm:text-base font-light text-zinc-700 dark:text-zinc-300 leading-relaxed space-y-6">
+        <article className="prose dark:prose-invert max-w-none text-sm sm:text-base font-light text-zinc-700 dark:text-slate-200 leading-relaxed space-y-6">
           {article.content.split('\n\n').map((paragraph, idx) => {
             if (paragraph.startsWith('### ')) {
               return (
@@ -78,7 +78,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
         </article>
 
         {/* Back & Related Articles */}
-        <div className="pt-12 border-t border-zinc-200/50 dark:border-zinc-800/50 space-y-8">
+        <div className="pt-12 border-t border-zinc-200/50 dark:border-slate-800/60 space-y-8">
           <Link
             href="/insights"
             className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0] hover:text-[#0052ad]"
@@ -94,7 +94,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
                 <Link
                   key={rel.slug}
                   href={`/insights/${rel.slug}`}
-                  className="p-6 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 rounded-xl block hover:border-[#0064D0] transition-colors"
+                  className="p-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-xl block hover:border-[#0064D0] transition-colors"
                 >
                   <span className="text-[9px] font-bold text-[#0064D0] uppercase tracking-wider block mb-1">{rel.categoryLabel}</span>
                   <h4 className="text-sm font-serif font-light text-zinc-900 dark:text-white">{rel.title}</h4>

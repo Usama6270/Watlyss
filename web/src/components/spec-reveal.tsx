@@ -70,7 +70,7 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
   ]
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/30 dark:border-zinc-800/30 bg-white dark:bg-[#0A0A0A]">
+    <section className="py-20 px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/30 dark:border-slate-800/60 bg-white dark:bg-[#0a1128]">
       <div className="text-center space-y-4 mb-16">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0] font-sans">
           {t.specs.tag}
@@ -78,12 +78,12 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
         <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-wide text-zinc-900 dark:text-[#FAFAFA]">
           {t.specs.title}
         </h2>
-        <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-light max-w-lg mx-auto font-sans">
+        <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light max-w-lg mx-auto font-sans">
           {t.specs.subtitle}
         </p>
       </div>
 
-      <div className="relative max-w-4xl mx-auto aspect-square sm:aspect-[16/10] bg-zinc-50 dark:bg-[#111111] border border-zinc-200/40 dark:border-zinc-800/40 flex items-center justify-center p-8 overflow-hidden rounded-2xl">
+      <div className="relative max-w-4xl mx-auto aspect-square sm:aspect-[16/10] bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/40 dark:border-slate-800/60 flex items-center justify-center p-8 overflow-hidden rounded-2xl">
         
         {/* Product selector buttons if multiple products */}
         {safeProducts.length > 1 && (
@@ -95,7 +95,7 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
                 className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-lg border transition-all ${
                   selectedIdx === idx
                     ? 'bg-[#0064D0] border-[#0064D0] text-white'
-                    : 'border-zinc-200 dark:border-zinc-800 text-zinc-400'
+                    : 'border-zinc-200 dark:border-slate-800 text-zinc-400'
                 }`}
               >
                 {p.title}
@@ -137,13 +137,13 @@ export default function SpecReveal({ products = DEFAULT_19L_PRODUCTS }: SpecReve
               </div>
 
               {/* Text Card */}
-              <div className={`p-4 bg-white/95 dark:bg-[#0A0A0A]/95 border border-zinc-200/60 dark:border-zinc-800/60 rounded-xl shadow-sm max-w-[200px] sm:max-w-[240px] ${
+              <div className={`p-4 bg-white/95 dark:bg-[#0a1128]/95 border border-zinc-200/60 dark:border-slate-800/60 rounded-xl shadow-sm max-w-[200px] sm:max-w-[240px] ${
                 isRtl ? 'text-right' : isLeft ? 'text-left' : 'text-right'
               }`}>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-[#0064D0] block mb-1">
                   {spec.title}
                 </span>
-                <p className="text-xs text-zinc-700 dark:text-zinc-300 font-light leading-relaxed">
+                <p className="text-xs text-zinc-700 dark:text-slate-200 font-light leading-relaxed">
                   {spec.value}
                 </p>
               </div>

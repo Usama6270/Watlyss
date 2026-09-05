@@ -27,7 +27,7 @@ export default function OrderWaterPage() {
   )
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -46,7 +46,7 @@ export default function OrderWaterPage() {
           <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
             Build Your 19L Water Delivery Plan
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-400 font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-zinc-550 dark:text-slate-200 font-light leading-relaxed">
             Select your household or business requirements below and instantly dispatch your order via WhatsApp or online confirmation.
           </p>
         </div>
@@ -55,11 +55,11 @@ export default function OrderWaterPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left Column: Form Controls */}
-          <div className="lg:col-span-7 space-y-8 bg-white dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 sm:p-10 rounded-2xl shadow-sm">
+          <div className="lg:col-span-7 space-y-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm">
             
             {/* Step 1: Customer Type */}
             <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 block">
+              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
                 1. Select Account Type
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -75,7 +75,7 @@ export default function OrderWaterPage() {
                     className={`py-3 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
                       customerType === item.id
                         ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                        : 'border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
                     {item.label}
@@ -86,7 +86,7 @@ export default function OrderWaterPage() {
 
             {/* Step 2: 19L Bottle Quantity */}
             <div className="space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200">
                 <span>2. Monthly 19L Bottle Quantity</span>
                 <span className="text-[#0064D0] font-serif text-lg">{quantity} x 19L Bottles</span>
               </div>
@@ -108,7 +108,7 @@ export default function OrderWaterPage() {
 
             {/* Step 3: Delivery Frequency */}
             <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 block">
+              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
                 3. Delivery Frequency
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -124,7 +124,7 @@ export default function OrderWaterPage() {
                     className={`py-3 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
                       frequency === item.id
                         ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                        : 'border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
                     {item.label}
@@ -135,13 +135,13 @@ export default function OrderWaterPage() {
 
             {/* Step 4: City Selection */}
             <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 block">
+              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
                 4. Delivery City in Pakistan
               </label>
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-xs font-semibold text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
               >
                 {cities.map((c) => (
                   <option key={c} value={c}>{c}</option>
@@ -152,10 +152,10 @@ export default function OrderWaterPage() {
           </div>
 
           {/* Right Column: Order Summary & Actions */}
-          <div className="lg:col-span-5 space-y-6 bg-zinc-50 dark:bg-[#111111] border border-zinc-200/60 dark:border-zinc-800/60 p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
+          <div className="lg:col-span-5 space-y-6 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
             <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Order Summary</h3>
 
-            <div className="space-y-4 text-xs font-light text-zinc-650 dark:text-zinc-300 border-t border-b border-zinc-200 dark:border-zinc-800 py-6">
+            <div className="space-y-4 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-zinc-200 dark:border-slate-800 py-6">
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Core Product:</span>
                 <span className="font-semibold text-zinc-900 dark:text-white">19L Pure Water Bottle</span>

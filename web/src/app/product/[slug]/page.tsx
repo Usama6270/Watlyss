@@ -136,7 +136,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-white flex items-center justify-center">
         <span className="font-bold text-[#0064D0]">Loading premium container...</span>
       </div>
     )
@@ -171,14 +171,14 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-400">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-24">
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Column: Image with zoom */}
-          <div className="lg:col-span-6 relative aspect-square bg-white dark:bg-[#111111] rounded-2xl overflow-hidden border border-zinc-200/65 dark:border-zinc-800/50 shadow-sm">
+          <div className="lg:col-span-6 relative aspect-square bg-white dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/65 dark:border-slate-800/60 shadow-sm">
             <div
               className="w-full h-full relative cursor-zoom-in"
               onMouseMove={handleMouseMove}
@@ -203,24 +203,24 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   <Star key={i} size={16} fill="currentColor" />
                 ))}
               </span>
-              <span className="text-zinc-500 dark:text-zinc-400 font-semibold">(4.9 rating / 82 reviews)</span>
+              <span className="text-zinc-500 dark:text-slate-200 font-semibold">(4.9 rating / 82 reviews)</span>
             </div>
             <p className="text-3xl font-black text-zinc-900 dark:text-[#FAFAFA]">${product.price.toFixed(2)}</p>
-            <p className="text-zinc-555 dark:text-[#AAAAAA] leading-relaxed text-base">{product.description}</p>
+            <p className="text-zinc-555 dark:text-slate-200 leading-relaxed text-base">{product.description}</p>
 
             {/* Add to Cart Actions */}
-            <div className="flex items-center space-x-4 pt-6 border-t border-zinc-200/60 dark:border-zinc-800/60">
-              <div className="flex items-center border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#111111] rounded-xl overflow-hidden shadow-sm">
+            <div className="flex items-center space-x-4 pt-6 border-t border-zinc-200/60 dark:border-slate-800/60">
+              <div className="flex items-center border border-zinc-200 dark:border-slate-800 bg-white dark:bg-[#131c38] rounded-xl overflow-hidden shadow-sm">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-zinc-400 font-bold"
+                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-slate-200 font-bold"
                 >
                   -
                 </button>
                 <span className="px-4 font-bold text-sm text-zinc-800 dark:text-[#FAFAFA]">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-zinc-400 font-bold"
+                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-slate-200 font-bold"
                 >
                   +
                 </button>

@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
     >
       <body
-        className="min-h-full flex flex-col bg-white dark:bg-[#0A0A0A] text-[#111111] dark:text-[#FAFAFA] font-sans transition-colors duration-400"
+        className="min-h-full flex flex-col bg-white dark:bg-[#0a1128] text-[#111111] dark:text-[#FAFAFA] font-sans transition-colors duration-300"
         suppressHydrationWarning
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>

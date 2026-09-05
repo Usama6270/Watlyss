@@ -28,7 +28,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-[#FAFAFA] flex flex-col transition-colors duration-400 overflow-x-hidden pt-20">
+    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col transition-colors duration-300 overflow-x-hidden pt-20">
       <Navbar />
 
       <main className="flex-1 w-full pb-32">
@@ -49,14 +49,14 @@ export default function AboutPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-zinc-500 dark:text-[#AAAAAA] max-w-xl mx-auto text-xs sm:text-sm font-light leading-relaxed"
+            className="text-zinc-500 dark:text-slate-200 max-w-xl mx-auto text-xs sm:text-sm font-light leading-relaxed"
           >
             {t.about.subtitle}
           </motion.p>
         </section>
 
         {/* 1. Origin Story Section (Grayscale full bleed) */}
-        <section className="w-full relative h-[450px] sm:h-[600px] bg-zinc-50 dark:bg-[#111111] mb-28 border-y border-zinc-200/10 dark:border-zinc-800/30 overflow-hidden">
+        <section className="w-full relative h-[450px] sm:h-[600px] bg-zinc-50 dark:bg-[#131c38] mb-28 border-y border-zinc-200/10 dark:border-slate-800/60 overflow-hidden">
           <Image
             src="https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&w=1600&q=80"
             alt="Pristine mountain aquifers"
@@ -72,12 +72,12 @@ export default function AboutPage() {
           
           <motion.section 
             {...textFadeIn}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-zinc-800/40 pb-20"
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-slate-800/60 pb-20"
           >
             <div className="md:col-span-4 text-[9px] font-bold uppercase tracking-widest text-zinc-400 pt-1">
               01 / OUR GENESIS
             </div>
-            <div className="md:col-span-8 space-y-6 text-zinc-550 dark:text-[#AAAAAA] text-xs sm:text-sm leading-relaxed font-light">
+            <div className="md:col-span-8 space-y-6 text-zinc-550 dark:text-slate-200 text-xs sm:text-sm leading-relaxed font-light">
               <h3 className="text-xl sm:text-2xl font-sans text-zinc-900 dark:text-[#FAFAFA] font-light tracking-wide uppercase">{t.about.storyTitle}</h3>
               <p>{t.about.storyText1}</p>
               <p>{t.about.storyText2}</p>
@@ -87,21 +87,21 @@ export default function AboutPage() {
           {/* 2. Mission & Values Section */}
           <motion.section 
             {...textFadeIn}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-zinc-800/40 pb-20"
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-slate-800/60 pb-20"
           >
             <div className="md:col-span-4 text-[9px] font-bold uppercase tracking-widest text-zinc-400 pt-1">
               02 / VALUES
             </div>
             <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="space-y-3 border-l border-zinc-200 dark:border-zinc-800 pl-4 py-1">
+              <div className="space-y-3 border-l border-zinc-200 dark:border-slate-800 pl-4 py-1">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-[#FAFAFA]">Absolute Purity</h4>
-                <p className="text-xs text-zinc-500 dark:text-[#AAAAAA] leading-relaxed font-light">
+                <p className="text-xs text-zinc-500 dark:text-slate-200 leading-relaxed font-light">
                   Protected source aquifer ensures that no synthetic chemicals or microplastics ever compromise our water.
                 </p>
               </div>
-              <div className="space-y-3 border-l border-zinc-200 dark:border-zinc-800 pl-4 py-1">
+              <div className="space-y-3 border-l border-zinc-200 dark:border-slate-800 pl-4 py-1">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-[#FAFAFA]">Eco Stewardship</h4>
-                <p className="text-xs text-zinc-500 dark:text-[#AAAAAA] leading-relaxed font-light">
+                <p className="text-xs text-zinc-500 dark:text-slate-200 leading-relaxed font-light">
                   Carbon-neutral filling facility operations and lead-free recyclable custom glass vessels.
                 </p>
               </div>
@@ -111,31 +111,31 @@ export default function AboutPage() {
           {/* 3. Sourcing & Filtration Process Diagram */}
           <motion.section 
             {...textFadeIn}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-zinc-800/40 pb-20"
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-slate-800/60 pb-20"
           >
             <div className="md:col-span-4 text-[9px] font-bold uppercase tracking-widest text-zinc-400 pt-1">
               03 / VISUAL FILTRATION
             </div>
             <div className="md:col-span-8 space-y-8">
               <h3 className="text-xl sm:text-2xl font-sans text-zinc-900 dark:text-[#FAFAFA] font-light tracking-wide uppercase">Natural Geology Cycle</h3>
-              <div className="relative border-l border-zinc-200 dark:border-zinc-800 ml-2 pl-6 space-y-10 py-2">
+              <div className="relative border-l border-zinc-200 dark:border-slate-800 ml-2 pl-6 space-y-10 py-2">
                 <div className="relative">
                   <div className="absolute -left-[29px] top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-950 dark:bg-white" />
                   <span className="text-[8px] text-zinc-400 font-bold block mb-1">STAGE 1</span>
                   <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 block mb-1">Volcanic Aquifer Deposition</span>
-                  <p className="text-xs text-zinc-500 dark:text-[#AAAAAA] font-light">Rain water settles deep in ancient geothermic mountain storage chambers.</p>
+                  <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">Rain water settles deep in ancient geothermic mountain storage chambers.</p>
                 </div>
                 <div className="relative">
                   <div className="absolute -left-[29px] top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-950 dark:bg-white" />
                   <span className="text-[8px] text-zinc-400 font-bold block mb-1">STAGE 2</span>
                   <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 block mb-1">Decade Filtration Scrape</span>
-                  <p className="text-xs text-zinc-500 dark:text-[#AAAAAA] font-light">Water slowly trickles through layers of natural volcanic stone absorbing active minerals.</p>
+                  <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">Water slowly trickles through layers of natural volcanic stone absorbing active minerals.</p>
                 </div>
                 <div className="relative">
                   <div className="absolute -left-[29px] top-1.5 h-1.5 w-1.5 rounded-full bg-zinc-950 dark:bg-white" />
                   <span className="text-[8px] text-zinc-400 font-bold block mb-1">STAGE 3</span>
                   <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 block mb-1">Sterilized Bottling</span>
-                  <p className="text-xs text-zinc-500 dark:text-[#AAAAAA] font-light">Collected at source point without surface contact directly into sterilized containers.</p>
+                  <p className="text-xs text-zinc-500 dark:text-slate-200 font-light">Collected at source point without surface contact directly into sterilized containers.</p>
                 </div>
               </div>
             </div>
@@ -144,9 +144,9 @@ export default function AboutPage() {
           {/* 4. Founder / Team Note Block */}
           <motion.section 
             {...textFadeIn}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-b border-zinc-200/30 dark:border-zinc-800/40 pb-20"
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-b border-zinc-200/30 dark:border-slate-800/60 pb-20"
           >
-            <div className="md:col-span-4 relative h-64 w-full bg-zinc-50 dark:bg-[#111111] overflow-hidden border border-zinc-200/10 dark:border-zinc-800/30">
+            <div className="md:col-span-4 relative h-64 w-full bg-zinc-50 dark:bg-[#131c38] overflow-hidden border border-zinc-200/10 dark:border-slate-800/60">
               <Image
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
                 alt="Founder Portrait"
@@ -169,21 +169,21 @@ export default function AboutPage() {
           {/* 5. Certifications & Lab Test Results Table */}
           <motion.section 
             {...textFadeIn}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-zinc-800/40 pb-20"
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-b border-zinc-200/30 dark:border-slate-800/60 pb-20"
           >
             <div className="md:col-span-4 text-[9px] font-bold uppercase tracking-widest text-zinc-400 pt-1">
               04 / REPORTS
             </div>
             <div className="md:col-span-8 space-y-6">
               <h3 className="text-xl sm:text-2xl font-sans text-zinc-900 dark:text-[#FAFAFA] font-light tracking-wide uppercase">Chemical Assays</h3>
-              <p className="text-xs text-zinc-500 dark:text-[#AAAAAA] font-light leading-relaxed">
+              <p className="text-xs text-zinc-500 dark:text-slate-200 font-light leading-relaxed">
                 We believe in absolute scientific transparency. Below is our latest geological aquifer assay report.
               </p>
               
               <div className="overflow-x-auto w-full">
                 <table className="w-full text-left text-xs font-light">
                   <thead>
-                    <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[9px] uppercase tracking-wider text-zinc-400 font-bold">
+                    <tr className="border-b border-zinc-200 dark:border-slate-800 text-[9px] uppercase tracking-wider text-zinc-400 font-bold">
                       <th className="py-3">Component Analyzed</th>
                       <th className="py-3">Regulatory Limit</th>
                       <th className="py-3">Watlys Assayed</th>
@@ -192,7 +192,7 @@ export default function AboutPage() {
                   </thead>
                   <tbody>
                     {labMetrics.map((row) => (
-                      <tr key={row.component} className="border-b border-zinc-100 dark:border-zinc-800/50 text-zinc-650 dark:text-zinc-300">
+                      <tr key={row.component} className="border-b border-zinc-100 dark:border-slate-800/60 text-zinc-650 dark:text-slate-200">
                         <td className="py-3 font-medium">{row.component}</td>
                         <td className="py-3 text-zinc-400">{row.limit}</td>
                         <td className="py-3 text-zinc-950 dark:text-[#FAFAFA] font-semibold">{row.value}</td>
@@ -220,7 +220,7 @@ export default function AboutPage() {
             <div className="md:col-span-4 text-[9px] font-bold uppercase tracking-widest text-zinc-400 pt-1">
               05 / ECOLOGY
             </div>
-            <div className="md:col-span-8 space-y-6 text-zinc-550 dark:text-[#AAAAAA] text-xs sm:text-sm leading-relaxed font-light">
+            <div className="md:col-span-8 space-y-6 text-zinc-550 dark:text-slate-200 text-xs sm:text-sm leading-relaxed font-light">
               <h3 className="text-xl sm:text-2xl font-sans text-zinc-900 dark:text-[#FAFAFA] font-light tracking-wide uppercase">{t.about.sourceTitle}</h3>
               <p>{t.about.sourceText}</p>
               <p>
