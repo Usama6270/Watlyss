@@ -100,38 +100,39 @@ export default function FooterSection() {
       onMouseMove={handleMouseMove}
       className="relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden bg-white dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60"
     >
-      {/* Dynamic Cursor-Following Micro Compact Rectangle Box Spotlight (Patterns-05.png) */}
+      {/* Grand Luxury Brand Watermark Background Pattern (Patterns-05.png) — Sincere Capital Reference Aesthetic */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 z-0 overflow-hidden">
+        {/* Soft Radial Ambient Blue Glow */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#0064D0]/10 dark:bg-[#0064D0]/20 rounded-full blur-3xl" />
+
+        {/* Patterns-05.png Brand Texture Overlay */}
+        <div
+          className="w-full h-full bg-repeat bg-right-center mix-blend-multiply dark:mix-blend-screen opacity-15 dark:opacity-25 transition-opacity duration-500"
+          style={{
+            backgroundImage: `url('/patterns/Patterns-05.png'), url('/Patterns-05.png')`,
+            backgroundSize: '220px auto',
+            maskImage: 'radial-gradient(ellipse at 80% 50%, black 25%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at 80% 50%, black 25%, transparent 80%)',
+            filter: 'contrast(1.2) brightness(0.96)',
+          }}
+        />
+      </div>
+
+      {/* Dynamic Cursor-Following Soft Ambient Spotlight Glow on Hover */}
       <AnimatePresence>
         {isHovered && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="pointer-events-none absolute w-[100px] h-[50px] sm:w-[130px] sm:h-[65px] rounded-lg overflow-hidden z-10 shadow-md shadow-[#0064D0]/15 transform-gpu will-change-transform"
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="pointer-events-none absolute w-[340px] h-[340px] rounded-full blur-2xl z-0 transform-gpu will-change-transform"
             style={{
-              left: mousePosition.x - 65,
-              top: mousePosition.y - 32,
-              maskImage: 'radial-gradient(ellipse at center, black 60%, transparent 95%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at center, black 60%, transparent 95%)',
+              left: mousePosition.x - 170,
+              top: mousePosition.y - 170,
+              background: 'radial-gradient(circle, rgba(0, 100, 208, 0.18) 0%, rgba(0, 100, 208, 0.05) 50%, transparent 75%)',
             }}
-          >
-            {/* Ambient Water Blue Glow Backing */}
-            <div className="absolute inset-0 bg-[#0064D0]/20 dark:bg-[#0064D0]/30 rounded-lg" />
-
-            {/* Micro Rectangle Border Edge Highlight */}
-            <div className="absolute inset-0 border border-[#0064D0]/60 dark:border-[#0064D0]/80 rounded-lg" />
-
-            {/* Micro Crisp Water Brand Pattern 05 Layer */}
-            <div
-              className="absolute inset-0 bg-repeat bg-center mix-blend-multiply dark:mix-blend-screen opacity-40 dark:opacity-60 transition-opacity duration-300"
-              style={{
-                backgroundImage: `url('/patterns/Patterns-05.png'), url('/Patterns-05.png')`,
-                backgroundSize: '95px auto',
-                filter: 'contrast(1.25) brightness(0.96)',
-              }}
-            />
-          </motion.div>
+          />
         )}
       </AnimatePresence>
 
