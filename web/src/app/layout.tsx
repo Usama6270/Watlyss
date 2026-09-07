@@ -29,6 +29,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={`${velocitySans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preload" href="/patterns/Patterns-01.png" as="image" />
+        <link rel="preload" href="/patterns/Patterns-02.png" as="image" />
+        <link rel="preload" href="/patterns/Patterns-03.png" as="image" />
+        <link rel="preload" href="/patterns/Patterns-04.png" as="image" />
+        <link rel="preload" href="/patterns/Patterns-05.png" as="image" />
+        <link rel="preload" href="/patterns/Patterns-06.png" as="image" />
+      </head>
       <body
         className="min-h-full flex flex-col bg-white dark:bg-[#0a1128] text-[#111111] dark:text-[#FAFAFA] font-sans transition-colors duration-300"
         suppressHydrationWarning

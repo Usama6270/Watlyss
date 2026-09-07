@@ -17,15 +17,23 @@ export default function FooterSection() {
   const [openSection, setOpenSection] = useState<string | null>(null)
   const footerRef = useRef<HTMLElement>(null)
 
+  const rafId = useRef<number | null>(null)
+
   const toggleSection = (section: string) => {
     setOpenSection(prev => (prev === section ? null : section))
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    if (rafId.current !== null) {
+      cancelAnimationFrame(rafId.current)
+    }
+
+    rafId.current = requestAnimationFrame(() => {
+      setMousePosition({ x, y })
     })
   }
 
@@ -99,8 +107,8 @@ export default function FooterSection() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="pointer-events-none absolute w-[100px] h-[50px] sm:w-[130px] sm:h-[65px] rounded-lg overflow-hidden transition-transform duration-75 z-10 shadow-md shadow-[#0064D0]/15"
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="pointer-events-none absolute w-[100px] h-[50px] sm:w-[130px] sm:h-[65px] rounded-lg overflow-hidden z-10 shadow-md shadow-[#0064D0]/15 transform-gpu will-change-transform"
             style={{
               left: mousePosition.x - 65,
               top: mousePosition.y - 32,

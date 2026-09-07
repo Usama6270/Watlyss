@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface NavbarCursorPatternProps {
@@ -17,6 +17,7 @@ export default function NavbarCursorPattern({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
   const [activePattern, setActivePattern] = useState(patternSrc)
+  const rafId = useRef<number | null>(null)
 
   useEffect(() => {
     const img = new Image()
@@ -24,13 +25,22 @@ export default function NavbarCursorPattern({
     img.onerror = () => {
       setActivePattern('/Patterns-01.png')
     }
+    return () => {
+      if (rafId.current !== null) cancelAnimationFrame(rafId.current)
+    }
   }, [patternSrc])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    if (rafId.current !== null) {
+      cancelAnimationFrame(rafId.current)
+    }
+
+    rafId.current = requestAnimationFrame(() => {
+      setMousePosition({ x, y })
     })
   }
 
@@ -48,10 +58,10 @@ export default function NavbarCursorPattern({
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="pointer-events-none absolute w-32 h-32 rounded-full overflow-hidden transition-transform duration-75 z-0"
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="pointer-events-none absolute w-32 h-32 rounded-full overflow-hidden z-0 transform-gpu will-change-transform"
             style={{
-              left: mousePosition.x - 64, // Centering 128px compact spotlight on cursor
+              left: mousePosition.x - 64,
               top: mousePosition.y - 64,
               maskImage: 'radial-gradient(circle at center, black 15%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(circle at center, black 15%, transparent 70%)',
