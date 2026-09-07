@@ -9,6 +9,7 @@ import { useCart } from '@/context/cart'
 import { useLanguage } from '@/context/language'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
+import WatlysPatternHover from '@/components/watlys-pattern-hover'
 
 export default function Navbar() {
   const { cart } = useCart()
@@ -16,6 +17,16 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isNavHovered, setIsNavHovered] = useState(false)
+
+  const handleNavMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,11 +144,35 @@ export default function Navbar() {
   return (
     <>
       <nav
+        onMouseEnter={() => setIsNavHovered(true)}
+        onMouseLeave={() => setIsNavHovered(false)}
+        onMouseMove={handleNavMouseMove}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
             ? 'bg-white/95 dark:bg-[#0a1128]/95 backdrop-blur-md border-zinc-200/20 dark:border-slate-800/60 shadow-[0_2px_20px_rgba(0,0,0,0.1)]'
             : 'bg-white dark:bg-[#0a1128] border-zinc-100 dark:border-slate-800/40'
           }`}
       >
+        {/* Isolated Background Overflow Container for Cursor Spotlight */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <AnimatePresence>
+            {isNavHovered && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="pointer-events-none absolute w-56 h-56 rounded-full mix-blend-screen opacity-25 dark:opacity-35 bg-cover bg-center transition-opacity duration-300"
+                style={{
+                  backgroundImage: `url('/Patterns-01.png'), url('/patterns/Patterns-01.png')`,
+                  left: mousePosition.x - 112,
+                  top: mousePosition.y - 112,
+                  maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%)',
+                  WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%)',
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </div>
         {/* DESKTOP NAVBAR CONTAINER — ABSOLUTE CENTERED LOGO */}
         <div className="relative w-full max-w-[1536px] mx-auto h-20 sm:h-[84px] px-8 2xl:px-14 hidden xl:flex items-center justify-between">
 

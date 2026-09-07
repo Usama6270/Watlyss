@@ -6,8 +6,9 @@ import Navbar from '@/components/navbar';
 import HeroScrollCanvas from '@/components/HeroScrollCanvas';
 import PackagesSection from '@/components/packages-section';
 import Link from 'next/link';
-import { ShieldCheck, Truck, Calendar, Sparkles } from 'lucide-react';
+import { ShieldCheck, Truck, Calendar, Sparkles, Droplets, Waves } from 'lucide-react';
 import { useLanguage } from '@/context/language';
+import WatlysPatternHover from '@/components/watlys-pattern-hover';
 
 // Dynamic Lazy Imports for Below-the-fold Heavy Components (Code-Splitting Optimization)
 const PackageCalculator = dynamic(() => import('@/components/package-calculator'), { ssr: false });
@@ -100,9 +101,6 @@ export default function Home() {
 
       {/* SECTION 05 — KNOWLEDGE SERIES */}
       <KnowledgeSeries />
-
-      {/* SECTION 06 — TRUSTED BY CLIENTS */}
-      <TrustSection />
 
       {/* SECTION 07 — CERTIFICATIONS */}
       <CertificationsSection />

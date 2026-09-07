@@ -85,9 +85,17 @@ function TiltCard({ children, className = '', floating = false }: { children: Re
         animate={floating ? { y: [0, -6, 0] } : undefined}
         transition={floating ? { y: { duration: 4, repeat: Infinity, ease: 'easeInOut' } } : undefined}
         whileHover={{ scale: 1.01 }}
-        className={`relative h-full w-full transition-all duration-300 ${className}`}
+        className={`relative h-full w-full overflow-hidden transition-all duration-300 ${className}`}
       >
-        <div style={{ transform: 'translateZ(25px)', transformStyle: 'preserve-3d' }} className="h-full w-full">
+        {/* Interactive Configurator Subtle Brand Water Texture Layer (Patterns-02.png) */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen opacity-10 dark:opacity-15 transition-opacity duration-300 rounded-2xl z-0"
+          style={{
+            backgroundImage: `url('/patterns/Patterns-02.png'), url('/Patterns-02.png')`,
+          }}
+        />
+
+        <div style={{ transform: 'translateZ(25px)', transformStyle: 'preserve-3d' }} className="relative z-10 h-full w-full">
           {children}
         </div>
       </motion.div>

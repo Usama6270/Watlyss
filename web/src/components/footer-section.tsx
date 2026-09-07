@@ -13,11 +13,20 @@ export default function FooterSection() {
   const [email, setEmail] = useState('')
   const [success, setSuccess] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [openSection, setOpenSection] = useState<string | null>(null)
   const footerRef = useRef<HTMLElement>(null)
 
   const toggleSection = (section: string) => {
     setOpenSection(prev => (prev === section ? null : section))
+  }
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
   }
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -80,12 +89,48 @@ export default function FooterSection() {
       ref={footerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
       className="relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden bg-white dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60"
     >
+      {/* Dynamic Cursor-Following Micro Compact Rectangle Box Spotlight (Patterns-05.png) */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="pointer-events-none absolute w-[100px] h-[50px] sm:w-[130px] sm:h-[65px] rounded-lg overflow-hidden transition-transform duration-75 z-10 shadow-md shadow-[#0064D0]/15"
+            style={{
+              left: mousePosition.x - 65,
+              top: mousePosition.y - 32,
+              maskImage: 'radial-gradient(ellipse at center, black 60%, transparent 95%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at center, black 60%, transparent 95%)',
+            }}
+          >
+            {/* Ambient Water Blue Glow Backing */}
+            <div className="absolute inset-0 bg-[#0064D0]/20 dark:bg-[#0064D0]/30 rounded-lg" />
+
+            {/* Micro Rectangle Border Edge Highlight */}
+            <div className="absolute inset-0 border border-[#0064D0]/60 dark:border-[#0064D0]/80 rounded-lg" />
+
+            {/* Micro Crisp Water Brand Pattern 05 Layer */}
+            <div
+              className="absolute inset-0 bg-repeat bg-center mix-blend-multiply dark:mix-blend-screen opacity-40 dark:opacity-60 transition-opacity duration-300"
+              style={{
+                backgroundImage: `url('/patterns/Patterns-05.png'), url('/Patterns-05.png')`,
+                backgroundSize: '95px auto',
+                filter: 'contrast(1.25) brightness(0.96)',
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Subtle Premium Cursor Water Effect Canvas */}
       <FooterWaterEffect containerRef={footerRef} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 space-y-12 sm:space-y-16 pointer-events-auto">
+      <div className="relative z-20 max-w-7xl mx-auto px-6 space-y-12 sm:space-y-16 pointer-events-auto">
 
         {/* Brand Statement Lead-in */}
         <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-16 border-b transition-colors duration-700 items-start ${isHovered ? 'border-[#c0dcfa] dark:border-slate-800' : 'border-zinc-200/60 dark:border-slate-800/60'
@@ -100,8 +145,8 @@ export default function FooterSection() {
                 className="object-contain object-left transition-transform duration-300 hover:scale-105"
               />
             </Link>
-            <p className="text-xs sm:text-sm text-slate-500 font-medium tracking-tight whitespace-normal max-w-md">
-              Pakistan’s premier 19L mineral water delivery across Lahore, Karachi &amp; Islamabad.
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-slate-200 font-light leading-relaxed max-w-md">
+              Pakistan’s premier 19-Liter mineral drinking water subscription service. Delivering subterranean aquifer water directly to homes, student hostels, and corporate offices across Lahore, Karachi, and Islamabad.
             </p>
           </div>
 
@@ -116,7 +161,7 @@ export default function FooterSection() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t.newsletter.emailPlaceholder}
                 required
-                className="flex-1 px-4 py-3 bg-white dark:bg-[#111822] border border-zinc-200 dark:border-slate-800 text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#0064D0] rounded-xl shadow-sm"
+                className="flex-1 px-4 py-3 bg-[#f8fafc] dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#0064D0] rounded-xl shadow-sm"
               />
               <button
                 type="submit"
@@ -131,98 +176,88 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* Structured Grid with Mobile Accordions & Desktop Fallback */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-8 text-xs font-light">
+        {/* Desktop & Tablet Navigation Columns */}
+        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-4 gap-8 text-xs font-light">
+          {sections.map((sec) => (
+            <div key={sec.id} className="space-y-4">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">{sec.title}</h4>
+              <ul className="space-y-2.5 text-zinc-700 dark:text-slate-200">
+                {sec.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
 
-          {/* Mapped Accordion Sections for Product, Services, Company, Support */}
+        {/* Mobile Accordion Navigation */}
+        <div className="sm:hidden space-y-3">
           {sections.map((sec) => {
             const isOpen = openSection === sec.id
             return (
-              <div key={sec.id} className="space-y-3 sm:space-y-4">
-                {/* Header: Clickable Accordion Button on Mobile (<640px), Static Heading on Desktop */}
+              <div key={sec.id} className="border-b border-zinc-200/60 dark:border-slate-800/60 pb-3">
                 <button
                   onClick={() => toggleSection(sec.id)}
-                  className="flex justify-between items-center w-full py-3 border-b border-slate-200/60 dark:border-slate-800/60 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-zinc-200 sm:border-none sm:py-0 sm:mb-3 sm:cursor-default"
+                  className="w-full flex justify-between items-center py-2 text-xs font-bold uppercase tracking-wider text-[#0064D0]"
                 >
-                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
-                    {sec.title}
-                  </span>
+                  <span>{sec.title}</span>
                   <ChevronDown
                     size={16}
-                    className={`sm:hidden text-zinc-500 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#0064D0]' : ''
-                      }`}
+                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#0064D0]' : 'text-zinc-400'}`}
                   />
                 </button>
-
-                {/* Animated Mobile Dropdown list + Permanently Expanded Desktop View */}
-                <div className="sm:block">
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.ul
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className="sm:hidden space-y-2.5 pt-1 pb-3 text-zinc-700 dark:text-slate-200 overflow-hidden"
-                      >
-                        {sec.links.map((link) => (
-                          <li key={link.label}>
-                            <Link
-                              href={link.href}
-                              className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors block py-0.5"
-                            >
-                              {link.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Permanent Static Desktop Links */}
-                  <ul className="hidden sm:block space-y-2.5 text-zinc-700 dark:text-slate-200">
-                    {sec.links.map((link) => (
-                      <li key={link.label}>
-                        <Link
-                          href={link.href}
-                          className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.ul
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pt-2 pb-1 space-y-2 text-xs text-zinc-600 dark:text-slate-300 font-light"
+                    >
+                      {sec.links.map((link) => (
+                        <li key={link.href}>
+                          <Link href={link.href} className="block py-1 hover:text-[#0064D0]">
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
               </div>
             )
           })}
+        </div>
 
-          {/* Column 5: PAKISTAN CONTACT / CONCIERGE (Always Visible) */}
-          <div className="col-span-1 sm:col-span-4 lg:col-span-1 space-y-4 pt-4 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-slate-800/60">
-            <h4 className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
-              PAKISTAN CONCIERGE
-            </h4>
-            <div className="space-y-3 text-zinc-700 dark:text-slate-200">
-              <a
-                href="https://wa.me/923001234567?text=Hi%20Watlys%20I%20want%20to%20order%2019L%20drinking%20water%20bottles"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 px-4 py-2.5 bg-[#25D366] text-white rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-[#20ba5a] transition-all shadow-md"
-              >
-                <MessageCircle size={14} />
-                <span>WhatsApp Order</span>
-              </a>
-              <div className="flex items-center space-x-2 text-zinc-600 dark:text-slate-200 text-xs">
-                <Mail size={14} className="text-[#0064D0]" />
-                <span className="hover:text-[#0064D0] transition-colors">concierge@watlys.pk</span>
-              </div>
-              <div className="flex items-center space-x-2 text-zinc-600 dark:text-slate-200 text-xs">
-                <MapPin size={14} className="text-[#0064D0]" />
-                <span>Lahore • Karachi • Islamabad</span>
-              </div>
+        {/* Concierge & Direct Contact Strip */}
+        <div className="pt-8 border-t border-zinc-200/60 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-zinc-600 dark:text-slate-200 font-light">
+          <div className="flex items-center space-x-3">
+            <MessageCircle size={18} className="text-[#0064D0] shrink-0" />
+            <div>
+              <span className="text-[10px] uppercase font-bold text-zinc-400 dark:text-slate-400 block tracking-wider">WHATSAPP CONCIERGE</span>
+              <a href="https://wa.me/923000000000" className="hover:text-[#0064D0] font-medium">+92 300 0000000</a>
             </div>
           </div>
 
+          <div className="flex items-center space-x-3">
+            <Mail size={18} className="text-[#0064D0] shrink-0" />
+            <div>
+              <span className="text-[10px] uppercase font-bold text-zinc-400 dark:text-slate-400 block tracking-wider">EMAIL ASSISTANCE</span>
+              <a href="mailto:care@watlys.com" className="hover:text-[#0064D0] font-medium">care@watlys.com</a>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <MapPin size={18} className="text-[#0064D0] shrink-0" />
+            <div>
+              <span className="text-[10px] uppercase font-bold text-zinc-400 dark:text-slate-400 block tracking-wider">SERVICE REGIONS</span>
+              <span className="font-medium">Lahore • Karachi • Islamabad</span>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Rights & Legal Row */}
