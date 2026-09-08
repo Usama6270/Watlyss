@@ -12,7 +12,7 @@ interface FooterCursorPatternProps {
 export default function FooterCursorPattern({
   children,
   className = '',
-  patternSrc = '/patterns/Patterns-05.png',
+  patternSrc = '/patterns/pattern-05.svg',
 }: FooterCursorPatternProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
@@ -22,7 +22,7 @@ export default function FooterCursorPattern({
     const img = new Image()
     img.src = patternSrc
     img.onerror = () => {
-      setActivePattern('/Patterns-05.png')
+      setActivePattern('/patterns/Patterns-05.svg')
     }
   }, [patternSrc])
 

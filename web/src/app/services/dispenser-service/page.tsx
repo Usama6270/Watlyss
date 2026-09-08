@@ -8,7 +8,7 @@ import { ShieldCheck, Snowflake, Check, ArrowRight, Zap } from 'lucide-react'
 
 export default function DispenserServicePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -66,7 +66,7 @@ export default function DispenserServicePage() {
         </div>
 
         {/* CTA */}
-        <div className="p-10 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
+        <div className="p-10 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Need a custom corporate chiller installation?</h3>
           <div className="pt-2">
             <Link

@@ -17,17 +17,17 @@ export default function PackagesSection() {
   const freqLabel = frequency === 'weekly' ? '/ week' : frequency === 'monthly' ? '/ month' : '/ year'
 
   return (
-    <section id="packages" className="py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] transition-colors duration-300 font-sans">
+    <section id="packages" className="py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
 
       {/* Editorial Header */}
       <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
           CURATED HYDRATION PLANS
         </span>
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-wide leading-tight">
           Water Plans Made For You.
         </h2>
-        <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light max-w-lg mx-auto">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 font-light max-w-lg mx-auto">
           Choose a delivery plan that fits your lifestyle, family, or business.
         </p>
 

@@ -82,7 +82,7 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200/20 dark:border-slate-800/60"
+      className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-[#FAF9F6] dark:bg-[#0a1128] border border-slate-200/40 dark:border-slate-800/60"
     >
       {/* Delicate background accent */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_var(--tw-gradient-stops))] from-brand-blue/5 via-transparent to-transparent pointer-events-none" />

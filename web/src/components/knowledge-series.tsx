@@ -53,7 +53,7 @@ export default function KnowledgeSeries() {
   }
 
   return (
-    <section id="newsletter" className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/30 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] text-[#111111] dark:text-[#f8fafc] transition-colors duration-300">
+    <section id="newsletter" className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/30 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] text-[#111111] dark:text-[#f8fafc] transition-colors duration-300">
 
       {/* Editorial Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 sm:gap-8 mb-10 sm:mb-16">

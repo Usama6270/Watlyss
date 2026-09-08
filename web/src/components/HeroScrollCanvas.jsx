@@ -168,12 +168,12 @@ export default function HeroScrollCanvas() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[180vh] sm:h-[260vh] md:h-[350vh] bg-white dark:bg-[#0a1128] transition-colors duration-300"
+      className="relative w-full h-[180vh] sm:h-[260vh] md:h-[350vh] bg-[#FAF9F6] dark:bg-[#0a1128] transition-colors duration-300"
       style={{ touchAction: 'pan-y' }}
     >
       {/* Forced 100vh Sticky Viewport Container matching Page Background */}
       <div
-        className="sticky top-0 w-full overflow-hidden flex items-center justify-center bg-white dark:bg-[#0a1128] z-0 transition-colors duration-300"
+        className="sticky top-0 w-full overflow-hidden flex items-center justify-center bg-[#FAF9F6] dark:bg-[#0a1128] z-0 transition-colors duration-300"
         style={{ position: 'sticky', top: 0, height: '100vh', width: '100vw' }}
       >
         {/* Full-Screen Sharp HTML5 Canvas */}

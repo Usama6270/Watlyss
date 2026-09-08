@@ -48,7 +48,7 @@ export default function LocationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 space-y-16">
@@ -73,7 +73,7 @@ export default function LocationsPage() {
         </div>
 
         {/* Availability Checker Form */}
-        <div className="max-w-2xl mx-auto bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl space-y-4">
+        <div className="max-w-2xl mx-auto bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl space-y-4">
           <h3 className="text-lg font-serif font-light text-zinc-900 dark:text-white text-center">Check Delivery Availability in Your Area</h3>
           <form onSubmit={handleCheckCoverage} className="flex flex-col sm:flex-row gap-3">
             <input

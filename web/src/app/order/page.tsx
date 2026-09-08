@@ -27,7 +27,7 @@ export default function OrderWaterPage() {
   )
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -152,7 +152,7 @@ export default function OrderWaterPage() {
           </div>
 
           {/* Right Column: Order Summary & Actions */}
-          <div className="lg:col-span-5 space-y-6 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
+          <div className="lg:col-span-5 space-y-6 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
             <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Order Summary</h3>
 
             <div className="space-y-4 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-zinc-200 dark:border-slate-800 py-6">

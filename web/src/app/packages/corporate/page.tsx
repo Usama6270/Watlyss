@@ -9,7 +9,7 @@ import { Building, Award, ArrowRight, ShieldCheck, Briefcase } from 'lucide-reac
 
 export default function CorporatePackagePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 space-y-16">
@@ -55,7 +55,7 @@ export default function CorporatePackagePage() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 relative aspect-square sm:h-[450px] bg-zinc-50 dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm flex items-center justify-center p-8">
+          <div className="lg:col-span-6 relative aspect-square sm:h-[450px] bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm flex items-center justify-center p-8">
             <Image
               src="https://images.unsplash.com/photo-1548839134-6fd5e60885a3?auto=format&fit=crop&w=750&q=80"
               alt="Corporate Hydration Suite"

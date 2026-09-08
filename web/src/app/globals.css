@@ -10,10 +10,10 @@
 }
 
 :root {
-  --background: #FFFFFF;
+  --background: #FAF9F6;
   --foreground: #111111;
   --muted-text: #666666;
-  --card-bg: #FAFAFA;
+  --card-bg: #FFFFFF;
   --border-color: #E5E7EB;
   --accent: #0064D0;
 }
@@ -30,6 +30,16 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+h1, h2, h3, h4, h5, h6,
+p, span, a, label {
+  font-family: var(--font-velocity-sans), sans-serif;
 }
 
 body {

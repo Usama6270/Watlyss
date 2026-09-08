@@ -32,7 +32,7 @@ export default function CertificationsSection() {
   ]
 
   return (
-    <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] transition-colors duration-300 font-sans">
+    <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
       <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-14">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
           CERTIFICATIONS & QUALITY CONTROL

@@ -3,6 +3,7 @@ import { VisualEditing } from 'next-sanity/visual-editing';
 import { draftMode } from 'next/headers';
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from 'next/script';
 import "./globals.css";
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/auth';
@@ -30,15 +31,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
     >
       <head>
-        <link rel="preload" href="/patterns/Patterns-01.png" as="image" />
-        <link rel="preload" href="/patterns/Patterns-02.png" as="image" />
-        <link rel="preload" href="/patterns/Patterns-03.png" as="image" />
-        <link rel="preload" href="/patterns/Patterns-04.png" as="image" />
-        <link rel="preload" href="/patterns/Patterns-05.png" as="image" />
-        <link rel="preload" href="/patterns/Patterns-06.png" as="image" />
+        <link rel="preload" href="/patterns/pattern-01.svg" as="image" />
+        <link rel="preload" href="/patterns/pattern-02.svg" as="image" />
+        <link rel="preload" href="/patterns/pattern-03.svg" as="image" />
+        <link rel="preload" href="/patterns/pattern-04.svg" as="image" />
+        <link rel="preload" href="/patterns/pattern-05.svg" as="image" />
+        <link rel="preload" href="/patterns/pattern-06.svg" as="image" />
       </head>
       <body
-        className="min-h-full flex flex-col bg-white dark:bg-[#0a1128] text-[#111111] dark:text-[#FAFAFA] font-sans transition-colors duration-300"
+        className="min-h-full flex flex-col bg-[#FAF9F6] dark:bg-[#0a1128] text-slate-900 dark:text-[#FAFAFA] font-sans transition-colors duration-300"
         suppressHydrationWarning
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
@@ -48,6 +49,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 {children}
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
+                <Script id="tawk-to" strategy="afterInteractive">
+                  {`
+                    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+                    (function(){
+                      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                      s1.async=true;
+                      s1.src='https://embed.tawk.to/6aa06c225914873442c8ff55/1k21acq8d';
+                      s1.charset='UTF-8';
+                      s1.setAttribute('crossorigin','*');
+                      s0.parentNode.insertBefore(s1,s0);
+                    })();
+                  `}
+                </Script>
               </CartProvider>
             </AuthProvider>
           </LanguageProvider>

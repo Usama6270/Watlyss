@@ -15,7 +15,7 @@ export default function WaterTestingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -69,7 +69,7 @@ export default function WaterTestingPage() {
         </div>
 
         {/* Custom Water Test Request */}
-        <div className="p-10 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
+        <div className="p-10 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Request a Private Home Water Test</h3>
           <p className="text-xs text-zinc-500 dark:text-slate-200 max-w-md mx-auto">
             Concerned about tap water contaminants in your residential area? Order a certified Watlys sample collection kit.

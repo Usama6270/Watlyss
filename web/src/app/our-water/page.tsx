@@ -26,7 +26,7 @@ export default function OurWaterPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full space-y-24 pb-24">
@@ -70,7 +70,7 @@ export default function OurWaterPage() {
             </div>
 
             {/* Interactive 19L Bottle Preview */}
-            <div className="lg:col-span-6 relative h-[480px] bg-zinc-50 dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm flex items-center justify-center">
+            <div className="lg:col-span-6 relative h-[480px] bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm flex items-center justify-center">
               <InteractiveHeroBottle />
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function OurWaterPage() {
 
         {/* Final Conversion Banner */}
         <section className="max-w-4xl mx-auto px-6 text-center">
-          <div className="p-12 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-6">
+          <div className="p-12 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-6">
             <h3 className="text-3xl font-serif font-light text-zinc-900 dark:text-white">
               Ready for Clean 19L Water Delivery?
             </h3>

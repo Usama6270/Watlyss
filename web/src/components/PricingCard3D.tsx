@@ -58,15 +58,17 @@ export default function PricingCard3D({ children, isPopular = false, className =
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         className={`relative h-full w-full overflow-hidden rounded-2xl transition-all duration-300 ${isPopular
-            ? 'border-2 border-[#0064D0] shadow-2xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/55 hover:border-blue-400'
-            : 'border border-zinc-200/80 dark:border-slate-800/80 hover:border-[#0064D0]/80 hover:shadow-2xl hover:shadow-sky-500/25'
+          ? 'border-2 border-[#0064D0] shadow-2xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/55 hover:border-blue-400'
+          : 'border border-zinc-200/80 dark:border-slate-800/80 hover:border-[#0064D0]/80 hover:shadow-2xl hover:shadow-sky-500/25'
           } ${className}`}
       >
-        {/* Subtle Water Pattern Background Texture Layer (Patterns-02.png) */}
+        {/* Subtle Water Pattern Background Texture Layer (pattern-02.svg) — Shows only on hover */}
         <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen opacity-10 dark:opacity-15 transition-opacity duration-300 rounded-2xl z-0"
+          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 transform-gpu will-change-transform ${
+            isHovered ? 'opacity-15 dark:opacity-25' : 'opacity-0'
+          }`}
           style={{
-            backgroundImage: `url('/patterns/Patterns-02.png'), url('/Patterns-02.png')`,
+            backgroundImage: `url('/patterns/pattern-02.svg'), url('/patterns/Patterns-02.svg')`,
           }}
         />
 
@@ -81,7 +83,7 @@ export default function PricingCard3D({ children, isPopular = false, className =
           {children}
         </div>
 
-        {/* Pricing Cards Hover State Top Banner Water Pattern (Patterns-03.png Smooth Light Fade-in) */}
+        {/* Pricing Cards Hover State Top Banner Water Pattern (pattern-03.svg Smooth Light Fade-in) */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
@@ -97,11 +99,11 @@ export default function PricingCard3D({ children, isPopular = false, className =
               {/* Soft blue gradient backing */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#0064D0]/15 via-[#0064D0]/05 to-transparent pointer-events-none" />
 
-              {/* Patterns-03.png light subtle water pattern texture layer */}
+              {/* pattern-03.svg light subtle water pattern texture layer */}
               <div
-                className="w-full h-full bg-cover bg-top mix-blend-multiply dark:mix-blend-screen opacity-20 dark:opacity-30"
+                className="pointer-events-none w-full h-full bg-cover bg-top mix-blend-multiply dark:mix-blend-screen opacity-20 dark:opacity-30 transform-gpu will-change-transform"
                 style={{
-                  backgroundImage: `url('/patterns/Patterns-03.png'), url('/Patterns-03.png')`,
+                  backgroundImage: `url('/patterns/pattern-03.svg'), url('/patterns/Patterns-03.svg')`,
                   backgroundSize: '180px auto',
                   backgroundRepeat: 'repeat-x',
                 }}

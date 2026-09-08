@@ -16,7 +16,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="max-w-5xl mx-auto px-6 py-16 flex-1 w-full space-y-12">
@@ -59,13 +59,13 @@ export default function ContactPage() {
             <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-[#FAFAFA]">Headquarters & Hubs</h2>
             
             <div className="space-y-4 text-xs text-zinc-600 dark:text-slate-200 font-light">
-              <div className="p-6 bg-zinc-50 dark:bg-[#131c38] rounded-2xl border border-zinc-200/50 dark:border-slate-800 space-y-2">
+              <div className="p-6 bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl border border-zinc-200/50 dark:border-slate-800 space-y-2">
                 <span className="text-[#0064D0] font-bold block uppercase tracking-wider text-[10px]">Lahore Operations Hub</span>
                 <p>Industrial Estate Phase 2, Lahore, Pakistan</p>
                 <p className="text-zinc-400">+92 42 111 928 597</p>
               </div>
 
-              <div className="p-6 bg-zinc-50 dark:bg-[#131c38] rounded-2xl border border-zinc-200/50 dark:border-slate-800 space-y-2">
+              <div className="p-6 bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl border border-zinc-200/50 dark:border-slate-800 space-y-2">
                 <span className="text-[#0064D0] font-bold block uppercase tracking-wider text-[10px]">Email Concierge</span>
                 <p>concierge@watlys.pk</p>
                 <p className="text-zinc-400">Response within 2 hours</p>

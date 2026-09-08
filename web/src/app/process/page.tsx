@@ -43,7 +43,7 @@ export default function ProcessPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 space-y-24">
@@ -72,7 +72,7 @@ export default function ProcessPage() {
             const isEven = idx % 2 === 0
             return (
               <div key={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className={`lg:col-span-6 relative aspect-square sm:h-[400px] bg-zinc-50 dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm ${!isEven ? 'lg:order-2' : ''}`}>
+                <div className={`lg:col-span-6 relative aspect-square sm:h-[400px] bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm ${!isEven ? 'lg:order-2' : ''}`}>
                   <Image
                     src={step.image}
                     alt={step.title}
@@ -98,7 +98,7 @@ export default function ProcessPage() {
         </section>
 
         {/* CTA */}
-        <div className="p-12 bg-zinc-50 dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
+        <div className="p-12 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
           <h3 className="text-3xl font-serif font-light text-zinc-900 dark:text-white">Experience Uncompromised Purity</h3>
           <div className="pt-2">
             <Link

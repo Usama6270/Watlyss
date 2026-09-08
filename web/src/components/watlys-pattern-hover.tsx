@@ -6,22 +6,22 @@ import { Sparkles, Droplets, ShieldCheck, LucideIcon, Waves } from 'lucide-react
 
 // Pattern frame image sources
 const DEFAULT_PATTERNS = [
-  '/patterns/Patterns-01.png',
-  '/patterns/Patterns-02.png',
-  '/patterns/Patterns-03.png',
-  '/patterns/Patterns-04.png',
-  '/patterns/Patterns-05.png',
-  '/patterns/Patterns-06.png',
+  '/patterns/pattern-01.svg',
+  '/patterns/pattern-02.svg',
+  '/patterns/pattern-03.svg',
+  '/patterns/pattern-04.svg',
+  '/patterns/pattern-05.svg',
+  '/patterns/pattern-06.svg',
 ]
 
 // Secondary fallback paths if required
 const FALLBACK_PATTERNS = [
-  '/Patterns-01.png',
-  '/Patterns-02.png',
-  '/Patterns-03.png',
-  '/Patterns-04.png',
-  '/Patterns-05.png',
-  '/Patterns-06.png',
+  '/patterns/Patterns-01.svg',
+  '/patterns/Patterns-02.svg',
+  '/patterns/Patterns-03.svg',
+  '/patterns/Patterns-04.svg',
+  '/patterns/Patterns-05.svg',
+  '/patterns/Patterns-06.svg',
 ]
 
 interface WatlysPatternHoverProps {
@@ -101,7 +101,7 @@ export default function WatlysPatternHover({
         {/* Liquid Pattern Layer Masked by Logo */}
         <div className="relative w-full h-full flex items-center justify-center z-10 overflow-hidden rounded-xl">
           <div
-            className="w-full h-full bg-cover bg-center transition-all duration-75 mix-blend-screen opacity-80"
+            className="pointer-events-none w-full h-full bg-cover bg-center transition-all duration-75 mix-blend-screen opacity-80 transform-gpu will-change-transform"
             suppressHydrationWarning
             style={{
               backgroundImage: `url(${activePatternUrl})`,
@@ -148,7 +148,7 @@ export default function WatlysPatternHover({
 
         {/* Animated Background Pattern */}
         <div
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-150 mix-blend-screen"
+          className="pointer-events-none absolute inset-0 bg-cover bg-center transition-opacity duration-150 mix-blend-screen transform-gpu will-change-transform"
           suppressHydrationWarning
           style={{
             backgroundImage: `url(${activePatternUrl})`,
@@ -186,7 +186,7 @@ export default function WatlysPatternHover({
 
       {/* Dynamic Animated Pattern Layer */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-100 mix-blend-screen"
+        className="pointer-events-none absolute inset-0 bg-cover bg-center transition-all duration-100 mix-blend-screen transform-gpu will-change-transform"
         suppressHydrationWarning
         style={{
           backgroundImage: `url(${activePatternUrl})`,

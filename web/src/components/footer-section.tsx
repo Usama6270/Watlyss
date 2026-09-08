@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import { useLanguage } from '@/context/language'
 import { MessageCircle, Mail, MapPin, ChevronDown } from 'lucide-react'
 import FooterWaterEffect from '@/components/footer-water-effect'
@@ -15,9 +15,22 @@ export default function FooterSection() {
   const [isHovered, setIsHovered] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [openSection, setOpenSection] = useState<string | null>(null)
+  const [isPointerFine, setIsPointerFine] = useState(false)
   const footerRef = useRef<HTMLElement>(null)
 
+  // Framer Motion Springs for Desktop Cursor-Follow Parallax Shift
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const patternX = useSpring(mouseX, { stiffness: 100, damping: 20 })
+  const patternY = useSpring(mouseY, { stiffness: 100, damping: 20 })
+
   const rafId = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsPointerFine(window.matchMedia('(hover: hover) and (pointer: fine)').matches)
+    }
+  }, [])
 
   const toggleSection = (section: string) => {
     setOpenSection(prev => (prev === section ? null : section))
@@ -34,7 +47,23 @@ export default function FooterSection() {
 
     rafId.current = requestAnimationFrame(() => {
       setMousePosition({ x, y })
+
+      if (isPointerFine) {
+        // Calculate normalized offset (-0.5 to 0.5) from footer center & map to 15px max parallax shift
+        const offsetX = (x / rect.width) - 0.5
+        const offsetY = (y / rect.height) - 0.5
+        mouseX.set(offsetX * 30)
+        mouseY.set(offsetY * 30)
+      }
     })
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    if (isPointerFine) {
+      mouseX.set(0)
+      mouseY.set(0)
+    }
   }
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -96,27 +125,28 @@ export default function FooterSection() {
       id="footer"
       ref={footerRef}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      className="relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden bg-white dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60"
+      className="relative w-full text-zinc-900 dark:text-[#FAFAFA] pt-14 sm:pt-20 pb-12 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden bg-[#FAF9F6] dark:bg-[#0a1128] border-zinc-200/60 dark:border-slate-800/60"
     >
-      {/* Grand Luxury Brand Watermark Background Pattern (Patterns-05.png) — Sincere Capital Reference Aesthetic */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 z-0 overflow-hidden">
-        {/* Soft Radial Ambient Blue Glow */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#0064D0]/10 dark:bg-[#0064D0]/20 rounded-full blur-3xl" />
+      {/* Refined Luxury Brand Watermark Parallax Pattern Background Layer (Patterns-04.svg) */}
+      <motion.div
+        style={isPointerFine ? { x: patternX, y: patternY } : undefined}
+        className="pointer-events-none absolute -inset-10 w-[calc(100%+80px)] h-[calc(100%+80px)] z-0 overflow-hidden transform-gpu will-change-transform"
+      >
+        {/* Subtle Ambient Blue Radial Glow */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#0064D0]/5 dark:bg-[#0064D0]/15 rounded-full blur-[140px]" />
 
-        {/* Patterns-05.png Brand Texture Overlay */}
+        {/* Ultra-Subtle 5% Opacity Wavy Water Pattern Layer (pattern-04.svg) */}
         <div
-          className="w-full h-full bg-repeat bg-right-center mix-blend-multiply dark:mix-blend-screen opacity-15 dark:opacity-25 transition-opacity duration-500"
+          className="pointer-events-none absolute inset-0 w-full h-full bg-repeat mix-blend-multiply dark:mix-blend-screen opacity-[0.06] dark:opacity-[0.14] transition-opacity duration-500 transform-gpu will-change-transform"
           style={{
-            backgroundImage: `url('/patterns/Patterns-05.png'), url('/Patterns-05.png')`,
-            backgroundSize: '220px auto',
-            maskImage: 'radial-gradient(ellipse at 80% 50%, black 25%, transparent 80%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at 80% 50%, black 25%, transparent 80%)',
-            filter: 'contrast(1.2) brightness(0.96)',
+            backgroundImage: `url('/patterns/pattern-04.svg'), url('/patterns/Patterns-04.svg')`,
+            backgroundSize: '320px auto',
+            backgroundPosition: 'center',
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Dynamic Cursor-Following Soft Ambient Spotlight Glow on Hover */}
       <AnimatePresence>
@@ -158,8 +188,7 @@ export default function FooterSection() {
               Pakistan’s premier 19-Liter mineral drinking water subscription service. Delivering subterranean aquifer water directly to homes, student hostels, and corporate offices across Lahore, Karachi, and Islamabad.
             </p>
           </div>
-
-          <div className="lg:col-span-6 space-y-4">
+          <div className="lg:col-span-6 space-y-3">
             <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0] block">
               SUBSCRIBE TO WATER INSIGHTS
             </span>
@@ -170,7 +199,7 @@ export default function FooterSection() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t.newsletter.emailPlaceholder}
                 required
-                className="flex-1 px-4 py-3 bg-[#f8fafc] dark:bg-[#131c38] border border-zinc-200 dark:border-slate-800 text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#0064D0] rounded-xl shadow-sm"
+                className="flex-1 px-4 py-3 bg-white dark:bg-[#131c38] border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#0064D0] rounded-xl shadow-sm"
               />
               <button
                 type="submit"
@@ -179,6 +208,9 @@ export default function FooterSection() {
                 {t.newsletter.button}
               </button>
             </form>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-light pt-0.5">
+              Weekly water insights, no spam — unsubscribe anytime.
+            </p>
             {success && (
               <p className="text-xs text-emerald-600 dark:text-emerald-400 font-light pt-1">{t.newsletter.success}</p>
             )}
@@ -190,7 +222,7 @@ export default function FooterSection() {
           {sections.map((sec) => (
             <div key={sec.id} className="space-y-4">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0064D0]">{sec.title}</h4>
-              <ul className="space-y-2.5 text-zinc-700 dark:text-slate-200">
+              <ul className="space-y-2.5 text-slate-600 dark:text-slate-200">
                 {sec.links.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors">
@@ -208,7 +240,7 @@ export default function FooterSection() {
           {sections.map((sec) => {
             const isOpen = openSection === sec.id
             return (
-              <div key={sec.id} className="border-b border-zinc-200/60 dark:border-slate-800/60 pb-3">
+              <div key={sec.id} className="border-b border-slate-200/80 dark:border-slate-800/60 pb-3">
                 <button
                   onClick={() => toggleSection(sec.id)}
                   className="w-full flex justify-between items-center py-2 text-xs font-bold uppercase tracking-wider text-[#0064D0]"
@@ -216,7 +248,7 @@ export default function FooterSection() {
                   <span>{sec.title}</span>
                   <ChevronDown
                     size={16}
-                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#0064D0]' : 'text-zinc-400'}`}
+                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#0064D0]' : 'text-slate-400'}`}
                   />
                 </button>
                 <AnimatePresence>
@@ -225,7 +257,7 @@ export default function FooterSection() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="pt-2 pb-1 space-y-2 text-xs text-zinc-600 dark:text-slate-300 font-light"
+                      className="pt-2 pb-1 space-y-2 text-xs text-slate-600 dark:text-slate-300 font-light"
                     >
                       {sec.links.map((link) => (
                         <li key={link.href}>
@@ -243,30 +275,46 @@ export default function FooterSection() {
         </div>
 
         {/* Concierge & Direct Contact Strip */}
-        <div className="pt-8 border-t border-zinc-200/60 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-zinc-600 dark:text-slate-200 font-light">
-          <div className="flex items-center space-x-3">
-            <MessageCircle size={18} className="text-[#0064D0] shrink-0" />
+        <div className="pt-8 border-t border-slate-200/80 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-3 gap-5 text-xs text-slate-600 dark:text-slate-200 font-light items-center">
+          
+          {/* WhatsApp Contact + CTA Card */}
+          <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 shadow-sm">
+            <div className="flex items-center space-x-3">
+              <MessageCircle size={20} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <div>
+                <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider">WHATSAPP CONCIERGE</span>
+                <a href="https://wa.me/923001234567" className="hover:text-[#0064D0] font-semibold text-slate-900 dark:text-white">+92 300 1234567</a>
+              </div>
+            </div>
+            <a
+              href="https://wa.me/923001234567?text=Hi%20Watlys%20I%20want%20to%20order%20drinking%20water"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase tracking-wider rounded-xl inline-flex items-center gap-1.5 shadow-md transition-all active:scale-[0.97] shrink-0"
+            >
+              <MessageCircle size={13} />
+              <span>Order</span>
+            </a>
+          </div>
+
+          {/* Email Assistance Card */}
+          <div className="flex items-center space-x-3 p-3.5 rounded-2xl bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 shadow-sm">
+            <Mail size={20} className="text-[#0064D0] shrink-0" />
             <div>
-              <span className="text-[10px] uppercase font-bold text-zinc-400 dark:text-slate-400 block tracking-wider">WHATSAPP CONCIERGE</span>
-              <a href="https://wa.me/923000000000" className="hover:text-[#0064D0] font-medium">+92 300 0000000</a>
+              <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider">EMAIL ASSISTANCE</span>
+              <a href="mailto:care@watlys.com" className="hover:text-[#0064D0] font-semibold text-slate-900 dark:text-white">care@watlys.com</a>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <Mail size={18} className="text-[#0064D0] shrink-0" />
+          {/* Service Regions Card */}
+          <div className="flex items-center space-x-3 p-3.5 rounded-2xl bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 shadow-sm">
+            <MapPin size={20} className="text-[#0064D0] shrink-0" />
             <div>
-              <span className="text-[10px] uppercase font-bold text-zinc-400 dark:text-slate-400 block tracking-wider">EMAIL ASSISTANCE</span>
-              <a href="mailto:care@watlys.com" className="hover:text-[#0064D0] font-medium">care@watlys.com</a>
+              <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider">SERVICE REGIONS</span>
+              <span className="font-semibold text-slate-900 dark:text-white">Lahore • Karachi • Islamabad</span>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <MapPin size={18} className="text-[#0064D0] shrink-0" />
-            <div>
-              <span className="text-[10px] uppercase font-bold text-zinc-400 dark:text-slate-400 block tracking-wider">SERVICE REGIONS</span>
-              <span className="font-medium">Lahore • Karachi • Islamabad</span>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Rights & Legal Row */}

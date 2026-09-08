@@ -47,6 +47,7 @@ function CountUp({ value }: { value: number }) {
 
 // 3D Perspective Tilt Card Wrapper
 function TiltCard({ children, className = '', floating = false }: { children: React.ReactNode; className?: string; floating?: boolean }) {
+  const [isHovered, setIsHovered] = useState(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
@@ -67,7 +68,12 @@ function TiltCard({ children, className = '', floating = false }: { children: Re
     y.set(mouseY / height - 0.5)
   }
 
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+  }
+
   const handleMouseLeave = () => {
+    setIsHovered(false)
     x.set(0)
     y.set(0)
   }
@@ -75,6 +81,7 @@ function TiltCard({ children, className = '', floating = false }: { children: Re
   return (
     <div style={{ perspective: 1000 }} className="h-full w-full">
       <motion.div
+        onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
@@ -87,11 +94,13 @@ function TiltCard({ children, className = '', floating = false }: { children: Re
         whileHover={{ scale: 1.01 }}
         className={`relative h-full w-full overflow-hidden transition-all duration-300 ${className}`}
       >
-        {/* Interactive Configurator Subtle Brand Water Texture Layer (Patterns-02.png) */}
+        {/* Interactive Configurator Subtle Brand Water Texture Layer (pattern-02.svg) — Shows only on hover */}
         <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen opacity-10 dark:opacity-15 transition-opacity duration-300 rounded-2xl z-0"
+          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 transform-gpu will-change-transform ${
+            isHovered ? 'opacity-15 dark:opacity-25' : 'opacity-0'
+          }`}
           style={{
-            backgroundImage: `url('/patterns/Patterns-02.png'), url('/Patterns-02.png')`,
+            backgroundImage: `url('/patterns/pattern-02.svg'), url('/patterns/Patterns-02.svg')`,
           }}
         />
 
@@ -132,7 +141,7 @@ export default function PackageCalculator() {
   const monthlySavings = Math.round(discountAmount / months)
 
   return (
-    <section id="calculator" className="relative py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-white dark:bg-[#0b1329] transition-colors duration-300 font-sans overflow-hidden">
+    <section id="calculator" className="relative py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans overflow-hidden">
 
       {/* Glassmorphism Background Ambient Glow Orbs */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-[#0064D0]/10 dark:bg-blue-600/15 rounded-full blur-[140px] pointer-events-none z-0" />

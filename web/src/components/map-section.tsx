@@ -180,7 +180,7 @@ export default function MapSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             key={activeCity.id + '-card'}
-            className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-slate-50 sm:bg-white/95 dark:bg-[#0e1738] sm:dark:bg-[#0a1128]/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-700/90 shadow-lg sm:shadow-2xl space-y-3"
+            className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#0e1738] sm:dark:bg-[#0a1128]/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-700/90 shadow-lg sm:shadow-2xl space-y-3"
           >
             <div className="flex items-start gap-3">
               <div className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-[#0064D0] text-white shrink-0 shadow-md">

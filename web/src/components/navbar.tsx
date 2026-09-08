@@ -148,31 +148,10 @@ export default function Navbar() {
         onMouseLeave={() => setIsNavHovered(false)}
         onMouseMove={handleNavMouseMove}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
-            ? 'bg-white/95 dark:bg-[#0a1128]/95 backdrop-blur-md border-zinc-200/20 dark:border-slate-800/60 shadow-[0_2px_20px_rgba(0,0,0,0.1)]'
-            : 'bg-white dark:bg-[#0a1128] border-zinc-100 dark:border-slate-800/40'
+            ? 'bg-[#FAF9F6]/95 dark:bg-[#0a1128]/95 backdrop-blur-md border-slate-200/80 dark:border-slate-800/60 shadow-sm shadow-slate-200/50'
+            : 'bg-[#FAF9F6] dark:bg-[#0a1128] border-slate-200/60 dark:border-slate-800/40'
           }`}
       >
-        {/* Isolated Background Overflow Container for Cursor Spotlight */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <AnimatePresence>
-            {isNavHovered && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="pointer-events-none absolute w-56 h-56 rounded-full mix-blend-screen opacity-25 dark:opacity-35 bg-cover bg-center transition-opacity duration-300"
-                style={{
-                  backgroundImage: `url('/Patterns-01.png'), url('/patterns/Patterns-01.png')`,
-                  left: mousePosition.x - 112,
-                  top: mousePosition.y - 112,
-                  maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%)',
-                  WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%)',
-                }}
-              />
-            )}
-          </AnimatePresence>
-        </div>
         {/* DESKTOP NAVBAR CONTAINER — ABSOLUTE CENTERED LOGO */}
         <div className="relative w-full max-w-[1536px] mx-auto h-20 sm:h-[84px] px-8 2xl:px-14 hidden xl:flex items-center justify-between">
 
@@ -312,15 +291,15 @@ export default function Navbar() {
         </div>
 
         {/* MOBILE HEADER (< xl) — RE-ARCHITECTED NON-OVERLAPPING LAYOUT */}
-        <div className="relative w-full h-16 px-4 flex xl:hidden items-center justify-between z-50 bg-white/90 dark:bg-[#0a1128]/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+        <div className="relative w-full h-16 px-4 flex xl:hidden items-center justify-between z-50 bg-[#FAF9F6]/90 dark:bg-[#0a1128]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
 
           {/* Left Slot: Navigation Menu Trigger */}
           <div className="flex items-center z-10">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 cursor-pointer rounded-full transition-all duration-300 ${isOpen
-                  ? 'bg-[#0064D0]/10 text-[#0064D0] dark:text-sky-400 rotate-90 scale-105 border border-[#0064D0]/30'
-                  : 'text-zinc-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                ? 'bg-[#0064D0]/10 text-[#0064D0] dark:text-sky-400 rotate-90 scale-105 border border-[#0064D0]/30'
+                : 'text-zinc-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               aria-label="Toggle Navigation Menu"
             >
@@ -372,7 +351,7 @@ export default function Navbar() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-16 left-0 right-0 bottom-0 h-[calc(100dvh-64px)] w-full z-40 bg-white dark:bg-[#0a1128] bg-gradient-to-b from-white via-slate-50 to-sky-50/50 dark:from-[#0a1128] dark:via-[#0e1738] dark:to-[#080d20] flex flex-col justify-between p-5 sm:p-8 xl:hidden overflow-y-auto font-sans shadow-2xl"
+              className="fixed top-16 left-0 right-0 bottom-0 h-[calc(100dvh-64px)] w-full z-40 bg-[#FAF9F6] dark:bg-[#0a1128] bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/50 dark:from-[#0a1128] dark:via-[#0e1738] dark:to-[#080d20] flex flex-col justify-between p-5 sm:p-8 xl:hidden overflow-y-auto font-sans shadow-2xl"
             >
               {/* SUBTLE BRAND WATERMARK GRAPHIC IN BACKGROUND */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#0064D0]/5 dark:text-[#0064D0]/10 font-bold text-9xl pointer-events-none select-none z-0">

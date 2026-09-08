@@ -21,7 +21,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-white flex items-center justify-center">
         <span className="font-bold text-[#0064D0]">Loading research document...</span>
       </div>
     )
@@ -30,7 +30,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
   const relatedArticles = ARTICLES_DATA.filter((a) => a.slug !== article.slug).slice(0, 2)
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-12 space-y-12">
@@ -59,7 +59,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* Abstract Box */}
-        <div className="p-6 bg-zinc-50 dark:bg-[#131c38] border-l-4 border-[#0064D0] rounded-r-xl text-sm font-light text-zinc-600 dark:text-slate-200 italic leading-relaxed">
+        <div className="p-6 bg-[#FAF9F6] dark:bg-[#131c38] border-l-4 border-[#0064D0] rounded-r-xl text-sm font-light text-zinc-600 dark:text-slate-200 italic leading-relaxed">
           "{article.excerpt}"
         </div>
 

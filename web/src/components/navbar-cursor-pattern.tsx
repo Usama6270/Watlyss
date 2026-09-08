@@ -12,7 +12,7 @@ interface NavbarCursorPatternProps {
 export default function NavbarCursorPattern({
   children,
   className = '',
-  patternSrc = '/patterns/Patterns-01.png',
+  patternSrc = '/patterns/pattern-01.svg',
 }: NavbarCursorPatternProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
@@ -23,7 +23,7 @@ export default function NavbarCursorPattern({
     const img = new Image()
     img.src = patternSrc
     img.onerror = () => {
-      setActivePattern('/Patterns-01.png')
+      setActivePattern('/patterns/Patterns-01.svg')
     }
     return () => {
       if (rafId.current !== null) cancelAnimationFrame(rafId.current)

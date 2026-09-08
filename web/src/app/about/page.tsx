@@ -28,7 +28,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col transition-colors duration-300 overflow-x-hidden pt-20">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col transition-colors duration-300 overflow-x-hidden pt-20">
       <Navbar />
 
       <main className="flex-1 w-full pb-32">
@@ -56,7 +56,7 @@ export default function AboutPage() {
         </section>
 
         {/* 1. Origin Story Section (Grayscale full bleed) */}
-        <section className="w-full relative h-[450px] sm:h-[600px] bg-zinc-50 dark:bg-[#131c38] mb-28 border-y border-zinc-200/10 dark:border-slate-800/60 overflow-hidden">
+        <section className="w-full relative h-[450px] sm:h-[600px] bg-[#FAF9F6] dark:bg-[#131c38] mb-28 border-y border-zinc-200/10 dark:border-slate-800/60 overflow-hidden">
           <Image
             src="https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&w=1600&q=80"
             alt="Pristine mountain aquifers"
@@ -146,7 +146,7 @@ export default function AboutPage() {
             {...textFadeIn}
             className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-b border-zinc-200/30 dark:border-slate-800/60 pb-20"
           >
-            <div className="md:col-span-4 relative h-64 w-full bg-zinc-50 dark:bg-[#131c38] overflow-hidden border border-zinc-200/10 dark:border-slate-800/60">
+            <div className="md:col-span-4 relative h-64 w-full bg-[#FAF9F6] dark:bg-[#131c38] overflow-hidden border border-zinc-200/10 dark:border-slate-800/60">
               <Image
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
                 alt="Founder Portrait"

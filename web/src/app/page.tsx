@@ -47,7 +47,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="w-full min-h-screen overflow-x-clip bg-gradient-to-b from-slate-50 via-white to-sky-50/30 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] text-[#111111] dark:text-[#f8fafc] transition-colors duration-300 font-sans">
+    <main className="w-full min-h-screen overflow-x-clip bg-[#FAF9F6] dark:bg-[#0a1128] text-slate-900 dark:text-[#f8fafc] transition-colors duration-300 font-sans">
 
       {/* NAVBAR */}
       <Navbar />
@@ -65,7 +65,7 @@ export default function Home() {
       <ProcessSection />
 
       {/* SECTION 04 — WHY WATLYS (RESPONSIVE CARDS & GRID SYSTEM WITH GLASSMORPHISM) */}
-      <section className="py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto w-full border-t border-slate-200/50 dark:border-slate-800/60 bg-white dark:bg-[#0a1128] transition-colors duration-300">
+      <section className="py-12 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0a1128] transition-colors duration-300">
         <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] font-sans">
             THE WATLYS ADVANTAGE
@@ -82,7 +82,7 @@ export default function Home() {
             return (
               <div
                 key={idx}
-                className="group p-5 sm:p-8 bg-white/80 dark:bg-[#131c38]/90 backdrop-blur-md border border-slate-100 dark:border-slate-800 shadow-xl shadow-sky-950/5 rounded-3xl space-y-3 sm:space-y-4 hover:border-[#0064D0] dark:hover:border-[#0064D0] active:scale-[1.02] active:border-[#0064D0] touch-manipulation transition-all duration-300"
+                className="group p-5 sm:p-8 bg-white dark:bg-[#131c38]/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/60 rounded-3xl space-y-3 sm:space-y-4 hover:border-[#0064D0] dark:hover:border-[#0064D0] active:scale-[1.02] active:border-[#0064D0] touch-manipulation transition-all duration-300"
               >
                 <div className="inline-flex p-3 sm:p-3.5 rounded-2xl bg-sky-50 dark:bg-[#0a1128] border border-sky-100 dark:border-slate-800 text-[#0064D0] group-hover:scale-105 transition-transform">
                   <IconComp size={20} />
@@ -106,7 +106,7 @@ export default function Home() {
       <CertificationsSection />
 
       {/* SECTION 08 — FINAL CTA */}
-      <section className="relative py-14 sm:py-24 px-4 sm:px-8 lg:px-12 bg-white dark:bg-[#0a1128] text-slate-900 dark:text-white text-center overflow-hidden border-t border-slate-200/50 dark:border-slate-800/60 transition-colors duration-300">
+      <section className="relative py-14 sm:py-24 px-4 sm:px-8 lg:px-12 bg-[#FAF9F6] dark:bg-[#0a1128] text-slate-900 dark:text-white text-center overflow-hidden border-t border-slate-200/80 dark:border-slate-800/60 transition-colors duration-300">
         <div className="max-w-3xl mx-auto space-y-5 sm:space-y-6 relative z-10 font-sans px-2">
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0]">
             START YOUR SUBSCRIPTION

@@ -56,7 +56,7 @@ export default function ProcessSection() {
   })
 
   return (
-    <section id="process" ref={sectionRef} className="relative w-full py-16 sm:py-24 lg:py-28 px-4 bg-gradient-to-b from-slate-50 via-white to-sky-50/30 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] transition-colors duration-300 z-10 border-t border-slate-200/50 dark:border-slate-800/60 overflow-hidden font-sans">
+    <section id="process" ref={sectionRef} className="relative w-full py-16 sm:py-24 lg:py-28 px-4 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/20 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] transition-colors duration-300 z-10 border-t border-slate-200/50 dark:border-slate-800/60 overflow-hidden font-sans">
 
       {/* Background Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-[#0064D0]/10 rounded-full blur-[150px] pointer-events-none" />
