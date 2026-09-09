@@ -351,7 +351,7 @@ export default function Navbar() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-16 left-0 right-0 bottom-0 h-[calc(100dvh-64px)] w-full z-40 bg-[#FAF9F6] dark:bg-[#0a1128] bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/50 dark:from-[#0a1128] dark:via-[#0e1738] dark:to-[#080d20] flex flex-col justify-between p-5 sm:p-8 xl:hidden overflow-y-auto font-sans shadow-2xl"
+              className="fixed top-16 left-0 right-0 bottom-0 h-[calc(100dvh-64px)] w-full z-[999] bg-[#FAF9F6] dark:bg-[#0a1128] bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/50 dark:from-[#0a1128] dark:via-[#0e1738] dark:to-[#080d20] flex flex-col justify-between p-5 sm:p-8 xl:hidden overflow-y-auto font-sans shadow-2xl"
             >
               {/* SUBTLE BRAND WATERMARK GRAPHIC IN BACKGROUND */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#0064D0]/5 dark:text-[#0064D0]/10 font-bold text-9xl pointer-events-none select-none z-0">
