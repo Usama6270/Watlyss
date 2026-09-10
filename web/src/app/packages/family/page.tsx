@@ -35,7 +35,7 @@ export default function FamilyPackagePage() {
               Complete daily mineral hydration for households of all sizes. Sourced from protected volcanic aquifers and delivered in elegant wooden crates containing our signature 1L & 1.5L glass vessels.
             </p>
             <div className="pt-2 flex items-baseline space-x-4">
-              <span className="text-4xl font-serif font-light text-[#0064D0]">$49.99</span>
+              <span className="text-4xl font-serif font-light text-[#0064D0]">PKR 2,800</span>
               <span className="text-xs uppercase text-zinc-400 font-bold tracking-widest">/ Month (Bi-weekly Refills)</span>
             </div>
             <div className="pt-4 flex flex-col sm:flex-row gap-4">

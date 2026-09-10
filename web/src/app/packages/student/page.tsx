@@ -35,7 +35,7 @@ export default function StudentPackagePage() {
               Designed specifically for students, young researchers, and active individuals needing pure cellular hydration, enhanced stamina, and zero microplastic exposure during long study and training sessions.
             </p>
             <div className="pt-2 flex items-baseline space-x-4">
-              <span className="text-4xl font-serif font-light text-[#0064D0]">$19.99</span>
+              <span className="text-4xl font-serif font-light text-[#0064D0]">PKR 1,200</span>
               <span className="text-xs uppercase text-zinc-400 font-bold tracking-widest">/ Month (Weekly Refills)</span>
             </div>
             <div className="pt-4 flex flex-col sm:flex-row gap-4">

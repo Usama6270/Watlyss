@@ -95,7 +95,7 @@ function TiltCard({ children, className = '', floating = false }: { children: Re
         className={`relative h-full w-full overflow-hidden transition-all duration-300 ${className}`}
       >
         <div
-          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 transform-gpu will-change-transform ${isHovered ? 'opacity-15 dark:opacity-25' : 'opacity-0'
+          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 transform-gpu will-change-transform ${isHovered ? 'opacity-[0.015] dark:opacity-[0.04]' : 'opacity-0'
             }`}
           style={{
             backgroundImage: `url('/patterns/pattern-02.svg'), url('/patterns/Patterns-02.svg')`,
