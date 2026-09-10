@@ -31,12 +31,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       suppressHydrationWarning
     >
       <head>
-        <link rel="preload" href="/patterns/pattern-01.svg" as="image" />
-        <link rel="preload" href="/patterns/pattern-02.svg" as="image" />
-        <link rel="preload" href="/patterns/pattern-03.svg" as="image" />
-        <link rel="preload" href="/patterns/pattern-04.svg" as="image" />
-        <link rel="preload" href="/patterns/pattern-05.svg" as="image" />
-        <link rel="preload" href="/patterns/pattern-06.svg" as="image" />
+        {/* Preconnect for external assets to accelerate DNS & TLS handshakes */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://cdn.sanity.io" />
       </head>
       <body
         className="min-h-full flex flex-col bg-[#FAF9F6] dark:bg-[#0a1128] text-slate-900 dark:text-[#FAFAFA] font-sans transition-colors duration-300"
@@ -49,7 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 {children}
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
-                <Script id="tawk-to" strategy="afterInteractive">
+                <Script id="tawk-to" strategy="lazyOnload">
                   {`
                     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
                     (function(){
