@@ -13,6 +13,7 @@ import WatlysPatternHover from '@/components/watlys-pattern-hover';
 // Dynamic Lazy Imports for Below-the-fold Heavy Components (Code-Splitting Optimization)
 const PackageCalculator = dynamic(() => import('@/components/package-calculator'), { ssr: false });
 const ProcessSection = dynamic(() => import('@/components/process-section'));
+const IndustryBriefingSection = dynamic(() => import('@/components/industry-briefing-section'));
 const KnowledgeSeries = dynamic(() => import('@/components/knowledge-series'));
 const TrustSection = dynamic(() => import('@/components/trust-section'));
 const CertificationsSection = dynamic(() => import('@/components/certifications-section'));
@@ -137,6 +138,9 @@ export default function Home() {
 
       {/* SECTION 08.5 — 3D ISLAMABAD & REGIONAL MAP SECTION */}
       <MapSection />
+
+      {/* SECTION 08.8 — GAZETTE INDUSTRY BRIEFING (PLACED RIGHT ABOVE FOOTER AT THE VERY END) */}
+      <IndustryBriefingSection />
 
       {/* SECTION 09 — FOOTER */}
       <FooterSection />

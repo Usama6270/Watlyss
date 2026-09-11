@@ -16,6 +16,7 @@ export default function FooterCursorPattern({
 }: FooterCursorPatternProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+  const [isOverInteractive, setIsOverInteractive] = useState(false)
   const [activePattern, setActivePattern] = useState(patternSrc)
 
   useEffect(() => {
@@ -28,23 +29,54 @@ export default function FooterCursorPattern({
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
+    const target = e.target as HTMLElement
+    const isInteractive = target.closest('button, a, input, select, textarea, [role="button"]') !== null
+    setIsOverInteractive(isInteractive)
+
     setMousePosition({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     })
   }
 
+  const handleTouchMove = (e: React.TouchEvent<HTMLElement>) => {
+    if (!e.touches[0]) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const touch = e.touches[0]
+    const x = touch.clientX - rect.left
+    const y = touch.clientY - rect.top
+
+    const target = document.elementFromPoint(touch.clientX, touch.clientY) as HTMLElement
+    const isInteractive = target ? target.closest('button, a, input, select, textarea, [role="button"]') !== null : false
+    setIsOverInteractive(isInteractive)
+
+    setIsHovered(true)
+    setMousePosition({ x, y })
+  }
+
+  const handleTouchEnd = () => {
+    setIsHovered(false)
+    setIsOverInteractive(false)
+  }
+
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setIsOverInteractive(false)
+      }}
       onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchMove}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
       className={`relative w-full ${className}`}
     >
       {/* Background Floating Rectangular Box Spotlight Container */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 rounded-3xl">
         <AnimatePresence>
-          {isHovered && (
+          {isHovered && !isOverInteractive && (
             <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}

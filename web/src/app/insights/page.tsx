@@ -21,6 +21,19 @@ export interface Article {
 
 export const ARTICLES_DATA: Article[] = [
   {
+    slug: 'pakistan-mineral-water-briefing',
+    title: 'Pakistan Water Industry Report (2026): Quality Trends & Sourcing',
+    category: 'industry',
+    categoryLabel: 'Industry Briefing',
+    excerpt: 'Comprehensive audit review of 29 unsafe brands flagged by PCRWR, northern spring TDS metrics, and TDS vs bacterial safety.',
+    date: 'September 2026',
+    author: 'Watlys Hydro-Research Bureau',
+    readTime: '8 min read',
+    content: `
+Pakistan Water & Mineral Water Monthly Briefing (July–Sept 2026) provides critical insight into water quality audits, groundwater salinity in Pakistan, and multi-stage purification requirements.
+    `,
+  },
+  {
     slug: 'who-guidelines-on-mineral-drinkability',
     title: 'WHO Guidelines on Mineral Drinkability',
     category: 'who',
