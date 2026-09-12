@@ -139,7 +139,7 @@ export default function PackagesSection() {
   const renderCardContent = (pkg: typeof packagesData[0]) => {
     const IconComp = pkg.Icon
     return (
-      <div className={`relative flex flex-col justify-between h-full ${pkg.id === 'custom' ? 'bg-zinc-50/80 dark:bg-[#162447]/90' : 'bg-white dark:bg-[#162447]/90'} p-5 sm:p-8 rounded-2xl shadow-lg shadow-black/10 group ${pkg.isPopular ? 'pt-7 sm:pt-8' : ''}`}>
+      <div className={`relative flex flex-col justify-between h-full ${pkg.id === 'custom' ? 'bg-zinc-50/80 dark:bg-[#162447]/90' : 'bg-white dark:bg-[#162447]/90'} p-5 sm:p-8 rounded-2xl shadow-lg shadow-black/10 group ${pkg.isPopular ? 'pt-8 sm:pt-10' : ''}`}>
         {pkg.isPopular && (
           <div
             className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0064D0] text-white px-3.5 py-1 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-widest flex items-center space-x-1.5 shadow-lg shadow-[#0064D0]/40 z-20 whitespace-nowrap"
@@ -199,7 +199,7 @@ export default function PackagesSection() {
   }
 
   return (
-    <section id="packages" className="py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
+    <section id="packages" className="scroll-mt-28 sm:scroll-mt-36 pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-20 lg:pb-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
       {/* Editorial Header */}
       <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-16">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">

@@ -42,7 +42,7 @@ export default function IndustryReportArticlePage() {
             </div>
             <div>
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-sky-200 block">
-                OFFICIAL RESEARCH PUBLICATION (JULY–SEPT 2026)
+                OFFICIAL RESEARCH PUBLICATION (JULY - SEPT 2026)
               </span>
               <h2 className="text-base sm:text-lg font-serif font-bold">
                 Pakistan Water & Mineral Water Monthly Briefing

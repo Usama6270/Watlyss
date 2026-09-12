@@ -17,6 +17,7 @@ const IndustryBriefingSection = dynamic(() => import('@/components/industry-brie
 const KnowledgeSeries = dynamic(() => import('@/components/knowledge-series'));
 const TrustSection = dynamic(() => import('@/components/trust-section'));
 const CertificationsSection = dynamic(() => import('@/components/certifications-section'));
+const FinalCtaSection = dynamic(() => import('@/components/final-cta-section'));
 const MapSection = dynamic(() => import('@/components/map-section'), { ssr: false });
 const FooterSection = dynamic(() => import('@/components/footer-section'));
 
@@ -100,46 +101,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 05 — KNOWLEDGE SERIES */}
-      <KnowledgeSeries />
-
       {/* SECTION 07 — CERTIFICATIONS */}
       <CertificationsSection />
 
-      {/* SECTION 08 — FINAL CTA */}
-      <section className="relative py-14 sm:py-24 px-4 sm:px-8 lg:px-12 bg-[#FAF9F6] dark:bg-[#0a1128] text-slate-900 dark:text-white text-center overflow-hidden border-t border-slate-200/80 dark:border-slate-800/60 transition-colors duration-300">
-        <div className="max-w-3xl mx-auto space-y-5 sm:space-y-6 relative z-10 font-sans px-2">
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0]">
-            START YOUR SUBSCRIPTION
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-wide">
-            Your Water. Your Schedule.
-          </h2>
-          <p className="text-xs sm:text-base text-slate-600 dark:text-slate-200 font-light max-w-xl mx-auto leading-relaxed">
-            Choose a plan that works for you and get 19L drinking water delivered to your doorstep.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4">
-            <Link
-              href="/order"
-              className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white text-xs font-bold uppercase tracking-[0.25em] rounded-2xl transition-all shadow-xl shadow-[#0064D0]/20 text-center"
-            >
-              Order Water
-            </Link>
-            <a
-              href="#calculator"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-white/80 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-slate-900 text-xs font-bold uppercase tracking-[0.2em] rounded-2xl border border-slate-200 dark:border-white transition-all shadow-sm text-center"
-            >
-              Build a Custom Plan
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* SECTION 08 — FINAL CTA (INTERACTIVE HOVER BLUE & PATTERN SPOTLIGHT LIKE FOOTER) */}
+      <FinalCtaSection />
 
       {/* SECTION 08.5 — 3D ISLAMABAD & REGIONAL MAP SECTION */}
       <MapSection />
 
-      {/* SECTION 08.8 — GAZETTE INDUSTRY BRIEFING (PLACED RIGHT ABOVE FOOTER AT THE VERY END) */}
+      {/* SECTION 08.8 — WATLYS JOURNAL & GAZETTE (PLACED RIGHT ABOVE FOOTER AT THE VERY END) */}
       <IndustryBriefingSection />
 
       {/* SECTION 09 — FOOTER */}

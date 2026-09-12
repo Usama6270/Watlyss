@@ -3,12 +3,12 @@ import { VisualEditing } from 'next-sanity/visual-editing';
 import { draftMode } from 'next/headers';
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from 'next/script';
 import "./globals.css";
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/auth';
 import { CartProvider } from '@/context/cart';
 import { LanguageProvider } from '@/context/language';
+import TawkWidget from '@/components/tawk-widget';
 
 const velocitySans = localFont({
   src: '../fonts/Velocity-Sans.otf',
@@ -46,19 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 {children}
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
-                <Script id="tawk-to" strategy="lazyOnload">
-                  {`
-                    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-                    (function(){
-                      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                      s1.async=true;
-                      s1.src='https://embed.tawk.to/6aa06c225914873442c8ff55/1k21acq8d';
-                      s1.charset='UTF-8';
-                      s1.setAttribute('crossorigin','*');
-                      s0.parentNode.insertBefore(s1,s0);
-                    })();
-                  `}
-                </Script>
+                <TawkWidget />
               </CartProvider>
             </AuthProvider>
           </LanguageProvider>

@@ -30,7 +30,7 @@ export const ARTICLES_DATA: Article[] = [
     author: 'Watlys Hydro-Research Bureau',
     readTime: '8 min read',
     content: `
-Pakistan Water & Mineral Water Monthly Briefing (July–Sept 2026) provides critical insight into water quality audits, groundwater salinity in Pakistan, and multi-stage purification requirements.
+Pakistan Water & Mineral Water Monthly Briefing (July - Sept 2026) provides critical insight into water quality audits, groundwater salinity in Pakistan, and multi-stage purification requirements.
     `,
   },
   {
