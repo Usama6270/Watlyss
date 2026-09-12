@@ -255,7 +255,7 @@ export default function IndustryBriefingSection() {
             <span>WATLYS JOURNAL & RESEARCH</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold tracking-wide text-slate-900 dark:text-white">
             Watlys Journal & Gazette
           </h2>
 
@@ -301,7 +301,7 @@ export default function IndustryBriefingSection() {
                     VOL. 01 / PAGE 0{currentPage} OF 06 / PAKISTAN EDITION
                   </span>
                 </div>
-                <h3 className="text-2xl sm:text-4xl font-serif font-bold text-slate-950 dark:text-white tracking-tight">
+                <h3 className="text-2xl sm:text-4xl font-serif font-bold text-slate-950 dark:text-white tracking-wide">
                   {activePageData.editionTitle}
                 </h3>
               </div>
