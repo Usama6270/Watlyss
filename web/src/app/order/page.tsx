@@ -1,29 +1,173 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/navbar'
 import FooterSection from '@/components/footer-section'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Check, MessageCircle, MapPin, Calendar, Droplets, ArrowRight } from 'lucide-react'
+import { MessageCircle, ArrowRight } from 'lucide-react'
+import { useAuth } from '@/context/auth'
 
-export default function OrderWaterPage() {
+const PRICING_CONFIG = {
+  basePricePer19LBottle: 320,
+  locations: [
+    { id: 'lahore', name: 'Lahore', deliveryFee: 100 },
+    { id: 'islamabad', name: 'Islamabad', deliveryFee: 100 },
+    { id: 'rawalpindi', name: 'Rawalpindi', deliveryFee: 100 },
+    { id: 'sialkot', name: 'Sialkot', deliveryFee: 120 },
+    { id: 'karachi', name: 'Karachi', deliveryFee: 150 },
+    { id: 'faisalabad', name: 'Faisalabad', deliveryFee: 120 },
+    { id: 'other', name: 'Other', deliveryFee: 150 },
+  ],
+  frequencies: [
+    { id: 'weekly', name: 'Weekly', deliveriesPerMonth: 4, discount: 0.05 },
+    { id: 'biweekly', name: 'Every 2 Weeks', deliveriesPerMonth: 2, discount: 0.10 },
+    { id: 'monthly', name: 'Monthly', deliveriesPerMonth: 1, discount: 0.15 },
+  ],
+  customerTypes: [
+    { id: 'student', name: 'Student', discount: 0.10 },
+    { id: 'individual', name: 'Individual', discount: 0.05 },
+    { id: 'family', name: 'Family', discount: 0.08 },
+    { id: 'office', name: 'Office', discount: 0.12 },
+    { id: 'corporate', name: 'Corporate', discount: 0.15 },
+  ],
+}
+
+function OrderWaterContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const planParam = searchParams.get('plan')
+  const bottlesParam = searchParams.get('bottles')
+  const freqParam = searchParams.get('freq')
+  const typeParam = searchParams.get('type')
+  const cityParam = searchParams.get('city')
+  const monthsParam = searchParams.get('months')
+
+  const { user, openAuthModal, updateSubscription } = useAuth()
   const [customerType, setCustomerType] = useState<'home' | 'student' | 'office'>('home')
+
   const [quantity, setQuantity] = useState<number>(8)
   const [frequency, setFrequency] = useState<'weekly' | 'biweekly' | 'monthly'>('biweekly')
+  const [months, setMonths] = useState<number>(6)
   const [city, setCity] = useState<string>('Lahore')
 
   const cities = ['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad']
 
-  const getEstimatedPrice = () => {
-    // Basic price estimation logic in PKR
-    const basePerBottle = 320
-    const total = quantity * basePerBottle
-    return total
+  useEffect(() => {
+    if (planParam === 'student') {
+      setCustomerType('student')
+      setQuantity(4)
+      setFrequency('monthly')
+      setMonths(1)
+    } else if (planParam === 'family') {
+      setCustomerType('home')
+      setQuantity(8)
+      setFrequency('biweekly')
+      setMonths(6)
+    } else if (planParam === 'corporate') {
+      setCustomerType('office')
+      setQuantity(20)
+      setFrequency('weekly')
+      setMonths(12)
+    }
+
+    if (bottlesParam) {
+      const b = parseInt(bottlesParam)
+      if (!isNaN(b) && b > 0) setQuantity(b)
+    }
+
+    if (freqParam) {
+      const lowerFreq = freqParam.toLowerCase()
+      if (lowerFreq === 'weekly') setFrequency('weekly')
+      else if (lowerFreq === 'biweekly' || lowerFreq === 'bi-weekly') setFrequency('biweekly')
+      else if (lowerFreq === 'monthly') setFrequency('monthly')
+    }
+
+    if (typeParam) {
+      const lowerType = typeParam.toLowerCase()
+      if (lowerType === 'family' || lowerType === 'home') {
+        setCustomerType('home')
+      } else if (lowerType === 'student' || lowerType === 'individual') {
+        setCustomerType('student')
+      } else if (lowerType === 'office' || lowerType === 'corporate') {
+        setCustomerType('office')
+      }
+    }
+
+    if (cityParam) {
+      const formattedCity = cityParam.charAt(0).toUpperCase() + cityParam.slice(1).toLowerCase()
+      if (cities.includes(formattedCity)) {
+        setCity(formattedCity)
+      } else {
+        setCity(cityParam)
+      }
+    }
+
+    if (monthsParam) {
+      const m = parseInt(monthsParam)
+      if (!isNaN(m) && m > 0) setMonths(m)
+    }
+  }, [planParam, bottlesParam, freqParam, typeParam, cityParam, monthsParam])
+
+  const isCuratedPlan = planParam === 'student' || planParam === 'family' || planParam === 'corporate'
+
+  // Config lookup
+  const selectedFreq = PRICING_CONFIG.frequencies.find((f) => f.id === frequency) || PRICING_CONFIG.frequencies[1]
+  const selectedTypeKey = customerType === 'student' ? 'student' : customerType === 'office' ? 'office' : 'family'
+  const selectedType = PRICING_CONFIG.customerTypes.find((c) => c.id === selectedTypeKey) || PRICING_CONFIG.customerTypes[2]
+  const locKey = city.toLowerCase()
+  const selectedLoc = PRICING_CONFIG.locations.find((l) => l.id === locKey) || PRICING_CONFIG.locations[0]
+
+  const estimatedDeliveries = selectedFreq.deliveriesPerMonth * months
+  const totalBottles = quantity * estimatedDeliveries
+
+  let estimatedMonthlyCost = 2800
+  let estimatedTotal = 2800 * months
+  let subtotal = 0
+  let discountAmount = 0
+  let deliveryCost = 0
+  let totalDiscountRate = 0
+
+  if (planParam === 'student') {
+    estimatedMonthlyCost = 1200
+    estimatedTotal = 1200 * months
+  } else if (planParam === 'family') {
+    estimatedMonthlyCost = 2800
+    estimatedTotal = 2800 * months
+  } else if (planParam === 'corporate') {
+    estimatedMonthlyCost = 5500
+    estimatedTotal = 5500 * months
+  } else {
+    // Custom Calculator Formula
+    subtotal = totalBottles * PRICING_CONFIG.basePricePer19LBottle
+    const durationDiscount = months >= 12 ? 0.10 : months >= 6 ? 0.05 : 0.0
+    totalDiscountRate = Math.min(0.35, selectedFreq.discount + selectedType.discount + durationDiscount)
+    discountAmount = Math.round(subtotal * totalDiscountRate)
+    deliveryCost = selectedLoc.deliveryFee * estimatedDeliveries
+    estimatedTotal = Math.max(0, subtotal - discountAmount + deliveryCost)
+    estimatedMonthlyCost = Math.round(estimatedTotal / months)
+  }
+
+  const handleConfirmOrder = () => {
+    const pkgTitle =
+      customerType === 'student'
+        ? 'Student Plan (19L)'
+        : customerType === 'office'
+        ? 'Corporate Plan (19L)'
+        : 'Family Plan (19L)'
+
+    updateSubscription({
+      packageType: pkgTitle,
+      frequency: frequency === 'biweekly' ? 'bi-weekly' : (frequency as any),
+      bottleQty: quantity,
+      status: 'active',
+    })
+
+    window.location.href = '/account'
   }
 
   const whatsappMessage = encodeURIComponent(
-    `Hi Watlys Pakistan! I want to order 19L drinking water bottles.\n\nType: ${customerType.toUpperCase()}\nQuantity: ${quantity} x 19L Bottles\nFrequency: ${frequency}\nCity: ${city}\nEstimated Total: PKR ${getEstimatedPrice()}`
+    `Hi Watlys Pakistan! I want to order 19L drinking water bottles.\n\nType: ${customerType.toUpperCase()}\nQuantity: ${quantity} x 19L Bottles per delivery\nFrequency: ${frequency}\nDuration: ${months} Months\nCity: ${city}\nTotal Price: PKR ${estimatedTotal.toLocaleString()} (PKR ${estimatedMonthlyCost.toLocaleString()}/month)`
   )
 
   return (
@@ -133,10 +277,34 @@ export default function OrderWaterPage() {
               </div>
             </div>
 
-            {/* Step 4: City Selection */}
+            {/* Step 4: Contract Duration */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200">
+                <span>4. Contract Duration (Months)</span>
+                <span className="text-[#0064D0] font-serif text-lg">{months} {months === 1 ? 'Month' : 'Months'}</span>
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {[1, 3, 6, 12].map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setMonths(m)}
+                    className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
+                      months === m
+                        ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
+                        : 'border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {m} {m === 1 ? 'Month' : 'Months'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Step 5: City Selection */}
             <div className="space-y-3">
               <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
-                4. Delivery City in Pakistan
+                5. Delivery City in Pakistan
               </label>
               <select
                 value={city}
@@ -155,7 +323,7 @@ export default function OrderWaterPage() {
           <div className="lg:col-span-5 space-y-6 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
             <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Order Summary</h3>
 
-            <div className="space-y-4 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-zinc-200 dark:border-slate-800 py-6">
+            <div className="space-y-3 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-zinc-200 dark:border-slate-800 py-6">
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Core Product:</span>
                 <span className="font-semibold text-zinc-900 dark:text-white">19L Pure Water Bottle</span>
@@ -165,7 +333,7 @@ export default function OrderWaterPage() {
                 <span className="font-semibold text-zinc-900 dark:text-white uppercase">{customerType}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-400">Quantity:</span>
+                <span className="text-zinc-400">Bottles per Delivery:</span>
                 <span className="font-semibold text-[#0064D0]">{quantity} × 19L Bottles</span>
               </div>
               <div className="flex justify-between items-center">
@@ -173,16 +341,46 @@ export default function OrderWaterPage() {
                 <span className="font-semibold text-zinc-900 dark:text-white capitalize">{frequency}</span>
               </div>
               <div className="flex justify-between items-center">
+                <span className="text-zinc-400">Duration:</span>
+                <span className="font-semibold text-zinc-900 dark:text-white">{months} Months</span>
+              </div>
+              <div className="flex justify-between items-center">
                 <span className="text-zinc-400">City Coverage:</span>
                 <span className="font-semibold text-zinc-900 dark:text-white">{city}, Pakistan</span>
               </div>
+
+              {/* Exact Calculator Financial Breakdown (Only for custom calculator mode) */}
+              {!isCuratedPlan && (
+                <div className="pt-3 border-t border-zinc-100 dark:border-slate-800 space-y-2 text-[11px]">
+                  <div className="flex justify-between text-zinc-500">
+                    <span>Water ({totalBottles} x 19L Bottles):</span>
+                    <span>PKR {subtotal.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-zinc-500">
+                    <span>Delivery ({estimatedDeliveries} trips to {city}):</span>
+                    <span>PKR {deliveryCost.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-green-600 font-medium">
+                    <span>Discount ({Math.round(totalDiscountRate * 100)}%):</span>
+                    <span>- PKR {discountAmount.toLocaleString()}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] text-zinc-400 uppercase font-bold tracking-widest block">Estimated Rate</span>
+              <span className="text-[10px] text-zinc-400 uppercase font-bold tracking-widest block">
+                {isCuratedPlan ? 'Selected Package Rate' : `Total Contract Price (${months} Mo)`}
+              </span>
               <div className="flex items-baseline space-x-2">
-                <span className="text-3xl font-serif font-light text-[#0064D0]">PKR {getEstimatedPrice()}</span>
-                <span className="text-[10px] text-zinc-400 font-semibold">/ Month</span>
+                <span className="text-3xl font-serif font-bold text-[#0064D0]">
+                  PKR {estimatedMonthlyCost.toLocaleString()}
+                </span>
+                <span className="text-xs text-zinc-400 font-semibold">/ Month</span>
+              </div>
+              <div className="text-[11px] text-zinc-500 pt-1 font-medium flex justify-between border-t border-zinc-100 dark:border-slate-800 mt-2">
+                <span>Contract Total ({months} {months === 1 ? 'Month' : 'Months'}):</span>
+                <span className="font-bold text-zinc-900 dark:text-white">PKR {estimatedTotal.toLocaleString()}</span>
               </div>
             </div>
 
@@ -198,13 +396,26 @@ export default function OrderWaterPage() {
                 <span>Order via WhatsApp</span>
               </a>
 
-              <Link
-                href={`/contact?plan=${customerType}&qty=${quantity}`}
-                className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md"
-              >
-                <span>Submit Online Order</span>
-                <ArrowRight size={14} />
-              </Link>
+              {user ? (
+                <button
+                  type="button"
+                  onClick={handleConfirmOrder}
+                  className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
+                >
+                  <span>Confirm & Activate Plan</span>
+                  <ArrowRight size={14} />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('signup')}
+                  className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
+                >
+                  <span>Submit Online Order (Sign In)</span>
+                  <ArrowRight size={14} />
+                </button>
+              )}
+
             </div>
 
             <p className="text-[10px] text-zinc-400 text-center font-light pt-2">
@@ -217,5 +428,19 @@ export default function OrderWaterPage() {
 
       <FooterSection />
     </div>
+  )
+}
+
+export default function OrderWaterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#FAF9F6] dark:bg-[#0a1128]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0064D0]" />
+        </div>
+      }
+    >
+      <OrderWaterContent />
+    </Suspense>
   )
 }

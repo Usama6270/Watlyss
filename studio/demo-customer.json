@@ -1,0 +1,21 @@
+{
+  "_type": "customer",
+  "fullName": "Usama",
+  "email": "usama@gmail.com",
+  "phone": "03041632932",
+  "addressList": [
+    {
+      "_type": "savedAddress",
+      "addressLabel": "Primary Address",
+      "street": "Block H3, Johar Town",
+      "city": "Lahore",
+      "postalCode": "54770"
+    }
+  ],
+  "activeSubscription": {
+    "packageType": "Family Plan (19L)",
+    "frequency": "weekly",
+    "bottleQty": 4,
+    "status": "active"
+  }
+}

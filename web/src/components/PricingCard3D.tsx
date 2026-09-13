@@ -7,9 +7,10 @@ interface PricingCard3DProps {
   children: React.ReactNode;
   isPopular?: boolean;
   className?: string;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-export default function PricingCard3D({ children, isPopular = false, className = '' }: PricingCard3DProps) {
+export default function PricingCard3D({ children, isPopular = false, className = '', onClick }: PricingCard3DProps) {
   const [isHovered, setIsHovered] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -44,6 +45,7 @@ export default function PricingCard3D({ children, isPopular = false, className =
   return (
     <div style={{ perspective: 1000 }} className="h-full w-full">
       <motion.div
+        onClick={onClick}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -57,7 +59,7 @@ export default function PricingCard3D({ children, isPopular = false, className =
           y: isPopular ? -14 : -10,
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className={`relative h-full w-full rounded-2xl transition-all duration-300 ${isPopular
+        className={`relative h-full w-full rounded-2xl transition-all duration-300 ${onClick ? 'cursor-pointer' : ''} ${isPopular
           ? 'border-2 border-[#0064D0] shadow-2xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/55 hover:border-blue-400'
           : 'border border-zinc-200/80 dark:border-slate-800/80 hover:border-[#0064D0]/80 hover:shadow-2xl hover:shadow-sky-500/25'
           } ${className}`}
@@ -74,7 +76,7 @@ export default function PricingCard3D({ children, isPopular = false, className =
 
         {/* 3D Depth Inner Wrapper — elevates content in 3D space */}
         <div
-          className="relative z-10 h-full w-full"
+          className="relative z-10 h-full w-full pointer-events-auto"
           style={{
             transform: 'translateZ(20px)',
             transformStyle: 'preserve-3d',

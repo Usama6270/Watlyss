@@ -1,15 +1,38 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Check, Star, Sparkles, Droplets, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import PricingCard3D from '@/components/PricingCard3D'
+import { useAuth } from '@/context/auth'
 
 export default function PackagesSection() {
+  const router = useRouter()
+  const { user, openAuthModal } = useAuth()
   const [frequency, setFrequency] = useState<'weekly' | 'monthly' | 'annual'>('monthly')
+
   const [activeIndex, setActiveIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  const handlePlanClick = (pkg: typeof packagesData[0]) => {
+    if (pkg.id === 'custom') {
+      const calcEl = document.getElementById('calculator')
+      if (calcEl) {
+        calcEl.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        window.location.href = '/order?plan=custom'
+      }
+      return
+    }
+
+    if (!user) {
+      openAuthModal('signup')
+      return
+    }
+
+    window.location.href = pkg.link
+  }
 
   // Pricing calculations
   const studentPrice = frequency === 'weekly' ? 'PKR 350' : frequency === 'monthly' ? 'PKR 1,200' : 'PKR 12,000'
@@ -186,14 +209,19 @@ export default function PackagesSection() {
           </ul>
         </div>
 
-        <div className="pt-5 sm:pt-8" style={{ transform: 'translateZ(20px)' }}>
-          <Link
-            href={pkg.link}
-            className={`w-full py-3 sm:py-3.5 rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 ${pkg.btnStyle}`}
+        <div className="pt-5 sm:pt-8 relative z-50 pointer-events-auto" style={{ transform: 'translateZ(25px)' }}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              handlePlanClick(pkg)
+            }}
+            className={`w-full py-3 sm:py-3.5 rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 cursor-pointer relative z-50 pointer-events-auto ${pkg.btnStyle}`}
           >
-            {pkg.btnText}
-          </Link>
+            {user || pkg.id === 'custom' ? pkg.btnText : 'SUBSCRIBE PLAN'}
+          </button>
         </div>
+
       </div>
     )
   }
@@ -249,7 +277,7 @@ export default function PackagesSection() {
         >
           {packagesData.map((pkg) => (
             <div key={pkg.id} className="w-[85vw] max-w-[310px] flex-shrink-0 snap-center py-2">
-              <PricingCard3D isPopular={pkg.isPopular}>
+              <PricingCard3D isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
                 {renderCardContent(pkg)}
               </PricingCard3D>
             </div>
@@ -293,10 +321,10 @@ export default function PackagesSection() {
         </div>
       </div>
 
-      {/* DESKTOP GRID (>= md) — 100% UNCHANGED */}
+      {/* DESKTOP GRID (>= md) */}
       <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
         {packagesData.map((pkg) => (
-          <PricingCard3D key={pkg.id} isPopular={pkg.isPopular}>
+          <PricingCard3D key={pkg.id} isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
             {renderCardContent(pkg)}
           </PricingCard3D>
         ))}

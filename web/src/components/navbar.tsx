@@ -4,8 +4,9 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingBag, Menu, X, ChevronDown, MessageCircle, ArrowRight, Sparkles } from 'lucide-react'
+import { ShoppingBag, Menu, X, ChevronDown, MessageCircle, ArrowRight, Sparkles, User } from 'lucide-react'
 import { useCart } from '@/context/cart'
+import { useAuth } from '@/context/auth'
 import { useLanguage } from '@/context/language'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
@@ -13,6 +14,7 @@ import WatlysPatternHover from '@/components/watlys-pattern-hover'
 
 export default function Navbar() {
   const { cart } = useCart()
+  const { user, openAuthModal } = useAuth()
   const { language, setLanguage, t, isRtl } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -152,11 +154,11 @@ export default function Navbar() {
             : 'bg-[#FAF9F6] dark:bg-[#0a1128] border-slate-200/60 dark:border-slate-800/40'
           }`}
       >
-        {/* DESKTOP NAVBAR CONTAINER — ABSOLUTE CENTERED LOGO */}
-        <div className="relative w-full max-w-[1536px] mx-auto h-20 sm:h-[84px] px-8 2xl:px-14 hidden xl:flex items-center justify-between">
+        {/* DESKTOP NAVBAR CONTAINER — NON-OVERLAPPING BALANCED 3-COLUMN LAYOUT */}
+        <div className="relative w-full max-w-[1600px] mx-auto h-20 sm:h-[84px] px-4 lg:px-6 2xl:px-10 hidden xl:flex items-center justify-between">
 
           {/* LEFT SIDE NAVIGATION */}
-          <div className={`flex items-center gap-6 2xl:gap-8 z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex-1 flex items-center justify-start gap-3 lg:gap-4 2xl:gap-6 z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
             {leftLinks.map((link) => (
               <div
                 key={link.label}
@@ -165,12 +167,12 @@ export default function Navbar() {
                 onMouseLeave={() => link.type === 'dropdown' && setActiveDropdown(null)}
               >
                 {link.type === 'dropdown' ? (
-                  <button className="flex items-center space-x-1.5 py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
+                  <button className="flex items-center space-x-1 py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
                     <span>{link.label}</span>
                     <ChevronDown size={11} className={`text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
                   </button>
                 ) : (
-                  <Link href={link.href || '#'} className="py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
+                  <Link href={link.href || '#'} className="py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
                     {link.label}
                   </Link>
                 )}
@@ -183,13 +185,13 @@ export default function Navbar() {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-full left-0 mt-1 w-60 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
+                      className="absolute top-full left-0 mt-1 w-56 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
                     >
                       {link.items?.map((item) => (
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="block px-4 py-2.5 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
+                          className="block px-4 py-2 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
                         >
                           {item.label}
                         </Link>
@@ -201,24 +203,24 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* ABSOLUTE HORIZONTAL CENTERED WATLYS LOGO */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center pointer-events-auto">
-            <Link href="/" aria-label="Watlys Homepage" className="relative block h-18 sm:h-20 2xl:h-24 w-64 sm:w-72 2xl:w-84 transition-transform duration-300 hover:scale-[1.04] active:scale-[0.98]">
+          {/* CENTER WATLYS LOGO */}
+          <div className="flex-shrink-0 px-3 lg:px-6 z-20 flex items-center justify-center pointer-events-auto">
+            <Link href="/" aria-label="Watlys Homepage" className="relative block h-12 sm:h-14 lg:h-16 w-44 sm:w-48 lg:w-52 transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]">
               <Image
                 src="/logo.png"
                 alt="Watlys Pure Mineral Water"
                 fill
                 priority
-                className="object-contain scale-110"
+                className="object-contain"
               />
             </Link>
           </div>
 
           {/* RIGHT SIDE NAVIGATION & UTILITY CONTROLS */}
-          <div className={`flex items-center gap-5 2xl:gap-7 z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex-1 flex items-center justify-end gap-3 lg:gap-4 2xl:gap-5 z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
 
             {/* Nav Links */}
-            <div className={`flex items-center gap-5 2xl:gap-6 ${isRtl ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-center gap-3 lg:gap-4 2xl:gap-5 ${isRtl ? 'flex-row-reverse' : ''}`}>
               {rightLinks.map((link) => (
                 <div
                   key={link.label}
@@ -227,12 +229,12 @@ export default function Navbar() {
                   onMouseLeave={() => link.type === 'dropdown' && setActiveDropdown(null)}
                 >
                   {link.type === 'dropdown' ? (
-                    <button className="flex items-center space-x-1.5 py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
+                    <button className="flex items-center space-x-1 py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
                       <span>{link.label}</span>
                       <ChevronDown size={11} className={`text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
                     </button>
                   ) : (
-                    <Link href={link.href || '#'} className="py-2 text-[11px] uppercase tracking-[0.18em] font-medium text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
+                    <Link href={link.href || '#'} className="py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
                       {link.label}
                     </Link>
                   )}
@@ -245,13 +247,13 @@ export default function Navbar() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute top-full right-0 mt-1 w-56 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
+                        className="absolute top-full right-0 mt-1 w-52 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
                       >
                         {link.items?.map((item) => (
                           <Link
                             key={item.label}
                             href={item.href}
-                            className="block px-4 py-2.5 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
+                            className="block px-4 py-2 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
                           >
                             {item.label}
                           </Link>
@@ -263,27 +265,34 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Utility Group: Animated LanguageToggle Pill | Dark Mode | Cart */}
-            <div className={`relative z-50 flex items-center gap-3 pointer-events-auto ${isRtl ? 'flex-row-reverse' : ''}`}>
+            {/* Utility Group: Animated LanguageToggle Pill | Dark Mode | Customer | Cart */}
+            <div className={`relative z-50 flex items-center gap-2 lg:gap-2.5 2xl:gap-3 pointer-events-auto ${isRtl ? 'flex-row-reverse' : ''}`}>
               {/* Language Selector Pill Toggle */}
               <LanguageToggle />
 
               {/* Dark Mode Icon */}
               <ThemeToggle />
 
-              {/* Cart / Bag Icon */}
-              <Link
-                href="/cart"
-                aria-label="Shopping Bag"
-                className="relative w-8 h-8 flex items-center justify-center text-zinc-600 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white transition-colors duration-300"
-              >
-                <ShoppingBag size={17} />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#0064D0] text-white text-[7px] font-bold h-4 w-4 rounded-full flex items-center justify-center border border-white dark:border-[#0A0A0A]">
-                    {totalItems}
-                  </span>
-                )}
-              </Link>
+              {/* Account Portal or Sign In Trigger */}
+              {user ? (
+                <Link
+                  href="/account"
+                  aria-label="Customer Account"
+                  className="flex items-center space-x-1.5 px-2.5 lg:px-3 py-1.5 rounded-full bg-[#0064D0]/10 text-[#0064D0] hover:bg-[#0064D0] hover:text-white transition-all text-[11px] font-bold whitespace-nowrap"
+                >
+                  <User size={14} />
+                  <span className="max-w-[75px] truncate">{user.fullName.split(' ')[0]}</span>
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => openAuthModal('login')}
+                  aria-label="Sign In"
+                  className="p-1.5 rounded-full text-zinc-600 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <User size={16} />
+                </button>
+              )}
             </div>
 
           </div>
@@ -328,18 +337,25 @@ export default function Navbar() {
             {/* Theme Toggle Button */}
             <ThemeToggle />
 
-            <Link
-              href="/cart"
-              aria-label="Shopping Cart"
-              className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-zinc-700 dark:text-slate-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              <ShoppingBag size={17} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#0064D0] text-white text-[7px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
+            {/* Account Portal icon on Mobile */}
+            {user ? (
+              <Link
+                href="/account"
+                aria-label="Customer Account"
+                className="p-1.5 rounded-full text-[#0064D0] bg-[#0064D0]/10"
+              >
+                <User size={16} />
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => openAuthModal('login')}
+                aria-label="Sign In"
+                className="p-1.5 rounded-full text-zinc-600 dark:text-slate-200"
+              >
+                <User size={16} />
+              </button>
+            )}
           </div>
         </div>
 
