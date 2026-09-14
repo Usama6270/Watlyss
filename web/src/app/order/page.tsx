@@ -33,6 +33,8 @@ const PRICING_CONFIG = {
   ],
 }
 
+import OrderModal from '@/components/order-modal'
+
 function OrderWaterContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -50,6 +52,8 @@ function OrderWaterContent() {
   const [frequency, setFrequency] = useState<'weekly' | 'biweekly' | 'monthly'>('biweekly')
   const [months, setMonths] = useState<number>(6)
   const [city, setCity] = useState<string>('Lahore')
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
+
 
   const cities = ['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad']
 
@@ -396,25 +400,14 @@ function OrderWaterContent() {
                 <span>Order via WhatsApp</span>
               </a>
 
-              {user ? (
-                <button
-                  type="button"
-                  onClick={handleConfirmOrder}
-                  className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
-                >
-                  <span>Confirm & Activate Plan</span>
-                  <ArrowRight size={14} />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => openAuthModal('signup')}
-                  className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
-                >
-                  <span>Submit Online Order (Sign In)</span>
-                  <ArrowRight size={14} />
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => setIsOrderModalOpen(true)}
+                className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
+              >
+                <span>Confirm & Place Order</span>
+                <ArrowRight size={14} />
+              </button>
 
             </div>
 
@@ -427,9 +420,22 @@ function OrderWaterContent() {
       </main>
 
       <FooterSection />
+
+      <OrderModal
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        initialPackageDetails={{
+          bottleQty: quantity,
+          frequency: frequency === 'biweekly' ? 'Bi-Weekly' : frequency === 'weekly' ? 'Weekly' : 'Monthly',
+          customerSegment: customerType === 'student' ? 'Student' : customerType === 'office' ? 'Corporate' : 'Family',
+          city,
+          months,
+        }}
+      />
     </div>
   )
 }
+
 
 export default function OrderWaterPage() {
   return (

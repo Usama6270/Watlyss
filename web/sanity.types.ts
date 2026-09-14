@@ -379,15 +379,6 @@ export type CUSTOMER_ORDERS_QUERY_RESULT = Array<{
   _createdAt: string;
 }>;
 
-// Source: ../web/src/app/cart/page.tsx
-// Variable: COUPON_QUERY
-// Query: *[_type == "coupon" && code == $code && isActive == true][0] {    code,    discountType,    value  }
-export type COUPON_QUERY_RESULT = {
-  code: string | null;
-  discountType: "fixed" | "percentage" | null;
-  value: number | null;
-} | null;
-
 // Source: ../web/src/app/product/[slug]/page.tsx
 // Variable: PRODUCT_DETAIL_QUERY
 // Query: *[_type == "product" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    price,    description,    "imageUrl": image.asset->url,    "secondaryImageUrl": secondaryImage.asset->url,    capacity,    pH,    material,    minerals,    idealUse  }
@@ -419,29 +410,12 @@ export type RELATED_PRODUCTS_QUERY_RESULT = Array<{
   capacity: string | null;
 }>;
 
-// Source: ../web/src/app/shop/page.tsx
-// Variable: PRODUCTS_CATALOG_QUERY
-// Query: *[_type == "product"] {    _id,    title,    "slug": slug.current,    price,    description,    "imageUrl": image.asset->url,    capacity,    "categoryTitle": category->title,    isComingSoon  }
-export type PRODUCTS_CATALOG_QUERY_RESULT = Array<{
-  _id: string;
-  title: string | null;
-  slug: string | null;
-  price: number | null;
-  description: string | null;
-  imageUrl: string | null;
-  capacity: string | null;
-  categoryTitle: string | null;
-  isComingSoon: boolean | null;
-}>;
-
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "order" && (customerEmail == $email || customerEmail == $phone)] | order(_createdAt desc) {\n    _id,\n    orderNumber,\n    customerEmail,\n    items,\n    total,\n    paymentStatus,\n    status,\n    _createdAt\n  }\n': CUSTOMER_ORDERS_QUERY_RESULT;
-    '\n  *[_type == "coupon" && code == $code && isActive == true][0] {\n    code,\n    discountType,\n    value\n  }\n': COUPON_QUERY_RESULT;
     '\n  *[_type == "product" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    price,\n    description,\n    "imageUrl": image.asset->url,\n    "secondaryImageUrl": secondaryImage.asset->url,\n    capacity,\n    pH,\n    material,\n    minerals,\n    idealUse\n  }\n': PRODUCT_DETAIL_QUERY_RESULT;
     '\n  *[_type == "product" && slug.current != $slug][0...3] {\n    _id,\n    title,\n    "slug": slug.current,\n    price,\n    description,\n    "imageUrl": image.asset->url,\n    capacity\n  }\n': RELATED_PRODUCTS_QUERY_RESULT;
-    '\n  *[_type == "product"] {\n    _id,\n    title,\n    "slug": slug.current,\n    price,\n    description,\n    "imageUrl": image.asset->url,\n    capacity,\n    "categoryTitle": category->title,\n    isComingSoon\n  }\n': PRODUCTS_CATALOG_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

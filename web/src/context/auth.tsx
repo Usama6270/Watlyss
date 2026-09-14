@@ -108,6 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch {
         setUser(DEFAULT_DEMO_USER)
       }
+    } else {
+      setUser(DEFAULT_DEMO_USER)
     }
     setIsLoaded(true)
   }, [])

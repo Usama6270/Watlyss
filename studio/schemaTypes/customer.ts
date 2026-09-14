@@ -85,6 +85,42 @@ export const customer = defineType({
           },
           initialValue: 'active',
         }),
+        defineField({
+          name: 'subscriptionStatus',
+          type: 'string',
+          title: 'Subscription Status (Upper)',
+          options: {
+            list: [
+              { title: 'ACTIVE', value: 'ACTIVE' },
+              { title: 'PAUSED', value: 'PAUSED' },
+              { title: 'CANCELLED', value: 'CANCELLED' },
+            ],
+          },
+          initialValue: 'ACTIVE',
+        }),
+        defineField({
+          name: 'pauseStartDate',
+          type: 'datetime',
+          title: 'Pause Start Date',
+        }),
+        defineField({
+          name: 'nextBillingDate',
+          type: 'datetime',
+          title: 'Next Billing / Delivery Date',
+        }),
+        defineField({
+          name: 'paymentStatus',
+          type: 'string',
+          title: 'Payment Status',
+          options: {
+            list: [
+              { title: 'PAID', value: 'PAID' },
+              { title: 'PENDING', value: 'PENDING' },
+              { title: 'PAUSED (NO CHARGE)', value: 'PAUSED_NO_CHARGE' },
+            ],
+          },
+          initialValue: 'PAID',
+        }),
       ],
     }),
   ],

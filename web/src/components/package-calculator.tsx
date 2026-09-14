@@ -5,12 +5,14 @@ import { motion, AnimatePresence, animate, useMotionValue, useTransform, useSpri
 import Link from 'next/link'
 import { ArrowRight, Sparkles, Check, Droplets, SlidersHorizontal, Calculator } from 'lucide-react'
 
+import OrderModal from '@/components/order-modal'
+
 // CMS / Admin Configurable Pricing Data Structure
 const PRICING_CONFIG = {
   basePricePer19LBottle: 320,
   locations: [
     { id: 'lahore', name: 'Lahore', deliveryFee: 100 },
-    { id: 'islamabad', name: 'Islamabad', deliveryFee: 100 },
+    { id: 'islamabad', name: 'Islamabad / Rawalpindi', deliveryFee: 100 },
     { id: 'rawalpindi', name: 'Rawalpindi', deliveryFee: 100 },
     { id: 'sialkot', name: 'Sialkot', deliveryFee: 120 },
     { id: 'other', name: 'Other', deliveryFee: 150 },
@@ -116,6 +118,8 @@ export default function PackageCalculator() {
   const [months, setMonths] = useState<number>(6)
   const [customerTypeId, setCustomerTypeId] = useState<string>('family')
   const [locationId, setLocationId] = useState<string>('lahore')
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
+
 
   // Mobile Slide State
   const [activeSlide, setActiveSlide] = useState<number>(0)
@@ -426,13 +430,14 @@ export default function PackageCalculator() {
               {/* Action Buttons */}
               <div className="space-y-3 pt-2">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Link
-                    href={`/order?bottles=${bottlesPerDelivery}&freq=${frequencyId}&type=${customerTypeId}&city=${locationId}`}
-                    className="w-full py-3.5 sm:py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all duration-300 shadow-xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/50"
+                  <button
+                    type="button"
+                    onClick={() => setIsOrderModalOpen(true)}
+                    className="w-full py-3.5 sm:py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all duration-300 shadow-xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/50 cursor-pointer"
                   >
                     <span>ORDER THIS PLAN</span>
                     <ArrowRight size={14} />
-                  </Link>
+                  </button>
                 </motion.div>
 
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -470,6 +475,20 @@ export default function PackageCalculator() {
           />
         </div>
       </div>
+
+      {/* DYNAMIC CHECKOUT ORDER MODAL */}
+      <OrderModal
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        initialPackageDetails={{
+          bottleQty: bottlesPerDelivery,
+          frequency: selectedFreq.name,
+          customerSegment: selectedType.name,
+          city: selectedLoc.name,
+          months,
+        }}
+      />
     </section>
   )
 }
+
