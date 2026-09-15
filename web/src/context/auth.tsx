@@ -36,6 +36,8 @@ export interface User {
 
 interface AuthContextType {
   user: User | null
+  isAuthenticated: boolean
+  isGuest: boolean
   login: (identifier: string, password?: string, otp?: string) => Promise<void>
   signup: (fullName: string, phone: string, email: string, password?: string) => Promise<void>
   logout: () => void
@@ -44,7 +46,6 @@ interface AuthContextType {
   removeAddress: (index: number) => void
   toggleSubscriptionStatus: () => void
   updateSubscription: (subscription: Partial<ActiveSubscription>) => void
-  isGuest: boolean
   isAuthModalOpen: boolean
   authModalTab: 'login' | 'signup'
   openAuthModal: (tab?: 'login' | 'signup') => void
@@ -53,33 +54,22 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const DEFAULT_DEMO_USER: User = {
-  fullName: 'Muhammad Ali',
-  name: 'Muhammad Ali',
-  email: 'ali.watlys@example.com',
-  phone: '+92 300 1234567',
-  addressList: [
-    {
-      id: '1',
-      addressLabel: 'Home',
-      street: '14-B, Main Boulevard, Gulberg III',
-      city: 'Lahore',
-      postalCode: '54000',
-    },
-  ],
-  activeSubscription: {
-    packageType: 'Family Plan (19L)',
-    frequency: 'weekly',
-    bottleQty: 4,
-    status: 'active',
-  },
-  address: {
-    line1: '14-B, Main Boulevard, Gulberg III',
-    city: 'Lahore',
-    state: 'Punjab',
-    postalCode: '54000',
-    country: 'Pakistan',
-  },
+const setSessionCookies = (u: User) => {
+  if (typeof document !== 'undefined') {
+    if (u.email) {
+      document.cookie = `watlys_user_email=${encodeURIComponent(u.email)}; path=/; max-age=604800; SameSite=Lax`
+    }
+    if (u.phone) {
+      document.cookie = `watlys_user_phone=${encodeURIComponent(u.phone)}; path=/; max-age=604800; SameSite=Lax`
+    }
+  }
+}
+
+const clearSessionCookies = () => {
+  if (typeof document !== 'undefined') {
+    document.cookie = 'watlys_user_email=; path=/; max-age=0; SameSite=Lax'
+    document.cookie = 'watlys_user_phone=; path=/; max-age=0; SameSite=Lax'
+  }
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -93,23 +83,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser)
-        setUser({
-          ...parsed,
-          fullName: parsed.fullName || parsed.name || 'Watlys Customer',
-          name: parsed.name || parsed.fullName || 'Watlys Customer',
-          addressList: parsed.addressList || (parsed.address ? [{
-            addressLabel: 'Home',
-            street: parsed.address.line1,
-            city: parsed.address.city,
-            postalCode: parsed.address.postalCode,
-          }] : []),
-          activeSubscription: parsed.activeSubscription || DEFAULT_DEMO_USER.activeSubscription,
-        })
+        if (parsed && (parsed.email || parsed.phone)) {
+          const userObj: User = {
+            ...parsed,
+            fullName: parsed.fullName || parsed.name || 'Watlys Customer',
+            name: parsed.name || parsed.fullName || 'Watlys Customer',
+            addressList: parsed.addressList || (parsed.address ? [{
+              addressLabel: 'Home',
+              street: parsed.address.line1,
+              city: parsed.address.city,
+              postalCode: parsed.address.postalCode,
+            }] : []),
+          }
+          setUser(userObj)
+          setSessionCookies(userObj)
+        } else {
+          setUser(null)
+          localStorage.removeItem('watlys_user')
+          clearSessionCookies()
+        }
       } catch {
-        setUser(DEFAULT_DEMO_USER)
+        setUser(null)
+        localStorage.removeItem('watlys_user')
+        clearSessionCookies()
       }
     } else {
-      setUser(DEFAULT_DEMO_USER)
+      setUser(null)
+      clearSessionCookies()
     }
     setIsLoaded(true)
   }, [])
@@ -137,6 +137,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const fetchedUser: User = data.user
     setUser(fetchedUser)
     localStorage.setItem('watlys_user', JSON.stringify(fetchedUser))
+    setSessionCookies(fetchedUser)
     setIsAuthModalOpen(false)
   }
 
@@ -154,14 +155,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const newUser: User = data.user
     setUser(newUser)
     localStorage.setItem('watlys_user', JSON.stringify(newUser))
+    setSessionCookies(newUser)
     setIsAuthModalOpen(false)
   }
-
-
 
   const logout = () => {
     setUser(null)
     localStorage.removeItem('watlys_user')
+    clearSessionCookies()
   }
 
   const saveAddress = (address: NonNullable<User['address']>) => {
@@ -240,6 +241,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        isAuthenticated: !!user,
+        isGuest: !user,
         login,
         signup,
         logout,
@@ -248,7 +251,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         removeAddress,
         toggleSubscriptionStatus,
         updateSubscription,
-        isGuest: !user,
         isAuthModalOpen,
         authModalTab,
         openAuthModal,

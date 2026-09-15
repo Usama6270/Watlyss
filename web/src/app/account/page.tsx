@@ -41,6 +41,8 @@ interface PricingSummary {
   basePrice?: number
   subtotal?: number
   appliedDiscountPercentage?: number
+  appliedCoupon?: string
+  couponDiscountAmount?: number
   deliveryFee?: number
   grandTotal?: number
 }
@@ -62,6 +64,8 @@ interface Order {
   city?: string
   packageDetails?: PackageDetails
   pricingSummary?: PricingSummary
+  appliedCoupon?: string
+  couponDiscountAmount?: number
   paymentMethod?: string
   paymentStatus?: string
   transactionReference?: string
@@ -164,30 +168,17 @@ export default function AccountPage() {
     async function fetchOrders(showSpinner = false) {
       try {
         if (showSpinner) setLoadingOrders(true)
-        const res = await fetch('/api/orders')
+        const headers: Record<string, string> = {}
+        if (user?.email) headers['x-user-email'] = user.email
+        if (user?.phone) headers['x-user-phone'] = user.phone
+
+        const res = await fetch('/api/orders', { headers })
         const data = await res.json()
-        const allOrders: Order[] = data.orders || []
 
-        // Filter relevant orders if user info is present, or show all orders for user
-        if (user) {
-          const userEmail = (user.email || '').toLowerCase().trim()
-          const userPhone = (user.phone || '').trim()
-          const userName = (user.fullName || '').toLowerCase().trim()
-
-          const filtered = (allOrders || []).filter((o) => {
-            const oEmail = (o.email || '').toLowerCase().trim()
-            const oPhone = (o.phone || '').trim()
-            const oName = (o.customerName || '').toLowerCase().trim()
-
-            if (userEmail && oEmail && (oEmail.includes(userEmail) || userEmail.includes(oEmail))) return true
-            if (userPhone && oPhone && (oPhone.includes(userPhone) || userPhone.includes(oPhone))) return true
-            if (userName && oName && (oName.includes(userName) || userName.includes(oName))) return true
-            return false
-          })
-
-          setOrders(filtered.length > 0 ? filtered : allOrders)
+        if (res.ok && data.success) {
+          setOrders(data.orders || [])
         } else {
-          setOrders(allOrders)
+          setOrders([])
         }
       } catch (err) {
         console.error('Failed to fetch orders via /api/orders:', err)
@@ -647,22 +638,37 @@ export default function AccountPage() {
 
                         <div className="space-y-1">
                           <span className="text-slate-400 font-semibold block text-[11px]">Pricing Breakdown:</span>
-                          {order.pricingSummary ? (
-                            <>
-                              <div className="flex justify-between text-slate-500 text-[11px]">
-                                <span>Subtotal:</span>
-                                <span>PKR {order.pricingSummary.subtotal?.toLocaleString()}</span>
-                              </div>
-                              <div className="flex justify-between text-emerald-600 text-[11px]">
-                                <span>Discount ({order.pricingSummary.appliedDiscountPercentage}%):</span>
-                                <span>- PKR {Math.round((order.pricingSummary.subtotal || 0) * ((order.pricingSummary.appliedDiscountPercentage || 0) / 100)).toLocaleString()}</span>
-                              </div>
-                              <div className="flex justify-between text-slate-500 text-[11px]">
-                                <span>Delivery Fee:</span>
-                                <span>PKR {order.pricingSummary.deliveryFee?.toLocaleString()}</span>
-                              </div>
-                            </>
-                          ) : (
+                          {order.pricingSummary ? (() => {
+                            const subtotalVal = order.pricingSummary.subtotal || 0
+                            const segDiscountVal = Math.round(subtotalVal * ((order.pricingSummary.appliedDiscountPercentage || 0) / 100))
+                            const delFeeVal = order.pricingSummary.deliveryFee || 0
+                            const calcGrandTotalWithoutCoupon = subtotalVal - segDiscountVal + delFeeVal
+                            const calcCouponAmount = order.pricingSummary.couponDiscountAmount || order.couponDiscountAmount || Math.max(0, calcGrandTotalWithoutCoupon - grandTotal)
+                            const couponCodeDisplay = order.pricingSummary.appliedCoupon || order.appliedCoupon || 'PROMO'
+
+                            return (
+                              <>
+                                <div className="flex justify-between text-slate-500 text-[11px]">
+                                  <span>Subtotal:</span>
+                                  <span>PKR {subtotalVal.toLocaleString()}</span>
+                                </div>
+                                <div className="flex justify-between text-emerald-600 text-[11px]">
+                                  <span>Discount ({order.pricingSummary.appliedDiscountPercentage}%):</span>
+                                  <span>- PKR {segDiscountVal.toLocaleString()}</span>
+                                </div>
+                                {calcCouponAmount > 0 && (
+                                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold text-[11px]">
+                                    <span>Coupon Discount ({couponCodeDisplay} - 5%):</span>
+                                    <span>- PKR {calcCouponAmount.toLocaleString()}</span>
+                                  </div>
+                                )}
+                                <div className="flex justify-between text-slate-500 text-[11px]">
+                                  <span>Delivery Fee:</span>
+                                  <span>PKR {delFeeVal.toLocaleString()}</span>
+                                </div>
+                              </>
+                            )
+                          })() : (
                             <p className="text-slate-500">Standard Plan Pricing</p>
                           )}
                         </div>

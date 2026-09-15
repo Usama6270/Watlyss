@@ -1,20 +1,27 @@
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'r6fj3reg'
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
-const writeToken = process.env.SANITY_API_WRITE_TOKEN || process.env.SANITY_STUDIO_TOKEN
-
-const writeClient = createClient({
-  projectId,
-  dataset,
-  apiVersion: '2024-01-01',
-  useCdn: false,
-  token: writeToken,
-})
-
 export async function POST(req: Request) {
   try {
+    const writeToken = process.env.SANITY_API_WRITE_TOKEN
+    if (!writeToken) {
+      return NextResponse.json(
+        { success: false, error: 'Server configuration error: SANITY_API_WRITE_TOKEN missing' },
+        { status: 500 }
+      )
+    }
+
+    const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'r6fj3reg'
+    const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+
+    const writeClient = createClient({
+      projectId,
+      dataset,
+      apiVersion: '2024-01-01',
+      useCdn: false,
+      token: writeToken,
+    })
+
     const body = await req.json()
     const {
       customerName,
@@ -72,6 +79,8 @@ export async function POST(req: Request) {
         basePrice: Number(pricingSummary.basePrice || 320),
         subtotal: Number(pricingSummary.subtotal || 0),
         appliedDiscountPercentage: Number(pricingSummary.appliedDiscountPercentage || 0),
+        appliedCoupon: body.appliedCoupon || pricingSummary.appliedCoupon || '',
+        couponDiscountAmount: Number(body.couponDiscountAmount || pricingSummary.couponDiscountAmount || 0),
         deliveryFee: Number(pricingSummary.deliveryFee || 100),
         grandTotal: Number(pricingSummary.grandTotal || 0),
       },

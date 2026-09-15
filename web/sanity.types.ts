@@ -352,33 +352,6 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: ../web/src/app/account/page.tsx
-// Variable: CUSTOMER_ORDERS_QUERY
-// Query: *[_type == "order" && (customerEmail == $email || customerEmail == $phone)] | order(_createdAt desc) {    _id,    orderNumber,    customerEmail,    items,    total,    paymentStatus,    status,    _createdAt  }
-export type CUSTOMER_ORDERS_QUERY_RESULT = Array<{
-  _id: string;
-  orderNumber: string | null;
-  customerEmail: string | null;
-  items: Array<{
-    productId?: string;
-    title?: string;
-    quantity?: number;
-    price?: number;
-    _key: string;
-  }> | null;
-  total: number | null;
-  paymentStatus: "failed" | "paid" | "pending" | null;
-  status:
-    | "cancelled"
-    | "delivered"
-    | "out_for_delivery"
-    | "packed"
-    | "placed"
-    | "refunded"
-    | null;
-  _createdAt: string;
-}>;
-
 // Source: ../web/src/app/product/[slug]/page.tsx
 // Variable: PRODUCT_DETAIL_QUERY
 // Query: *[_type == "product" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    price,    description,    "imageUrl": image.asset->url,    "secondaryImageUrl": secondaryImage.asset->url,    capacity,    pH,    material,    minerals,    idealUse  }
@@ -413,7 +386,6 @@ export type RELATED_PRODUCTS_QUERY_RESULT = Array<{
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "order" && (customerEmail == $email || customerEmail == $phone)] | order(_createdAt desc) {\n    _id,\n    orderNumber,\n    customerEmail,\n    items,\n    total,\n    paymentStatus,\n    status,\n    _createdAt\n  }\n': CUSTOMER_ORDERS_QUERY_RESULT;
     '\n  *[_type == "product" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    price,\n    description,\n    "imageUrl": image.asset->url,\n    "secondaryImageUrl": secondaryImage.asset->url,\n    capacity,\n    pH,\n    material,\n    minerals,\n    idealUse\n  }\n': PRODUCT_DETAIL_QUERY_RESULT;
     '\n  *[_type == "product" && slug.current != $slug][0...3] {\n    _id,\n    title,\n    "slug": slug.current,\n    price,\n    description,\n    "imageUrl": image.asset->url,\n    capacity\n  }\n': RELATED_PRODUCTS_QUERY_RESULT;
   }

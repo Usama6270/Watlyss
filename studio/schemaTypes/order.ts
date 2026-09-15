@@ -103,6 +103,16 @@ export const order = defineType({
           type: 'number',
         }),
         defineField({
+          name: 'appliedCoupon',
+          title: 'Applied Coupon Code',
+          type: 'string',
+        }),
+        defineField({
+          name: 'couponDiscountAmount',
+          title: 'Coupon Discount Amount (PKR)',
+          type: 'number',
+        }),
+        defineField({
           name: 'deliveryFee',
           title: 'Delivery Fee (PKR)',
           type: 'number',

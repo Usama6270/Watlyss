@@ -1,20 +1,25 @@
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
-
-const SANITY_WRITE_TOKEN =
-  process.env.SANITY_API_WRITE_TOKEN ||
-  'skp59J7MkNWjr6EoeF7Rj5xFXciXCUrdQ6HYDBZuEccKmxWx2Pc3MijY9Z5ksJxTvWv6h6wGvtvEFa5fRg1rNDG56KUJ3z4QqIU8YAqwSAl64HxPnI1BkiphXVJoVw0sIav06ku7Jmhtyt2doWRtGWgAfKAIKblY8KJ7ugbHvjRl6mLktKe3'
-
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'r6fj3reg',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  useCdn: false,
-  token: SANITY_WRITE_TOKEN,
-})
+import bcrypt from 'bcryptjs'
 
 export async function POST(req: Request) {
   try {
+    const writeToken = process.env.SANITY_API_WRITE_TOKEN
+    if (!writeToken) {
+      return NextResponse.json(
+        { error: 'Server configuration error: SANITY_API_WRITE_TOKEN is missing' },
+        { status: 500 }
+      )
+    }
+
+    const client = createClient({
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'r6fj3reg',
+      dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+      apiVersion: '2024-01-01',
+      useCdn: false,
+      token: writeToken,
+    })
+
     const body = await req.json()
     const { identifier, password, otp } = body
 
@@ -56,7 +61,15 @@ export async function POST(req: Request) {
         )
       }
 
-      if (customer.password && customer.password !== password) {
+      let isPasswordValid = false
+      if (customer.password) {
+        isPasswordValid = await bcrypt.compare(password, customer.password)
+        if (!isPasswordValid && customer.password === password) {
+          isPasswordValid = true
+        }
+      }
+
+      if (!isPasswordValid) {
         return NextResponse.json(
           { error: 'Incorrect email/phone or password. Please try again.' },
           { status: 401 }

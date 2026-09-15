@@ -52,6 +52,10 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
   const [cardExpiry, setCardExpiry] = useState('')
   const [cardCvv, setCardCvv] = useState('')
 
+  const [couponInput, setCouponInput] = useState('')
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
+  const [couponError, setCouponError] = useState<string | null>(null)
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [orderSuccess, setOrderSuccess] = useState<{
@@ -98,6 +102,9 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
       setCardNumber('')
       setCardExpiry('')
       setCardCvv('')
+      setCouponInput('')
+      setAppliedCoupon(null)
+      setCouponError(null)
     }
   }, [isOpen, initialPackageDetails, user])
 
@@ -111,8 +118,44 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
   const subtotal = totalBottles * basePrice
   const appliedDiscountPercentage = Math.round(discountRate * 100)
   const discountAmount = Math.round(subtotal * discountRate)
+  
+  // 5% Coupon Discount
+  const couponDiscountAmount = appliedCoupon ? Math.round(subtotal * 0.05) : 0
   const deliveryFee = 100 * totalDeliveries
-  const grandTotal = Math.max(0, subtotal - discountAmount + deliveryFee)
+  const grandTotal = Math.max(0, subtotal - discountAmount - couponDiscountAmount + deliveryFee)
+
+  const VALID_COUPONS = ['SAVE5', 'WELCOME5', 'WATLYS5', 'PURE5', 'PROMO5', 'WATER5', 'FAMILY5', 'DISCOUNT5']
+
+  const handleApplyCoupon = (e?: React.FormEvent) => {
+    if (e) e.preventDefault()
+    setCouponError(null)
+    const code = couponInput.trim().toUpperCase()
+    if (!code) {
+      setCouponError('Please enter a promo / coupon code.')
+      return
+    }
+
+    const isValid =
+      VALID_COUPONS.includes(code) ||
+      code.endsWith('5') ||
+      code.startsWith('SAVE') ||
+      code.startsWith('WELCOME') ||
+      code.startsWith('WATLYS')
+
+    if (!isValid) {
+      setCouponError('Invalid coupon code! Use valid code e.g. "SAVE5", "WELCOME5", or "WATLYS5".')
+      return
+    }
+
+    setAppliedCoupon(code)
+    setCouponError(null)
+  }
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null)
+    setCouponInput('')
+    setCouponError(null)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -174,9 +217,13 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
             basePrice,
             subtotal,
             appliedDiscountPercentage,
+            appliedCoupon: appliedCoupon || '',
+            couponDiscountAmount,
             deliveryFee,
             grandTotal,
           },
+          appliedCoupon: appliedCoupon || '',
+          couponDiscountAmount,
           paymentMethod,
           paymentStatus: payStatus,
           transactionReference: trxRef,
@@ -694,7 +741,66 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   )}
                 </div>
 
-                {/* Section 4: Pricing Summary */}
+                {/* Section 4: Promo / Coupon Code Input */}
+                <div className="space-y-3 pt-2 border-t border-zinc-200/80 dark:border-slate-800">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+                      4. PROMO / COUPON CODE
+                    </span>
+                  </div>
+
+                  {appliedCoupon ? (
+                    <div className="flex items-center justify-between p-3.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-xl text-xs text-emerald-800 dark:text-emerald-300 shadow-sm">
+                      <div className="flex items-center space-x-2 font-bold">
+                        <span className="text-base">🏷️</span>
+                        <span>{appliedCoupon} Applied (5% OFF)</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleRemoveCoupon}
+                        className="p-1 hover:bg-emerald-200/60 dark:hover:bg-emerald-900/60 rounded-lg text-emerald-700 dark:text-emerald-300 transition-colors cursor-pointer"
+                        title="Remove Promo Code"
+                      >
+                        <X size={15} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          placeholder="Enter Promo / Coupon Code"
+                          value={couponInput}
+                          onChange={(e) => {
+                            setCouponInput(e.target.value)
+                            if (couponError) setCouponError(null)
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault()
+                              handleApplyCoupon()
+                            }
+                          }}
+                          className="flex-1 px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs uppercase tracking-wider font-semibold text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleApplyCoupon}
+                          className="px-5 py-2.5 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      {couponError && (
+                        <p className="text-[11px] text-rose-500 dark:text-rose-400 font-medium pl-1">
+                          {couponError}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Section 5: Pricing Summary */}
                 <div className="p-5 bg-zinc-50 dark:bg-[#0b1329] rounded-2xl border border-zinc-200/80 dark:border-slate-800 space-y-2.5 text-xs text-zinc-600 dark:text-slate-300">
                   <div className="flex justify-between">
                     <span>Base Bottle Price:</span>
@@ -708,6 +814,12 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                     <span>Segment Discount ({customerSegment} - {appliedDiscountPercentage}%):</span>
                     <span>- PKR {discountAmount.toLocaleString()}</span>
                   </div>
+                  {appliedCoupon && (
+                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <span>Coupon Discount ({appliedCoupon} - 5%):</span>
+                      <span>- PKR {couponDiscountAmount.toLocaleString()}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between">
                     <span>Delivery Fee ({totalDeliveries} trips):</span>
                     <span className="font-semibold text-zinc-900 dark:text-white">PKR {deliveryFee.toLocaleString()}</span>
