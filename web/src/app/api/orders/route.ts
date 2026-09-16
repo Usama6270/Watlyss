@@ -33,17 +33,27 @@ export async function GET(req: Request) {
 
     const email = (userEmailHeader || searchParams.get('email') || (cookieEmailMatch ? decodeURIComponent(cookieEmailMatch[1]) : '') || '').trim()
     const phone = (userPhoneHeader || searchParams.get('phone') || (cookiePhoneMatch ? decodeURIComponent(cookiePhoneMatch[1]) : '') || '').trim()
+    const searchQuery = (searchParams.get('orderNumber') || searchParams.get('query') || searchParams.get('q') || searchParams.get('phone') || searchParams.get('email') || '').trim()
 
-    // Require valid authenticated customer session identity
-    if (!email && !phone) {
+    // Allow lookup if email, phone, or searchQuery is provided
+    if (!email && !phone && !searchQuery) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized: No valid customer session present' },
+        { success: false, error: 'Unauthorized: No customer session or order search query provided' },
         { status: 401 }
       )
     }
 
     const CUSTOMER_ORDERS_QUERY = `
       *[_type == "order" && (
+        (defined($searchQuery) && $searchQuery != "" && (
+          orderNumber == $searchQuery || 
+          _id == $searchQuery || 
+          _id == "drafts." + $searchQuery ||
+          customerPhone == $searchQuery ||
+          phone == $searchQuery ||
+          customerEmail == $searchQuery ||
+          email == $searchQuery
+        )) ||
         (defined($email) && $email != "" && (customerEmail == $email || email == $email)) ||
         (defined($phone) && $phone != "" && (customerPhone == $phone || phone == $phone))
       )] | order(_createdAt desc) {
@@ -72,7 +82,7 @@ export async function GET(req: Request) {
       }
     `
 
-    const orders = await serverClient.fetch(CUSTOMER_ORDERS_QUERY, { email, phone })
+    const orders = await serverClient.fetch(CUSTOMER_ORDERS_QUERY, { email, phone, searchQuery })
 
     // Deduplicate orders to prevent duplicate UI cards when Sanity Studio creates draft vs published pairs
     const orderMap = new Map<string, any>()

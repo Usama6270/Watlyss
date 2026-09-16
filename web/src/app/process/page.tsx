@@ -32,7 +32,7 @@ export default function ProcessPage() {
       num: '04',
       title: 'Sterilized Recyclable Glass Bottling',
       desc: 'Water is enclosed directly at source under sterile nitrogen atmosphere into lead-free recyclable glass containers, locking in crisp subterranean freshness.',
-      image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1000&q=80',
+      image: '/Water19.png',
     },
     {
       num: '05',
@@ -70,14 +70,15 @@ export default function ProcessPage() {
         <section className="space-y-24">
           {steps.map((step, idx) => {
             const isEven = idx % 2 === 0
+            const isPng = step.image.endsWith('.png')
             return (
               <div key={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className={`lg:col-span-6 relative aspect-square sm:h-[400px] bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm ${!isEven ? 'lg:order-2' : ''}`}>
+                <div className={`lg:col-span-6 relative h-[420px] sm:h-[500px] bg-gradient-to-br from-blue-50/30 via-white to-slate-50 dark:from-[#0f1a3a] dark:via-[#0a1128] dark:to-[#0a1128] rounded-3xl overflow-hidden border border-blue-100/80 dark:border-slate-800 shadow-md flex items-center justify-center p-2 ${!isEven ? 'lg:order-2' : ''}`}>
                   <Image
                     src={step.image}
                     alt={step.title}
                     fill
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                    className={`${isPng ? 'object-contain scale-[1.42] hover:scale-[1.5]' : 'object-cover'} grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer select-none drop-shadow-xl`}
                   />
                 </div>
 

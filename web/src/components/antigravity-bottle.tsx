@@ -61,32 +61,16 @@ export default function Responsive3DBottleHero() {
             className="absolute bottom-[3%] left-1/2 -translate-x-1/2 h-8 sm:h-10 w-[70%] bg-black/20 dark:bg-black/50 blur-xl rounded-full scale-y-50 pointer-events-none"
           />
 
-          {/* 4. Main 19L Bottle Asset (`public/bottle.png`) — Edge Bounds & Pointer Locking */}
-          <div className="relative h-full w-full rounded-none overflow-hidden select-none pointer-events-none">
+          {/* Main 19L Bottle Asset (`public/Water19.png`) */}
+          <div className="relative h-full w-full rounded-none overflow-hidden select-none pointer-events-none flex items-center justify-center">
             <Image
-              src="/bottle.png"
-              alt="Watlys 19L Bottle"
+              src="/Water19.png"
+              alt="Watlys Premium 19L Bottle"
               fill
               priority
               className="object-contain drop-shadow-[0_25px_35px_rgba(0,100,200,0.15)] dark:drop-shadow-[0_25px_35px_rgba(0,100,200,0.25)] select-none pointer-events-none"
             />
           </div>
-
-          {/* 5. Synchronized Bottle Cap Asset (`public/cap.png`) — Locked flush on top of bottle neck rim */}
-          <motion.div
-            style={{
-              rotateZ: capRotateZ,
-            }}
-            className="absolute top-[18.2%] left-1/2 -translate-x-1/2 w-[60px] h-[48px] sm:w-[76px] sm:h-[64px] lg:w-[82px] lg:h-[70px] z-30 origin-bottom pointer-events-none select-none"
-          >
-            <Image
-              src="/cap.png"
-              alt="Bottle Cap"
-              fill
-              priority
-              className="object-contain drop-shadow-[0_4px_12px_rgba(0,100,208,0.25)] select-none pointer-events-none"
-            />
-          </motion.div>
         </motion.div>
       </div>
     </section>

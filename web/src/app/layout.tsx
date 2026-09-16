@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/auth';
 import { CartProvider } from '@/context/cart';
 import { LanguageProvider } from '@/context/language';
-import TawkWidget from '@/components/tawk-widget';
+import ChatWidget from '@/components/chat-widget';
 import AuthModal from '@/components/auth-modal';
 
 const velocitySans = localFont({
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <AuthModal />
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
-                <TawkWidget />
+                <ChatWidget />
               </CartProvider>
             </AuthProvider>
           </LanguageProvider>

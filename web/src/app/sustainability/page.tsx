@@ -34,12 +34,13 @@ export default function SustainabilityPage() {
             </p>
           </div>
 
-          <div className="lg:col-span-6 relative aspect-square sm:h-[450px] bg-[#FAF9F6] dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/60 dark:border-slate-800/60 shadow-sm">
+          <div className="lg:col-span-6 relative h-[380px] sm:h-[480px] flex items-center justify-center">
             <Image
-              src="https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&w=1000&q=80"
-              alt="Sustainability Aquifer Stewardship"
+              src="/Water19.png"
+              alt="Watlys 19L Eco Bottle"
               fill
-              className="object-cover grayscale"
+              className="object-contain hover:scale-105 transition-transform duration-500 select-none drop-shadow-[0_25px_40px_rgba(0,102,255,0.2)]"
+              priority
             />
           </div>
         </div>
