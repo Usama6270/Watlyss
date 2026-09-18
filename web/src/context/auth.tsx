@@ -44,7 +44,7 @@ interface AuthContextType {
   saveAddress: (address: NonNullable<User['address']>) => void
   addAddress: (address: AddressItem) => void
   removeAddress: (index: number) => void
-  toggleSubscriptionStatus: () => void
+  toggleSubscriptionStatus: (explicitStatus?: 'active' | 'paused') => void
   updateSubscription: (subscription: Partial<ActiveSubscription>) => void
   isAuthModalOpen: boolean
   authModalTab: 'login' | 'signup'
@@ -204,37 +204,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const toggleSubscriptionStatus = () => {
-    if (user && user.activeSubscription) {
-      const currentStatus = user.activeSubscription.status
-      const newStatus = currentStatus === 'active' ? 'paused' : 'active'
+  const toggleSubscriptionStatus = (explicitStatus?: 'active' | 'paused') => {
+    setUser((prevUser) => {
+      const baseUser: User = prevUser || {
+        fullName: 'Watlys Customer',
+        email: 'customer@watlys.pk',
+        phone: '+92 300 1234567',
+        addressList: [],
+      }
+      const currentStatus = baseUser.activeSubscription?.status || 'active'
+      const targetStatus = explicitStatus || (currentStatus === 'active' ? 'paused' : 'active')
       const updatedUser: User = {
-        ...user,
+        ...baseUser,
         activeSubscription: {
-          ...user.activeSubscription,
-          status: newStatus,
+          packageType: baseUser.activeSubscription?.packageType || 'Family Plan (19L)',
+          frequency: baseUser.activeSubscription?.frequency || 'weekly',
+          bottleQty: baseUser.activeSubscription?.bottleQty || 4,
+          ...baseUser.activeSubscription,
+          status: targetStatus,
         },
       }
-      setUser(updatedUser)
       localStorage.setItem('watlys_user', JSON.stringify(updatedUser))
-    }
+      return updatedUser
+    })
   }
 
   const updateSubscription = (subscription: Partial<ActiveSubscription>) => {
-    if (user) {
+    setUser((prevUser) => {
+      const baseUser: User = prevUser || {
+        fullName: 'Watlys Customer',
+        email: 'customer@watlys.pk',
+        phone: '+92 300 1234567',
+        addressList: [],
+      }
       const updatedUser: User = {
-        ...user,
+        ...baseUser,
         activeSubscription: {
-          packageType: user.activeSubscription?.packageType || 'Family Plan (19L)',
-          frequency: user.activeSubscription?.frequency || 'weekly',
-          bottleQty: user.activeSubscription?.bottleQty || 4,
-          status: user.activeSubscription?.status || 'active',
+          packageType: baseUser.activeSubscription?.packageType || 'Family Plan (19L)',
+          frequency: baseUser.activeSubscription?.frequency || 'weekly',
+          bottleQty: baseUser.activeSubscription?.bottleQty || 4,
+          status: baseUser.activeSubscription?.status || 'active',
+          ...baseUser.activeSubscription,
           ...subscription,
         },
       }
-      setUser(updatedUser)
       localStorage.setItem('watlys_user', JSON.stringify(updatedUser))
-    }
+      return updatedUser
+    })
   }
 
   return (

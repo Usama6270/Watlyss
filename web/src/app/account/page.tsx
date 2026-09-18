@@ -127,9 +127,9 @@ export default function AccountPage() {
     setIsToggling(true)
     setToggleNotice(null)
 
-    const currentStatus = sub.status // 'active' or 'paused'
-    const isCurrentlyActive = currentStatus === 'active'
+    const isCurrentlyActive = sub.status === 'active'
     const action = isCurrentlyActive ? 'PAUSE' : 'RESUME'
+    const nextStatus: 'active' | 'paused' = action === 'PAUSE' ? 'paused' : 'active'
 
     try {
       const res = await fetch('/api/subscription/toggle', {
@@ -147,7 +147,17 @@ export default function AccountPage() {
         throw new Error(data.error || 'Failed to toggle subscription in Sanity.')
       }
 
-      toggleSubscriptionStatus()
+      toggleSubscriptionStatus(nextStatus)
+
+      if (latestOrder) {
+        setOrders((prevOrders) =>
+          prevOrders.map((o) =>
+            o._id === latestOrder._id
+              ? { ...o, subscriptionStatus: action === 'PAUSE' ? 'PAUSED' : 'ACTIVE' }
+              : o
+          )
+        )
+      }
 
       setToggleNotice(
         action === 'PAUSE'
@@ -159,6 +169,54 @@ export default function AccountPage() {
       setToggleNotice(err.message || 'Network error toggling subscription status.')
     } finally {
       setIsToggling(false)
+    }
+  }
+
+  const handleUpdateSubscriptionConfig = async (newConfig: { frequency?: 'weekly' | 'bi-weekly' | 'monthly'; bottleQty?: number }) => {
+    updateSubscription(newConfig)
+    if (latestOrder) {
+      setOrders((prevOrders) =>
+        prevOrders.map((o) => {
+          if (o._id !== latestOrder._id) return o
+          const newQty = newConfig.bottleQty !== undefined ? newConfig.bottleQty : (o.packageDetails?.bottleQty || 4)
+          const newFreq = newConfig.frequency || o.packageDetails?.frequency || 'weekly'
+          const newSubtotal = newQty * 320
+          const delFee = o.pricingSummary?.deliveryFee ?? 100
+          const discPct = o.pricingSummary?.appliedDiscountPercentage || 0
+          const segDisc = Math.round(newSubtotal * (discPct / 100))
+          const coupDisc = o.pricingSummary?.couponDiscountAmount || 0
+          const newGrandTotal = Math.max(0, newSubtotal - segDisc - coupDisc + delFee)
+
+          return {
+            ...o,
+            packageDetails: {
+              ...o.packageDetails,
+              bottleQty: newQty,
+              frequency: newFreq,
+            },
+            pricingSummary: {
+              ...o.pricingSummary,
+              subtotal: newSubtotal,
+              grandTotal: newGrandTotal,
+            },
+          }
+        })
+      )
+    }
+
+    try {
+      await fetch('/api/subscription/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: latestOrder?._id,
+          phone: currentUser.phone,
+          frequency: newConfig.frequency,
+          bottleQty: newConfig.bottleQty,
+        }),
+      })
+    } catch (err) {
+      console.error('Failed to sync updated subscription config to Sanity:', err)
     }
   }
 
@@ -221,14 +279,22 @@ export default function AccountPage() {
     ],
   }
 
-  const sub = currentUser.activeSubscription || {
-    packageType: 'Family Plan (19L)',
-    frequency: 'weekly',
-    bottleQty: 4,
-    status: 'active',
-  }
-
   const latestOrder = orders.length > 0 ? orders[0] : null
+
+  // Compute live subscription status using both User Context and Sanity order document
+  const rawSanitySubStatus = latestOrder?.subscriptionStatus || ''
+  const isSanityPaused = rawSanitySubStatus.toUpperCase().includes('PAUSE') || rawSanitySubStatus.toUpperCase().includes('HOLD')
+
+  const effectiveStatus: 'active' | 'paused' | 'cancelled' = isSanityPaused
+    ? 'paused'
+    : (currentUser.activeSubscription?.status || 'active')
+
+  const sub = {
+    packageType: currentUser.activeSubscription?.packageType || (latestOrder?.packageDetails?.customerSegment ? `${latestOrder.packageDetails.customerSegment} Plan (19L)` : 'Family Plan (19L)'),
+    frequency: currentUser.activeSubscription?.frequency || latestOrder?.packageDetails?.frequency || 'weekly',
+    bottleQty: currentUser.activeSubscription?.bottleQty || latestOrder?.packageDetails?.bottleQty || 4,
+    status: effectiveStatus,
+  }
 
   const getFormattedNextDelivery = () => {
     if (sub.status !== 'active') return 'On Hold (Paused)'
@@ -770,7 +836,7 @@ export default function AccountPage() {
                 ].map((f) => (
                   <button
                     key={f.id}
-                    onClick={() => updateSubscription({ frequency: f.id as any })}
+                    onClick={() => handleUpdateSubscriptionConfig({ frequency: f.id as any })}
                     className={`py-3 px-4 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                       sub.frequency === f.id
                         ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
@@ -791,8 +857,8 @@ export default function AccountPage() {
               </label>
               <div className="flex items-center space-x-4">
                 <button
-                  onClick={() => updateSubscription({ bottleQty: Math.max(1, sub.bottleQty - 1) })}
-                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors"
+                  onClick={() => handleUpdateSubscriptionConfig({ bottleQty: Math.max(1, sub.bottleQty - 1) })}
+                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   -
                 </button>
@@ -801,12 +867,12 @@ export default function AccountPage() {
                   min="1"
                   max="20"
                   value={sub.bottleQty}
-                  onChange={(e) => updateSubscription({ bottleQty: parseInt(e.target.value) })}
+                  onChange={(e) => handleUpdateSubscriptionConfig({ bottleQty: parseInt(e.target.value) })}
                   className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
                 />
                 <button
-                  onClick={() => updateSubscription({ bottleQty: sub.bottleQty + 1 })}
-                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors"
+                  onClick={() => handleUpdateSubscriptionConfig({ bottleQty: sub.bottleQty + 1 })}
+                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   +
                 </button>

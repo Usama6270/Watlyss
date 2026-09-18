@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
+import { sendCustomerOrderConfirmation, sendAdminOrderNotification } from '@/lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -91,7 +92,35 @@ export async function POST(req: Request) {
       createdAt: new Date().toISOString(),
     })
 
-    // 4. Return success response
+    // 4. Non-blocking Background Transactional Email Notifications
+    const emailPayload = {
+      orderId: doc._id,
+      orderNumber: doc.orderNumber,
+      customerName: doc.customerName,
+      phone: doc.phone,
+      email: doc.email,
+      deliveryAddress: doc.deliveryAddress,
+      city: doc.city,
+      packageDetails: doc.packageDetails,
+      pricingSummary: doc.pricingSummary,
+      paymentMethod: doc.paymentMethod,
+      paymentStatus: doc.paymentStatus,
+      transactionReference: doc.transactionReference,
+      createdAt: doc.createdAt,
+    }
+
+    ;(async () => {
+      try {
+        await Promise.allSettled([
+          sendCustomerOrderConfirmation(emailPayload),
+          sendAdminOrderNotification(emailPayload),
+        ])
+      } catch (emailErr) {
+        console.error('[Background Email Error] Failed to send order emails:', emailErr)
+      }
+    })()
+
+    // 5. Return success response
     return NextResponse.json({
       success: true,
       orderId: doc._id,

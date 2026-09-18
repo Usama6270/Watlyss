@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { client } from '@/sanity/client'
 import Stripe from 'stripe'
+import { sendCustomerOrderConfirmation, sendAdminOrderNotification } from '@/lib/email'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
   apiVersion: '2025-01-27' as any,
@@ -57,7 +58,44 @@ export async function POST(req: Request) {
       paymentMethod,
     }
 
-    await writeClient.create(newOrder)
+    const createdDoc = await writeClient.create(newOrder)
+
+    // Trigger transactional emails in background (non-blocking)
+    const emailPayload = {
+      orderId: createdDoc._id,
+      orderNumber,
+      customerName: name,
+      phone: address.phone || '',
+      email,
+      deliveryAddress: `${address.line1}${address.line2 ? `, ${address.line2}` : ''}`,
+      city: address.city,
+      items: items.map((i: any) => ({
+        title: i.title,
+        quantity: i.quantity,
+        price: i.price,
+      })),
+      pricingSummary: {
+        subtotal,
+        deliveryFee: 0,
+        appliedCoupon: couponCode || '',
+        couponDiscountAmount: discount,
+        grandTotal: total,
+      },
+      paymentMethod,
+      paymentStatus: paymentMethod === 'stripe' ? 'pending' : 'paid',
+      createdAt: new Date().toISOString(),
+    }
+
+    ;(async () => {
+      try {
+        await Promise.allSettled([
+          sendCustomerOrderConfirmation(emailPayload),
+          sendAdminOrderNotification(emailPayload),
+        ])
+      } catch (emailErr) {
+        console.error('[Checkout Email Error] Failed to send order emails:', emailErr)
+      }
+    })()
 
     // 2. If Stripe selected, generate Checkout Session
     if (paymentMethod === 'stripe') {
