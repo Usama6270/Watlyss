@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import FooterCursorPattern from '@/components/footer-cursor-pattern'
+import NewsletterBubbleUniverse from '@/components/newsletter-bubble-universe'
 import {
   FileText,
   Download,
@@ -489,75 +490,9 @@ export default function IndustryBriefingSection() {
           </div>
         </div>
 
-        {/* 4. UNIFIED BOTTOM CTA & NEWSLETTER BANNER */}
-        <div className="pt-8 sm:pt-12">
-          <FooterCursorPattern patternSrc="/patterns/pattern-05.svg">
-            <div className="p-8 sm:p-12 rounded-3xl bg-[#0064D0] dark:bg-[#131c38] text-white shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 border border-sky-500/30 dark:border-slate-800 font-sans relative overflow-hidden group">
-              
-              <div className="space-y-3 text-center lg:text-left relative z-10 max-w-xl">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white/15 text-sky-200 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em]">
-                  <Sparkles size={13} className="animate-pulse text-amber-300" />
-                  <span>BEGIN WITH A CONVERSATION</span>
-                </div>
-                <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white tracking-wide leading-tight">
-                  Let’s find water that feels pure.
-                </h2>
-                <p className="text-xs sm:text-sm text-sky-100/90 font-sans leading-relaxed">
-                  Subscribe to receive our monthly Pakistan water quality briefings directly in your inbox, or start your 19L pure water delivery today.
-                </p>
-              </div>
-
-              {/* UNIFIED ACTION AREA: NEWSLETTER & ORDER CTA */}
-              <div className="space-y-4 w-full lg:w-auto relative z-10 flex flex-col items-center lg:items-end">
-                <form 
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    if (!newsletterEmail) return
-                    setSubscribed(true)
-                    setTimeout(() => {
-                      setNewsletterEmail('')
-                      setSubscribed(false)
-                    }, 3000)
-                  }} 
-                  className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto font-sans"
-                >
-                  <input
-                    type="email"
-                    required
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder="Enter email for monthly newsletter"
-                    className="px-4 py-3 bg-white/15 dark:bg-slate-900/60 backdrop-blur-md border border-white/25 dark:border-slate-700 rounded-full text-xs font-medium text-white placeholder-sky-200/70 focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-64 shadow-xs"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto px-6 py-3 bg-white text-[#0064D0] hover:bg-sky-50 font-bold text-xs uppercase tracking-wider rounded-full transition-all shadow-md shrink-0 cursor-pointer flex items-center justify-center space-x-1.5"
-                  >
-                    <span>Subscribe</span>
-                    <ArrowUpRight size={14} />
-                  </button>
-                </form>
-
-                {subscribed && (
-                  <div className="p-2.5 bg-emerald-500/20 text-emerald-200 rounded-xl text-xs font-bold text-center border border-emerald-400/40 w-full">
-                    ✓ Subscribed! You will receive the next edition in your inbox.
-                  </div>
-                )}
-
-                <div className="pt-2 flex flex-col sm:flex-row items-center gap-2 text-xs text-sky-200 font-sans">
-                  <span className="text-sky-200/80 text-[11px]">Ready for fresh 19L delivery?</span>
-                  <Link
-                    href="/order"
-                    className="px-5 py-2 bg-sky-950/40 hover:bg-sky-950/70 text-white border border-sky-300/40 font-bold text-[11px] uppercase tracking-widest rounded-full transition-all shadow-md hover:scale-105 inline-flex items-center space-x-1.5 shrink-0"
-                  >
-                    <span>Start Water Subscription</span>
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </div>
-              </div>
-
-            </div>
-          </FooterCursorPattern>
+        {/* 4. INTERACTIVE SCATTERED BUBBLE NEWSLETTER UNIVERSE */}
+        <div className="pt-10 sm:pt-16 -mx-4 sm:-mx-8 lg:-mx-12">
+          <NewsletterBubbleUniverse />
         </div>
 
       </div>
