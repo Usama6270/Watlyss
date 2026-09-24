@@ -35,7 +35,7 @@ export interface BubbleItem {
   floatDuration: number
 }
 
-// 3 Sets of Scattered Newsletter Bubbles
+// 3 Sets of Scattered Newsletter Bubbles (5 items per set matching scattered positions)
 const BUBBLE_SETS: BubbleItem[][] = [
   // Set 1: Water Quality & WHO Standards
   [
@@ -59,9 +59,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'WHO Benchmark',
       gradient: 'from-sky-400/50 via-blue-500/40 to-indigo-600/60',
       glowColor: 'rgba(56, 189, 248, 0.4)',
-      desktopPos: { left: '16%', top: '48%' },
-      floatOffset: 10,
-      floatDuration: 4.2
+      desktopPos: { left: '8%', top: '15%' },
+      floatOffset: 12,
+      floatDuration: 5.5
     },
     {
       id: 'b1-2',
@@ -83,15 +83,15 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Cellular Health',
       gradient: 'from-teal-400/50 via-emerald-500/40 to-cyan-700/60',
       glowColor: 'rgba(45, 212, 191, 0.4)',
-      desktopPos: { left: '42%', top: '22%' },
+      desktopPos: { left: '88%', top: '20%' },
       floatOffset: 12,
-      floatDuration: 4.8
+      floatDuration: 6.2
     },
     {
       id: 'b1-3',
       title: 'Pakistan Aquifer Audit',
       subtitle: 'National Policy',
-      size: 'lg',
+      size: 'sm',
       category: 'NATIONAL REPORT',
       issueNo: 'GAZETTE #03',
       date: 'August 2026',
@@ -107,15 +107,15 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Policy Briefing',
       gradient: 'from-blue-500/50 via-cyan-600/40 to-slate-800/60',
       glowColor: 'rgba(59, 130, 246, 0.4)',
-      desktopPos: { left: '72%', top: '38%' },
-      floatOffset: 8,
-      floatDuration: 3.8
+      desktopPos: { left: '20%', top: '45%' },
+      floatOffset: 10,
+      floatDuration: 7.0
     },
     {
       id: 'b1-4',
       title: 'Volcanic Springs',
       subtitle: 'Geological Filter',
-      size: 'sm',
+      size: 'lg',
       category: 'GEOLOGY',
       issueNo: 'GAZETTE #04',
       date: 'July 2026',
@@ -131,9 +131,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Natural Origin',
       gradient: 'from-indigo-400/50 via-sky-500/40 to-blue-800/60',
       glowColor: 'rgba(129, 140, 248, 0.4)',
-      desktopPos: { left: '30%', top: '75%' },
-      floatOffset: 11,
-      floatDuration: 4.5
+      desktopPos: { left: '82%', top: '85%' },
+      floatOffset: 14,
+      floatDuration: 7.8
     },
     {
       id: 'b1-5',
@@ -155,33 +155,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Purity Guarantee',
       gradient: 'from-cyan-400/50 via-sky-500/40 to-blue-700/60',
       glowColor: 'rgba(34, 211, 238, 0.4)',
-      desktopPos: { left: '58%', top: '72%' },
-      floatOffset: 9,
-      floatDuration: 5.0
-    },
-    {
-      id: 'b1-6',
-      title: 'Alkaline pH 8.5',
-      subtitle: 'Acidity Defense',
-      size: 'sm',
-      category: 'HEALTH SCIENCE',
-      issueNo: 'GAZETTE #06',
-      date: 'June 2026',
-      readTime: '3 min read',
-      headline: 'Neutralizing Body Acidity with Natural pH 8.5 Water',
-      excerpt: 'Understanding metabolic acidosis and how daily alkaline water intake aids digestion and metabolic recovery.',
-      fullArticle: 'Processed diets and stress elevate systemic acidity. Natural pH 8.5 water cushions blood buffer systems, accelerating post-workout recovery and reducing acid reflux symptoms efficiently.',
-      highlights: [
-        'Stable pH 8.5 Level',
-        'Aids Acid Reflux Relief',
-        'Enhanced Athletic Recovery'
-      ],
-      badge: 'Health Choice',
-      gradient: 'from-emerald-400/50 via-teal-500/40 to-slate-800/60',
-      glowColor: 'rgba(52, 211, 153, 0.4)',
-      desktopPos: { left: '86%', top: '68%' },
-      floatOffset: 7,
-      floatDuration: 3.5
+      desktopPos: { left: '42%', top: '90%' },
+      floatOffset: 12,
+      floatDuration: 6.6
     }
   ],
 
@@ -207,9 +183,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Circular Loop',
       gradient: 'from-cyan-400/50 via-blue-500/40 to-indigo-800/60',
       glowColor: 'rgba(34, 211, 238, 0.4)',
-      desktopPos: { left: '20%', top: '35%' },
+      desktopPos: { left: '8%', top: '15%' },
       floatOffset: 12,
-      floatDuration: 4.4
+      floatDuration: 5.5
     },
     {
       id: 'b2-2',
@@ -231,15 +207,15 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Clean Energy',
       gradient: 'from-amber-400/40 via-sky-500/40 to-blue-800/60',
       glowColor: 'rgba(251, 191, 36, 0.4)',
-      desktopPos: { left: '50%', top: '28%' },
-      floatOffset: 10,
-      floatDuration: 4.7
+      desktopPos: { left: '88%', top: '20%' },
+      floatOffset: 12,
+      floatDuration: 6.2
     },
     {
       id: 'b2-3',
       title: 'Smart Dispenser',
       subtitle: 'IoT Hydration',
-      size: 'lg',
+      size: 'sm',
       category: 'INNOVATION',
       issueNo: 'TECH ISSUE #03',
       date: 'May 2026',
@@ -255,15 +231,15 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Smart Tech',
       gradient: 'from-indigo-400/50 via-purple-500/40 to-slate-800/60',
       glowColor: 'rgba(167, 139, 250, 0.4)',
-      desktopPos: { left: '78%', top: '48%' },
-      floatOffset: 11,
-      floatDuration: 4.1
+      desktopPos: { left: '20%', top: '45%' },
+      floatOffset: 10,
+      floatDuration: 7.0
     },
     {
       id: 'b2-4',
       title: 'Low Sodium',
       subtitle: 'Hypertension Safe',
-      size: 'sm',
+      size: 'lg',
       category: 'CARDIOLOGY',
       issueNo: 'HEALTH #04',
       date: 'April 2026',
@@ -279,9 +255,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Cardio Safe',
       gradient: 'from-rose-400/40 via-sky-500/40 to-blue-800/60',
       glowColor: 'rgba(251, 113, 133, 0.4)',
-      desktopPos: { left: '35%', top: '72%' },
-      floatOffset: 8,
-      floatDuration: 3.6
+      desktopPos: { left: '82%', top: '85%' },
+      floatOffset: 14,
+      floatDuration: 7.8
     },
     {
       id: 'b2-5',
@@ -303,9 +279,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Workplace',
       gradient: 'from-sky-400/50 via-teal-500/40 to-slate-800/60',
       glowColor: 'rgba(56, 189, 248, 0.4)',
-      desktopPos: { left: '62%', top: '78%' },
-      floatOffset: 10,
-      floatDuration: 4.9
+      desktopPos: { left: '42%', top: '90%' },
+      floatOffset: 12,
+      floatDuration: 6.6
     }
   ],
 
@@ -331,9 +307,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Lab Certified',
       gradient: 'from-sky-400/50 via-indigo-500/40 to-slate-800/60',
       glowColor: 'rgba(56, 189, 248, 0.4)',
-      desktopPos: { left: '22%', top: '42%' },
-      floatOffset: 9,
-      floatDuration: 4.3
+      desktopPos: { left: '8%', top: '15%' },
+      floatOffset: 12,
+      floatDuration: 5.5
     },
     {
       id: 'b3-2',
@@ -355,15 +331,15 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Safety First',
       gradient: 'from-teal-400/50 via-cyan-500/40 to-blue-800/60',
       glowColor: 'rgba(45, 212, 191, 0.4)',
-      desktopPos: { left: '52%', top: '25%' },
-      floatOffset: 11,
-      floatDuration: 4.8
+      desktopPos: { left: '88%', top: '20%' },
+      floatOffset: 12,
+      floatDuration: 6.2
     },
     {
       id: 'b3-3',
       title: 'Infant Safe',
       subtitle: 'Pediatric Standard',
-      size: 'lg',
+      size: 'sm',
       category: 'PEDIATRICS',
       issueNo: 'LAB #03',
       date: 'February 2026',
@@ -379,22 +355,22 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Infant Safe',
       gradient: 'from-blue-400/50 via-sky-500/40 to-slate-800/60',
       glowColor: 'rgba(96, 165, 250, 0.4)',
-      desktopPos: { left: '76%', top: '40%' },
-      floatOffset: 8,
-      floatDuration: 3.9
+      desktopPos: { left: '20%', top: '45%' },
+      floatOffset: 10,
+      floatDuration: 7.0
     },
     {
       id: 'b3-4',
       title: 'Ozone Shield',
       subtitle: 'Pure Oxidation',
-      size: 'sm',
+      size: 'lg',
       category: 'PURIFICATION',
       issueNo: 'LAB #04',
       date: 'February 2026',
       readTime: '2 min read',
       headline: 'Residue-Free Ozone Sterilization in Sealed Bottling',
       excerpt: 'How activated oxygen sanitizes water without chlorine taste or harmful chemical byproducts.',
-      fullArticle: 'Ozone ($O_3$) naturally oxidizes any potential airborne micro-organisms in bottles and converts back into pure oxygen gas ($O_2$) within hours, leaving zero chemical residue.',
+      fullArticle: 'Ozone (O₃) naturally oxidizes any potential airborne micro-organisms in bottles and converts back into pure oxygen gas (O₂) within hours, leaving zero chemical residue.',
       highlights: [
         'Chlorine-Free Sterilization',
         'Converts into Pure Oxygen',
@@ -403,9 +379,9 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'Ozone Pure',
       gradient: 'from-indigo-400/50 via-cyan-500/40 to-slate-800/60',
       glowColor: 'rgba(129, 140, 248, 0.4)',
-      desktopPos: { left: '40%', top: '75%' },
-      floatOffset: 12,
-      floatDuration: 4.6
+      desktopPos: { left: '82%', top: '85%' },
+      floatOffset: 14,
+      floatDuration: 7.8
     },
     {
       id: 'b3-5',
@@ -427,11 +403,50 @@ const BUBBLE_SETS: BubbleItem[][] = [
       badge: 'VIP Club',
       gradient: 'from-emerald-400/50 via-sky-500/40 to-blue-800/60',
       glowColor: 'rgba(52, 211, 153, 0.4)',
-      desktopPos: { left: '68%', top: '70%' },
-      floatOffset: 10,
-      floatDuration: 5.1
+      desktopPos: { left: '42%', top: '90%' },
+      floatOffset: 12,
+      floatDuration: 6.6
     }
   ]
+]
+
+// Absolute Coordinate Layout Specs for Scattered Canvas
+// Bubble 1 (Large 300px): Top-Left (top: 15%, left: 8%)
+// Bubble 2 (Medium 180px): Top-Right (top: 20%, right: 12%)
+// Bubble 3 (Small 100px): Center-Left (top: 45%, left: 20%)
+// Bubble 4 (X-Large 340px): Bottom-Right (bottom: 15%, right: 18%)
+// Bubble 5 (Medium 160px): Bottom-Center (bottom: 10%, left: 42%)
+const BUBBLE_LAYOUT_SPECS = [
+  {
+    sizeDesktop: 300,
+    sizeMobile: 130,
+    posStyle: { top: '15%', left: '8%' },
+    duration: 5.5,
+  },
+  {
+    sizeDesktop: 180,
+    sizeMobile: 110,
+    posStyle: { top: '20%', right: '12%' },
+    duration: 6.2,
+  },
+  {
+    sizeDesktop: 100,
+    sizeMobile: 85,
+    posStyle: { top: '45%', left: '20%' },
+    duration: 7.0,
+  },
+  {
+    sizeDesktop: 340,
+    sizeMobile: 150,
+    posStyle: { bottom: '15%', right: '18%' },
+    duration: 7.8,
+  },
+  {
+    sizeDesktop: 160,
+    sizeMobile: 105,
+    posStyle: { bottom: '10%', left: '42%' },
+    duration: 6.6,
+  }
 ]
 
 // Single shared Web Audio Context for non-blocking fast performance
@@ -523,21 +538,10 @@ export default function NewsletterBubbleUniverse() {
 
   const currentBubbles = BUBBLE_SETS[currentSetIndex]
 
-  const getBubblePixelSize = (size: 'sm' | 'md' | 'lg') => {
-    switch (size) {
-      case 'sm':
-        return { desktop: 125, mobile: 90 }
-      case 'md':
-        return { desktop: 180, mobile: 125 }
-      case 'lg':
-        return { desktop: 235, mobile: 160 }
-    }
-  }
-
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-10 sm:py-16 bg-transparent text-slate-900 dark:text-white overflow-hidden select-none font-sans"
+      className="relative w-full pt-16 md:pt-20 pb-12 sm:pb-16 bg-transparent text-slate-900 dark:text-white overflow-hidden select-none font-sans"
     >
       {/* Header Banner */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 text-center mb-6 sm:mb-10">
@@ -581,7 +585,7 @@ export default function NewsletterBubbleUniverse() {
       </div>
 
       {/* MAIN BUBBLE UNIVERSE CANVAS */}
-      <div className="relative max-w-7xl mx-auto min-h-[520px] sm:min-h-[580px] px-4 flex items-center justify-center">
+      <div className="relative max-w-7xl mx-auto min-h-[600px] sm:min-h-[680px] lg:min-h-[720px] px-4 flex items-center justify-center">
         {/* Left Arrow Button */}
         <button
           onClick={handlePrevSet}
@@ -608,22 +612,24 @@ export default function NewsletterBubbleUniverse() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="relative w-full h-[480px] sm:h-[540px] flex items-center justify-center"
+            className="relative w-full h-[580px] sm:h-[650px] lg:h-[700px] flex items-center justify-center"
           >
-            {/* Desktop Scattered Positions */}
+            {/* Desktop Scattered Positions Across Full Canvas */}
             <div className="w-full h-full relative hidden sm:block">
               {currentBubbles.map((item, index) => {
-                const pixelSize = getBubblePixelSize(item.size).desktop
+                const layout = BUBBLE_LAYOUT_SPECS[index % BUBBLE_LAYOUT_SPECS.length]
+                const size = layout.sizeDesktop
 
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ y: 80, opacity: 0, scale: 0.6 }}
+                    initial={{ opacity: 0, scale: 0.6 }}
                     animate={
                       isInView
                         ? {
-                            y: [0, -item.floatOffset, 0],
-                            x: [0, item.floatOffset * 0.3, 0],
+                            y: [-12, 12, -12],
+                            x: [-6, 6, -6],
+                            rotate: [-2, 2, -2],
                             opacity: 1,
                             scale: 1
                           }
@@ -631,73 +637,122 @@ export default function NewsletterBubbleUniverse() {
                     }
                     transition={{
                       y: {
-                        duration: item.floatDuration,
+                        duration: layout.duration,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                        ease: 'easeInOut',
+                        delay: index * 0.12
+                      },
+                      x: {
+                        duration: layout.duration * 1.25,
                         repeat: Infinity,
                         repeatType: 'reverse',
                         ease: 'easeInOut',
                         delay: index * 0.08
                       },
-                      x: {
-                        duration: item.floatDuration * 1.2,
+                      rotate: {
+                        duration: layout.duration * 1.1,
                         repeat: Infinity,
                         repeatType: 'reverse',
                         ease: 'easeInOut',
-                        delay: index * 0.1
+                        delay: index * 0.05
                       },
-                      opacity: { duration: 0.35, delay: index * 0.05 },
-                      scale: { duration: 0.35, delay: index * 0.05 }
+                      opacity: { duration: 0.4, delay: index * 0.05 },
+                      scale: { duration: 0.4, delay: index * 0.05 }
                     }}
                     style={{
-                      left: item.desktopPos.left,
-                      top: item.desktopPos.top,
-                      width: `${pixelSize}px`,
-                      height: `${pixelSize}px`,
-                      transform: 'translate(-50%, -50%)'
+                      position: 'absolute',
+                      ...layout.posStyle,
+                      width: `${size}px`,
+                      height: `${size}px`,
+                      boxShadow:
+                        'inset 6px 6px 18px rgba(255, 255, 255, 0.7), inset -6px -6px 20px rgba(0, 102, 255, 0.35), 0 0 50px rgba(0, 102, 255, 0.4)'
                     }}
                     onMouseEnter={() => handleBubbleHover(item)}
-                    className="absolute cursor-pointer rounded-full group z-10"
+                    className={`absolute cursor-pointer rounded-full group z-10 bg-gradient-to-br ${item.gradient} backdrop-blur-md border border-white/60 dark:border-sky-300/50 shadow-[0_0_50px_rgba(0,102,255,0.4)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_70px_rgba(0,102,255,0.6)] flex flex-col items-center justify-center p-5 text-center select-none overflow-hidden`}
                   >
-                    {/* Glassmorphism Water Bubble Shell */}
-                    <div
-                      className={`w-full h-full rounded-full bg-gradient-to-br ${item.gradient} backdrop-blur-md border border-sky-400/50 shadow-xl shadow-blue-500/25 group-hover:shadow-2xl group-hover:shadow-sky-500/40 group-hover:scale-105 transition-all duration-200 relative overflow-hidden flex flex-col items-center justify-center p-4 text-center`}
-                    >
-                      {/* Reflection highlight */}
-                      <div className="absolute top-2 left-4 w-1/2 h-1/3 bg-white/40 rounded-full -rotate-45 pointer-events-none blur-[0.5px]" />
+                    {/* Top-Left Glossy 3D Arc Glare */}
+                    <div className="absolute top-2.5 left-5 w-2/5 h-1/4 bg-gradient-to-b from-white/70 via-white/30 to-transparent rounded-full -rotate-45 pointer-events-none blur-[0.5px]" />
 
-                      {/* Badge */}
-                      <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-slate-950/70 text-sky-200 backdrop-blur-xs mb-1 border border-white/30 shadow-xs">
-                        {item.badge}
-                      </span>
+                    {/* Bottom-Right Deep Reflection */}
+                    <div className="absolute bottom-2.5 right-5 w-1/3 h-1/4 bg-gradient-to-t from-sky-400/30 to-transparent rounded-full pointer-events-none blur-sm" />
 
-                      {/* Title */}
-                      <h3
-                        className={`font-serif font-extrabold text-white tracking-wide leading-tight group-hover:text-sky-100 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)] ${
-                          item.size === 'lg' ? 'text-base sm:text-lg mb-1' : item.size === 'md' ? 'text-sm mb-0.5' : 'text-xs'
-                        }`}
-                      >
-                        {item.title}
-                      </h3>
+                    {/* Badge */}
+                    <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-slate-950/70 text-sky-200 backdrop-blur-xs mb-1.5 border border-white/30 shadow-xs">
+                      {item.badge}
+                    </span>
 
-                      {/* Subtitle - #E0F2FE Heavy-Bold with Drop-Shadow */}
-                      <p className="text-[10px] sm:text-[11px] text-[#E0F2FE] font-bold tracking-wider font-sans line-clamp-1 drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
-                        {item.subtitle}
-                      </p>
-
-                      {/* Hover Hint */}
-                      <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center space-x-1 text-[9px] font-bold text-white uppercase tracking-wider bg-[#0064D0] px-2.5 py-1 rounded-full shadow-md">
-                        <span>Hover to Read</span>
-                        <ArrowRight size={10} />
-                      </div>
-                    </div>
+                    {/* Proportional Layout for Each Bubble Size */}
+                    {size >= 340 ? (
+                      <>
+                        <span className="text-[11px] font-bold text-sky-200/90 tracking-wider mb-1">
+                          {item.category} • {item.issueNo}
+                        </span>
+                        <h3 className="font-serif font-extrabold text-xl lg:text-2xl text-white tracking-wide leading-tight mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-[#E0F2FE] font-medium leading-relaxed max-w-[260px] line-clamp-2 mb-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+                          {item.excerpt}
+                        </p>
+                        <div className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-[#0064D0] group-hover:bg-sky-500 text-white text-xs font-bold shadow-md transition-transform group-hover:scale-105">
+                          <span>Read Gazette Issue</span>
+                          <ArrowRight size={12} />
+                        </div>
+                      </>
+                    ) : size >= 300 ? (
+                      <>
+                        <h3 className="font-serif font-extrabold text-lg lg:text-xl text-white tracking-wide leading-tight mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-[#E0F2FE] font-bold tracking-wide max-w-[220px] line-clamp-2 mb-2.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+                          {item.subtitle}
+                        </p>
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-[#0064D0] text-white text-[10px] font-bold shadow-xs">
+                          <span>Hover to Read</span>
+                          <ArrowRight size={10} />
+                        </div>
+                      </>
+                    ) : size >= 180 ? (
+                      <>
+                        <h3 className="font-serif font-extrabold text-sm lg:text-base text-white tracking-wide leading-tight mb-0.5 drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.85)]">
+                          {item.title}
+                        </h3>
+                        <p className="text-[11px] text-[#E0F2FE] font-bold tracking-wider line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                          {item.subtitle}
+                        </p>
+                        <div className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[9px] font-bold text-white uppercase tracking-wider bg-[#0064D0] px-2 py-0.5 rounded-full shadow-xs">
+                          Read Brief
+                        </div>
+                      </>
+                    ) : size >= 160 ? (
+                      <>
+                        <h3 className="font-serif font-extrabold text-xs lg:text-sm text-white tracking-wide leading-tight mb-0.5 drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.85)]">
+                          {item.title}
+                        </h3>
+                        <p className="text-[10px] text-[#E0F2FE] font-bold tracking-wider line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                          {item.subtitle}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="font-serif font-extrabold text-[11px] text-white tracking-wide leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                          {item.title}
+                        </h3>
+                        <p className="text-[8px] text-[#E0F2FE] font-bold tracking-tight line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                          {item.subtitle}
+                        </p>
+                      </>
+                    )}
                   </motion.div>
                 )
               })}
             </div>
 
-            {/* Mobile Grid Layout */}
+            {/* Mobile Responsive Grid Layout */}
             <div className="w-full grid grid-cols-2 gap-3 sm:hidden px-4">
               {currentBubbles.map((item, index) => {
-                const pixelSize = getBubblePixelSize(item.size).mobile
+                const layout = BUBBLE_LAYOUT_SPECS[index % BUBBLE_LAYOUT_SPECS.length]
+                const pixelSize = layout.sizeMobile
 
                 return (
                   <motion.div
@@ -709,8 +764,13 @@ export default function NewsletterBubbleUniverse() {
                     className="flex flex-col items-center justify-center cursor-pointer py-1"
                   >
                     <div
-                      style={{ width: `${pixelSize}px`, height: `${pixelSize}px` }}
-                      className={`rounded-full bg-gradient-to-br ${item.gradient} backdrop-blur-md border border-sky-400/50 shadow-lg shadow-blue-500/25 flex flex-col items-center justify-center p-3 text-center relative overflow-hidden active:scale-95 transition-transform`}
+                      style={{
+                        width: `${pixelSize}px`,
+                        height: `${pixelSize}px`,
+                        boxShadow:
+                          'inset 4px 4px 12px rgba(255, 255, 255, 0.6), inset -4px -4px 14px rgba(0, 102, 255, 0.3), 0 0 30px rgba(0, 102, 255, 0.3)'
+                      }}
+                      className={`rounded-full bg-gradient-to-br ${item.gradient} backdrop-blur-md border border-white/50 flex flex-col items-center justify-center p-3 text-center relative overflow-hidden active:scale-95 transition-transform`}
                     >
                       <div className="absolute top-1 left-2 w-1/2 h-1/3 bg-white/40 rounded-full -rotate-45 pointer-events-none" />
                       <span className="text-[8px] font-black uppercase tracking-widest text-sky-200 mb-0.5">{item.badge}</span>
