@@ -34,43 +34,87 @@ export default function HeroScrollCanvas() {
   const ctaY = useTransform(smoothProgress, [0.75, 0.88, 1], [30, 0, 0]);
   const ctaScale = useTransform(smoothProgress, [0.75, 0.88, 1], [0.92, 1, 1]);
 
-  // 1. Preload 150 Transparent PNG Images into Memory (Non-blocking Instant Load)
+  // 1. Optimized Non-Blocking Frame Loader with Smart Staggering & On-Demand Fallback
   useEffect(() => {
     let isMounted = true;
     const loadedImages: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     imagesRef.current = loadedImages;
 
-    // Load Frame 1 with high priority to render hero image immediately
-    const firstImg = new Image();
-    firstImg.src = '/frames/ezgif-frame-001.png';
-    firstImg.onload = () => {
-      if (!isMounted) return;
-      loadedImages[0] = firstImg;
-      renderFrame(1);
-      setImagesLoaded(true); // Instantly unlock page rendering!
-    };
-    firstImg.onerror = () => {
-      if (!isMounted) return;
-      setImagesLoaded(true); // Unlock even on error fallback
+    const loadSingleFrame = (index: number): Promise<HTMLImageElement | null> => {
+      return new Promise((resolve) => {
+        if (!isMounted) return resolve(null);
+        if (loadedImages[index - 1]) return resolve(loadedImages[index - 1]);
+
+        const img = new Image();
+        const frameNum = String(index).padStart(3, '0');
+        img.src = `/frames/ezgif-frame-${frameNum}.png`;
+        img.onload = () => {
+          if (isMounted) loadedImages[index - 1] = img;
+          resolve(img);
+        };
+        img.onerror = () => {
+          resolve(null);
+        };
+      });
     };
 
-    // Background load remaining frames 2..150 progressively
-    for (let i = 2; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      const frameNum = String(i).padStart(3, '0');
-      img.src = `/frames/ezgif-frame-${frameNum}.png`;
-      img.onload = () => {
+    // Step A: Load Frame 1 IMMEDIATELY & unlock render instantly
+    loadSingleFrame(1).then((img) => {
+      if (!isMounted) return;
+      if (img) renderFrame(1);
+      setImagesLoaded(true); // Unlock instant initial paint in <50ms!
+
+      // Step B: Load key milestone frames (every 5th frame) to build low-latency baseline
+      const keyframeIndices: number[] = [];
+      for (let i = 5; i <= TOTAL_FRAMES; i += 5) {
+        keyframeIndices.push(i);
+      }
+
+      const loadInChunks = async (indices: number[], chunkSize = 3, delayMs = 60) => {
+        for (let i = 0; i < indices.length; i += chunkSize) {
+          if (!isMounted) break;
+          const chunk = indices.slice(i, i + chunkSize);
+          await Promise.all(chunk.map((idx) => loadSingleFrame(idx)));
+          await new Promise((r) => setTimeout(r, delayMs));
+        }
+
+        // Step C: After keyframes, load all remaining frames in low-priority background idle loop
         if (!isMounted) return;
-        loadedImages[i - 1] = img;
+        const remainingIndices: number[] = [];
+        for (let i = 2; i <= TOTAL_FRAMES; i++) {
+          if (!loadedImages[i - 1]) remainingIndices.push(i);
+        }
+
+        const runIdleJob = () => {
+          if (!isMounted || remainingIndices.length === 0) return;
+          const batch = remainingIndices.splice(0, 4);
+          Promise.all(batch.map((idx) => loadSingleFrame(idx))).then(() => {
+            if (remainingIndices.length > 0 && isMounted) {
+              if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+                (window as any).requestIdleCallback(runIdleJob, { timeout: 300 });
+              } else {
+                setTimeout(runIdleJob, 100);
+              }
+            }
+          });
+        };
+
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(runIdleJob, { timeout: 300 });
+        } else {
+          setTimeout(runIdleJob, 150);
+        }
       };
-    }
+
+      loadInChunks(keyframeIndices);
+    });
 
     return () => {
       isMounted = false;
     };
   }, []);
 
-  // 2. High-DPI Sharp Canvas Render Function (With Smart Nearest-Frame Fallback)
+  // 2. High-DPI Sharp Canvas Render Function (With Smart Nearest-Frame Fallback & On-Demand Fetch)
   const renderFrame = (index: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -96,6 +140,19 @@ export default function HeroScrollCanvas() {
           break;
         }
       }
+    }
+
+    // Trigger on-demand background fetch for exact target frame if not loaded yet
+    if (!imagesRef.current[targetFrame - 1]) {
+      const reqImg = new Image();
+      const frameNum = String(targetFrame).padStart(3, '0');
+      reqImg.src = `/frames/ezgif-frame-${frameNum}.png`;
+      reqImg.onload = () => {
+        if (imagesRef.current) {
+          imagesRef.current[targetFrame - 1] = reqImg;
+          renderFrame(targetFrame);
+        }
+      };
     }
 
     if (!img || !img.complete || img.naturalWidth === 0) return;
