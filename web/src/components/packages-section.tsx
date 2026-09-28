@@ -2,27 +2,25 @@
 
 import React, { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Check, Star, Sparkles, Droplets, ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Check, Star, Sparkles, Droplets, ChevronLeft, ChevronRight, Calculator, Grid } from 'lucide-react'
 
 import PricingCard3D from '@/components/PricingCard3D'
+import PackageCalculator from '@/components/package-calculator'
 import { useAuth } from '@/context/auth'
 
 export default function PackagesSection() {
   const router = useRouter()
   const { user, openAuthModal } = useAuth()
   const [frequency, setFrequency] = useState<'weekly' | 'monthly' | 'annual'>('monthly')
+  const [isCustomActive, setIsCustomActive] = useState<boolean>(false)
 
   const [activeIndex, setActiveIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const handlePlanClick = (pkg: typeof packagesData[0]) => {
     if (pkg.id === 'custom') {
-      const calcEl = document.getElementById('calculator')
-      if (calcEl) {
-        calcEl.scrollIntoView({ behavior: 'smooth' })
-      } else {
-        window.location.href = '/order?plan=custom'
-      }
+      setIsCustomActive(true)
       return
     }
 
@@ -227,9 +225,9 @@ export default function PackagesSection() {
   }
 
   return (
-    <section id="packages" className="scroll-mt-28 sm:scroll-mt-36 pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-20 lg:pb-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
+    <section id="packages" className="scroll-mt-28 sm:scroll-mt-36 pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
       {/* Editorial Header */}
-      <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-16">
+      <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-12">
         <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
           CURATED HYDRATION PLANS
         </span>
@@ -237,99 +235,204 @@ export default function PackagesSection() {
           Water Plans Made For You.
         </h2>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 font-light max-w-lg mx-auto">
-          Choose a delivery plan that fits your lifestyle, family, or business.
+          Choose a standard delivery plan or build a custom plan with our interactive calculator.
         </p>
 
-        {/* PACKAGE FREQUENCY SELECTOR — Premium Segmented Control */}
-        <div className="pt-6 sm:pt-8 flex flex-col items-center space-y-3">
-          <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-slate-300">
-            How often do you need water?
-          </span>
-          <div className="flex flex-wrap items-center justify-center p-1 sm:p-1.5 bg-zinc-100 dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 rounded-2xl gap-1 shadow-inner max-w-full">
-            {[
-              { id: 'weekly', label: 'WEEKLY' },
-              { id: 'monthly', label: 'MONTHLY' },
-              { id: 'annual', label: 'ANNUAL (SAVE 20%)' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setFrequency(tab.id as any)}
-                className={`px-3 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] font-bold tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
-                  frequency === tab.id
-                    ? 'bg-[#0064D0] text-white shadow-md'
-                    : 'text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+        {/* VIEW TOGGLE SEGMENTED CONTROL */}
+        <div className="pt-4 flex justify-center items-center">
+          <div className="inline-flex p-1.5 bg-zinc-200/80 dark:bg-[#131c38] rounded-2xl border border-zinc-300/60 dark:border-slate-800 shadow-inner">
+            <button
+              onClick={() => setIsCustomActive(false)}
+              className={`px-4 sm:px-6 py-2.5 text-xs font-bold rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer ${
+                !isCustomActive
+                  ? 'bg-[#0064D0] text-white shadow-md'
+                  : 'text-zinc-600 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
+              }`}
+            >
+              <Grid size={15} />
+              <span>Standard Plans</span>
+            </button>
+            <button
+              onClick={() => setIsCustomActive(true)}
+              className={`px-4 sm:px-6 py-2.5 text-xs font-bold rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer ${
+                isCustomActive
+                  ? 'bg-[#0064D0] text-white shadow-md'
+                  : 'text-zinc-600 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
+              }`}
+            >
+              <Calculator size={15} />
+              <span>Custom Configurator</span>
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* MOBILE SLIDER (< md) */}
-      <div className="block md:hidden relative">
-        <div
-          ref={scrollContainerRef}
-          onScroll={handleScroll}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pt-6 pb-4 px-2 -mx-2 scroll-smooth"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {packagesData.map((pkg) => (
-            <div key={pkg.id} className="w-[85vw] max-w-[310px] flex-shrink-0 snap-center py-2">
-              <PricingCard3D isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
-                {renderCardContent(pkg)}
-              </PricingCard3D>
+        {/* PACKAGE FREQUENCY SELECTOR — Visible in Standard Cards View */}
+        {!isCustomActive && (
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="pt-4 flex flex-col items-center space-y-3"
+          >
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-slate-300">
+              How often do you need water?
+            </span>
+            <div className="flex flex-wrap items-center justify-center p-1 sm:p-1.5 bg-zinc-100 dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 rounded-2xl gap-1 shadow-inner max-w-full">
+              {[
+                { id: 'weekly', label: 'WEEKLY' },
+                { id: 'monthly', label: 'MONTHLY' },
+                { id: 'annual', label: 'ANNUAL (SAVE 20%)' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFrequency(tab.id as any)}
+                  className={`px-3 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] font-bold tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
+                    frequency === tab.id
+                      ? 'bg-[#0064D0] text-white shadow-md'
+                      : 'text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
-
-        {/* Mobile Navigation Controls (Dots + Arrow Buttons) */}
-        <div className="flex items-center justify-between px-4 pt-2">
-          <button
-            onClick={() => scrollToCard(Math.max(0, activeIndex - 1))}
-            disabled={activeIndex === 0}
-            className="p-2.5 rounded-full bg-white dark:bg-[#162447] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
-            aria-label="Previous Plan"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          <div className="flex items-center space-x-2">
-            {packagesData.map((pkg, idx) => (
-              <button
-                key={pkg.id}
-                onClick={() => scrollToCard(idx)}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  activeIndex === idx
-                    ? 'w-6 bg-[#0064D0]'
-                    : 'w-2 bg-slate-300 dark:bg-slate-700'
-                }`}
-                aria-label={`Go to ${pkg.title} plan`}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={() => scrollToCard(Math.min(packagesData.length - 1, activeIndex + 1))}
-            disabled={activeIndex === packagesData.length - 1}
-            className="p-2.5 rounded-full bg-white dark:bg-[#162447] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
-            aria-label="Next Plan"
-          >
-            <ChevronRight size={16} />
-          </button>
-        </div>
+          </motion.div>
+        )}
       </div>
 
-      {/* DESKTOP GRID (>= md) */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-        {packagesData.map((pkg) => (
-          <PricingCard3D key={pkg.id} isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
-            {renderCardContent(pkg)}
-          </PricingCard3D>
-        ))}
+      {/* PRICING CONTAINER WITH EDGE NAVIGATION ARROWS AND FRAMER MOTION SLIDING VIEWS */}
+      <div className="relative w-full max-w-7xl mx-auto">
+        {/* Left Edge Arrow Button */}
+        {!isCustomActive ? (
+          <button
+            onClick={() => setIsCustomActive(true)}
+            className="hidden md:flex absolute -left-4 lg:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/90 dark:bg-[#162447]/90 text-[#0064D0] dark:text-sky-400 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            title="Switch to Custom Plan Configurator"
+            aria-label="Switch to Custom Plan Configurator"
+          >
+            <ChevronLeft size={22} className="group-hover:-translate-x-0.5 transition-transform" />
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsCustomActive(false)}
+            className="hidden md:flex absolute -left-4 lg:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#0064D0] text-white border border-[#0064D0] shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            title="Back to Standard Cards"
+            aria-label="Back to Standard Cards"
+          >
+            <ChevronLeft size={22} className="group-hover:-translate-x-0.5 transition-transform" />
+          </button>
+        )}
+
+        {/* Right Edge Arrow Button */}
+        {!isCustomActive ? (
+          <button
+            onClick={() => setIsCustomActive(true)}
+            className="hidden md:flex absolute -right-4 lg:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#0064D0] text-white border border-[#0064D0] shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            title="Switch to Custom Plan Configurator"
+            aria-label="Switch to Custom Plan Configurator"
+          >
+            <ChevronRight size={22} className="group-hover:translate-x-0.5 transition-transform" />
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsCustomActive(false)}
+            className="hidden md:flex absolute -right-4 lg:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/90 dark:bg-[#162447]/90 text-[#0064D0] dark:text-sky-400 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            title="Back to Standard Cards"
+            aria-label="Back to Standard Cards"
+          >
+            <ChevronRight size={22} className="group-hover:translate-x-0.5 transition-transform" />
+          </button>
+        )}
+
+        {/* AnimatePresence Sliding Views */}
+        <AnimatePresence mode="wait">
+          {!isCustomActive ? (
+            /* VIEW 1: STANDARD PRICING CARDS */
+            <motion.div
+              key="standard-cards-view"
+              initial={{ opacity: 0, x: -60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 60 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full"
+            >
+              {/* MOBILE SLIDER (< md) */}
+              <div className="block md:hidden relative">
+                <div
+                  ref={scrollContainerRef}
+                  onScroll={handleScroll}
+                  className="flex overflow-x-auto snap-x snap-mandatory gap-4 pt-6 pb-4 px-2 -mx-2 scroll-smooth"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                  {packagesData.map((pkg) => (
+                    <div key={pkg.id} className="w-[85vw] max-w-[310px] flex-shrink-0 snap-center py-2">
+                      <PricingCard3D isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
+                        {renderCardContent(pkg)}
+                      </PricingCard3D>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mobile Navigation Controls */}
+                <div className="flex items-center justify-between px-4 pt-2">
+                  <button
+                    onClick={() => scrollToCard(Math.max(0, activeIndex - 1))}
+                    disabled={activeIndex === 0}
+                    className="p-2.5 rounded-full bg-white dark:bg-[#162447] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
+                    aria-label="Previous Plan"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+
+                  <div className="flex items-center space-x-2">
+                    {packagesData.map((pkg, idx) => (
+                      <button
+                        key={pkg.id}
+                        onClick={() => scrollToCard(idx)}
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                          activeIndex === idx
+                            ? 'w-6 bg-[#0064D0]'
+                            : 'w-2 bg-slate-300 dark:bg-slate-700'
+                        }`}
+                        aria-label={`Go to ${pkg.title} plan`}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => scrollToCard(Math.min(packagesData.length - 1, activeIndex + 1))}
+                    disabled={activeIndex === packagesData.length - 1}
+                    className="p-2.5 rounded-full bg-white dark:bg-[#162447] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
+                    aria-label="Next Plan"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* DESKTOP GRID (>= md) */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                {packagesData.map((pkg) => (
+                  <PricingCard3D key={pkg.id} isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
+                    {renderCardContent(pkg)}
+                  </PricingCard3D>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            /* VIEW 2: CUSTOM CONFIGURATOR / CALCULATOR */
+            <motion.div
+              key="custom-calculator-view"
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full"
+            >
+              <PackageCalculator embedded={true} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )
 }
-

@@ -101,14 +101,13 @@ export default function FooterSection() {
 
   const sections = [
     {
-      id: 'product',
-      title: 'PRODUCT',
+      id: 'explore',
+      title: 'EXPLORE',
       links: [
-        { label: '19L Water Bottle', href: '/our-water' },
-        { label: 'Build 19L Water Plan', href: '/order' },
-        { label: 'Student & Hostel Plan', href: '/order?plan=student' },
-        { label: 'Family Household Plan', href: '/order?plan=family' },
-        { label: 'Corporate Suite Plan', href: '/order?plan=office' },
+        { label: 'Our Water (19L)', href: '/our-water' },
+        { label: 'How It Works', href: '/process' },
+        { label: 'Sustainability', href: '/sustainability' },
+        { label: 'About Us', href: '/about' },
       ],
     },
     {
@@ -122,23 +121,12 @@ export default function FooterSection() {
       ],
     },
     {
-      id: 'company',
-      title: 'COMPANY',
+      id: 'locations',
+      title: 'LOCATIONS & CONTACT',
       links: [
-        { label: 'About Watlys', href: '/about' },
-        { label: 'Water Process', href: '/process' },
-        { label: 'Sustainability', href: '/sustainability' },
-        { label: 'Water Insights', href: '/insights' },
-        { label: 'Certifications', href: '/certifications' },
-      ],
-    },
-    {
-      id: 'support',
-      title: 'SUPPORT',
-      links: [
-        { label: 'FAQ', href: '/faq' },
-        { label: 'Coverage Areas', href: '/locations' },
         { label: 'Contact Concierge', href: '/contact' },
+        { label: 'Service Locations', href: '/locations' },
+        { label: 'Corporate Inquiry', href: '/contact?type=corporate' },
       ],
     },
   ]
@@ -216,7 +204,7 @@ export default function FooterSection() {
             <p className={`text-xs sm:text-sm font-light leading-relaxed max-w-md transition-colors duration-500 ${
               isHovered ? 'text-sky-100' : 'text-zinc-600 dark:text-slate-200'
             }`}>
-              Pakistan’s premier 19-Liter mineral drinking water subscription service. Delivering subterranean aquifer water directly to homes, student hostels, and corporate offices across Lahore, Karachi, and Islamabad.
+              Premier 19-Liter mineral drinking water subscription service delivered directly to your home or office.
             </p>
           </div>
 
@@ -253,7 +241,7 @@ export default function FooterSection() {
             <p className={`text-[11px] font-light pt-0.5 transition-colors duration-500 ${
               isHovered ? 'text-sky-100' : 'text-slate-500 dark:text-slate-400'
             }`}>
-              Weekly water insights, no spam — unsubscribe anytime.
+              Weekly water insights — unsubscribe anytime.
             </p>
             {success && (
               <p className={`text-xs font-light pt-1 ${isHovered ? 'text-emerald-200 font-bold' : 'text-emerald-600 dark:text-emerald-400'}`}>
@@ -263,8 +251,8 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* Desktop & Tablet Navigation Columns */}
-        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-4 gap-8 text-xs font-light">
+        {/* Desktop & Tablet Navigation Columns (3 Columns strictly matching Navbar) */}
+        <div className="hidden sm:grid sm:grid-cols-3 gap-8 text-xs font-light">
           {sections.map((sec) => (
             <div key={sec.id} className="space-y-4">
               <h4 className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-500 ${

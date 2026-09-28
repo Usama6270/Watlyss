@@ -11,6 +11,10 @@ export default function ProcessSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
 
+  // Cursor position tracking for interactive pattern spotlight
+  const [cursorPos, setCursorPos] = useState({ x: -500, y: -500 })
+  const [isOutsideHovered, setIsOutsideHovered] = useState(false)
+
   // 3D Card Hover Tilt Motion
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -21,7 +25,16 @@ export default function ProcessSection() {
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['6deg', '-6deg'])
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-6deg', '6deg'])
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleSectionMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!sectionRef.current) return
+    const rect = sectionRef.current.getBoundingClientRect()
+    setCursorPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
+  }
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const width = rect.width
     const height = rect.height
@@ -32,9 +45,10 @@ export default function ProcessSection() {
     y.set(mouseY / height - 0.5)
   }
 
-  const handleMouseLeave = () => {
+  const handleCardMouseLeave = () => {
     x.set(0)
     y.set(0)
+    setIsOutsideHovered(true)
   }
 
   const steps = [
@@ -56,15 +70,59 @@ export default function ProcessSection() {
   })
 
   return (
-    <section id="process" ref={sectionRef} className="relative w-full py-16 sm:py-24 lg:py-28 px-4 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/20 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] transition-colors duration-300 z-10 border-t border-slate-200/50 dark:border-slate-800/60 overflow-hidden font-sans">
+    <section
+      id="process"
+      ref={sectionRef}
+      onMouseMove={handleSectionMouseMove}
+      onMouseEnter={() => setIsOutsideHovered(true)}
+      onMouseLeave={() => setIsOutsideHovered(false)}
+      className="relative w-full py-16 sm:py-24 lg:py-28 px-4 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/20 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] transition-colors duration-300 z-10 border-t border-slate-200/50 dark:border-slate-800/60 overflow-hidden font-sans select-none"
+    >
 
       {/* Background Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-[#0064D0]/10 rounded-full blur-[150px] pointer-events-none" />
 
+      {/* COMPACT CURSOR-FOLLOWING LIGHT PATTERN SPOTLIGHT (ACTIVE ONLY OUTSIDE CONTENT) */}
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ease-out z-0 ${
+          isOutsideHovered ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          maskImage: `radial-gradient(220px circle at ${cursorPos.x}px ${cursorPos.y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)`,
+          WebkitMaskImage: `radial-gradient(220px circle at ${cursorPos.x}px ${cursorPos.y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)`,
+        }}
+      >
+        {/* Subtle Light Pattern Layer */}
+        <div
+          className="w-full h-full opacity-20 dark:opacity-30"
+          style={{
+            backgroundImage: `url('/patterns/pattern-01.svg')`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '240px 240px',
+          }}
+        />
+        
+        {/* Soft Compact Light Glow Sphere at Cursor */}
+        <div
+          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/15 dark:bg-[#0066FF]/25 blur-2xl pointer-events-none"
+          style={{
+            left: `${cursorPos.x}px`,
+            top: `${cursorPos.y}px`,
+          }}
+        />
+      </div>
+
       <div className="max-w-5xl mx-auto w-full flex flex-col items-center justify-center space-y-6 sm:space-y-10 text-center relative z-10">
 
-        {/* TOP HEADING HEADER (Positioned spacious below navbar with zero overlap) */}
-        <div className="space-y-3 sm:space-y-4">
+        {/* TOP HEADING HEADER (REMOVES PATTERN SPOTLIGHT ON HOVER) */}
+        <div
+          onMouseEnter={(e) => {
+            e.stopPropagation()
+            setIsOutsideHovered(false)
+          }}
+          onMouseLeave={() => setIsOutsideHovered(true)}
+          className="space-y-3 sm:space-y-4"
+        >
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] inline-flex items-center gap-1.5 bg-[#0064D0]/10 px-4 py-1.5 rounded-full border border-[#0064D0]/20 shadow-sm">
             <Droplet size={14} />
             <span>{isRtl ? 'ہماری تیاری کا عمل' : 'OUR PURIFICATION PROCESS'}</span>
@@ -102,18 +160,27 @@ export default function ProcessSection() {
                 key={idx}
                 type="button"
                 onClick={() => setActiveStep(idx)}
-                className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${activeStep === idx ? 'w-10 bg-[#0064D0] shadow-md shadow-[#0064D0]/40' : 'w-2.5 bg-zinc-200 dark:bg-slate-800 hover:bg-zinc-400'
-                  }`}
+                className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                  activeStep === idx ? 'w-10 bg-[#0064D0] shadow-md shadow-[#0064D0]/40' : 'w-2.5 bg-zinc-200 dark:bg-slate-800 hover:bg-zinc-400'
+                }`}
               />
             ))}
           </div>
         </div>
 
-        {/* 3D INTERACTIVE TILT VIEWPORT CARD */}
-        <div style={{ perspective: 1000 }} className="w-full max-w-3xl">
+        {/* 3D INTERACTIVE TILT VIEWPORT CARD (REMOVES PATTERN SPOTLIGHT ON HOVER) */}
+        <div
+          style={{ perspective: 1000 }}
+          className="w-full max-w-3xl"
+          onMouseEnter={(e) => {
+            e.stopPropagation()
+            setIsOutsideHovered(false)
+          }}
+          onMouseLeave={() => setIsOutsideHovered(true)}
+        >
           <motion.div
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleCardMouseMove}
+            onMouseLeave={handleCardMouseLeave}
             style={{
               rotateY,
               rotateX,

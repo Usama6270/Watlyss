@@ -14,7 +14,9 @@ export interface ActiveSubscription {
   packageType: string
   frequency: 'weekly' | 'bi-weekly' | 'monthly'
   bottleQty: number
-  status: 'active' | 'paused' | 'cancelled'
+  status: 'active' | 'paused' | 'cancelled' | 'PAUSED' | 'ACTIVE'
+  pausedAt?: string
+  pendingRolloverBottles?: number
 }
 
 export interface User {
@@ -204,7 +206,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const toggleSubscriptionStatus = (explicitStatus?: 'active' | 'paused') => {
+  const toggleSubscriptionStatus = (
+    explicitStatus?: 'active' | 'paused' | 'PAUSED' | 'ACTIVE',
+    rolloverBottles?: number
+  ) => {
     setUser((prevUser) => {
       const baseUser: User = prevUser || {
         fullName: 'Watlys Customer',
@@ -213,15 +218,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         addressList: [],
       }
       const currentStatus = baseUser.activeSubscription?.status || 'active'
-      const targetStatus = explicitStatus || (currentStatus === 'active' ? 'paused' : 'active')
+      const targetStatus = explicitStatus || (currentStatus === 'active' || currentStatus === 'ACTIVE' ? 'PAUSED' : 'ACTIVE')
+      const isPause = targetStatus === 'paused' || targetStatus === 'PAUSED'
+
+      const currentQty = baseUser.activeSubscription?.bottleQty || 4
+      const calculatedRollover = rolloverBottles !== undefined ? rolloverBottles : currentQty
+
       const updatedUser: User = {
         ...baseUser,
         activeSubscription: {
           packageType: baseUser.activeSubscription?.packageType || 'Family Plan (19L)',
           frequency: baseUser.activeSubscription?.frequency || 'weekly',
-          bottleQty: baseUser.activeSubscription?.bottleQty || 4,
+          bottleQty: currentQty,
           ...baseUser.activeSubscription,
           status: targetStatus,
+          pausedAt: isPause ? new Date().toISOString() : undefined,
+          pendingRolloverBottles: isPause ? calculatedRollover : 0,
         },
       }
       localStorage.setItem('watlys_user', JSON.stringify(updatedUser))

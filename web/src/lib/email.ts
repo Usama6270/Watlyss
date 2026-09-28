@@ -342,3 +342,163 @@ export async function sendAdminOrderNotification(orderData: OrderEmailData) {
     return { success: false, error: err.message || 'Resend admin notification error' }
   }
 }
+
+export interface SubscriptionPauseEmailData {
+  customerName: string
+  email: string
+  phone?: string
+  packageName?: string
+  pendingRolloverBottles: number
+  pausedAt: string
+}
+
+/**
+ * Sends a branded Subscription Delivery Pause Confirmation Email with Rollover Quota details.
+ */
+export async function sendSubscriptionPauseConfirmation(pauseData: SubscriptionPauseEmailData) {
+  const customerEmail = pauseData.email || 'usama1@gmail.com'
+  const fromEmail = process.env.EMAIL_FROM || 'Watlys Hydration <onboarding@resend.dev>'
+  
+  const resumeUrl = process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/account`
+    : 'https://watlyss.vercel.app/account'
+
+  const pausedDateStr = pauseData.pausedAt
+    ? new Date(pauseData.pausedAt).toLocaleString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : new Date().toLocaleString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Subscription Paused - Watlys Hydration</title>
+      <style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7fa; color: #1e293b; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .header { background: linear-gradient(135deg, #0066FF 0%, #0044B3 100%); padding: 36px 32px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0 0 8px 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        .header p { margin: 0; font-size: 14px; opacity: 0.9; }
+        .logo-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .content { padding: 32px; }
+        .card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+        .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0066FF; margin-bottom: 12px; }
+        .rollover-box { background: linear-gradient(135deg, #eef6ff 0%, #dbeafe 100%); border: 1.5px solid #93c5fd; border-radius: 14px; padding: 22px; text-align: center; margin: 20px 0; }
+        .rollover-count { font-size: 30px; font-weight: 900; color: #0066FF; margin: 6px 0; }
+        .explanation { font-size: 13.5px; color: #1e3a8a; line-height: 1.6; background: #ffffff; padding: 14px; border-radius: 10px; border-left: 4px solid #0066FF; margin-top: 14px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .btn-container { text-align: center; margin: 32px 0 20px 0; }
+        .btn { display: inline-block; background-color: #0066FF; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 34px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
+        .footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 24px 32px; font-size: 13px; line-height: 1.6; }
+        .footer strong { color: #ffffff; }
+      </style>
+    </head>
+    <body>
+      <div style="padding: 20px 0;">
+        <div class="container">
+          <!-- Header -->
+          <div class="header">
+            <div class="logo-badge">Watlys Hydration</div>
+            <h1>Subscription Delivery Paused</h1>
+            <p>Your recurring water deliveries are temporarily put on hold.</p>
+          </div>
+
+          <!-- Content -->
+          <div class="content">
+            <p style="font-size: 15px; color: #1e293b; margin-top: 0;">Hi <strong>${pauseData.customerName}</strong>,</p>
+            <p style="font-size: 14px; color: #475569; line-height: 1.6;">
+              As requested, we have paused your active water subscription <strong>(${pauseData.packageName || 'Family Plan 19L'})</strong>. Your automated billing and upcoming delivery schedules are now suspended.
+            </p>
+
+            <!-- Rollover Quota Box -->
+            <div class="rollover-box">
+              <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #1e40af;">Saved Rollover Bottle Quota</div>
+              <div class="rollover-count">${pauseData.pendingRolloverBottles} × 19L Bottles</div>
+              <div class="explanation">
+                <strong>Rollover Guarantee:</strong> Your <strong>${pauseData.pendingRolloverBottles} pending bottles</strong> will automatically roll over and add to your next active package cycle upon resumption/renewal. You won't lose a single bottle of your paid allocation.
+              </div>
+            </div>
+
+            <!-- Details Card -->
+            <div class="card">
+              <div class="card-title">Pause Status Summary</div>
+              <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                <tr>
+                  <td style="color: #64748b; padding: 6px 0;">Account Status:</td>
+                  <td style="text-align: right; font-weight: 700; color: #d97706;">PAUSED</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 6px 0;">Paused On:</td>
+                  <td style="text-align: right; font-weight: 600; color: #0f172a;">${pausedDateStr}</td>
+                </tr>
+                <tr>
+                  <td style="color: #64748b; padding: 6px 0;">Saved Rollover Quota:</td>
+                  <td style="text-align: right; font-weight: 700; color: #0066FF;">${pauseData.pendingRolloverBottles} Bottles</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Action CTA Button -->
+            <div class="btn-container">
+              <a href="${resumeUrl}" class="btn">Resume Deliveries</a>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="footer">
+            <p style="margin: 0 0 8px 0;"><strong>Pure Mineral Water Delivered To Your Doorstep</strong></p>
+            <p style="margin: 0; font-size: 12px;">Need assistance or want to adjust your schedule? Contact support at support@watlys.com | +92 300 1234567</p>
+            <p style="margin: 12px 0 0 0; font-size: 11px; opacity: 0.6;">© ${new Date().getFullYear()} Watlys Ultra-Pure Water. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: fromEmail,
+      to: customerEmail,
+      subject: `Subscription Delivery Paused - ${pauseData.pendingRolloverBottles} Rollover Bottles Saved`,
+      html: htmlContent,
+    })
+
+    if (error) {
+      console.warn(`[Pause Email Warning for ${customerEmail}]:`, error)
+      if (error.message?.includes('only send testing emails to your own email address') || (error as any).statusCode === 403) {
+        const adminFallback = process.env.ADMIN_EMAIL || 'i222499@nu.edu.pk'
+        console.log(`[Pause Email Fallback] Redirecting pause notification to admin owner (${adminFallback})...`)
+        const fallbackRes = await resend.emails.send({
+          from: fromEmail,
+          to: adminFallback,
+          subject: `[TEST MODE - Customer Copy for ${customerEmail}] Subscription Delivery Paused - ${pauseData.pendingRolloverBottles} Rollover Bottles Saved`,
+          html: htmlContent,
+        })
+        if (fallbackRes.data) {
+          return { success: true, id: fallbackRes.data.id, note: 'Redirected to admin email due to Resend testing tier domain restriction' }
+        }
+      }
+      return { success: false, error: error.message }
+    }
+
+    console.log(`[Pause Email Dispatch] Successfully sent pause confirmation email to ${customerEmail}. ID: ${data?.id || 'OK'}`)
+    return { success: true, id: data?.id }
+  } catch (err: any) {
+    console.error(`[Pause Email Dispatch Error] Failed to send pause email to ${customerEmail}:`, err.message || err)
+    return { success: false, error: err.message || 'Resend provider error' }
+  }
+}
+

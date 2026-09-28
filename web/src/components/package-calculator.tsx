@@ -112,14 +112,13 @@ function TiltCard({ children, className = '', floating = false }: { children: Re
   )
 }
 
-export default function PackageCalculator() {
+export default function PackageCalculator({ embedded = false }: { embedded?: boolean }) {
   const [bottlesPerDelivery, setBottlesPerDelivery] = useState<number>(10)
   const [frequencyId, setFrequencyId] = useState<string>('biweekly')
   const [months, setMonths] = useState<number>(6)
   const [customerTypeId, setCustomerTypeId] = useState<string>('family')
   const [locationId, setLocationId] = useState<string>('lahore')
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
-
 
   // Mobile Slide State
   const [activeSlide, setActiveSlide] = useState<number>(0)
@@ -167,31 +166,33 @@ export default function PackageCalculator() {
   const monthlySavings = Math.round(discountAmount / months)
 
   return (
-    <section id="calculator" className="relative py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-zinc-200/40 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans overflow-hidden">
+    <section id="calculator" className={`relative w-full transition-colors duration-300 font-sans ${embedded ? 'py-2' : 'py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto border-t border-zinc-200/40 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] overflow-hidden'}`}>
 
       {/* Glassmorphism Background Ambient Glow Orbs */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-[#0064D0]/10 dark:bg-blue-600/15 rounded-full blur-[140px] pointer-events-none z-0" />
 
       <div className="relative z-10 space-y-8 sm:space-y-12">
-        {/* Animated Title Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="text-center space-y-3 sm:space-y-4 max-w-2xl mx-auto"
-        >
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] inline-flex items-center gap-1.5">
-            <Calculator size={14} />
-            <span>INTERACTIVE CONFIGURATOR</span>
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight">
-            Build Your Perfect Water Plan.
-          </h2>
-          <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light leading-relaxed">
-            Tell us what you need. We'll calculate your estimated plan instantly.
-          </p>
-        </motion.div>
+        {/* Animated Title Header (Only if standalone) */}
+        {!embedded && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="text-center space-y-3 sm:space-y-4 max-w-2xl mx-auto"
+          >
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] inline-flex items-center gap-1.5">
+              <Calculator size={14} />
+              <span>INTERACTIVE CONFIGURATOR</span>
+            </span>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight">
+              Build Your Perfect Water Plan.
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light leading-relaxed">
+              Tell us what you need. We'll calculate your estimated plan instantly.
+            </p>
+          </motion.div>
+        )}
 
         {/* MOBILE SLIDE TOGGLE TABS (Only visible on mobile/tablet below lg) */}
         <div className="flex lg:hidden justify-center items-center gap-2 p-1.5 bg-zinc-200/70 dark:bg-slate-800/80 rounded-2xl max-w-xs mx-auto shadow-inner">

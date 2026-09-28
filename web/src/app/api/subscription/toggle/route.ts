@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
+import { sendSubscriptionPauseConfirmation } from '@/lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
     })
 
     const body = await req.json()
-    const { orderId, customerId, phone, action } = body
+    const { orderId, customerId, phone, email, customerName, remainingBottles, action } = body
 
     if (!action || (action !== 'PAUSE' && action !== 'RESUME')) {
       return NextResponse.json(
@@ -36,6 +37,11 @@ export async function POST(req: Request) {
     const subscriptionStatus = isPause ? 'PAUSED' : 'ACTIVE'
     const paymentStatus = isPause ? 'PAUSED_NO_CHARGE' : 'Paid'
     const pauseStartDate = isPause ? new Date().toISOString() : null
+    const pendingRolloverBottles = isPause
+      ? remainingBottles !== undefined && Number(remainingBottles) >= 0
+        ? Number(remainingBottles)
+        : 4
+      : 0
     const nextBillingDate = isPause
       ? null
       : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
@@ -51,6 +57,8 @@ export async function POST(req: Request) {
             subscriptionStatus,
             paymentStatus,
             pauseStartDate,
+            pausedAt: pauseStartDate,
+            pendingRolloverBottles,
             nextBillingDate,
           })
           .commit()
@@ -77,6 +85,8 @@ export async function POST(req: Request) {
                 subscriptionStatus,
                 paymentStatus,
                 pauseStartDate,
+                pausedAt: pauseStartDate,
+                pendingRolloverBottles,
                 nextBillingDate,
               })
               .commit()
@@ -94,9 +104,11 @@ export async function POST(req: Request) {
         await writeClient
           .patch(customerId)
           .set({
-            'activeSubscription.status': isPause ? 'paused' : 'active',
+            'activeSubscription.status': isPause ? 'PAUSED' : 'ACTIVE',
             'activeSubscription.subscriptionStatus': subscriptionStatus,
             'activeSubscription.pauseStartDate': pauseStartDate,
+            'activeSubscription.pausedAt': pauseStartDate,
+            'activeSubscription.pendingRolloverBottles': pendingRolloverBottles,
             'activeSubscription.nextBillingDate': nextBillingDate,
             'activeSubscription.paymentStatus': isPause ? 'PAUSED_NO_CHARGE' : 'PAID',
           })
@@ -114,9 +126,11 @@ export async function POST(req: Request) {
           await writeClient
             .patch(cId)
             .set({
-              'activeSubscription.status': isPause ? 'paused' : 'active',
+              'activeSubscription.status': isPause ? 'PAUSED' : 'ACTIVE',
               'activeSubscription.subscriptionStatus': subscriptionStatus,
               'activeSubscription.pauseStartDate': pauseStartDate,
+              'activeSubscription.pausedAt': pauseStartDate,
+              'activeSubscription.pendingRolloverBottles': pendingRolloverBottles,
               'activeSubscription.nextBillingDate': nextBillingDate,
               'activeSubscription.paymentStatus': isPause ? 'PAUSED_NO_CHARGE' : 'PAID',
             })
@@ -127,14 +141,35 @@ export async function POST(req: Request) {
       }
     }
 
+    // Trigger automated email if action is PAUSE
+    let emailResult = null
+    if (isPause) {
+      const recipientEmail = email || 'usama1@gmail.com'
+      const recipientName = customerName || 'Usama'
+      try {
+        emailResult = await sendSubscriptionPauseConfirmation({
+          customerName: recipientName,
+          email: recipientEmail,
+          phone,
+          packageName: 'Family Plan (19L)',
+          pendingRolloverBottles,
+          pausedAt: pauseStartDate || new Date().toISOString(),
+        })
+      } catch (e: any) {
+        console.error('Failed to send pause email:', e)
+      }
+    }
+
     return NextResponse.json({
       success: true,
       action,
       subscriptionStatus,
       paymentStatus,
       pauseStartDate,
+      pendingRolloverBottles,
       nextBillingDate,
       updatedCount,
+      emailResult,
     })
   } catch (error: any) {
     console.error('API /api/subscription/toggle error:', error)

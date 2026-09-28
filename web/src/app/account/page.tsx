@@ -130,24 +130,31 @@ export default function AccountPage() {
     const isCurrentlyActive = sub.status === 'active'
     const action = isCurrentlyActive ? 'PAUSE' : 'RESUME'
     const nextStatus: 'active' | 'paused' = action === 'PAUSE' ? 'paused' : 'active'
+    const endpoint = action === 'PAUSE' ? '/api/subscription/pause' : '/api/subscription/toggle'
 
     try {
-      const res = await fetch('/api/subscription/toggle', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId: latestOrder?._id,
           phone: currentUser.phone,
+          email: currentUser.email || 'usama1@gmail.com',
+          customerName: currentUser.fullName || currentUser.name || 'Usama',
+          packageName: sub.packageType,
+          bottleQty: sub.bottleQty,
+          remainingBottles: sub.bottleQty,
           action,
         }),
       })
       const data = await res.json()
 
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to toggle subscription in Sanity.')
+        throw new Error(data.error || 'Failed to update subscription status.')
       }
 
-      toggleSubscriptionStatus(nextStatus)
+      const rolloverSaved = data.pendingRolloverBottles !== undefined ? data.pendingRolloverBottles : sub.bottleQty
+      toggleSubscriptionStatus(nextStatus, rolloverSaved)
 
       if (latestOrder) {
         setOrders((prevOrders) =>
@@ -161,8 +168,8 @@ export default function AccountPage() {
 
       setToggleNotice(
         action === 'PAUSE'
-          ? 'Deliveries paused in Sanity. Automated billing put on hold.'
-          : 'Deliveries resumed! Sanity subscription status set to ACTIVE.'
+          ? `Deliveries paused! Saved ${rolloverSaved} rollover bottles and dispatched automated email to ${currentUser.email || 'usama1@gmail.com'}.`
+          : 'Deliveries resumed! Your subscription status is set to ACTIVE.'
       )
     } catch (err: any) {
       console.error('Failed to toggle subscription:', err)
@@ -454,9 +461,30 @@ export default function AccountPage() {
               </div>
 
               {toggleNotice && (
-                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl text-xs text-[#0064D0] font-semibold flex items-center space-x-2">
-                  <CheckCircle2 size={16} />
+                <div className="p-3.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl text-xs text-[#0064D0] font-semibold flex items-center space-x-2">
+                  <CheckCircle2 size={16} className="shrink-0" />
                   <span>{toggleNotice}</span>
+                </div>
+              )}
+
+              {sub.status !== 'active' && (
+                <div className="p-4 bg-sky-50 dark:bg-blue-950/50 border border-sky-200 dark:border-blue-800 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#0066FF] text-white font-black text-base flex items-center justify-center shadow-md shrink-0">
+                      {currentUser.activeSubscription?.pendingRolloverBottles || sub.bottleQty}
+                    </div>
+                    <div>
+                      <span className="text-xs font-extrabold uppercase tracking-wider text-[#0066FF] dark:text-sky-300 block">
+                        SAVED ROLLOVER BOTTLE QUOTA
+                      </span>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                        {currentUser.activeSubscription?.pendingRolloverBottles || sub.bottleQty} bottles will automatically roll over and add to your next active cycle upon resumption.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+                    ✓ Quota Secured
+                  </span>
                 </div>
               )}
 
