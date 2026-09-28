@@ -426,37 +426,37 @@ const BUBBLE_SETS: BubbleItem[][] = [
   ]
 ]
 
-// Smooth Slow Motion Floating Canvas Specs
+// Smooth Slow Motion Floating Canvas Specs (Positioned for Heading Proximity)
 const BUBBLE_LAYOUT_SPECS = [
   {
-    sizeDesktop: 300,
+    sizeDesktop: 290,
     sizeMobile: 135,
-    posStyle: { top: '12%', left: '8%' },
-    duration: 9.0,
+    posStyle: { top: '0%', left: '6%' },
+    duration: 8.5,
   },
   {
-    sizeDesktop: 190,
+    sizeDesktop: 210,
     sizeMobile: 115,
-    posStyle: { top: '18%', right: '10%' },
+    posStyle: { top: '3%', right: '8%' },
+    duration: 9.8,
+  },
+  {
+    sizeDesktop: 140,
+    sizeMobile: 90,
+    posStyle: { top: '32%', left: '16%' },
     duration: 10.5,
   },
   {
-    sizeDesktop: 120,
-    sizeMobile: 90,
-    posStyle: { top: '46%', left: '18%' },
+    sizeDesktop: 320,
+    sizeMobile: 155,
+    posStyle: { top: '38%', right: '14%' },
     duration: 11.5,
   },
   {
-    sizeDesktop: 330,
-    sizeMobile: 155,
-    posStyle: { bottom: '12%', right: '16%' },
-    duration: 12.5,
-  },
-  {
-    sizeDesktop: 170,
+    sizeDesktop: 180,
     sizeMobile: 110,
-    posStyle: { bottom: '8%', left: '40%' },
-    duration: 9.8,
+    posStyle: { top: '56%', left: '38%' },
+    duration: 9.2,
   }
 ]
 
@@ -634,42 +634,13 @@ export default function NewsletterBubbleUniverse() {
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ opacity: 0, scale: 0.5, y: 30 }}
-                    animate={
-                      isInView
-                        ? {
-                            y: [-16, 16, -16],
-                            x: [-8, 8, -8],
-                            rotate: [-3, 3, -3],
-                            opacity: 1,
-                            scale: 1
-                          }
-                        : {}
-                    }
+                    initial={{ y: 220, opacity: 0, scale: 0.7 }}
+                    whileInView={{ y: 0, opacity: 1, scale: 1 }}
+                    viewport={{ once: false, margin: "-100px" }}
                     transition={{
-                      y: {
-                        duration: layout.duration,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                        ease: 'easeInOut',
-                        delay: index * 0.2
-                      },
-                      x: {
-                        duration: layout.duration * 1.3,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                        ease: 'easeInOut',
-                        delay: index * 0.15
-                      },
-                      rotate: {
-                        duration: layout.duration * 1.1,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                        ease: 'easeInOut',
-                        delay: index * 0.1
-                      },
-                      opacity: { duration: 0.8, delay: index * 0.15 },
-                      scale: { duration: 0.8, delay: index * 0.15 }
+                      duration: 2.6,
+                      delay: index * 0.35,
+                      ease: [0.16, 1, 0.3, 1],
                     }}
                     style={{
                       position: 'absolute',
@@ -677,55 +648,67 @@ export default function NewsletterBubbleUniverse() {
                       width: `${size}px`,
                       height: `${size}px`
                     }}
-                    onMouseEnter={() => playWaterBubblePop(1.5, 0.12, soundMuted)}
-                    onClick={() => handleBubbleClick(item)}
-                    className="absolute cursor-pointer rounded-full group z-10 border-2 border-white/80 dark:border-sky-300/70 shadow-[inset_0_0_25px_rgba(255,255,255,0.7),0_0_50px_rgba(0,102,255,0.35)] hover:shadow-[inset_0_0_35px_rgba(255,255,255,0.9),0_0_80px_rgba(0,102,255,0.65)] hover:border-white transition-all duration-500 hover:scale-108 flex flex-col items-center justify-center p-5 text-center select-none overflow-hidden"
                   >
-                    {/* Background Picture - VIVID & CLEAR WITH FROSTED GLASS BLUR */}
-                    <img
-                      src={item.imageSrc}
-                      alt={item.title}
-                      className="absolute inset-0 w-full h-full object-cover rounded-full filter blur-[1.5px] group-hover:blur-none opacity-90 group-hover:opacity-100 scale-100 group-hover:scale-110 transition-all duration-700 ease-out pointer-events-none"
-                    />
+                    <motion.div
+                      animate={{
+                        y: [0, -14, 0],
+                        x: [0, 6, -6, 0],
+                      }}
+                      transition={{
+                        duration: 5 + index,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      onMouseEnter={() => playWaterBubblePop(1.5, 0.12, soundMuted)}
+                      onClick={() => handleBubbleClick(item)}
+                      className="border-2 border-cyan-100/80 shadow-[0_20px_45px_rgba(0,166,255,0.22)] backdrop-blur-sm relative rounded-full overflow-hidden group cursor-pointer hover:scale-108 transition-transform duration-500 flex flex-col items-center justify-center p-5 text-center select-none w-full h-full"
+                    >
+                      {/* Glass Sphere Glare - Top Left Reflection */}
+                      <div className="absolute top-1 left-2 w-3/5 h-2/5 bg-gradient-to-br from-white/80 via-white/20 to-transparent rounded-full blur-[1px] pointer-events-none z-20" />
 
-                    {/* Gradient Overlay for Text Contrast */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-slate-950/20 group-hover:from-slate-950/90 group-hover:via-slate-950/60 group-hover:to-slate-950/40 transition-colors duration-500 pointer-events-none" />
+                      {/* Liquid Lens Rim & Bottom Shadow */}
+                      <div className="absolute inset-0 rounded-full ring-2 ring-white/60 shadow-[inset_0_-10px_20px_rgba(0,102,255,0.35)] pointer-events-none z-20" />
 
-                    {/* Top-Left Glossy 3D Arc Glare */}
-                    <div className="absolute top-2.5 left-5 w-2/5 h-1/4 bg-gradient-to-b from-white/80 via-white/30 to-transparent rounded-full -rotate-45 pointer-events-none blur-[0.5px] z-10" />
+                      {/* Background Picture - VIVID & CLEAR WITH FROSTED GLASS BLUR */}
+                      <img
+                        src={item.imageSrc}
+                        alt={item.title}
+                        className="absolute inset-0 w-full h-full object-cover rounded-full filter blur-[1.5px] group-hover:blur-none opacity-90 group-hover:opacity-100 scale-100 group-hover:scale-110 transition-all duration-700 ease-out pointer-events-none"
+                      />
 
-                    {/* Bottom-Right Deep Reflection */}
-                    <div className="absolute bottom-2.5 right-5 w-1/3 h-1/4 bg-gradient-to-t from-sky-300/40 to-transparent rounded-full pointer-events-none blur-sm z-10" />
+                      {/* Gradient Overlay for Text Contrast */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-slate-950/20 group-hover:from-slate-950/90 group-hover:via-slate-950/60 group-hover:to-slate-950/40 transition-colors duration-500 pointer-events-none z-5" />
 
-                    {/* BUBBLE CONTENT OVERLAY - HIDDEN BY DEFAULT, SHOWS ON HOVER */}
-                    <div className="relative z-20 flex flex-col items-center justify-center text-center w-full px-3 pointer-events-none select-none opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-500 ease-out">
-                      {/* Badge pill */}
-                      <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-slate-950/80 text-sky-200 backdrop-blur-md mb-1.5 border border-white/30 shadow-sm">
-                        {item.badge}
-                      </span>
+                      {/* BUBBLE CONTENT OVERLAY - HIDDEN BY DEFAULT, SHOWS ON HOVER */}
+                      <div className="relative z-20 flex flex-col items-center justify-center text-center w-full px-3 pointer-events-none select-none opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all duration-500 ease-out">
+                        {/* Badge pill */}
+                        <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-slate-950/80 text-sky-200 backdrop-blur-md mb-1.5 border border-white/30 shadow-sm">
+                          {item.badge}
+                        </span>
 
-                      {/* Main Title */}
-                      <h3 className="font-serif font-extrabold text-base lg:text-xl text-white tracking-wide leading-tight mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
-                        {item.title}
-                      </h3>
+                        {/* Main Title */}
+                        <h3 className="font-serif font-extrabold text-base lg:text-xl text-white tracking-wide leading-tight mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+                          {item.title}
+                        </h3>
 
-                      {/* Category / Subtitle */}
-                      <p className="text-[11px] text-sky-200 font-bold tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] mb-2">
-                        {item.subtitle}
-                      </p>
-
-                      {/* Detailed excerpt */}
-                      {size >= 290 && (
-                        <p className="text-xs text-[#E0F2FE] font-medium leading-relaxed max-w-[240px] line-clamp-2 mb-2 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-                          {item.excerpt}
+                        {/* Category / Subtitle */}
+                        <p className="text-[11px] text-sky-200 font-bold tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] mb-2">
+                          {item.subtitle}
                         </p>
-                      )}
 
-                      <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0064D0] text-white text-[10px] font-bold shadow-md">
-                        <span>Click to Expand</span>
-                        <ArrowRight size={11} />
+                        {/* Detailed excerpt */}
+                        {size >= 290 && (
+                          <p className="text-xs text-[#E0F2FE] font-medium leading-relaxed max-w-[240px] line-clamp-2 mb-2 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+                            {item.excerpt}
+                          </p>
+                        )}
+
+                        <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0064D0] text-white text-[10px] font-bold shadow-md">
+                          <span>Click to Expand</span>
+                          <ArrowRight size={11} />
+                        </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </motion.div>
                 )
               })}
@@ -740,37 +723,53 @@ export default function NewsletterBubbleUniverse() {
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.4, delay: index * 0.08 }}
+                    initial={{ y: 220, opacity: 0, scale: 0.7 }}
+                    whileInView={{ y: 0, opacity: 1, scale: 1 }}
+                    viewport={{ once: false, margin: "-100px" }}
+                    transition={{
+                      duration: 2.6,
+                      delay: index * 0.35,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     onClick={() => handleBubbleClick(item)}
                     className="flex flex-col items-center justify-center cursor-pointer py-1"
                   >
-                    <div
+                    <motion.div
+                      animate={{
+                        y: [0, -10, 0],
+                        x: [0, 4, -4, 0],
+                      }}
+                      transition={{
+                        duration: 5 + index,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                       style={{
                         width: `${pixelSize}px`,
                         height: `${pixelSize}px`,
-                        boxShadow:
-                          'inset 4px 4px 12px rgba(255, 255, 255, 0.7), inset -4px -4px 14px rgba(0, 102, 255, 0.35), 0 0 30px rgba(0, 102, 255, 0.35)'
                       }}
-                      className="rounded-full border border-white/70 flex flex-col items-center justify-center p-3 text-center relative overflow-hidden active:scale-95 transition-transform group"
+                      className="border-2 border-cyan-100/80 shadow-[0_20px_45px_rgba(0,166,255,0.22)] backdrop-blur-sm relative rounded-full overflow-hidden group flex flex-col items-center justify-center p-3 text-center active:scale-95 transition-transform"
                     >
+                      {/* Glass Sphere Glare - Top Left Reflection */}
+                      <div className="absolute top-1 left-2 w-3/5 h-2/5 bg-gradient-to-br from-white/80 via-white/20 to-transparent rounded-full blur-[1px] pointer-events-none z-20" />
+
+                      {/* Liquid Lens Rim & Bottom Shadow */}
+                      <div className="absolute inset-0 rounded-full ring-2 ring-white/60 shadow-[inset_0_-10px_20px_rgba(0,102,255,0.35)] pointer-events-none z-20" />
+
                       {/* Vivid Photo background */}
                       <img
                         src={item.imageSrc}
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover rounded-full filter blur-[1px] group-hover:blur-none opacity-90 group-hover:opacity-100 scale-100 group-hover:scale-105 transition-all duration-500"
                       />
-                      <div className="absolute inset-0 bg-slate-950/50 group-hover:bg-slate-950/60 transition-colors" />
-
-                      <div className="absolute top-1 left-2 w-1/2 h-1/3 bg-white/40 rounded-full -rotate-45 pointer-events-none z-10" />
+                      <div className="absolute inset-0 bg-slate-950/50 group-hover:bg-slate-950/60 transition-colors z-5" />
 
                       <div className="relative z-20 flex flex-col items-center justify-center">
                         <span className="text-[8px] font-black uppercase tracking-widest text-sky-200 mb-0.5">{item.badge}</span>
                         <h3 className="font-serif font-extrabold text-xs text-white leading-tight drop-shadow-md">{item.title}</h3>
                         <p className="text-[9px] text-[#E0F2FE] font-bold mt-0.5 drop-shadow-xs">{item.subtitle}</p>
                       </div>
-                    </div>
+                    </motion.div>
                   </motion.div>
                 )
               })}
@@ -796,7 +795,7 @@ export default function NewsletterBubbleUniverse() {
         </div>
       </div>
 
-      {/* EXPANDED BUBBLE MODAL - CIRCLE FORM */}
+      {/* EXPANDED BUBBLE MODAL - LIQUID RIPPLE POP-UP & REVERSE SHRINK ANIMATION */}
       <AnimatePresence>
         {activeModalBubble && (
           <motion.div
@@ -804,101 +803,90 @@ export default function NewsletterBubbleUniverse() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xl overflow-y-auto"
+            onClick={() => setActiveModalBubble(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md overflow-y-auto"
           >
-            {/* Backdrop click to close */}
-            <div className="absolute inset-0" onClick={() => setActiveModalBubble(null)} />
-
-            {/* EXPANDED CIRCLE BUBBLE CONTAINER */}
             <motion.div
-              initial={{ scale: 0.15, opacity: 0, borderRadius: '100%' }}
-              animate={{ scale: 1, opacity: 1, borderRadius: '9999px' }}
-              exit={{ scale: 0.15, opacity: 0, borderRadius: '100%' }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 w-[94vw] max-w-[620px] aspect-square rounded-full bg-slate-950/95 border-2 border-sky-400/60 text-white shadow-[0_0_100px_rgba(0,102,255,0.6)] backdrop-blur-2xl overflow-hidden flex flex-col items-center justify-center p-6 sm:p-12 text-center select-text group"
+              initial={{ scale: 0.1, opacity: 0, borderRadius: "100px" }}
+              animate={{ scale: 1, opacity: 1, borderRadius: "24px" }}
+              exit={{ scale: 0.1, opacity: 0, borderRadius: "100px" }}
+              transition={{
+                type: "spring",
+                stiffness: 220,
+                damping: 20,
+                mass: 0.8
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white/95 backdrop-blur-2xl border border-blue-100/80 shadow-[0_30px_70px_rgba(0,102,255,0.22)] p-8 max-w-xl w-[90%] relative overflow-hidden text-left z-10 font-sans"
             >
-              {/* Sharp Background Image */}
-              <img
-                src={activeModalBubble.imageSrc}
-                alt={activeModalBubble.title}
-                className="absolute inset-0 w-full h-full object-cover opacity-25 scale-105 pointer-events-none"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/90 to-slate-950/95 pointer-events-none" />
-
-              {/* 3D Glossy Specular Reflection on Top Curve of Circle */}
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-2/3 h-1/5 bg-gradient-to-b from-white/30 via-white/10 to-transparent rounded-full blur-[1px] pointer-events-none" />
-
-              {/* Close Button - At Top Right Edge */}
+              {/* Modal Close Button */}
               <button
                 onClick={() => setActiveModalBubble(null)}
-                className="absolute top-6 right-8 sm:top-8 sm:right-12 w-10 h-10 rounded-full bg-white/10 hover:bg-rose-500 hover:text-white text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 z-30 shadow-lg hover:scale-110 active:scale-95"
-                aria-label="Close Expanded Bubble"
+                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-all z-10 cursor-pointer"
+                aria-label="Close modal"
               >
-                <X size={18} />
+                ✕
               </button>
 
-              {/* EXPANDED CONTENT INSIDE CIRCLE */}
-              <div className="relative z-20 w-full max-w-[480px] flex flex-col items-center justify-center space-y-3 font-sans my-auto py-2">
-                {/* Category & Badge */}
-                <div className="flex items-center space-x-2">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-sky-500/20 text-sky-300 border border-sky-400/40 shadow-xs">
-                    {activeModalBubble.badge}
-                  </span>
-                  <span className="text-[11px] text-sky-200 font-mono font-bold uppercase tracking-wider">
-                    {activeModalBubble.category} • {activeModalBubble.issueNo}
-                  </span>
-                </div>
+              {/* Staggered Text Reveal inside Modal */}
+              <motion.div
+                initial={{ y: 15, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.15, duration: 0.4 }}
+              >
+                {/* Category Tag */}
+                <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold uppercase tracking-widest rounded-full mb-3">
+                  {activeModalBubble.category} • {activeModalBubble.badge}
+                </span>
 
-                {/* Headline */}
-                <h3 className="text-lg sm:text-2xl font-serif font-bold text-white tracking-wide leading-tight drop-shadow-md max-w-[440px]">
+                {/* Main Heading */}
+                <h3 className="text-slate-900 text-2xl md:text-3xl font-bold tracking-tight mb-3 text-left">
                   {activeModalBubble.headline}
                 </h3>
 
-                {/* Article Excerpt */}
-                <p className="text-xs sm:text-sm text-sky-100/90 leading-relaxed font-sans line-clamp-3 sm:line-clamp-4 max-w-[420px]">
+                {/* Description Paragraph */}
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-6 text-left">
                   {activeModalBubble.excerpt}
                 </p>
 
-                {/* Key Highlights */}
-                <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-3 text-left space-y-1.5 max-w-[400px]">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-sky-300 block text-center">Issue Highlights</span>
-                  <div className="grid grid-cols-1 gap-1">
-                    {activeModalBubble.highlights.slice(0, 2).map((h, i) => (
-                      <div key={i} className="flex items-center space-x-2 text-[11px] text-slate-200 font-medium">
-                        <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
-                        <span className="truncate">{h}</span>
-                      </div>
-                    ))}
-                  </div>
+                {/* Highlights Box */}
+                <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-100 mb-6 text-left space-y-2 text-slate-700 text-sm font-medium">
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-1">Key Research Highlights</span>
+                  {activeModalBubble.highlights.map((h, i) => (
+                    <div key={i} className="flex items-center space-x-2">
+                      <CheckCircle2 size={16} className="text-blue-600 shrink-0" />
+                      <span>{h}</span>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Subscribe Form inside Expanded Circle */}
-                <form onSubmit={handleSubscribeSubmit} className="flex items-center gap-2 w-full max-w-[380px] pt-1">
-                  <div className="relative flex-1">
-                    <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sky-300" />
+                {/* Form & Interactive CTA */}
+                <form onSubmit={handleSubscribeSubmit} className="flex flex-col sm:flex-row items-center gap-3 w-full">
+                  <div className="relative flex-1 w-full">
+                    <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                       type="email"
                       required
                       value={emailInput}
                       onChange={(e) => setEmailInput(e.target.value)}
-                      placeholder="Enter email to subscribe"
-                      className="w-full pl-9 pr-3 py-2 bg-white/10 border border-white/20 focus:border-sky-400 rounded-full text-xs text-white placeholder-sky-200/60 focus:outline-none focus:ring-2 focus:ring-sky-400/30 transition-all"
+                      placeholder="Enter email to get full PDF briefing"
+                      className="w-full bg-slate-100/80 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-[#0064D0] hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider rounded-full shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
+                    className="w-full sm:w-auto bg-[#0066FF] text-white font-semibold rounded-xl px-6 py-3 hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all text-sm shrink-0 cursor-pointer"
                   >
-                    Get PDF
+                    Get Full Briefing
                   </button>
                 </form>
 
                 {subscribed && (
-                  <div className="text-[11px] font-bold text-emerald-300 bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-400/30">
-                    ✓ Subscribed! Full PDF Briefing Sent.
+                  <div className="mt-3 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 text-left">
+                    ✓ Subscribed! Full PDF Briefing Sent to your email.
                   </div>
                 )}
-              </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}

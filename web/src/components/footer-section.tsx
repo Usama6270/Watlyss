@@ -183,14 +183,14 @@ export default function FooterSection() {
       {/* Subtle Premium Cursor Water Effect Canvas */}
       <FooterWaterEffect containerRef={footerRef} />
 
-      <div className="relative z-20 max-w-7xl mx-auto px-6 space-y-12 sm:space-y-16 pointer-events-auto">
+      <div className="relative z-20 max-w-[1240px] mx-auto px-6 sm:px-8 space-y-10 sm:space-y-14 pointer-events-auto">
 
         {/* Brand Statement Lead-in */}
-        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-16 border-b transition-colors duration-700 items-start ${
+        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-10 sm:pb-12 border-b transition-colors duration-700 items-start ${
           isHovered ? 'border-white/30' : 'border-zinc-200/60 dark:border-slate-800/60'
         }`}>
-          <div className="lg:col-span-6 space-y-4">
-            <Link href="/" className="relative block h-16 sm:h-20 w-52 sm:w-64">
+          <div className="lg:col-span-6 space-y-3">
+            <Link href="/" className="relative block h-14 sm:h-18 w-48 sm:w-56">
               <Image
                 src="/logo.png"
                 alt="Watlys 19L Pure Water Logo"
@@ -201,27 +201,27 @@ export default function FooterSection() {
                 }`}
               />
             </Link>
-            <p className={`text-xs sm:text-sm font-light leading-relaxed max-w-md transition-colors duration-500 ${
-              isHovered ? 'text-sky-100' : 'text-zinc-600 dark:text-slate-200'
+            <p className={`text-xs sm:text-sm font-normal leading-relaxed max-w-md transition-colors duration-500 ${
+              isHovered ? 'text-sky-100' : 'text-zinc-600 dark:text-slate-300'
             }`}>
               Premier 19-Liter mineral drinking water subscription service delivered directly to your home or office.
             </p>
           </div>
 
-          <div className="lg:col-span-6 space-y-3">
+          <div className="lg:col-span-6 space-y-2.5">
             <span className={`text-[10px] font-bold uppercase tracking-[0.25em] block transition-colors duration-500 ${
               isHovered ? 'text-white' : 'text-[#0064D0]'
             }`}>
               SUBSCRIBE TO WATER INSIGHTS
             </span>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2.5">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t.newsletter.emailPlaceholder}
                 required
-                className={`flex-1 px-4 py-3 border text-xs rounded-xl shadow-sm transition-all ${
+                className={`flex-1 px-4 py-2.5 border text-xs rounded-xl shadow-xs transition-all ${
                   isHovered 
                     ? 'bg-white/10 text-white placeholder-sky-100 border-white/30 focus:bg-white focus:text-slate-900 focus:placeholder-slate-400' 
                     : 'bg-white dark:bg-[#131c38] border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0064D0]'
@@ -229,7 +229,7 @@ export default function FooterSection() {
               />
               <button
                 type="submit"
-                className={`px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md ${
+                className={`px-6 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shrink-0 ${
                   isHovered 
                     ? 'bg-white text-[#0064D0] hover:bg-sky-50 hover:scale-105 shadow-xl font-bold' 
                     : 'bg-[#0064D0] hover:bg-[#0052ad] text-white'
@@ -252,22 +252,22 @@ export default function FooterSection() {
         </div>
 
         {/* Desktop & Tablet Navigation Columns (3 Columns strictly matching Navbar) */}
-        <div className="hidden sm:grid sm:grid-cols-3 gap-8 text-xs font-light">
+        <div className="hidden sm:grid sm:grid-cols-3 gap-8 text-xs font-normal">
           {sections.map((sec) => (
-            <div key={sec.id} className="space-y-4">
+            <div key={sec.id} className="space-y-3.5">
               <h4 className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-500 ${
                 isHovered ? 'text-white' : 'text-[#0064D0]'
               }`}>
                 {sec.title}
               </h4>
-              <ul className={`space-y-2.5 transition-colors duration-500 ${
-                isHovered ? 'text-sky-100' : 'text-slate-600 dark:text-slate-200'
+              <ul className={`space-y-2 transition-colors duration-500 ${
+                isHovered ? 'text-sky-100' : 'text-slate-600 dark:text-slate-300'
               }`}>
                 {sec.links.map((link) => (
                   <li key={link.href}>
                     <Link 
                       href={link.href} 
-                      className={`transition-colors ${
+                      className={`transition-colors inline-block ${
                         isHovered ? 'hover:text-white hover:underline' : 'hover:text-[#0064D0]'
                       }`}
                     >
@@ -321,18 +321,18 @@ export default function FooterSection() {
           })}
         </div>
 
-        {/* Concierge & Direct Contact Strip (Turns Crisp White with Watlys Blue text on Hover) */}
-        <div className="pt-8 border-t border-slate-200/80 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-3 gap-5 text-xs font-light items-center">
+        {/* Concierge & Direct Contact Strip (3 Balanced Equal-Height Glass Cards) */}
+        <div className="pt-6 border-t border-slate-200/80 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-light items-stretch">
           
           {/* WhatsApp Contact + CTA Card */}
-          <div className={`flex items-center justify-between gap-3 p-3.5 rounded-2xl border shadow-sm transition-all duration-300 ${
-            isHovered ? 'bg-white text-slate-900 border-white shadow-xl scale-[1.02]' : 'bg-white dark:bg-[#131c38] text-slate-900 dark:text-white border-slate-200/80 dark:border-slate-800'
+          <div className={`flex items-center justify-between gap-3 p-4 rounded-2xl border shadow-sm transition-all duration-300 ${
+            isHovered ? 'bg-white text-slate-900 border-white shadow-lg' : 'bg-white dark:bg-[#131c38] text-slate-900 dark:text-white border-slate-200/80 dark:border-slate-800'
           }`}>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 min-w-0">
               <MessageCircle size={20} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-              <div>
-                <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider">WHATSAPP CONCIERGE</span>
-                <a href="https://wa.me/923001234567" className="hover:text-[#0064D0] font-semibold text-slate-900">+92 300 1234567</a>
+              <div className="min-w-0">
+                <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider truncate">WHATSAPP CONCIERGE</span>
+                <a href="https://wa.me/923001234567" className="hover:text-[#0064D0] font-semibold text-slate-900 truncate block">+92 300 1234567</a>
               </div>
             </div>
             <a
@@ -347,31 +347,49 @@ export default function FooterSection() {
           </div>
 
           {/* Email Assistance Card */}
-          <div className={`flex items-center space-x-3 p-3.5 rounded-2xl border shadow-sm transition-all duration-300 ${
-            isHovered ? 'bg-white text-slate-900 border-white shadow-xl scale-[1.02]' : 'bg-white dark:bg-[#131c38] text-slate-900 dark:text-white border-slate-200/80 dark:border-slate-800'
+          <div className={`flex items-center justify-between gap-3 p-4 rounded-2xl border shadow-sm transition-all duration-300 ${
+            isHovered ? 'bg-white text-slate-900 border-white shadow-lg' : 'bg-white dark:bg-[#131c38] text-slate-900 dark:text-white border-slate-200/80 dark:border-slate-800'
           }`}>
-            <Mail size={20} className="text-[#0064D0] shrink-0" />
-            <div>
-              <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider">EMAIL ASSISTANCE</span>
-              <a href="mailto:care@watlys.com" className="hover:text-[#0064D0] font-semibold text-slate-900">care@watlys.com</a>
+            <div className="flex items-center space-x-3 min-w-0">
+              <Mail size={20} className="text-[#0064D0] shrink-0" />
+              <div className="min-w-0">
+                <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider truncate">EMAIL ASSISTANCE</span>
+                <a href="mailto:care@watlys.com" className="hover:text-[#0064D0] font-semibold text-slate-900 truncate block">care@watlys.com</a>
+              </div>
             </div>
+            <a
+              href="mailto:care@watlys.com"
+              className="px-3.5 py-2 bg-[#0064D0] hover:bg-[#0052ad] text-white font-bold text-[10px] uppercase tracking-wider rounded-xl inline-flex items-center gap-1.5 shadow-md transition-all active:scale-[0.97] shrink-0"
+            >
+              <Mail size={13} />
+              <span>Email</span>
+            </a>
           </div>
 
           {/* Service Regions Card */}
-          <div className={`flex items-center space-x-3 p-3.5 rounded-2xl border shadow-sm transition-all duration-300 ${
-            isHovered ? 'bg-white text-slate-900 border-white shadow-xl scale-[1.02]' : 'bg-white dark:bg-[#131c38] text-slate-900 dark:text-white border-slate-200/80 dark:border-slate-800'
+          <div className={`flex items-center justify-between gap-3 p-4 rounded-2xl border shadow-sm transition-all duration-300 ${
+            isHovered ? 'bg-white text-slate-900 border-white shadow-lg' : 'bg-white dark:bg-[#131c38] text-slate-900 dark:text-white border-slate-200/80 dark:border-slate-800'
           }`}>
-            <MapPin size={20} className="text-[#0064D0] shrink-0" />
-            <div>
-              <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider">SERVICE REGIONS</span>
-              <span className="font-semibold text-slate-900">Lahore • Karachi • Islamabad</span>
+            <div className="flex items-center space-x-3 min-w-0">
+              <MapPin size={20} className="text-[#0064D0] shrink-0" />
+              <div className="min-w-0">
+                <span className="text-[10px] uppercase font-bold text-[#0064D0] block tracking-wider truncate">SERVICE REGIONS</span>
+                <span className="font-semibold text-slate-900 truncate block">Lahore • Islamabad • Karachi</span>
+              </div>
             </div>
+            <Link
+              href="/locations"
+              className="px-3.5 py-2 bg-[#0064D0] hover:bg-[#0052ad] text-white font-bold text-[10px] uppercase tracking-wider rounded-xl inline-flex items-center gap-1.5 shadow-md transition-all active:scale-[0.97] shrink-0"
+            >
+              <MapPin size={13} />
+              <span>Map</span>
+            </Link>
           </div>
 
         </div>
 
         {/* Bottom Rights & Legal Row */}
-        <div className={`pt-8 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] gap-4 ${
+        <div className={`pt-6 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] gap-4 ${
           isHovered ? 'border-white/30 text-sky-100' : 'border-zinc-200/60 dark:border-slate-800/60 text-zinc-500 dark:text-slate-400'
         }`}>
           <p>{t.footer.rights}</p>
