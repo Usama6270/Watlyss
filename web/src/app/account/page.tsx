@@ -292,9 +292,14 @@ export default function AccountPage() {
   const rawSanitySubStatus = latestOrder?.subscriptionStatus || ''
   const isSanityPaused = rawSanitySubStatus.toUpperCase().includes('PAUSE') || rawSanitySubStatus.toUpperCase().includes('HOLD')
 
+  const rawUserSubStatus = (currentUser.activeSubscription?.status || 'active').toLowerCase()
   const effectiveStatus: 'active' | 'paused' | 'cancelled' = isSanityPaused
     ? 'paused'
-    : (currentUser.activeSubscription?.status || 'active')
+    : rawUserSubStatus === 'paused'
+    ? 'paused'
+    : rawUserSubStatus === 'cancelled'
+    ? 'cancelled'
+    : 'active'
 
   const sub = {
     packageType: currentUser.activeSubscription?.packageType || (latestOrder?.packageDetails?.customerSegment ? `${latestOrder.packageDetails.customerSegment} Plan (19L)` : 'Family Plan (19L)'),

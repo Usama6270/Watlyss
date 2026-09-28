@@ -46,7 +46,7 @@ interface AuthContextType {
   saveAddress: (address: NonNullable<User['address']>) => void
   addAddress: (address: AddressItem) => void
   removeAddress: (index: number) => void
-  toggleSubscriptionStatus: (explicitStatus?: 'active' | 'paused') => void
+  toggleSubscriptionStatus: (explicitStatus?: 'active' | 'paused' | 'PAUSED' | 'ACTIVE', rolloverBottles?: number) => void
   updateSubscription: (subscription: Partial<ActiveSubscription>) => void
   isAuthModalOpen: boolean
   authModalTab: 'login' | 'signup'

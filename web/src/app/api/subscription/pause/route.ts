@@ -141,7 +141,10 @@ export async function POST(req: Request) {
     const recipientEmail = email || 'usama1@gmail.com'
     const recipientName = customerName || 'Usama'
 
-    let emailResult = { success: false, reason: 'Not attempted' }
+    let emailResult: { success: boolean; id?: string; note?: string; error?: string; reason?: string } = {
+      success: false,
+      reason: 'Not attempted',
+    }
     try {
       emailResult = await sendSubscriptionPauseConfirmation({
         customerName: recipientName,
