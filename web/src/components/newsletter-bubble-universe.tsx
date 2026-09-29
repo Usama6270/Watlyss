@@ -509,6 +509,7 @@ export default function NewsletterBubbleUniverse() {
   const [emailInput, setEmailInput] = useState('')
   const [subscribed, setSubscribed] = useState(false)
   const [soundMuted, setSoundMuted] = useState(false)
+  const [isHeaderHovered, setIsHeaderHovered] = useState(false)
 
   // Play subtle entrance pops once on scroll
   useEffect(() => {
@@ -552,6 +553,8 @@ export default function NewsletterBubbleUniverse() {
   return (
     <section
       ref={containerRef}
+      onMouseEnter={() => setIsHeaderHovered(true)}
+      onMouseLeave={() => setIsHeaderHovered(false)}
       className="relative w-full pt-16 md:pt-20 pb-12 sm:pb-16 bg-transparent text-slate-900 dark:text-white overflow-hidden select-none font-sans"
     >
       {/* Header Banner */}
@@ -566,23 +569,26 @@ export default function NewsletterBubbleUniverse() {
           <span>WATLYS INTERACTIVE NEWSLETTER UNIVERSE</span>
         </motion.div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: -10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-wide leading-tight mb-3"
+        <motion.div
+          initial={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          whileInView={{ 
+            opacity: [1, 1, 0.15],
+            y: [0, -10, -20],
+            filter: ["blur(0px)", "blur(0px)", "blur(6px)"]
+          }}
+          animate={isHeaderHovered ? { opacity: 0.8, y: 0, filter: "blur(0px)", transition: { duration: 0.4, ease: "easeOut" } } : undefined}
+          viewport={{ once: false, amount: 0.6 }}
+          transition={{ duration: 3.2, times: [0, 0.4, 1], ease: "easeInOut" }}
+          whileHover={{ opacity: 0.8, y: 0, filter: "blur(0px)", transition: { duration: 0.3 } }}
+          className="text-center transition-all cursor-pointer"
         >
-          Explore Pure Hydration Intelligence
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: -10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="text-xs sm:text-sm text-slate-600 dark:text-sky-200/80 max-w-2xl mx-auto font-sans leading-relaxed"
-        >
-          Hover over any floating mineral bubble below to reveal complete research briefings. Click any bubble to expand in full circular view.
-        </motion.p>
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight font-serif mb-3">
+            Explore Pure Hydration Intelligence
+          </h2>
+          <p className="text-slate-500 dark:text-sky-200/80 text-sm mt-2 font-sans max-w-2xl mx-auto">
+            Hover or click any floating mineral bubble below
+          </p>
+        </motion.div>
 
         {/* Audio Toggle */}
         <button
@@ -634,12 +640,12 @@ export default function NewsletterBubbleUniverse() {
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ y: 220, opacity: 0, scale: 0.7 }}
+                    initial={{ y: 180, opacity: 0, scale: 0.85 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
-                    viewport={{ once: false, margin: "-100px" }}
+                    viewport={{ once: false, amount: 0.3 }}
                     transition={{
-                      duration: 2.6,
-                      delay: index * 0.35,
+                      duration: 2.8,
+                      delay: index * 0.25,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                     style={{
@@ -648,6 +654,7 @@ export default function NewsletterBubbleUniverse() {
                       width: `${size}px`,
                       height: `${size}px`
                     }}
+                    className="relative group cursor-pointer"
                   >
                     <motion.div
                       animate={{
@@ -723,16 +730,16 @@ export default function NewsletterBubbleUniverse() {
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ y: 220, opacity: 0, scale: 0.7 }}
+                    initial={{ y: 180, opacity: 0, scale: 0.85 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
-                    viewport={{ once: false, margin: "-100px" }}
+                    viewport={{ once: false, amount: 0.3 }}
                     transition={{
-                      duration: 2.6,
-                      delay: index * 0.35,
+                      duration: 2.8,
+                      delay: index * 0.25,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                     onClick={() => handleBubbleClick(item)}
-                    className="flex flex-col items-center justify-center cursor-pointer py-1"
+                    className="relative group cursor-pointer flex flex-col items-center justify-center py-1"
                   >
                     <motion.div
                       animate={{
