@@ -506,6 +506,7 @@ export default function NewsletterBubbleUniverse() {
 
   const [currentSetIndex, setCurrentSetIndex] = useState(0)
   const [activeModalBubble, setActiveModalBubble] = useState<BubbleItem | null>(null)
+  const [clickOrigin, setClickOrigin] = useState<{ x: number; y: number } | null>(null)
   const [emailInput, setEmailInput] = useState('')
   const [subscribed, setSubscribed] = useState(false)
   const [soundMuted, setSoundMuted] = useState(false)
@@ -532,7 +533,14 @@ export default function NewsletterBubbleUniverse() {
     setCurrentSetIndex((prev) => (prev - 1 + BUBBLE_SETS.length) % BUBBLE_SETS.length)
   }
 
-  const handleBubbleClick = (item: BubbleItem) => {
+  const handleBubbleClick = (item: BubbleItem, e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined') {
+      const rect = e.currentTarget.getBoundingClientRect()
+      setClickOrigin({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2
+      })
+    }
     playWaterBubblePop(2.2, 0.18, soundMuted)
     setActiveModalBubble(item)
   }
@@ -570,16 +578,10 @@ export default function NewsletterBubbleUniverse() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          whileInView={{ 
-            opacity: [1, 1, 0.15],
-            y: [0, -10, -20],
-            filter: ["blur(0px)", "blur(0px)", "blur(6px)"]
-          }}
-          animate={isHeaderHovered ? { opacity: 0.8, y: 0, filter: "blur(0px)", transition: { duration: 0.4, ease: "easeOut" } } : undefined}
-          viewport={{ once: false, amount: 0.6 }}
-          transition={{ duration: 3.2, times: [0, 0.4, 1], ease: "easeInOut" }}
-          whileHover={{ opacity: 0.8, y: 0, filter: "blur(0px)", transition: { duration: 0.3 } }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center transition-all cursor-pointer"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight font-serif mb-3">
@@ -640,13 +642,12 @@ export default function NewsletterBubbleUniverse() {
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ y: 180, opacity: 0, scale: 0.85 }}
-                    whileInView={{ y: 0, opacity: 1, scale: 1 }}
-                    viewport={{ once: false, amount: 0.3 }}
+                    initial={{ y: 550, opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { y: 0, opacity: 1, scale: 1 } : { y: 550, opacity: 0, scale: 0.8 }}
                     transition={{
-                      duration: 2.8,
-                      delay: index * 0.25,
-                      ease: [0.16, 1, 0.3, 1],
+                      duration: 3.6,
+                      ease: [0.12, 0.8, 0.2, 1], // Ultra-slow liquid water buoyancy ease curve
+                      delay: index * 0.25,        // Elegant staggered rise sequence
                     }}
                     style={{
                       position: 'absolute',
@@ -656,18 +657,21 @@ export default function NewsletterBubbleUniverse() {
                     }}
                     className="relative group cursor-pointer"
                   >
+                    {/* Inner wrapper handles continuous floating idle movement */}
                     <motion.div
                       animate={{
-                        y: [0, -14, 0],
-                        x: [0, 6, -6, 0],
+                        y: [-6, 6, -6],
+                        x: [-3, 3, -3],
+                        rotate: [-1, 1, -1],
                       }}
                       transition={{
-                        duration: 5 + index,
+                        duration: 5.5 + index, // Natural water randomness speed
                         repeat: Infinity,
+                        repeatType: "mirror",
                         ease: "easeInOut",
                       }}
                       onMouseEnter={() => playWaterBubblePop(1.5, 0.12, soundMuted)}
-                      onClick={() => handleBubbleClick(item)}
+                      onClick={(e) => handleBubbleClick(item, e)}
                       className="border-2 border-cyan-100/80 shadow-[0_20px_45px_rgba(0,166,255,0.22)] backdrop-blur-sm relative rounded-full overflow-hidden group cursor-pointer hover:scale-108 transition-transform duration-500 flex flex-col items-center justify-center p-5 text-center select-none w-full h-full"
                     >
                       {/* Glass Sphere Glare - Top Left Reflection */}
@@ -730,25 +734,27 @@ export default function NewsletterBubbleUniverse() {
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ y: 180, opacity: 0, scale: 0.85 }}
-                    whileInView={{ y: 0, opacity: 1, scale: 1 }}
-                    viewport={{ once: false, amount: 0.3 }}
+                    initial={{ y: 550, opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { y: 0, opacity: 1, scale: 1 } : { y: 550, opacity: 0, scale: 0.8 }}
                     transition={{
-                      duration: 2.8,
-                      delay: index * 0.25,
-                      ease: [0.16, 1, 0.3, 1],
+                      duration: 3.6,
+                      ease: [0.12, 0.8, 0.2, 1], // Ultra-slow liquid water buoyancy ease curve
+                      delay: index * 0.25,        // Elegant staggered rise sequence
                     }}
-                    onClick={() => handleBubbleClick(item)}
+                    onClick={(e) => handleBubbleClick(item, e)}
                     className="relative group cursor-pointer flex flex-col items-center justify-center py-1"
                   >
+                    {/* Inner wrapper handles continuous floating idle movement */}
                     <motion.div
                       animate={{
-                        y: [0, -10, 0],
-                        x: [0, 4, -4, 0],
+                        y: [-6, 6, -6],
+                        x: [-3, 3, -3],
+                        rotate: [-1, 1, -1],
                       }}
                       transition={{
-                        duration: 5 + index,
+                        duration: 5 + index,   // Natural water randomness speed
                         repeat: Infinity,
+                        repeatType: "mirror",
                         ease: "easeInOut",
                       }}
                       style={{
@@ -802,29 +808,46 @@ export default function NewsletterBubbleUniverse() {
         </div>
       </div>
 
-      {/* EXPANDED BUBBLE MODAL - LIQUID RIPPLE POP-UP & REVERSE SHRINK ANIMATION */}
+      {/* EXPANDED BUBBLE MODAL - BUBBLE-CENTRIC SLOW ORIGIN EXPANSION & SHRINK ANIMATION */}
       <AnimatePresence>
         {activeModalBubble && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5 }}
             onClick={() => setActiveModalBubble(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/30 backdrop-blur-md overflow-hidden"
           >
             <motion.div
-              initial={{ scale: 0.1, opacity: 0, borderRadius: "100px" }}
-              animate={{ scale: 1, opacity: 1, borderRadius: "24px" }}
-              exit={{ scale: 0.1, opacity: 0, borderRadius: "100px" }}
+              // Bubble origin expansion effect - emerges directly from clicked bubble center point
+              initial={{
+                x: clickOrigin && typeof window !== 'undefined' ? clickOrigin.x - window.innerWidth / 2 : 0,
+                y: clickOrigin && typeof window !== 'undefined' ? clickOrigin.y - window.innerHeight / 2 : 0,
+                scale: 0.08,
+                opacity: 0,
+                borderRadius: "100px"
+              }}
+              animate={{
+                x: 0,
+                y: 0,
+                scale: 1,
+                opacity: 1,
+                borderRadius: "28px"
+              }}
+              exit={{
+                x: clickOrigin && typeof window !== 'undefined' ? clickOrigin.x - window.innerWidth / 2 : 0,
+                y: clickOrigin && typeof window !== 'undefined' ? clickOrigin.y - window.innerHeight / 2 : 0,
+                scale: 0.08,
+                opacity: 0,
+                borderRadius: "100px"
+              }}
               transition={{
-                type: "spring",
-                stiffness: 220,
-                damping: 20,
-                mass: 0.8
+                duration: 0.75, // Slow organic liquid expansion from bubble center
+                ease: [0.16, 1, 0.3, 1], // Smooth fluid ease curve
               }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white/95 backdrop-blur-2xl border border-blue-100/80 shadow-[0_30px_70px_rgba(0,102,255,0.22)] p-8 max-w-xl w-[90%] relative overflow-hidden text-left z-10 font-sans"
+              className="bg-white/95 backdrop-blur-2xl border border-blue-100 shadow-[0_30px_70px_rgba(0,102,255,0.22)] p-8 max-w-xl w-[90%] relative overflow-hidden text-left z-10 font-sans"
             >
               {/* Modal Close Button */}
               <button
@@ -835,11 +858,11 @@ export default function NewsletterBubbleUniverse() {
                 ✕
               </button>
 
-              {/* Staggered Text Reveal inside Modal */}
+              {/* Modal Inner Content - Fades in softly right as card finishes expanding */}
               <motion.div
-                initial={{ y: 15, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.15, duration: 0.4 }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.4 }}
               >
                 {/* Category Tag */}
                 <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold uppercase tracking-widest rounded-full mb-3">
