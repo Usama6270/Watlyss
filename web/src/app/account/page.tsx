@@ -7,6 +7,7 @@ import { useAuth, AddressItem } from '@/context/auth'
 import { client } from '@/sanity/client'
 import { defineQuery } from 'next-sanity'
 import Link from 'next/link'
+import { useLanguage } from '@/context/language'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   User,
@@ -100,6 +101,7 @@ const CUSTOMER_ORDERS_QUERY = `
 `
 
 export default function AccountPage() {
+  const { t, isRtl } = useLanguage()
   const {
     user,
     logout,
@@ -354,17 +356,17 @@ export default function AccountPage() {
         
         {/* Header Profile Banner */}
         <div className="bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-14 h-14 bg-[#0064D0] text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg shadow-[#0064D0]/30">
+          <div className={`flex items-center space-x-4 ${isRtl ? 'space-x-reverse' : ''}`}>
+            <div className="w-14 h-14 bg-[#0064D0] text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg shadow-[#0064D0]/30 shrink-0">
               {currentUser.fullName.charAt(0)}
             </div>
             <div>
-              <div className="flex items-center space-x-2">
+              <div className={`flex items-center space-x-2 ${isRtl ? 'space-x-reverse' : ''}`}>
                 <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white">
                   {currentUser.fullName}
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
-                  Verified Member
+                  {isRtl ? 'تصدیق شدہ ممبر' : 'Verified Member'}
                 </span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -373,18 +375,18 @@ export default function AccountPage() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 w-full md:w-auto">
+          <div className={`flex items-center space-x-3 ${isRtl ? 'space-x-reverse' : ''} w-full md:w-auto`}>
             <Link
               href="/order"
-              className="flex-1 md:flex-none px-5 py-2.5 bg-[#0064D0] hover:bg-[#0052ad] text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
+              className={`flex-1 md:flex-none px-5 py-2.5 bg-[#0064D0] hover:bg-[#0052ad] text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center space-x-2 ${isRtl ? 'space-x-reverse' : ''} transition-all shadow-md`}
             >
               <Droplets size={15} />
-              <span>Order 19L Refill</span>
+              <span>{isRtl ? '19 لیٹر ری فل آرڈر کریں' : 'Order 19L Refill'}</span>
             </Link>
             <button
               onClick={logout}
               className="p-2.5 text-red-500 hover:bg-red-500/10 rounded-xl border border-red-500/20 transition-colors cursor-pointer"
-              title="Sign Out"
+              title={t.account?.logout || (isRtl ? 'لاگ آؤٹ' : 'Sign Out')}
             >
               <LogOut size={18} />
             </button>
@@ -394,10 +396,10 @@ export default function AccountPage() {
         {/* Dashboard Navigation Tabs */}
         <div className="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto gap-2 pb-1">
           {[
-            { id: 'overview', label: 'Overview & Schedule', icon: Package },
-            { id: 'orders', label: `Order History (${orders.length})`, icon: ShoppingBag },
-            { id: 'subscription', label: 'Subscription Controls', icon: Sliders },
-            { id: 'addresses', label: 'Saved Addresses', icon: MapPin },
+            { id: 'overview', label: t.account?.overviewTab || (isRtl ? 'خلاصہ (اوور ویو)' : 'Overview & Schedule'), icon: Package },
+            { id: 'orders', label: `${t.account?.ordersTab || (isRtl ? 'سابقہ آرڈرز' : 'Order History')} (${orders.length})`, icon: ShoppingBag },
+            { id: 'subscription', label: t.account?.subTab || (isRtl ? 'موجودہ سبسکرپشن' : 'Subscription Controls'), icon: Sliders },
+            { id: 'addresses', label: t.account?.addressesTab || (isRtl ? 'محفوظ شدہ پتے' : 'Saved Addresses'), icon: MapPin },
           ].map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.id
@@ -405,7 +407,7 @@ export default function AccountPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center space-x-2 px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-t-xl transition-all whitespace-nowrap cursor-pointer ${
+                className={`flex items-center space-x-2 ${isRtl ? 'space-x-reverse' : ''} px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-t-xl transition-all whitespace-nowrap cursor-pointer ${
                   isActive
                     ? 'bg-white dark:bg-[#131c38] text-[#0064D0] border-t-2 border-[#0064D0] shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50'

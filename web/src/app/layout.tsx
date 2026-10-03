@@ -1,3 +1,4 @@
+import { Noto_Nastaliq_Urdu } from 'next/font/google';
 import { SanityLive } from '@/sanity/live';
 import { VisualEditing } from 'next-sanity/visual-editing';
 import { draftMode } from 'next/headers';
@@ -8,12 +9,18 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/auth';
 import { CartProvider } from '@/context/cart';
 import { LanguageProvider } from '@/context/language';
-import ChatWidget from '@/components/chat-widget';
-import AuthModal from '@/components/auth-modal';
+import LazyGlobalWidgets from '@/components/lazy-global-widgets';
 
 const velocitySans = localFont({
   src: '../fonts/Velocity-Sans.otf',
   variable: '--font-velocity-sans',
+  display: 'swap',
+});
+
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  subsets: ['arabic'],
+  weight: ['400', '700'],
+  variable: '--font-noto-nastaliq',
   display: 'swap',
 });
 
@@ -28,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${velocitySans.variable} h-full antialiased`}
+      className={`${velocitySans.variable} ${notoNastaliqUrdu.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -45,10 +52,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <AuthProvider>
               <CartProvider>
                 {children}
-                <AuthModal />
                 <SanityLive />
                 {isDraftMode && <VisualEditing />}
-                <ChatWidget />
+                <LazyGlobalWidgets />
               </CartProvider>
             </AuthProvider>
           </LanguageProvider>

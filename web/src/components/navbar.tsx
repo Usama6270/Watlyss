@@ -19,16 +19,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isNavHovered, setIsNavHovered] = useState(false)
-
-  const handleNavMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    })
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -148,7 +139,6 @@ export default function Navbar() {
       <nav
         onMouseEnter={() => setIsNavHovered(true)}
         onMouseLeave={() => setIsNavHovered(false)}
-        onMouseMove={handleNavMouseMove}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
             ? 'bg-[#FAF9F6]/95 dark:bg-[#0a1128]/95 backdrop-blur-md border-slate-200/80 dark:border-slate-800/60 shadow-sm shadow-slate-200/50'
             : 'bg-[#FAF9F6] dark:bg-[#0a1128] border-slate-200/60 dark:border-slate-800/40'

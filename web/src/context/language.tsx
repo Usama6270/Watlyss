@@ -119,6 +119,31 @@ export type TranslationDict = {
     sourceTitle: string;
     sourceText: string;
   };
+  account: {
+    title: string;
+    overviewTab: string;
+    ordersTab: string;
+    subTab: string;
+    addressesTab: string;
+    logout: string;
+    activeStatus: string;
+    pausedStatus: string;
+    pauseSub: string;
+    resumeSub: string;
+    addAddress: string;
+    recentOrders: string;
+    noOrders: string;
+    deliveryAddress: string;
+    totalAmount: string;
+    orderDate: string;
+  };
+  bubbleModal: {
+    clickToExpand: string;
+    getBriefing: string;
+    keyHighlights: string;
+    subscribed: string;
+    pdfPlaceholder: string;
+  };
 };
 
 const translations: Record<'en' | 'ur', TranslationDict> = {
@@ -269,6 +294,31 @@ const translations: Record<'en' | 'ur', TranslationDict> = {
       sourceTitle: 'Sustainably Sourced',
       sourceText: 'We operate under strict ecological protection principles, ensuring subterranean springs remain preserved for future generations.',
     },
+    account: {
+      title: 'My Account Dashboard',
+      overviewTab: 'Overview',
+      ordersTab: 'Order History',
+      subTab: 'Active Subscription',
+      addressesTab: 'Saved Addresses',
+      logout: 'Logout',
+      activeStatus: 'ACTIVE SUBSCRIPTION',
+      pausedStatus: 'SUBSCRIPTION PAUSED',
+      pauseSub: 'Pause Subscription',
+      resumeSub: 'Resume Delivery',
+      addAddress: 'Add New Address',
+      recentOrders: 'Recent Water Orders',
+      noOrders: 'No water delivery orders found yet.',
+      deliveryAddress: 'Delivery Address',
+      totalAmount: 'Total Amount',
+      orderDate: 'Order Date',
+    },
+    bubbleModal: {
+      clickToExpand: 'Click to Expand',
+      getBriefing: 'Get Full Briefing',
+      keyHighlights: 'Key Research Highlights',
+      subscribed: '✓ Subscribed! Full PDF Briefing sent to your email.',
+      pdfPlaceholder: 'Enter email to get full PDF briefing',
+    },
   },
   ur: {
     ourWater: "ہمارا پانی (19 لیٹر)",
@@ -417,6 +467,31 @@ const translations: Record<'en' | 'ur', TranslationDict> = {
       sourceTitle: 'قدرتی سرچشمہ',
       sourceText: 'ہم قدرتی وسائل کے تحفظ کے اصولوں پر سختی سے عمل پیرا ہیں۔',
     },
+    account: {
+      title: 'میرا اکاؤنٹ ڈیش بورڈ',
+      overviewTab: 'خلاصہ (اوور ویو)',
+      ordersTab: 'سابقہ آرڈرز',
+      subTab: 'موجودہ سبسکرپشن',
+      addressesTab: 'محفوظ شدہ پتے',
+      logout: 'لاگ آؤٹ',
+      activeStatus: 'فعال سبسکرپشن',
+      pausedStatus: 'سبسکرپشن معطل (پازڈ)',
+      pauseSub: 'سبسکرپشن کجھ وقت کے لیے روکیں',
+      resumeSub: 'ڈیلیوری دوبارہ بحال کریں',
+      addAddress: 'نیا پتہ شامل کریں',
+      recentOrders: 'حالیہ واٹر آرڈرز',
+      noOrders: 'فی الحال کوئی واٹر آرڈر موجود نہیں ہے۔',
+      deliveryAddress: 'ترسیل کا پتہ',
+      totalAmount: 'کل رقم',
+      orderDate: 'آرڈر کی تاریخ',
+    },
+    bubbleModal: {
+      clickToExpand: 'تفصیلات دیکھیں',
+      getBriefing: 'مکمل پی ڈی ایف بریفنگ حاصل کریں',
+      keyHighlights: 'اہم تحقیقی نکات',
+      subscribed: '✓ سبسکرائب ہو گیا! مکمل پی ڈی ایف بریفنگ آپ کی ای میل پر بھیج دی گئی ہے۔',
+      pdfPlaceholder: 'پی ڈی ایف بریفنگ کے لیے ای میل درج کریں',
+    },
   },
 };
 
@@ -434,8 +509,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('watlys_lang') as 'en' | 'ur';
-    if (saved && (saved === 'en' || saved === 'ur')) {
-      setLanguage(saved);
+    const activeLang = (saved === 'en' || saved === 'ur') ? saved : 'en';
+    if (saved) setLanguage(saved);
+
+    document.documentElement.dir = activeLang === 'ur' ? 'rtl' : 'ltr';
+    document.documentElement.lang = activeLang;
+    if (activeLang === 'ur') {
+      document.documentElement.classList.add('font-urdu');
+    } else {
+      document.documentElement.classList.remove('font-urdu');
     }
   }, []);
 
@@ -444,6 +526,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('watlys_lang', lang);
     document.documentElement.dir = lang === 'ur' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
+    if (lang === 'ur') {
+      document.documentElement.classList.add('font-urdu');
+    } else {
+      document.documentElement.classList.remove('font-urdu');
+    }
   };
 
   const isRtl = language === 'ur';
@@ -451,7 +538,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, isRtl }}>
-      <div className={isRtl ? 'font-urdu text-right' : 'font-sans'}>{children}</div>
+      <div className={isRtl ? 'font-urdu text-right leading-[2.2]' : 'font-sans'}>{children}</div>
     </LanguageContext.Provider>
   );
 }

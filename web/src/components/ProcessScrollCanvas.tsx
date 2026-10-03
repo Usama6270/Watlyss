@@ -33,7 +33,7 @@ export default function ProcessScrollCanvas({ onStepChange, className = '' }: Pr
   // Map smooth progress (0 to 1) -> frame index (1 to 200)
   const frameIndex = useTransform(smoothProgress, [0, 1], [1, TOTAL_PROCESS_FRAMES]);
 
-  // 1. Preload 200 JPG Process Frames into Memory (Non-blocking Instant Load)
+  // 1. Smart Non-Blocking Batched Preloader (Keyframes First + Idle Chunks)
   useEffect(() => {
     let isMounted = true;
     const loadedImages: HTMLImageElement[] = new Array(TOTAL_PROCESS_FRAMES);
@@ -53,8 +53,13 @@ export default function ProcessScrollCanvas({ onStepChange, className = '' }: Pr
       setImagesLoaded(true);
     };
 
-    // Background load remaining frames 2..200 progressively
-    for (let i = 2; i <= TOTAL_PROCESS_FRAMES; i++) {
+    // Load Keyframes (every 5th frame) next for instant smooth scrubbing
+    const keyframeIndices: number[] = [];
+    for (let i = 5; i <= TOTAL_PROCESS_FRAMES; i += 5) {
+      keyframeIndices.push(i);
+    }
+
+    keyframeIndices.forEach((i) => {
       const img = new Image();
       const frameNum = String(i).padStart(3, '0');
       img.src = `/process/ezgif-frame-${frameNum}.jpg`;
@@ -62,10 +67,48 @@ export default function ProcessScrollCanvas({ onStepChange, className = '' }: Pr
         if (!isMounted) return;
         loadedImages[i - 1] = img;
       };
+    });
+
+    // Stagger load remaining intermediate frames in background idle batches
+    const remainingIndices: number[] = [];
+    for (let i = 2; i <= TOTAL_PROCESS_FRAMES; i++) {
+      if (i % 5 !== 0) remainingIndices.push(i);
     }
+
+    let batchIndex = 0;
+    const BATCH_SIZE = 10;
+    let timerId: NodeJS.Timeout | null = null;
+
+    const loadNextBatch = () => {
+      if (!isMounted || batchIndex >= remainingIndices.length) return;
+      const batch = remainingIndices.slice(batchIndex, batchIndex + BATCH_SIZE);
+      batchIndex += BATCH_SIZE;
+
+      batch.forEach((i) => {
+        const img = new Image();
+        const frameNum = String(i).padStart(3, '0');
+        img.src = `/process/ezgif-frame-${frameNum}.jpg`;
+        img.onload = () => {
+          if (!isMounted) return;
+          loadedImages[i - 1] = img;
+        };
+      });
+
+      if (batchIndex < remainingIndices.length) {
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(loadNextBatch, { timeout: 200 });
+        } else {
+          timerId = setTimeout(loadNextBatch, 30);
+        }
+      }
+    };
+
+    // Trigger idle batch loader after initial page paint
+    timerId = setTimeout(loadNextBatch, 100);
 
     return () => {
       isMounted = false;
+      if (timerId) clearTimeout(timerId);
     };
   }, []);
 

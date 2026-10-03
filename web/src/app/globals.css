@@ -5,7 +5,7 @@
 @theme {
   --font-serif: var(--font-velocity-sans), sans-serif;
   --font-sans: var(--font-velocity-sans), sans-serif;
-  --font-urdu: "Noto Nastaliq Urdu", "Noto Serif Urdu", "Segoe UI", serif;
+  --font-urdu: var(--font-noto-nastaliq), "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif, system-ui;
   --color-brand-blue: #0064D0;
 }
 
@@ -51,46 +51,17 @@ body {
   width: 100%;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  body,
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
-}
-
-/* Centralized Responsive Container */
-.container-custom {
-  width: 100%;
-  max-width: 1440px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: clamp(1rem, 4vw, 3rem);
-  padding-right: clamp(1rem, 4vw, 3rem);
-}
-
-/* Premium Section Spacing Utilities */
-.section-padding {
-  padding-top: clamp(3.5rem, 8vw, 7.5rem);
-  padding-bottom: clamp(3.5rem, 8vw, 7.5rem);
-}
-
-/* Premium Typography adjustments */
-.font-serif {
-  font-family: var(--font-velocity-sans), sans-serif;
-}
-
-.font-sans {
-  font-family: var(--font-velocity-sans), sans-serif;
-}
-
+html[dir="rtl"] body,
+[dir="rtl"] body,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] select,
+[dir="rtl"] textarea,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+[dir="rtl"] p, [dir="rtl"] span, [dir="rtl"] a, [dir="rtl"] label,
 .font-urdu {
-  font-family: var(--font-urdu);
-  line-height: 1.8;
+  font-family: var(--font-noto-nastaliq), "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif, system-ui !important;
+  line-height: 2.1;
 }
 
 /* Clean transparent glass */

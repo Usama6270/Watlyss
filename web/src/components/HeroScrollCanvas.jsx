@@ -34,13 +34,13 @@ export default function HeroScrollCanvas() {
   const ctaY = useTransform(smoothProgress, [0.75, 0.88, 1], [30, 0, 0]);
   const ctaScale = useTransform(smoothProgress, [0.75, 0.88, 1], [0.92, 1, 1]);
 
-  // 1. Preload 150 Transparent PNG Images into Memory (Non-blocking Instant Load)
+  // 1. Smart Non-Blocking Batched Preloader (Keyframes First + Idle Chunks)
   useEffect(() => {
     let isMounted = true;
     const loadedImages = new Array(TOTAL_FRAMES);
     imagesRef.current = loadedImages;
 
-    // Load Frame 1 with high priority to render hero image immediately
+    // Load Frame 1 with maximum priority for immediate Hero LCP paint
     const firstImg = new Image();
     firstImg.src = '/frames/ezgif-frame-001.png';
     firstImg.onload = () => {
@@ -51,11 +51,16 @@ export default function HeroScrollCanvas() {
     };
     firstImg.onerror = () => {
       if (!isMounted) return;
-      setImagesLoaded(true); // Unlock even on error fallback
+      setImagesLoaded(true);
     };
 
-    // Background load remaining frames 2..150 progressively
-    for (let i = 2; i <= TOTAL_FRAMES; i++) {
+    // Load Keyframes (every 5th frame) next for instant smooth scrubbing
+    const keyframeIndices = [];
+    for (let i = 5; i <= TOTAL_FRAMES; i += 5) {
+      keyframeIndices.push(i);
+    }
+
+    keyframeIndices.forEach((i) => {
       const img = new Image();
       const frameNum = String(i).padStart(3, '0');
       img.src = `/frames/ezgif-frame-${frameNum}.png`;
@@ -63,10 +68,48 @@ export default function HeroScrollCanvas() {
         if (!isMounted) return;
         loadedImages[i - 1] = img;
       };
+    });
+
+    // Stagger load remaining intermediate frames in small background idle batches
+    const remainingIndices = [];
+    for (let i = 2; i <= TOTAL_FRAMES; i++) {
+      if (i % 5 !== 0) remainingIndices.push(i);
     }
+
+    let batchIndex = 0;
+    const BATCH_SIZE = 10;
+    let timerId = null;
+
+    const loadNextBatch = () => {
+      if (!isMounted || batchIndex >= remainingIndices.length) return;
+      const batch = remainingIndices.slice(batchIndex, batchIndex + BATCH_SIZE);
+      batchIndex += BATCH_SIZE;
+
+      batch.forEach((i) => {
+        const img = new Image();
+        const frameNum = String(i).padStart(3, '0');
+        img.src = `/frames/ezgif-frame-${frameNum}.png`;
+        img.onload = () => {
+          if (!isMounted) return;
+          loadedImages[i - 1] = img;
+        };
+      });
+
+      if (batchIndex < remainingIndices.length) {
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+          (window).requestIdleCallback(loadNextBatch, { timeout: 200 });
+        } else {
+          timerId = setTimeout(loadNextBatch, 30);
+        }
+      }
+    };
+
+    // Trigger idle batch loader after initial page paint
+    timerId = setTimeout(loadNextBatch, 80);
 
     return () => {
       isMounted = false;
+      if (timerId) clearTimeout(timerId);
     };
   }, []);
 
