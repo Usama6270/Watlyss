@@ -61,20 +61,12 @@ export default function CheckoutPage() {
         throw new Error(session.error || 'Failed to create checkout session.')
       }
 
-      // If Stripe payment method chosen, redirect to Stripe
+      // Stripe Checkout Session URL redirect (avoids deprecated redirectToCheckout)
       if (paymentMethod === 'stripe') {
-        const { loadStripe } = await import('@stripe/stripe-js')
-        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
-        if (stripe) {
-          const { error: stripeError } = await stripe.redirectToCheckout({
-            sessionId: session.id,
-          })
-          if (stripeError) {
-            throw new Error(stripeError.message)
-          }
-        } else {
-          throw new Error('Stripe failed to load. Please try again.')
+        if (!session.url) {
+          throw new Error('Stripe checkout URL missing. Please try again.')
         }
+        window.location.href = session.url
       } else {
         // Direct simulation redirect to success page for local mobile wallets
         window.location.href = `/checkout/success?session_id=${session.orderNumber}`

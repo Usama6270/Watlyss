@@ -119,7 +119,7 @@ export async function POST(req: Request) {
         },
       })
 
-      return NextResponse.json({ id: session.id, orderNumber })
+      return NextResponse.json({ id: session.id, url: session.url, orderNumber })
     }
 
     // Direct checkout for mobile wallets
