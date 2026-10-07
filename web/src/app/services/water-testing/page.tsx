@@ -15,12 +15,12 @@ export default function WaterTestingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
         {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
           <span>/</span>
           <Link href="/services" className="hover:underline">Services</Link>
@@ -30,24 +30,24 @@ export default function WaterTestingPage() {
 
         {/* Hero Header */}
         <div className="space-y-6 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#0064D0]/10 text-[#0064D0]">
+          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <Droplets size={28} />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
             Chemical & TDS Assay Testing
           </h1>
-          <p className="text-zinc-550 dark:text-slate-200 text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
             We believe in total scientific transparency. Our certified hydro-chemists conduct continuous batch assays on every aquifer collection, verifying TDS balance, pH levels, and zero microplastic purity.
           </p>
         </div>
 
         {/* Assay Table */}
-        <div className="space-y-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl shadow-sm">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-white">Assay Report Parameters</h2>
+        <div className="space-y-6 bg-card border border-border p-8 rounded-2xl shadow-sm">
+          <h2 className="text-xl font-bold text-foreground">Assay Report Parameters</h2>
           <div className="overflow-x-auto w-full">
             <table className="w-full text-left text-xs font-light">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-slate-800 text-[9px] uppercase tracking-wider text-zinc-400 font-bold">
+                <tr className="border-b border-border text-[9px] uppercase tracking-wider text-zinc-400 font-bold">
                   <th className="py-3">Parameter Analyzed</th>
                   <th className="py-3">WHO Regulatory Standard</th>
                   <th className="py-3">Watlys Certified Level</th>
@@ -56,10 +56,10 @@ export default function WaterTestingPage() {
               </thead>
               <tbody>
                 {testParameters.map((row, idx) => (
-                  <tr key={idx} className="border-b border-zinc-100 dark:border-slate-800/60">
-                    <td className="py-4 font-semibold text-zinc-900 dark:text-white">{row.name}</td>
+                  <tr key={idx} className="border-b border-border/60">
+                    <td className="py-4 font-semibold text-foreground">{row.name}</td>
                     <td className="py-4 text-zinc-500">{row.standard}</td>
-                    <td className="py-4 font-bold text-[#0064D0]">{row.watlys}</td>
+                    <td className="py-4 font-bold text-primary">{row.watlys}</td>
                     <td className="py-4 text-zinc-400 italic">{row.importance}</td>
                   </tr>
                 ))}
@@ -69,15 +69,15 @@ export default function WaterTestingPage() {
         </div>
 
         {/* Custom Water Test Request */}
-        <div className="p-10 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
-          <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Request a Private Home Water Test</h3>
-          <p className="text-xs text-zinc-500 dark:text-slate-200 max-w-md mx-auto">
+        <div className="p-10 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
+          <h3 className="text-2xl font-serif font-light text-foreground">Request a Private Home Water Test</h3>
+          <p className="text-xs text-muted-foreground max-w-md mx-auto">
             Concerned about tap water contaminants in your residential area? Order a certified Watlys sample collection kit.
           </p>
           <div className="pt-2">
             <Link
               href="/contact?service=water-testing"
-              className="px-8 py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all shadow-md"
+              className="px-8 py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all shadow-md"
             >
               <span>Order Water Testing Kit</span>
               <ArrowRight size={14} />

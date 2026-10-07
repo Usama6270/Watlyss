@@ -117,7 +117,7 @@ export default function WhyWatlysSection() {
       onMouseMove={handleSectionMouseMove}
       onMouseEnter={() => setIsOutsideHovered(true)}
       onMouseLeave={() => setIsOutsideHovered(false)}
-      className="relative py-12 sm:py-20 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0a1128] transition-colors duration-300 font-sans overflow-hidden select-none"
+      className="relative py-12 sm:py-20 max-w-7xl mx-auto w-full border-t border-border/60 bg-background transition-colors duration-300 font-sans overflow-hidden select-none"
     >
       {/* COMPACT CURSOR-FOLLOWING LIGHT PATTERN SPOTLIGHT (ACTIVE ONLY OUTSIDE CONTENT) */}
       <div
@@ -141,7 +141,7 @@ export default function WhyWatlysSection() {
         
         {/* Soft Compact Light Glow Sphere at Cursor */}
         <div
-          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/15 dark:bg-[#0066FF]/25 blur-2xl pointer-events-none"
+          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 dark:bg-primary/25 blur-2xl pointer-events-none"
           style={{
             left: `${cursorPos.x}px`,
             top: `${cursorPos.y}px`,
@@ -156,16 +156,12 @@ export default function WhyWatlysSection() {
           setIsOutsideHovered(false)
         }}
         onMouseLeave={() => setIsOutsideHovered(true)}
-        className="relative z-10 text-center space-y-3 sm:space-y-4 mb-10 sm:mb-14 px-4 sm:px-8 lg:px-12"
+        className="relative z-10 text-center mb-10 sm:mb-14 px-4 sm:px-8 lg:px-16"
       >
-        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0]">
-          THE WATLYS ADVANTAGE
-        </span>
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-wide leading-tight">
-          Why Choose WATLYS?
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 font-light max-w-lg mx-auto">
-          Hover to pause scrolling track. Click any card to explore detailed specifications & highlights.
+        <span className="eyebrow">The Watlys Advantage</span>
+        <h2 className="section-title mt-3 sm:mt-4">Why Choose WATLYS?</h2>
+        <p className="section-lead mx-auto mt-3">
+          Pause on hover. Tap any card for purity specs, delivery details, and plan flexibility.
         </p>
       </div>
 
@@ -183,10 +179,10 @@ export default function WhyWatlysSection() {
         }}
       >
         {/* Left Edge Gradient Fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[#FAF9F6] dark:from-[#0a1128] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[var(--background)] dark:from-[var(--background)] to-transparent z-10 pointer-events-none" />
 
         {/* Right Edge Gradient Fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[#FAF9F6] dark:from-[#0a1128] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[var(--background)] dark:from-[var(--background)] to-transparent z-10 pointer-events-none" />
 
         {/* Marquee Motion Container */}
         <motion.div
@@ -212,27 +208,27 @@ export default function WhyWatlysSection() {
                   setIsPaused(true)
                   setSelectedCard(item)
                 }}
-                className="w-[280px] sm:w-[320px] shrink-0 p-6 sm:p-7 bg-white dark:bg-[#131c38]/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-lg shadow-black/5 rounded-3xl space-y-4 hover:border-[#0064D0] dark:hover:border-[#0064D0] cursor-pointer group transition-colors"
+                className="w-[280px] sm:w-[320px] shrink-0 p-6 sm:p-7 card-premium bg-card/95 backdrop-blur-md space-y-4 cursor-pointer group"
               >
                 <div className="flex justify-between items-start">
-                  <div className="inline-flex p-3 rounded-2xl bg-sky-50 dark:bg-[#0a1128] border border-sky-100 dark:border-slate-800 text-[#0064D0] group-hover:scale-105 transition-transform">
+                  <div className="inline-flex p-3 rounded-2xl bg-primary-muted border border-border text-primary group-hover:scale-105 transition-transform">
                     <IconComp size={22} />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground">
                     {item.badge}
                   </span>
                 </div>
 
                 <div className="space-y-1.5">
-                  <h3 className="text-sm sm:text-base font-serif font-bold tracking-wide text-slate-900 dark:text-white uppercase group-hover:text-[#0064D0] dark:group-hover:text-sky-400 transition-colors">
+                  <h3 className="text-sm sm:text-base font-serif font-semibold tracking-wide text-foreground uppercase group-hover:text-primary transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 font-serif font-light leading-relaxed line-clamp-2">
+                  <p className="text-xs text-muted-foreground font-light leading-relaxed line-clamp-2">
                     {item.shortDesc}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-[#0064D0] dark:text-sky-400 group-hover:underline">
+                <div className="pt-3 border-t border-border flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-primary group-hover:underline">
                   <span>Explore Specs</span>
                   <ArrowUpRight size={13} />
                 </div>
@@ -261,12 +257,12 @@ export default function WhyWatlysSection() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 w-full max-w-xl bg-white dark:bg-[#131c38] text-slate-900 dark:text-white rounded-2xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700/80 overflow-hidden select-text"
+              className="relative z-10 w-full max-w-xl bg-card text-foreground rounded-2xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700/80 overflow-hidden select-text"
             >
               {/* Close Button (X) */}
               <button
                 onClick={() => setSelectedCard(null)}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-500 hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer border border-slate-200 dark:border-slate-700 z-20"
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-500 hover:text-white text-muted-foreground flex items-center justify-center transition-colors cursor-pointer border border-slate-200 dark:border-slate-700 z-20"
                 aria-label="Close Feature Modal"
               >
                 <X size={18} />
@@ -277,28 +273,28 @@ export default function WhyWatlysSection() {
                 {/* Header Badge & Title */}
                 <div className="space-y-2 pr-8">
                   <div className="flex items-center space-x-2">
-                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-[#0064D0]/10 text-[#0064D0] dark:text-sky-400 border border-[#0064D0]/20">
+                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-primary/10 text-primary dark:text-sky-400 border border-primary/20">
                       {selectedCard.badge}
                     </span>
                   </div>
                   <div className="flex items-center space-x-3 pt-1">
-                    <div className="p-3 rounded-2xl bg-sky-50 dark:bg-[#0a1128] border border-sky-100 dark:border-slate-800 text-[#0064D0]">
+                    <div className="p-3 rounded-2xl bg-sky-50 dark:bg-background border border-sky-100 dark:border-slate-800 text-primary">
                       <selectedCard.icon size={24} />
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white tracking-wide">
+                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-foreground tracking-wide">
                       {selectedCard.title}
                     </h3>
                   </div>
                 </div>
 
                 {/* Left-Aligned Description */}
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 leading-relaxed font-sans">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-sans">
                   {selectedCard.fullDesc}
                 </p>
 
                 {/* Key Specs / Highlights List */}
-                <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#0064D0] dark:text-sky-400">
+                <div className="space-y-3 pt-2 border-t border-border">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-primary dark:text-sky-400">
                     Key Advantages & Features
                   </h4>
                   <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-200">
@@ -312,7 +308,7 @@ export default function WhyWatlysSection() {
                 </div>
 
                 {/* Technical Specifications Grid */}
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#0a1128] border border-slate-200/80 dark:border-slate-800 space-y-2">
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-background border border-border space-y-2">
                   <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                     Technical Standards & Specs
                   </h4>
@@ -320,7 +316,7 @@ export default function WhyWatlysSection() {
                     {selectedCard.specs.map((spec, idx) => (
                       <div key={idx} className="space-y-0.5">
                         <span className="text-[10px] text-slate-400 block">{spec.label}</span>
-                        <span className="text-xs font-bold text-slate-900 dark:text-white block">{spec.value}</span>
+                        <span className="text-xs font-bold text-foreground block">{spec.value}</span>
                       </div>
                     ))}
                   </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 interface PricingCard3DProps {
   children: React.ReactNode;
@@ -59,63 +59,35 @@ export default function PricingCard3D({ children, isPopular = false, className =
           y: isPopular ? -14 : -10,
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className={`relative h-full w-full rounded-2xl transition-all duration-300 ${onClick ? 'cursor-pointer' : ''} ${isPopular
-          ? 'border-2 border-[#0064D0] shadow-2xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/55 hover:border-blue-400'
-          : 'border border-zinc-200/80 dark:border-slate-800/80 hover:border-[#0064D0]/80 hover:shadow-2xl hover:shadow-sky-500/25'
+        className={`relative h-full w-full overflow-visible rounded-2xl bg-card transition-all duration-300 ${onClick ? 'cursor-pointer' : ''} ${isPopular
+          ? 'border-2 border-primary shadow-xl shadow-primary/25 hover:shadow-primary/40'
+          : 'border border-border hover:border-primary/70 hover:shadow-lg hover:shadow-primary/10'
           } ${className}`}
       >
-        {/* Subtle Water Pattern Background Texture Layer (pattern-02.svg) — Shows only on hover */}
+        {/* Subtle Water Pattern Background Texture Layer — hover only, never clips badge */}
         <div
-          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 transform-gpu will-change-transform ${
-            isHovered ? 'opacity-[0.015] dark:opacity-[0.04]' : 'opacity-0'
+          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 ${
+            isHovered ? 'opacity-[0.02] dark:opacity-[0.05]' : 'opacity-0'
           }`}
           style={{
             backgroundImage: `url('/patterns/pattern-02.svg'), url('/patterns/Patterns-02.svg')`,
           }}
         />
 
-        {/* 3D Depth Inner Wrapper — elevates content in 3D space */}
+        {/* Soft top wash on hover — below content, no overflow clip */}
         <div
-          className="relative z-10 h-full w-full pointer-events-auto"
+          className={`pointer-events-none absolute inset-x-0 top-0 h-20 rounded-t-2xl z-[1] transition-opacity duration-300 ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
           style={{
-            transform: 'translateZ(20px)',
-            transformStyle: 'preserve-3d',
+            background: 'linear-gradient(to bottom, color-mix(in srgb, var(--primary) 10%, transparent), transparent)',
           }}
-        >
+        />
+
+        {/* Content */}
+        <div className="relative z-10 h-full w-full pointer-events-auto overflow-visible rounded-2xl">
           {children}
         </div>
-
-        {/* Pricing Cards Hover State Top Banner Water Pattern (pattern-03.svg Smooth Light Fade-in) */}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="pointer-events-none absolute top-0 left-0 right-0 h-16 z-30 overflow-hidden rounded-t-2xl border-t border-[#0064D0]/80 shadow-[0_2px_10px_rgba(0,100,208,0.15)]"
-              style={{
-                transform: 'translateZ(35px)',
-              }}
-            >
-              {/* Soft blue gradient backing */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[#0064D0]/15 via-[#0064D0]/05 to-transparent pointer-events-none" />
-
-              {/* pattern-03.svg light subtle water pattern texture layer */}
-              <div
-                className="pointer-events-none w-full h-full bg-cover bg-top mix-blend-multiply dark:mix-blend-screen opacity-[0.025] dark:opacity-[0.05] transform-gpu will-change-transform"
-                style={{
-                  backgroundImage: `url('/patterns/pattern-03.svg'), url('/patterns/Patterns-03.svg')`,
-                  backgroundSize: '180px auto',
-                  backgroundRepeat: 'repeat-x',
-                }}
-              />
-
-              {/* Subtle Shimmer Top Accent */}
-              <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#0064D0] to-transparent opacity-60" />
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
     </div>
   );

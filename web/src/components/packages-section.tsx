@@ -56,8 +56,8 @@ export default function PackagesSection() {
       link: '/order?plan=student',
       btnText: 'CHOOSE PLAN',
       isPopular: false,
-      btnStyle: 'bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 group-hover:bg-[#0064D0] group-hover:text-white',
-      priceStyle: 'text-2xl sm:text-3xl font-black text-zinc-900 dark:text-white',
+      btnStyle: 'bg-muted text-foreground group-hover:bg-primary group-hover:text-primary-foreground',
+      priceStyle: 'text-2xl sm:text-3xl font-semibold font-serif text-foreground',
     },
     {
       id: 'family',
@@ -76,8 +76,8 @@ export default function PackagesSection() {
       btnText: 'CHOOSE PLAN',
       isPopular: true,
       badge: 'MOST POPULAR',
-      btnStyle: 'bg-[#0064D0] hover:bg-[#0052ad] text-white shadow-xl shadow-[#0064D0]/30 hover:shadow-[#0064D0]/50',
-      priceStyle: 'text-3xl sm:text-4xl font-black text-[#0064D0]',
+      btnStyle: 'bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40',
+      priceStyle: 'text-3xl sm:text-4xl font-semibold font-serif text-primary',
     },
     {
       id: 'corporate',
@@ -95,8 +95,8 @@ export default function PackagesSection() {
       link: '/order?plan=corporate',
       btnText: 'CHOOSE PLAN',
       isPopular: false,
-      btnStyle: 'bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 group-hover:bg-[#0064D0] group-hover:text-white',
-      priceStyle: 'text-2xl sm:text-3xl font-black text-zinc-900 dark:text-white',
+      btnStyle: 'bg-muted text-foreground group-hover:bg-primary group-hover:text-primary-foreground',
+      priceStyle: 'text-2xl sm:text-3xl font-semibold font-serif text-foreground',
     },
     {
       id: 'custom',
@@ -115,8 +115,8 @@ export default function PackagesSection() {
       btnText: 'BUILD YOUR PLAN',
       isPopular: false,
       isCustomPrice: true,
-      btnStyle: 'bg-[#0064D0] hover:bg-[#0052ad] text-white shadow-sm',
-      priceStyle: 'text-lg sm:text-xl font-serif font-light text-[#0064D0]',
+      btnStyle: 'bg-primary hover:bg-primary-hover text-primary-foreground shadow-sm',
+      priceStyle: 'text-lg sm:text-xl font-serif font-light text-primary',
     },
   ]
 
@@ -160,30 +160,29 @@ export default function PackagesSection() {
   const renderCardContent = (pkg: typeof packagesData[0]) => {
     const IconComp = pkg.Icon
     return (
-      <div className={`relative flex flex-col justify-between h-full ${pkg.id === 'custom' ? 'bg-zinc-50/80 dark:bg-[#162447]/90' : 'bg-white dark:bg-[#162447]/90'} p-5 sm:p-8 rounded-2xl shadow-lg shadow-black/10 group ${pkg.isPopular ? 'pt-8 sm:pt-10' : ''}`}>
+      <div className="relative flex flex-col justify-between h-full overflow-visible bg-card p-5 sm:p-8 rounded-2xl shadow-md group">
         {pkg.isPopular && (
-          <div
-            className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0064D0] text-white px-3.5 py-1 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-widest flex items-center space-x-1.5 shadow-lg shadow-[#0064D0]/40 z-20 whitespace-nowrap"
-            style={{ transform: 'translateZ(45px) translateX(-50%)' }}
-          >
-            <Star size={11} className="fill-white" />
-            <span>{pkg.badge}</span>
+          <div className="mb-4 flex justify-center">
+            <div className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground px-3.5 py-1 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-widest shadow-md shadow-primary/30 whitespace-nowrap">
+              <Star size={11} className="fill-current" />
+              <span>{pkg.badge}</span>
+            </div>
           </div>
         )}
 
         <div className="space-y-4 sm:space-y-6">
           <div className="flex justify-between items-center">
-            <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${pkg.isPopular || pkg.id === 'custom' ? 'text-[#0064D0]' : 'text-zinc-400 dark:text-slate-400'}`}>
+            <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${pkg.isPopular || pkg.id === 'custom' ? 'text-primary' : 'text-muted-foreground'}`}>
               {pkg.num}
             </span>
-            <IconComp size={16} className="text-[#0064D0] sm:w-[18px] sm:h-[18px]" />
+            <IconComp size={16} className="text-primary sm:w-[18px] sm:h-[18px]" />
           </div>
 
           <div className="space-y-1 sm:space-y-2">
-            <h3 className="text-xl sm:text-2xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide">
+            <h3 className="text-xl sm:text-2xl font-serif font-bold text-foreground tracking-wide">
               {pkg.title}
             </h3>
-            <p className="text-[11px] sm:text-xs text-zinc-500 dark:text-slate-200 font-light leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-muted-foreground font-light leading-relaxed">
               {pkg.desc}
             </p>
           </div>
@@ -200,7 +199,7 @@ export default function PackagesSection() {
           <ul className="space-y-2.5 sm:space-y-3 text-[11px] sm:text-xs text-zinc-600 dark:text-slate-200 font-light">
             {pkg.bullets.map((bullet, idx) => (
               <li key={idx} className="flex items-center space-x-2.5">
-                <Check size={13} className="text-[#0064D0] shrink-0 sm:w-[14px] sm:h-[14px]" />
+                <Check size={13} className="text-primary shrink-0 sm:w-[14px] sm:h-[14px]" />
                 <span>{bullet}</span>
               </li>
             ))}
@@ -225,40 +224,34 @@ export default function PackagesSection() {
   }
 
   return (
-    <section id="packages" className="scroll-mt-28 sm:scroll-mt-36 pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans">
+    <section id="packages" className="scroll-mt-28 sm:scroll-mt-36 w-full border-t border-border/60 transition-colors duration-300 font-sans overflow-x-clip">
+      {/* Content constrained — no solid bg so page atmosphere merges edge-to-edge */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24">
       {/* Editorial Header */}
-      <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-12">
-        <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
-          CURATED HYDRATION PLANS
-        </span>
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-wide leading-tight">
-          Water Plans Made For You.
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 font-light max-w-lg mx-auto">
+      <div className="text-center mb-8 sm:mb-12">
+        <span className="eyebrow">Curated Hydration Plans</span>
+        <h2 className="section-title mt-3 sm:mt-4">Water Plans Made For You.</h2>
+        <p className="section-lead mx-auto mt-3">
           Choose a standard delivery plan or build a custom plan with our interactive calculator.
         </p>
 
         {/* VIEW TOGGLE SEGMENTED CONTROL */}
-        <div className="pt-4 flex justify-center items-center">
-          <div className="inline-flex p-1.5 bg-zinc-200/80 dark:bg-[#131c38] rounded-2xl border border-zinc-300/60 dark:border-slate-800 shadow-inner">
+        <div className="pt-6 flex justify-center items-center">
+          <div className="segmented-control">
             <button
+              type="button"
               onClick={() => setIsCustomActive(false)}
-              className={`px-4 sm:px-6 py-2.5 text-xs font-bold rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer ${
-                !isCustomActive
-                  ? 'bg-[#0064D0] text-white shadow-md'
-                  : 'text-zinc-600 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
-              }`}
+              data-active={!isCustomActive}
+              className="flex items-center gap-2"
             >
               <Grid size={15} />
               <span>Standard Plans</span>
             </button>
             <button
+              type="button"
               onClick={() => setIsCustomActive(true)}
-              className={`px-4 sm:px-6 py-2.5 text-xs font-bold rounded-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer ${
-                isCustomActive
-                  ? 'bg-[#0064D0] text-white shadow-md'
-                  : 'text-zinc-600 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
-              }`}
+              data-active={isCustomActive}
+              className="flex items-center gap-2"
             >
               <Calculator size={15} />
               <span>Custom Configurator</span>
@@ -271,12 +264,12 @@ export default function PackagesSection() {
           <motion.div
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="pt-4 flex flex-col items-center space-y-3"
+            className="pt-5 flex flex-col items-center space-y-3"
           >
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-slate-300">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               How often do you need water?
             </span>
-            <div className="flex flex-wrap items-center justify-center p-1 sm:p-1.5 bg-zinc-100 dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 rounded-2xl gap-1 shadow-inner max-w-full">
+            <div className="segmented-control flex-wrap justify-center max-w-full">
               {[
                 { id: 'weekly', label: 'WEEKLY' },
                 { id: 'monthly', label: 'MONTHLY' },
@@ -284,12 +277,9 @@ export default function PackagesSection() {
               ].map((tab) => (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setFrequency(tab.id as any)}
-                  className={`px-3 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] font-bold tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
-                    frequency === tab.id
-                      ? 'bg-[#0064D0] text-white shadow-md'
-                      : 'text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
-                  }`}
+                  data-active={frequency === tab.id}
                 >
                   {tab.label}
                 </button>
@@ -305,7 +295,7 @@ export default function PackagesSection() {
         {!isCustomActive ? (
           <button
             onClick={() => setIsCustomActive(true)}
-            className="hidden md:flex absolute -left-4 lg:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/90 dark:bg-[#162447]/90 text-[#0064D0] dark:text-sky-400 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            className="hidden md:flex absolute -left-4 lg:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-card/95 text-primary border border-border backdrop-blur-md shadow-md hover:scale-105 active:scale-95 transition-all items-center justify-center cursor-pointer group"
             title="Switch to Custom Plan Configurator"
             aria-label="Switch to Custom Plan Configurator"
           >
@@ -314,7 +304,7 @@ export default function PackagesSection() {
         ) : (
           <button
             onClick={() => setIsCustomActive(false)}
-            className="hidden md:flex absolute -left-4 lg:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#0064D0] text-white border border-[#0064D0] shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            className="hidden md:flex absolute -left-4 lg:-left-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-primary text-primary-foreground border border-primary shadow-md hover:scale-105 active:scale-95 transition-all items-center justify-center cursor-pointer group"
             title="Back to Standard Cards"
             aria-label="Back to Standard Cards"
           >
@@ -326,7 +316,7 @@ export default function PackagesSection() {
         {!isCustomActive ? (
           <button
             onClick={() => setIsCustomActive(true)}
-            className="hidden md:flex absolute -right-4 lg:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#0064D0] text-white border border-[#0064D0] shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            className="hidden md:flex absolute -right-4 lg:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-primary text-primary-foreground border border-primary shadow-md hover:scale-105 active:scale-95 transition-all items-center justify-center cursor-pointer group"
             title="Switch to Custom Plan Configurator"
             aria-label="Switch to Custom Plan Configurator"
           >
@@ -335,7 +325,7 @@ export default function PackagesSection() {
         ) : (
           <button
             onClick={() => setIsCustomActive(false)}
-            className="hidden md:flex absolute -right-4 lg:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/90 dark:bg-[#162447]/90 text-[#0064D0] dark:text-sky-400 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-xl hover:scale-110 active:scale-95 transition-all items-center justify-center cursor-pointer group"
+            className="hidden md:flex absolute -right-4 lg:-right-7 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-card/95 text-primary border border-border backdrop-blur-md shadow-md hover:scale-105 active:scale-95 transition-all items-center justify-center cursor-pointer group"
             title="Back to Standard Cards"
             aria-label="Back to Standard Cards"
           >
@@ -377,7 +367,7 @@ export default function PackagesSection() {
                   <button
                     onClick={() => scrollToCard(Math.max(0, activeIndex - 1))}
                     disabled={activeIndex === 0}
-                    className="p-2.5 rounded-full bg-white dark:bg-[#162447] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
+                    className="p-2.5 rounded-full bg-card text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
                     aria-label="Previous Plan"
                   >
                     <ChevronLeft size={16} />
@@ -390,7 +380,7 @@ export default function PackagesSection() {
                         onClick={() => scrollToCard(idx)}
                         className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                           activeIndex === idx
-                            ? 'w-6 bg-[#0064D0]'
+                            ? 'w-6 bg-primary'
                             : 'w-2 bg-slate-300 dark:bg-slate-700'
                         }`}
                         aria-label={`Go to ${pkg.title} plan`}
@@ -401,7 +391,7 @@ export default function PackagesSection() {
                   <button
                     onClick={() => scrollToCard(Math.min(packagesData.length - 1, activeIndex + 1))}
                     disabled={activeIndex === packagesData.length - 1}
-                    className="p-2.5 rounded-full bg-white dark:bg-[#162447] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
+                    className="p-2.5 rounded-full bg-card text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 disabled:opacity-30 shadow-md transition-all active:scale-95 cursor-pointer"
                     aria-label="Next Plan"
                   >
                     <ChevronRight size={16} />
@@ -410,7 +400,7 @@ export default function PackagesSection() {
               </div>
 
               {/* DESKTOP GRID (>= md) */}
-              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch overflow-visible">
                 {packagesData.map((pkg) => (
                   <PricingCard3D key={pkg.id} isPopular={pkg.isPopular} onClick={() => handlePlanClick(pkg)}>
                     {renderCardContent(pkg)}
@@ -432,6 +422,7 @@ export default function PackagesSection() {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
       </div>
     </section>
   )

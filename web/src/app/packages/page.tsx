@@ -68,13 +68,13 @@ export default function PackagesOverviewPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1 w-full space-y-24 pb-24">
         {/* Hero Section */}
-        <section className="max-w-4xl mx-auto px-6 py-16 text-center space-y-6">
-          <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+        <section className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-16 py-16 text-center space-y-6">
+          <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
             <Link href="/" className="hover:underline">Home</Link>
             <span>/</span>
             <span>Packages</span>
@@ -82,36 +82,36 @@ export default function PackagesOverviewPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide"
+            className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide"
           >
             Watlys Hydration Plans
           </motion.h1>
-          <p className="text-zinc-500 dark:text-slate-200 max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
             Select a tailored recurring glass-bottled mineral water subscription designed for individual, household, or corporate wellness.
           </p>
         </section>
 
         {/* Package Grid */}
-        <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           {packages.map((pkg) => (
             <PricingCard3D key={pkg.id} isPopular={pkg.id === 'family'}>
-              <div className="group relative flex flex-col justify-between h-full bg-white dark:bg-[#131c38] p-8 sm:p-10 rounded-2xl shadow-sm">
+              <div className="group relative flex flex-col justify-between h-full bg-card p-8 sm:p-10 rounded-2xl shadow-sm">
                 <div className="space-y-4 flex-1">
-                  <span className="inline-block text-[9px] font-bold uppercase tracking-widest text-[#0064D0] bg-[#0064D0]/10 px-3 py-1 rounded-full border border-[#0064D0]/20">
+                  <span className="inline-block text-[9px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
                     {pkg.tag}
                   </span>
-                  <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">{pkg.title}</h2>
-                  <p className="text-xs text-zinc-500 dark:text-slate-200 leading-relaxed font-light">{pkg.desc}</p>
+                  <h2 className="text-2xl font-serif font-light text-foreground tracking-wide">{pkg.title}</h2>
+                  <p className="text-xs text-muted-foreground leading-relaxed font-light">{pkg.desc}</p>
 
-                  <div className="pt-4 pb-6 border-b border-zinc-100 dark:border-slate-800">
-                    <span className="text-3xl font-serif font-light text-zinc-900 dark:text-white">{pkg.price}</span>
+                  <div className="pt-4 pb-6 border-b border-border">
+                    <span className="text-3xl font-serif font-light text-foreground">{pkg.price}</span>
                     <span className="text-[10px] text-zinc-400 block mt-1 uppercase tracking-widest font-semibold">{pkg.deliveries}</span>
                   </div>
 
                   <ul className="space-y-3 pt-6">
                     {pkg.features.map((feat, idx) => (
                       <li key={idx} className="flex items-center space-x-3 text-xs text-zinc-650 dark:text-slate-200 font-light">
-                        <Check size={14} className="text-[#0064D0] flex-shrink-0" />
+                        <Check size={14} className="text-primary flex-shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -121,7 +121,7 @@ export default function PackagesOverviewPage() {
                 <div className="pt-8" style={{ transform: 'translateZ(20px)' }}>
                   <Link
                     href={pkg.href}
-                    className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-sm shadow-[#0064D0]/20"
+                    className="w-full py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-sm shadow-primary/20"
                   >
                     <span>Explore Plan Details</span>
                     <ArrowRight size={14} />

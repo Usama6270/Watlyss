@@ -19,21 +19,21 @@ export default function FAQPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-6 py-16 flex-1 w-full space-y-12">
+      <main className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-16 py-16 flex-1 w-full space-y-12">
         <div className="space-y-4 text-center">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#0064D0] font-bold">Inquiries</span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-[#111827] dark:text-[#FAFAFA]">Frequently Asked Questions</h1>
-          <p className="text-zinc-500 dark:text-slate-200">Everything you need to know about the premium hydration standard.</p>
+          <span className="text-xs uppercase tracking-[0.25em] text-primary font-bold">Inquiries</span>
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#111827] dark:text-foreground">Frequently Asked Questions</h1>
+          <p className="text-muted-foreground">Everything you need to know about the premium hydration standard.</p>
         </div>
 
         <div className="space-y-6 pt-8">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="p-6 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-2 shadow-sm">
-              <h3 className="font-bold text-zinc-950 dark:text-[#FAFAFA] text-lg">{faq.q}</h3>
-              <p className="text-zinc-550 dark:text-slate-200 text-sm leading-relaxed">{faq.a}</p>
+            <div key={idx} className="p-6 bg-card border border-border rounded-2xl space-y-2 shadow-sm">
+              <h3 className="font-bold text-zinc-950 dark:text-foreground text-lg">{faq.q}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
             </div>
           ))}
         </div>

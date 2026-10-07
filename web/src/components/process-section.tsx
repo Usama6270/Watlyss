@@ -76,11 +76,11 @@ export default function ProcessSection() {
       onMouseMove={handleSectionMouseMove}
       onMouseEnter={() => setIsOutsideHovered(true)}
       onMouseLeave={() => setIsOutsideHovered(false)}
-      className="relative w-full py-16 sm:py-24 lg:py-28 px-4 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/20 dark:from-[#0a1128] dark:via-[#0a1128] dark:to-[#0a1128] transition-colors duration-300 z-10 border-t border-slate-200/50 dark:border-slate-800/60 overflow-hidden font-sans select-none"
+      className="relative w-full py-16 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-16 bg-gradient-to-b from-[var(--background)] via-[var(--background)] to-sky-50/20 dark:from-[var(--background)] dark:via-[var(--background)] dark:to-[var(--background)] transition-colors duration-300 z-10 border-t border-border overflow-x-hidden font-sans select-none"
     >
 
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-[#0064D0]/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
 
       {/* COMPACT CURSOR-FOLLOWING LIGHT PATTERN SPOTLIGHT (ACTIVE ONLY OUTSIDE CONTENT) */}
       <div
@@ -104,7 +104,7 @@ export default function ProcessSection() {
         
         {/* Soft Compact Light Glow Sphere at Cursor */}
         <div
-          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/15 dark:bg-[#0066FF]/25 blur-2xl pointer-events-none"
+          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 dark:bg-primary/25 blur-2xl pointer-events-none"
           style={{
             left: `${cursorPos.x}px`,
             top: `${cursorPos.y}px`,
@@ -123,12 +123,12 @@ export default function ProcessSection() {
           onMouseLeave={() => setIsOutsideHovered(true)}
           className="space-y-3 sm:space-y-4"
         >
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] inline-flex items-center gap-1.5 bg-[#0064D0]/10 px-4 py-1.5 rounded-full border border-[#0064D0]/20 shadow-sm">
+          <span className="eyebrow inline-flex items-center gap-1.5 bg-primary-muted px-4 py-1.5 rounded-full border border-primary/20">
             <Droplet size={14} />
-            <span>{isRtl ? 'ہماری تیاری کا عمل' : 'OUR PURIFICATION PROCESS'}</span>
+            <span>{isRtl ? 'ہماری تیاری کا عمل' : 'Our Purification Process'}</span>
           </span>
 
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight pt-1">
+          <h2 className="section-title pt-1">
             5-Stage Subterranean Process
           </h2>
 
@@ -143,10 +143,10 @@ export default function ProcessSection() {
                 transition={{ duration: 0.25, ease: 'easeOut' }}
                 className="absolute inset-0 flex flex-col items-center justify-center space-y-1"
               >
-                <span className="text-xs sm:text-base font-bold uppercase tracking-wider text-[#0064D0]">
+                <span className="text-xs sm:text-base font-bold uppercase tracking-wider text-primary">
                   0{activeStep + 1} / 0{steps.length} — {steps[activeStep]?.title}
                 </span>
-                <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-300 font-light max-w-lg mx-auto line-clamp-2 leading-relaxed">
+                <p className="section-lead mx-auto line-clamp-2 !text-sm">
                   {steps[activeStep]?.desc}
                 </p>
               </motion.div>
@@ -161,7 +161,7 @@ export default function ProcessSection() {
                 type="button"
                 onClick={() => setActiveStep(idx)}
                 className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                  activeStep === idx ? 'w-10 bg-[#0064D0] shadow-md shadow-[#0064D0]/40' : 'w-2.5 bg-zinc-200 dark:bg-slate-800 hover:bg-zinc-400'
+                  activeStep === idx ? 'w-10 bg-primary shadow-md shadow-primary/40' : 'w-2.5 bg-zinc-200 dark:bg-slate-800 hover:bg-zinc-400'
                 }`}
               />
             ))}
@@ -188,7 +188,7 @@ export default function ProcessSection() {
             }}
             whileHover={{ scale: 1.02 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="relative aspect-video sm:aspect-[16/9] h-[280px] sm:h-[400px] md:h-[480px] w-full bg-slate-950 rounded-3xl overflow-hidden shadow-2xl shadow-[#0064D0]/20 border-2 border-[#0064D0]/40 hover:border-[#0064D0] transition-all duration-300 group"
+            className="relative aspect-video sm:aspect-[16/9] h-[280px] sm:h-[400px] md:h-[480px] w-full bg-slate-950 rounded-3xl overflow-hidden shadow-2xl shadow-primary/20 border-2 border-primary/40 hover:border-primary transition-all duration-300 group"
           >
             {/* High-DPI HD Sharp 3D Canvas */}
             <div style={{ transform: 'translateZ(20px)' }} className="w-full h-full">

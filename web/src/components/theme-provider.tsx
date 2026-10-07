@@ -1,56 +1,28 @@
-'use client';
+'use client'
 
-import * as React from 'react';
+import * as React from 'react'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
-type Theme = 'light' | 'dark';
-
-interface ThemeContextType {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-}
-
-const ThemeContext = React.createContext<ThemeContextType>({
-  theme: 'light',
-  setTheme: () => {},
-});
-
+/**
+ * Watlys theme: system preference by default, manual override persisted.
+ * Uses class strategy (.dark) so CSS variables swap automatically.
+ */
 export function ThemeProvider({
   children,
-}: {
-  children: React.ReactNode;
-  attribute?: string;
-  defaultTheme?: string;
-  enableSystem?: boolean;
-}) {
-  const [theme, setThemeState] = React.useState<Theme>('light');
-
-  React.useEffect(() => {
-    const saved = localStorage.getItem('watlys-theme') as Theme | null;
-    if (saved === 'dark' || saved === 'light') {
-      setThemeState(saved);
-      if (saved === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  }, []);
-
-  const setTheme = React.useCallback((newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('watlys-theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
-
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      storageKey="watlys-theme"
+      disableTransitionOnChange={false}
+      {...props}
+    >
       {children}
-    </ThemeContext.Provider>
-  );
+    </NextThemesProvider>
+  )
 }
 
-export const useTheme = () => React.useContext(ThemeContext);
+export { useTheme } from 'next-themes'

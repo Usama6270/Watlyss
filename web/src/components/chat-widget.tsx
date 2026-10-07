@@ -425,7 +425,7 @@ export function ChatWidget() {
         return boldParts.map((bPart, bIdx) => {
           if (bPart.startsWith('**') && bPart.endsWith('**')) {
             return (
-              <strong key={bIdx} className="font-semibold text-slate-900 dark:text-white">
+              <strong key={bIdx} className="font-semibold text-foreground">
                 {bPart.slice(2, -2)}
               </strong>
             );
@@ -527,7 +527,7 @@ export function ChatWidget() {
           </div>
 
           {/* Message Stream */}
-          <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto bg-slate-50/70 dark:bg-[#070e20]/70 text-xs sm:text-sm">
+          <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto bg-muted/70 text-xs sm:text-sm">
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -550,7 +550,7 @@ export function ChatWidget() {
                     className={`p-3 rounded-2xl shadow-xs text-xs sm:text-sm ${
                       msg.sender === 'user'
                         ? 'bg-blue-600 text-white rounded-tr-xs'
-                        : 'bg-slate-100 dark:bg-[#0d1838] border border-slate-200/80 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-xs'
+                        : 'bg-slate-100 dark:bg-[#0d1838] border border-border text-slate-800 dark:text-slate-100 rounded-tl-xs'
                     }`}
                   >
                     <div>{renderFormattedText(msg.text)}</div>
@@ -646,7 +646,7 @@ export function ChatWidget() {
                 <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-slate-100 dark:bg-[#0d1838] border border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5 rounded-2xl rounded-tl-xs flex items-center gap-1.5 shadow-xs text-xs text-slate-600 dark:text-slate-300">
+                <div className="bg-slate-100 dark:bg-[#0d1838] border border-border px-3.5 py-2.5 rounded-2xl rounded-tl-xs flex items-center gap-1.5 shadow-xs text-xs text-muted-foreground">
                   <span className="font-semibold text-blue-700 dark:text-sky-300 text-[11px]">Assistant is typing</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce"></span>
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce [animation-delay:0.2s]"></span>
@@ -658,7 +658,7 @@ export function ChatWidget() {
           </div>
 
           {/* Action Chips Container */}
-          <div className="px-3 py-2 bg-blue-50/60 dark:bg-[#070e20] border-t border-blue-100 dark:border-blue-900/40 flex gap-1.5 overflow-x-auto shrink-0 scrollbar-none">
+          <div className="px-3 py-2 bg-primary-muted border-t border-border flex gap-1.5 overflow-x-auto shrink-0 scrollbar-none">
             {ACTION_CHIPS.map((chip) => (
               <button
                 key={chip.id}

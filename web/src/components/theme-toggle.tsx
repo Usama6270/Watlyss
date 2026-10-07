@@ -1,27 +1,27 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { useTheme } from '@/components/theme-provider';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { useTheme } from '@/components/theme-provider'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Sun, Moon } from 'lucide-react'
 
 export function ThemeToggle({ className = '' }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   if (!mounted) {
     return (
       <div className={`w-8 h-8 flex items-center justify-center ${className}`}>
-        <div className="w-4 h-4 rounded-full bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
+        <div className="w-4 h-4 rounded-full bg-muted animate-pulse" />
       </div>
-    );
+    )
   }
 
-  const isDark = theme === 'dark';
+  const isDark = resolvedTheme === 'dark'
 
   return (
     <button
@@ -29,7 +29,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className={`relative p-2 w-9 h-9 flex items-center justify-center rounded-full text-zinc-500 hover:text-zinc-900 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer focus:outline-none ${className}`}
+      className={`relative p-2 w-9 h-9 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer focus:outline-none touch-manipulation ${className}`}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -41,12 +41,12 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
           className="absolute flex items-center justify-center"
         >
           {isDark ? (
-            <Sun size={18} className="text-amber-400 hover:text-amber-300" />
+            <Sun size={18} className="text-warning" />
           ) : (
-            <Moon size={18} className="text-zinc-600 hover:text-zinc-900" />
+            <Moon size={18} className="text-foreground/70" />
           )}
         </motion.div>
       </AnimatePresence>
     </button>
-  );
+  )
 }

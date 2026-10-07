@@ -91,10 +91,10 @@ export default function FooterCursorPattern({
               }}
             >
               {/* Soft Blue Ambient Water Glow */}
-              <div className="absolute inset-0 bg-[#0064D0]/18 dark:bg-[#0064D0]/30 rounded-3xl blur-md" />
+              <div className="absolute inset-0 bg-primary/18 dark:bg-primary/30 rounded-3xl blur-md" />
 
               {/* Box Outline Highlight */}
-              <div className="absolute inset-0 border border-[#0064D0]/40 dark:border-[#0064D0]/60 rounded-3xl" />
+              <div className="absolute inset-0 border border-primary/40 dark:border-primary/60 rounded-3xl" />
 
               {/* Water Brand Pattern 05 Layer */}
               <div

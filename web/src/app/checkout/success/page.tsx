@@ -5,45 +5,52 @@ import Navbar from '@/components/navbar'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useCart } from '@/context/cart'
-import confetti from 'canvas-confetti'
-
 export default function SuccessPage() {
   const { clearCart } = useCart()
 
   useEffect(() => {
     clearCart()
 
-    const duration = 2 * 1000
-    const end = Date.now() + duration
+    let cancelled = false
+    import('canvas-confetti').then(({ default: confetti }) => {
+      if (cancelled) return
+      const duration = 2 * 1000
+      const end = Date.now() + duration
 
-    const frame = () => {
-      confetti({
-        particleCount: 5,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ['#1FB6D8', '#37D6FF', '#ffffff'],
-      })
-      confetti({
-        particleCount: 5,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ['#1FB6D8', '#37D6FF', '#ffffff'],
-      })
+      const frame = () => {
+        if (cancelled) return
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#1FB6D8', '#37D6FF', '#ffffff'],
+        })
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#1FB6D8', '#37D6FF', '#ffffff'],
+        })
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame)
+        if (Date.now() < end) {
+          requestAnimationFrame(frame)
+        }
       }
+      frame()
+    })
+
+    return () => {
+      cancelled = true
     }
-    frame()
-  }, [])
+  }, [clearCart])
 
   return (
-    <div className="min-h-screen bg-transparent text-zinc-900 dark:text-white flex flex-col pt-24">
+    <div className="min-h-screen bg-transparent text-foreground flex flex-col pt-24">
       <Navbar />
 
-      <main className="max-w-xl mx-auto px-6 py-20 flex-1 flex flex-col items-center justify-center text-center space-y-8 w-full">
+      <main className="max-w-xl mx-auto px-4 sm:px-8 lg:px-16 py-20 flex-1 flex flex-col items-center justify-center text-center space-y-8 w-full">
         {/* Animated Checkmark */}
         <div className="relative">
           <motion.div
@@ -73,7 +80,7 @@ export default function SuccessPage() {
         </div>
 
         <div className="space-y-4">
-          <h1 className="text-4xl font-extrabold text-zinc-900">Order Confirmed!</h1>
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-zinc-900">Order Confirmed!</h1>
           <p className="text-zinc-550 font-medium">
             Thank you for choosing Watlys. Your order has been placed successfully and is currently being processed.
           </p>

@@ -126,7 +126,7 @@ export default function Research3DBubbles({
     >
       {/* Ambient background glow */}
       <div className="absolute inset-0 pointer-events-none opacity-30">
-        <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-[#0064D0]/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-primary/15 rounded-full blur-3xl" />
         <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-sky-300/15 rounded-full blur-3xl" />
       </div>
 
@@ -160,11 +160,16 @@ export default function Research3DBubbles({
                 setHoveredId(b.id)
                 if (onSelectArticle) onSelectArticle(article)
               }}
+              onTouchEnd={(e) => {
+                e.preventDefault()
+                setHoveredId(b.id)
+                if (onSelectArticle) onSelectArticle(article)
+              }}
               onMouseEnter={() => {
                 setHoveredId(b.id)
                 if (onSelectArticle) onSelectArticle(article)
               }}
-              className="absolute pointer-events-auto cursor-pointer group z-30"
+              className="absolute pointer-events-auto cursor-pointer group z-30 touch-manipulation"
               style={{
                 left: `${b.x}%`,
                 top: `${b.y}%`,
@@ -187,7 +192,7 @@ export default function Research3DBubbles({
               <div
                 className={`relative w-full h-full rounded-full transition-all duration-300 flex items-center justify-center p-3 overflow-hidden backdrop-blur-md ${
                   isHovered
-                    ? 'shadow-[inset_-12px_-12px_28px_rgba(0,100,208,0.45),0_22px_45px_rgba(0,100,208,0.5)] border-2 border-white dark:border-sky-300 ring-4 ring-[#0064D0]/40 scale-105'
+                    ? 'shadow-[inset_-12px_-12px_28px_rgba(0,100,208,0.45),0_22px_45px_rgba(0,100,208,0.5)] border-2 border-white dark:border-sky-300 ring-4 ring-primary/40 scale-105'
                     : 'shadow-[inset_-8px_-8px_20px_rgba(0,100,208,0.25),0_12px_28px_rgba(0,100,208,0.25)] border border-white/70 dark:border-sky-400/40 hover:scale-110'
                 }`}
                 style={{
@@ -207,7 +212,7 @@ export default function Research3DBubbles({
                     alt={article.title}
                     className="absolute inset-0 w-full h-full object-cover opacity-45 group-hover:opacity-65 transition-opacity duration-300 rounded-full mix-blend-overlay"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-[#0064D0]/30 to-transparent rounded-full" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-primary/30 to-transparent rounded-full" />
 
                   <div className="relative z-20 space-y-1 text-white flex flex-col items-center justify-center px-1">
                     <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs ${article.badgeColor}`}>

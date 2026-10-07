@@ -48,12 +48,12 @@ export default function LocationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 space-y-16">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
         {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
           <span>/</span>
           <span className="text-zinc-400">Pakistan Coverage Areas</span>
@@ -61,38 +61,38 @@ export default function LocationsPage() {
 
         {/* Hero Header */}
         <div className="space-y-6 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#0064D0]/10 text-[#0064D0]">
+          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <MapPin size={28} />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
             Watlys 19L Delivery Coverage in Pakistan
           </h1>
-          <p className="text-zinc-550 dark:text-slate-200 text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
             Our climate-controlled delivery fleet services major residential societies, university campuses, and commercial business centers across Pakistan.
           </p>
         </div>
 
         {/* Availability Checker Form */}
-        <div className="max-w-2xl mx-auto bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 rounded-2xl space-y-4">
-          <h3 className="text-lg font-serif font-light text-zinc-900 dark:text-white text-center">Check Delivery Availability in Your Area</h3>
+        <div className="max-w-2xl mx-auto bg-background dark:bg-card border border-border p-8 rounded-2xl space-y-4">
+          <h3 className="text-lg font-serif font-light text-foreground text-center">Check Delivery Availability in Your Area</h3>
           <form onSubmit={handleCheckCoverage} className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               value={searchArea}
               onChange={(e) => setSearchArea(e.target.value)}
               placeholder="Enter your sector or society (e.g. DHA Phase 5, F-7, Clifton)"
-              className="flex-1 px-4 py-3 bg-white dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-xs rounded-xl focus:outline-none focus:border-[#0064D0]"
+              className="flex-1 px-4 py-3 bg-white dark:bg-background border border-border text-xs rounded-xl focus:outline-none focus:border-primary"
               required
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-[#0064D0] hover:bg-[#0052ad] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+              className="px-6 py-3 bg-primary hover:bg-primary-hover text-primary-foreground text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer"
             >
               Check Area
             </button>
           </form>
           {status && (
-            <div className="p-4 bg-[#0064D0]/10 border border-[#0064D0]/30 rounded-xl text-xs text-[#0064D0] font-semibold text-center flex items-center justify-center space-x-2">
+            <div className="p-4 bg-primary/10 border border-primary/30 rounded-xl text-xs text-primary font-semibold text-center flex items-center justify-center space-x-2">
               <Check size={16} />
               <span>{status}</span>
             </div>
@@ -104,22 +104,22 @@ export default function LocationsPage() {
           {pakistanLocations.map((loc, idx) => (
             <div
               key={idx}
-              className="p-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-6 shadow-sm"
+              className="p-8 bg-card border border-border rounded-2xl space-y-6 shadow-sm"
             >
               <div className="space-y-1">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#0064D0] bg-[#0064D0]/10 px-2.5 py-0.5 rounded border border-[#0064D0]/20">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20">
                   {loc.status}
                 </span>
-                <h2 className="text-2xl font-serif font-light text-zinc-900 dark:text-white tracking-wide pt-2">{loc.city}</h2>
+                <h2 className="text-2xl font-serif font-light text-foreground tracking-wide pt-2">{loc.city}</h2>
                 <span className="text-xs text-zinc-400 font-semibold">{loc.province}</span>
               </div>
 
-              <div className="space-y-3 text-xs text-zinc-650 dark:text-slate-200 font-light border-t border-zinc-100 dark:border-slate-800 pt-4">
+              <div className="space-y-3 text-xs text-zinc-650 dark:text-slate-200 font-light border-t border-border pt-4">
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold uppercase text-zinc-400 block">Coverage Hubs & Societies:</span>
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {loc.hubs.map((h) => (
-                      <span key={h} className="text-[10px] bg-zinc-100 dark:bg-zinc-900 px-2.5 py-1 rounded-md text-zinc-700 dark:text-slate-200 font-medium">
+                      <span key={h} className="text-[10px] bg-zinc-100 dark:bg-zinc-900 px-2.5 py-1 rounded-md text-foreground font-medium">
                         {h}
                       </span>
                     ))}
@@ -130,7 +130,7 @@ export default function LocationsPage() {
               <div className="pt-2 flex justify-between items-center">
                 <Link
                   href="/order"
-                  className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0] hover:text-[#0052ad] transition-colors"
+                  className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-primary hover:text-primary-hover transition-colors"
                 >
                   <span>Order 19L Water</span>
                   <ArrowRight size={14} />

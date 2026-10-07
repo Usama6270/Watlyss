@@ -110,11 +110,11 @@ export default function MapSection() {
       onMouseMove={handleSectionMouseMove}
       onMouseEnter={() => setIsOutsideHovered(true)}
       onMouseLeave={() => setIsOutsideHovered(false)}
-      className="relative py-12 sm:py-24 px-4 sm:px-8 max-w-[1536px] mx-auto w-full font-sans overflow-hidden bg-[#FAF9F6] dark:bg-[#0a1128] transition-colors duration-300 select-none"
+      className="relative py-12 sm:py-24 px-4 sm:px-8 lg:px-16 max-w-[1536px] mx-auto w-full font-sans overflow-hidden bg-background transition-colors duration-300 select-none"
     >
       
       {/* AMBIENT OCEAN BLUE GLOW ACCENT */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] bg-[#0066FF]/10 dark:bg-[#0066FF]/20 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] bg-primary/10 dark:bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* COMPACT CURSOR-FOLLOWING LIGHT PATTERN SPOTLIGHT (ACTIVE ONLY OUTSIDE CONTENT) */}
       <div
@@ -138,7 +138,7 @@ export default function MapSection() {
         
         {/* Soft Compact Light Glow Sphere at Cursor */}
         <div
-          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/15 dark:bg-[#0066FF]/25 blur-2xl pointer-events-none"
+          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 dark:bg-primary/25 blur-2xl pointer-events-none"
           style={{
             left: `${cursorPos.x}px`,
             top: `${cursorPos.y}px`,
@@ -153,16 +153,16 @@ export default function MapSection() {
           setIsOutsideHovered(false)
         }}
         onMouseLeave={() => setIsOutsideHovered(true)}
-        className="relative z-10 text-center space-y-3 mb-10 sm:mb-16 px-4"
+        className="relative z-10 text-center mb-10 sm:mb-16 px-4"
       >
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/10 border border-blue-500/30 text-[#0066FF] text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em]"
+          className="eyebrow inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-muted border border-primary/25"
         >
-          <Sparkles size={14} className="animate-pulse text-[#0066FF]" />
-          <span>{isRtl ? '3D لوکیشن نیٹ ورک' : 'WATLYS INTERACTIVE SPLIT MAP'}</span>
+          <Sparkles size={14} className="animate-pulse text-primary" />
+          <span>{isRtl ? '3D لوکیشن نیٹ ورک' : 'Interactive Delivery Network'}</span>
         </motion.div>
 
         <motion.h2
@@ -170,13 +170,13 @@ export default function MapSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-wide"
+          className="section-title mt-3 sm:mt-4"
         >
           {isRtl ? 'حقیقی وقت کی ترسیلی مراکز' : 'Islamabad Flagship Hub & Network'}
         </motion.h2>
         
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light max-w-lg mx-auto">
-          Explore our automated bottling facilities and regional express fulfillment hubs.
+        <p className="section-lead mx-auto mt-3">
+          Explore our bottling facilities and regional express fulfillment hubs.
         </p>
       </div>
 
@@ -201,7 +201,7 @@ export default function MapSection() {
           {/* Sidebar Header */}
           <div className="space-y-2 border-b border-blue-900/40 pb-4">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0066FF]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
                 SELECT WATLYS HUB
               </span>
               <span className="px-2.5 py-0.5 rounded-full bg-blue-600/20 text-blue-400 text-[10px] font-bold border border-blue-500/30">
@@ -229,7 +229,7 @@ export default function MapSection() {
                 >
                   <div className="flex items-start gap-3.5">
                     <div className={`p-2.5 rounded-xl transition-colors shrink-0 ${
-                      isActive ? 'bg-white/20 text-white' : 'bg-blue-950/60 text-[#0066FF]'
+                      isActive ? 'bg-white/20 text-white' : 'bg-blue-950/60 text-primary'
                     }`}>
                       <Building2 size={18} />
                     </div>
@@ -253,7 +253,7 @@ export default function MapSection() {
 
           {/* Sidebar Footer Support Card */}
           <div className="p-4 rounded-2xl bg-blue-950/30 border border-blue-900/30 space-y-2 text-xs text-slate-300">
-            <div className="flex items-center gap-2 text-[#0066FF] font-bold text-[11px] uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-primary font-bold text-[11px] uppercase tracking-wider">
               <ShieldCheck size={14} />
               <span>Dedicated Concierge Line</span>
             </div>
@@ -261,7 +261,7 @@ export default function MapSection() {
               Same-day fulfillment guaranteed for home subscriptions & commercial accounts.
             </p>
             <div className="pt-1 font-mono font-bold text-white text-xs flex items-center gap-1.5">
-              <Phone size={13} className="text-[#0066FF]" />
+              <Phone size={13} className="text-primary" />
               <span>{activeCity.phone}</span>
             </div>
           </div>
@@ -310,7 +310,7 @@ export default function MapSection() {
 
             {/* Ocean Blue Brand Tag */}
             <div className="pointer-events-auto hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/80 backdrop-blur-xl border border-blue-900/40 text-white text-xs font-bold tracking-widest uppercase shadow-xl">
-              <span className="w-2 h-2 rounded-full bg-[#0066FF]" />
+              <span className="w-2 h-2 rounded-full bg-primary" />
               <span>WATLYS 3D HQ MAP</span>
             </div>
           </div>
@@ -321,13 +321,13 @@ export default function MapSection() {
             <div className="relative pointer-events-auto flex flex-col items-center group">
               
               {/* Outer Glowing Pulse Ring */}
-              <div className="absolute -inset-3 rounded-full bg-[#0066FF] animate-ping opacity-75 blur-sm" />
+              <div className="absolute -inset-3 rounded-full bg-primary animate-ping opacity-75 blur-sm" />
               
               {/* SVG Water Droplet Pin Button */}
               <motion.div
                 whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative w-12 h-12 rounded-full bg-[#0066FF] text-white flex items-center justify-center shadow-[0_0_25px_rgba(0,102,255,0.8)] border-2 border-white cursor-pointer z-10 transition-transform"
+                className="relative w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_25px_rgba(0,102,255,0.8)] border-2 border-white cursor-pointer z-10 transition-transform"
               >
                 <svg className="w-6 h-6 fill-current drop-shadow-md" viewBox="0 0 24 24">
                   <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
@@ -341,7 +341,7 @@ export default function MapSection() {
                 key={activeCity.id + '-pin-tooltip'}
                 className="mt-3 bg-white/95 text-slate-900 backdrop-blur-md rounded-xl p-3 sm:p-3.5 border border-blue-200 shadow-2xl space-y-1 max-w-[260px] text-center pointer-events-auto z-30"
               >
-                <div className="flex items-center justify-center gap-1.5 text-[#0066FF] font-bold text-xs">
+                <div className="flex items-center justify-center gap-1.5 text-primary font-bold text-xs">
                   <Building2 size={14} />
                   <span>{isRtl ? activeCity.shortNameUrdu : activeCity.shortName}</span>
                 </div>

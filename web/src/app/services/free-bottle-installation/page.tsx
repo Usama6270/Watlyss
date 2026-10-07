@@ -8,12 +8,12 @@ import { Wrench, ShieldCheck, Check, ArrowRight } from 'lucide-react'
 
 export default function FreeInstallationPage() {
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
         {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
           <span>/</span>
           <Link href="/services" className="hover:underline">Services</Link>
@@ -23,50 +23,50 @@ export default function FreeInstallationPage() {
 
         {/* Hero Header */}
         <div className="space-y-6 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#0064D0]/10 text-[#0064D0]">
+          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <Wrench size={28} />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
             Free Bottle & Stand Installation
           </h1>
-          <p className="text-zinc-550 dark:text-slate-200 text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
             Every Watlys recurring subscription includes complimentary white-glove setup. Our certified technicians assemble your glass bottle stands, calibrate flow rates, and inspect safety locks.
           </p>
         </div>
 
         {/* Breakdown Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="p-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-4">
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Home Setup Workflow</h3>
-            <ul className="space-y-3 text-xs text-zinc-500 dark:text-slate-200 font-light">
+          <div className="p-8 bg-card border border-border rounded-2xl space-y-4">
+            <h3 className="text-xl font-bold text-foreground">Home Setup Workflow</h3>
+            <ul className="space-y-3 text-xs text-muted-foreground font-light">
               <li className="flex items-center space-x-3">
-                <Check size={14} className="text-[#0064D0]" />
+                <Check size={14} className="text-primary" />
                 <span>Placement inspection for optimal kitchen or dining aesthetics</span>
               </li>
               <li className="flex items-center space-x-3">
-                <Check size={14} className="text-[#0064D0]" />
+                <Check size={14} className="text-primary" />
                 <span>Assembly of stainless steel or wooden floor stands</span>
               </li>
               <li className="flex items-center space-x-3">
-                <Check size={14} className="text-[#0064D0]" />
+                <Check size={14} className="text-primary" />
                 <span>Dispenser valve leak-test and sanitation wipe-down</span>
               </li>
             </ul>
           </div>
 
-          <div className="p-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl space-y-4">
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Corporate Office Setup</h3>
-            <ul className="space-y-3 text-xs text-zinc-500 dark:text-slate-200 font-light">
+          <div className="p-8 bg-card border border-border rounded-2xl space-y-4">
+            <h3 className="text-xl font-bold text-foreground">Corporate Office Setup</h3>
+            <ul className="space-y-3 text-xs text-muted-foreground font-light">
               <li className="flex items-center space-x-3">
-                <Check size={14} className="text-[#0064D0]" />
+                <Check size={14} className="text-primary" />
                 <span>Executive boardroom table-top chiller calibration</span>
               </li>
               <li className="flex items-center space-x-3">
-                <Check size={14} className="text-[#0064D0]" />
+                <Check size={14} className="text-primary" />
                 <span>Multi-bottle rack organization for breakrooms</span>
               </li>
               <li className="flex items-center space-x-3">
-                <Check size={14} className="text-[#0064D0]" />
+                <Check size={14} className="text-primary" />
                 <span>Staff safety orientation and maintenance schedule setup</span>
               </li>
             </ul>
@@ -74,15 +74,15 @@ export default function FreeInstallationPage() {
         </div>
 
         {/* CTA Banner */}
-        <div className="p-10 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
-          <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Ready for white-glove setup?</h3>
-          <p className="text-xs text-zinc-500 dark:text-slate-200 max-w-md mx-auto">
+        <div className="p-10 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
+          <h3 className="text-2xl font-serif font-light text-foreground">Ready for white-glove setup?</h3>
+          <p className="text-xs text-muted-foreground max-w-md mx-auto">
             Book installation during checkout or contact our concierge support for custom requests.
           </p>
           <div className="pt-2">
             <Link
               href="/contact?service=installation"
-              className="px-8 py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all shadow-md"
+              className="px-8 py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all shadow-md"
             >
               <span>Schedule Free Installation</span>
               <ArrowRight size={14} />

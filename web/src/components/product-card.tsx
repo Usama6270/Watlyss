@@ -64,10 +64,10 @@ export default function ProductCard({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col bg-white dark:bg-[#131c38] border border-zinc-200/40 dark:border-slate-800/60 overflow-hidden transition-all duration-700 hover:border-brand-blue/30 dark:hover:border-brand-blue/30 text-zinc-900 dark:text-zinc-100"
+      className="group relative flex flex-col bg-card border border-border overflow-hidden transition-all duration-700 hover:border-brand-blue/30 dark:hover:border-brand-blue/30 text-zinc-900 dark:text-zinc-100"
     >
       {/* Product Image Panel */}
-      <div className="relative aspect-[4/5] w-full bg-zinc-50 dark:bg-[#0a1128] overflow-hidden">
+      <div className="relative aspect-[4/5] w-full bg-zinc-50 dark:bg-background overflow-hidden">
         <Link href={`/product/${slug}`} className="block w-full h-full">
           {/* Primary Image */}
           <Image
@@ -77,7 +77,7 @@ export default function ProductCard({
             className={`object-contain p-10 transition-transform duration-[1000ms] ease-out ${
               isHovered && secondaryImageUrl ? 'opacity-0 scale-95' : 'opacity-100 scale-100 group-hover:scale-105'
             }`}
-            sizes="(max-w-768px) 100vw, 25vw"
+            sizes="(max-width: 768px) 100vw, 25vw"
           />
 
           {/* Hover/Secondary Image */}
@@ -89,7 +89,7 @@ export default function ProductCard({
               className={`object-contain p-10 absolute inset-0 transition-all duration-[1000ms] ease-out ${
                 isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
               }`}
-              sizes="(max-w-768px) 100vw, 25vw"
+              sizes="(max-width: 768px) 100vw, 25vw"
             />
           )}
         </Link>
@@ -112,7 +112,7 @@ export default function ProductCard({
 
         {/* Capacity tag */}
         {capacity && (
-          <span className="absolute top-4 left-4 bg-white/95 dark:bg-[#131c38]/95 text-[9px] uppercase tracking-widest font-bold text-zinc-600 dark:text-slate-200 px-3 py-1 rounded-full border border-zinc-200/50 dark:border-slate-800/60 shadow-sm pointer-events-none">
+          <span className="absolute top-4 left-4 bg-white/95 dark:bg-card/95 text-[9px] uppercase tracking-widest font-bold text-zinc-600 dark:text-slate-200 px-3 py-1 rounded-full border border-zinc-200/50 dark:border-slate-800/60 shadow-sm pointer-events-none">
             {capacity}
           </span>
         )}
@@ -121,17 +121,17 @@ export default function ProductCard({
       {/* Info Container */}
       <div className="flex flex-col flex-1 p-6 space-y-3">
         <Link href={`/product/${slug}`}>
-          <h3 className="text-lg font-serif font-semibold tracking-wide text-zinc-900 dark:text-white transition-colors duration-300 group-hover:text-brand-blue">
+          <h3 className="text-lg font-serif font-semibold tracking-wide text-foreground transition-colors duration-300 group-hover:text-brand-blue">
             {title}
           </h3>
         </Link>
         {description && (
-          <p className="text-zinc-500 dark:text-slate-200 text-xs line-clamp-2 flex-1 leading-relaxed font-light">
+          <p className="text-muted-foreground text-xs line-clamp-2 flex-1 leading-relaxed font-light">
             {description}
           </p>
         )}
-        <div className="flex items-center justify-between pt-4 border-t border-zinc-100 dark:border-slate-800">
-          <span className="text-lg font-light tracking-wider text-zinc-900 dark:text-white">${price.toFixed(2)}</span>
+        <div className="flex items-center justify-between pt-4 border-t border-border">
+          <span className="text-lg font-light tracking-wider text-foreground">${price.toFixed(2)}</span>
           <button
             onClick={handleAddToCart}
             className="text-[10px] uppercase tracking-widest font-bold px-4 py-2.5 rounded-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 hover:bg-brand-blue dark:hover:bg-brand-blue hover:text-white dark:hover:text-white transition-all duration-300 cursor-pointer"

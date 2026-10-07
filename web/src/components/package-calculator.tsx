@@ -166,10 +166,10 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
   const monthlySavings = Math.round(discountAmount / months)
 
   return (
-    <section id="calculator" className={`relative w-full transition-colors duration-300 font-sans ${embedded ? 'py-2' : 'py-12 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto border-t border-zinc-200/40 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] overflow-hidden'}`}>
+    <section id="calculator" className={`relative w-full transition-colors duration-300 font-sans ${embedded ? 'py-2' : 'py-12 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto border-t border-border bg-background overflow-hidden'}`}>
 
       {/* Glassmorphism Background Ambient Glow Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-[#0064D0]/10 dark:bg-blue-600/15 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-primary/10 dark:bg-blue-600/15 rounded-full blur-[140px] pointer-events-none z-0" />
 
       <div className="relative z-10 space-y-8 sm:space-y-12">
         {/* Animated Title Header (Only if standalone) */}
@@ -181,14 +181,14 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="text-center space-y-3 sm:space-y-4 max-w-2xl mx-auto"
           >
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0064D0] inline-flex items-center gap-1.5">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-primary inline-flex items-center gap-1.5">
               <Calculator size={14} />
               <span>INTERACTIVE CONFIGURATOR</span>
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-zinc-900 dark:text-white tracking-wide leading-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground tracking-wide leading-tight">
               Build Your Perfect Water Plan.
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
               Tell us what you need. We'll calculate your estimated plan instantly.
             </p>
           </motion.div>
@@ -201,8 +201,8 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             onClick={() => scrollToSlide(0)}
             className={`flex-1 py-2 px-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 ${
               activeSlide === 0
-                ? 'bg-[#0064D0] text-white shadow-md shadow-[#0064D0]/30'
-                : 'text-zinc-600 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
+                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30'
+                : 'text-zinc-600 dark:text-slate-300 hover:text-foreground'
             }`}
           >
             <SlidersHorizontal size={13} />
@@ -213,8 +213,8 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             onClick={() => scrollToSlide(1)}
             className={`flex-1 py-2 px-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 ${
               activeSlide === 1
-                ? 'bg-[#0064D0] text-white shadow-md shadow-[#0064D0]/30'
-                : 'text-zinc-600 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white'
+                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30'
+                : 'text-zinc-600 dark:text-slate-300 hover:text-foreground'
             }`}
           >
             <Sparkles size={13} />
@@ -237,7 +237,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             transition={{ duration: 0.6, type: 'spring', stiffness: 200, damping: 20 }}
             className="w-[88vw] sm:w-[85vw] lg:w-auto shrink-0 lg:shrink snap-center lg:col-span-6 h-full"
           >
-            <TiltCard className="bg-zinc-50/90 dark:bg-[#162447]/95 backdrop-blur-xl p-5 sm:p-8 lg:p-10 rounded-2xl border border-zinc-200/80 dark:border-slate-700/60 shadow-xl shadow-sky-950/5 hover:shadow-2xl hover:shadow-[#0064D0]/10 flex flex-col justify-between space-y-6 sm:space-y-8">
+            <TiltCard className="bg-zinc-50/90 dark:bg-card/95 backdrop-blur-xl p-5 sm:p-8 lg:p-10 rounded-2xl border border-zinc-200/80 dark:border-slate-700/60 shadow-xl shadow-sky-950/5 hover:shadow-2xl hover:shadow-primary/10 flex flex-col justify-between space-y-6 sm:space-y-8">
 
               {/* Variable 1: Number of Bottles */}
               <div className="space-y-3">
@@ -245,7 +245,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                   <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200">
                     1. Number of Bottles
                   </label>
-                  <span className="text-xl sm:text-2xl font-serif font-bold text-[#0064D0] inline-flex items-center gap-1.5">
+                  <span className="text-xl sm:text-2xl font-serif font-bold text-primary inline-flex items-center gap-1.5">
                     <Droplets size={18} />
                     <span>{bottlesPerDelivery} × 19L Bottles</span>
                   </span>
@@ -256,7 +256,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                   max="30"
                   value={bottlesPerDelivery}
                   onChange={(e) => setBottlesPerDelivery(parseInt(e.target.value))}
-                  className="w-full h-2.5 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0] transition-all hover:scale-[1.01]"
+                  className="w-full h-2.5 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary transition-all hover:scale-[1.01]"
                 />
                 <div className="flex justify-between text-[10px] font-semibold text-zinc-400 dark:text-slate-400">
                   <span>1 Bottle</span>
@@ -279,8 +279,8 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                       whileTap={{ scale: 0.96 }}
                       onClick={() => setFrequencyId(f.id)}
                       className={`py-2.5 px-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${frequencyId === f.id
-                        ? 'border-[#0064D0] bg-[#0064D0] text-white shadow-lg shadow-[#0064D0]/30'
-                        : 'border-zinc-200/80 dark:border-slate-800 text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-[#0b1329]'
+                        ? 'border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/30'
+                        : 'border-zinc-200/80 dark:border-slate-800 text-muted-foreground hover:text-foreground bg-white dark:bg-background'
                         }`}
                     >
                       {f.name}
@@ -295,7 +295,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                   <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200">
                     3. Duration (Months)
                   </label>
-                  <span className="text-lg sm:text-xl font-serif font-bold text-zinc-900 dark:text-white">
+                  <span className="text-lg sm:text-xl font-serif font-bold text-foreground">
                     {months} Months
                   </span>
                 </div>
@@ -305,7 +305,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                   max="12"
                   value={months}
                   onChange={(e) => setMonths(parseInt(e.target.value))}
-                  className="w-full h-2.5 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0] transition-all hover:scale-[1.01]"
+                  className="w-full h-2.5 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary transition-all hover:scale-[1.01]"
                 />
                 <div className="flex justify-between text-[10px] font-semibold text-zinc-400 dark:text-slate-400">
                   <span>1 Month</span>
@@ -328,8 +328,8 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                       whileTap={{ scale: 0.96 }}
                       onClick={() => setCustomerTypeId(c.id)}
                       className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${customerTypeId === c.id
-                        ? 'border-[#0064D0] bg-[#0064D0]/15 text-[#0064D0] font-extrabold shadow-md shadow-[#0064D0]/20'
-                        : 'border-zinc-200/80 dark:border-slate-800 text-zinc-500 dark:text-slate-300 hover:text-zinc-900 dark:hover:text-white bg-white dark:bg-[#0b1329]'
+                        ? 'border-primary bg-primary/15 text-primary font-extrabold shadow-md shadow-primary/20'
+                        : 'border-zinc-200/80 dark:border-slate-800 text-muted-foreground hover:text-foreground bg-white dark:bg-background'
                         }`}
                     >
                       {c.name}
@@ -346,7 +346,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                 <select
                   value={locationId}
                   onChange={(e) => setLocationId(e.target.value)}
-                  className="w-full px-4 py-3.5 bg-white dark:bg-[#0b1329] border border-zinc-200/80 dark:border-slate-800 text-xs text-zinc-900 dark:text-white rounded-xl font-medium focus:outline-none focus:border-[#0064D0] focus:ring-2 focus:ring-[#0064D0]/20 transition-all cursor-pointer"
+                  className="w-full px-4 py-3.5 bg-white dark:bg-background border border-zinc-200/80 dark:border-slate-800 text-xs text-foreground rounded-xl font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
                 >
                   {PRICING_CONFIG.locations.map((loc) => (
                     <option key={loc.id} value={loc.id}>
@@ -367,15 +367,15 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             transition={{ duration: 0.6, type: 'spring', stiffness: 200, damping: 20 }}
             className="w-[88vw] sm:w-[85vw] lg:w-auto shrink-0 lg:shrink snap-center lg:col-span-6 h-full"
           >
-            <TiltCard floating className="bg-white dark:bg-[#162447] p-5 sm:p-8 lg:p-10 rounded-2xl border-2 border-[#0064D0] shadow-2xl shadow-[#0064D0]/25 hover:shadow-[#0064D0]/45 flex flex-col justify-between space-y-6">
+            <TiltCard floating className="bg-card p-5 sm:p-8 lg:p-10 rounded-2xl border-2 border-primary shadow-2xl shadow-primary/25 hover:shadow-primary/45 flex flex-col justify-between space-y-6">
 
               <div className="space-y-6">
                 <div className="flex justify-between items-center border-b border-zinc-100 dark:border-slate-700 pb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0] flex items-center gap-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary flex items-center gap-1.5">
                     <Sparkles size={14} />
                     <span>YOUR CUSTOM PLAN</span>
                   </span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500 dark:text-slate-300 bg-zinc-100 dark:bg-[#0b1329] px-3 py-1 rounded-full border dark:border-slate-800 shadow-sm">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground bg-zinc-100 dark:bg-background px-3 py-1 rounded-full border dark:border-slate-800 shadow-sm">
                     Estimated Price
                   </span>
                 </div>
@@ -390,40 +390,40 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                     transition={{ duration: 0.2 }}
                     className="space-y-1"
                   >
-                    <span className="text-2xl sm:text-4xl font-serif font-bold text-zinc-900 dark:text-white block tracking-wide">
+                    <span className="text-2xl sm:text-4xl font-serif font-bold text-foreground block tracking-wide">
                       {bottlesPerDelivery} × 19L BOTTLES
                     </span>
-                    <span className="text-xs sm:text-sm font-serif font-medium text-[#0064D0] block">
+                    <span className="text-xs sm:text-sm font-serif font-medium text-primary block">
                       Approximately <CountUp value={totalLiters} /> LITERS ({totalBottles} bottles total)
                     </span>
                   </motion.div>
                 </AnimatePresence>
 
                 {/* Price Line Breakdown */}
-                <div className="p-4 sm:p-6 bg-zinc-50/80 dark:bg-[#0b1329]/80 rounded-xl border border-zinc-200/60 dark:border-slate-800 space-y-3 text-xs font-light text-zinc-600 dark:text-slate-200 shadow-inner">
+                <div className="p-4 sm:p-6 bg-zinc-50/80 dark:bg-background/80 rounded-xl border border-zinc-200/60 dark:border-slate-800 space-y-3 text-xs font-light text-zinc-600 dark:text-slate-200 shadow-inner">
                   <div className="flex justify-between">
                     <span>Water ({totalBottles} x 19L Bottles):</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">PKR <CountUp value={subtotal} /></span>
+                    <span className="font-semibold text-foreground">PKR <CountUp value={subtotal} /></span>
                   </div>
                   <div className="flex justify-between">
                     <span>Delivery ({estimatedDeliveries} trips to {selectedLoc.name}):</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">PKR <CountUp value={deliveryCost} /></span>
+                    <span className="font-semibold text-foreground">PKR <CountUp value={deliveryCost} /></span>
                   </div>
                   <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
                     <span>Discount ({Math.round(totalDiscountRate * 100)}%):</span>
                     <span>- PKR <CountUp value={discountAmount} /></span>
                   </div>
                   <div className="pt-3 border-t border-zinc-200/60 dark:border-slate-800 flex justify-between items-baseline">
-                    <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-900 dark:text-white">TOTAL:</span>
-                    <span className="text-xl sm:text-3xl font-serif font-bold text-[#0064D0]">
+                    <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground">TOTAL:</span>
+                    <span className="text-xl sm:text-3xl font-serif font-bold text-primary">
                       PKR <CountUp value={estimatedTotal} />
                     </span>
                   </div>
                 </div>
 
                 {/* Estimated Monthly Summary */}
-                <div className="flex justify-between items-center text-xs text-zinc-500 dark:text-slate-300 font-light px-1 flex-wrap gap-2">
-                  <span>Estimated Monthly Cost: <strong className="text-zinc-900 dark:text-white font-bold">PKR <CountUp value={monthlyEstimatedCost} /></strong></span>
+                <div className="flex justify-between items-center text-xs text-muted-foreground font-light px-1 flex-wrap gap-2">
+                  <span>Estimated Monthly Cost: <strong className="text-foreground font-bold">PKR <CountUp value={monthlyEstimatedCost} /></strong></span>
                   <span>Estimated Savings: <strong className="text-emerald-600 dark:text-emerald-400 font-bold">PKR <CountUp value={monthlySavings} /></strong></span>
                 </div>
               </div>
@@ -434,7 +434,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
                   <button
                     type="button"
                     onClick={() => setIsOrderModalOpen(true)}
-                    className="w-full py-3.5 sm:py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all duration-300 shadow-xl shadow-[#0064D0]/35 hover:shadow-[#0064D0]/50 cursor-pointer"
+                    className="w-full py-3.5 sm:py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all duration-300 shadow-xl shadow-primary/35 hover:shadow-primary/50 cursor-pointer"
                   >
                     <span>ORDER THIS PLAN</span>
                     <ArrowRight size={14} />
@@ -463,7 +463,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             onClick={() => scrollToSlide(0)}
             aria-label="Slide 1"
             className={`h-2 rounded-full transition-all duration-300 ${
-              activeSlide === 0 ? 'w-6 bg-[#0064D0]' : 'w-2 bg-zinc-300 dark:bg-slate-700'
+              activeSlide === 0 ? 'w-6 bg-primary' : 'w-2 bg-zinc-300 dark:bg-slate-700'
             }`}
           />
           <button
@@ -471,7 +471,7 @@ export default function PackageCalculator({ embedded = false }: { embedded?: boo
             onClick={() => scrollToSlide(1)}
             aria-label="Slide 2"
             className={`h-2 rounded-full transition-all duration-300 ${
-              activeSlide === 1 ? 'w-6 bg-[#0064D0]' : 'w-2 bg-zinc-300 dark:bg-slate-700'
+              activeSlide === 1 ? 'w-6 bg-primary' : 'w-2 bg-zinc-300 dark:bg-slate-700'
             }`}
           />
         </div>

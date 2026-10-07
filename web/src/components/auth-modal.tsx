@@ -135,10 +135,10 @@ export default function AuthModal() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-md bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden z-10 font-sans"
+          className="relative w-full max-w-md bg-card border border-border rounded-3xl shadow-2xl overflow-hidden z-10 font-sans"
         >
           {/* Top Decorative Bar */}
-          <div className="h-2 bg-gradient-to-r from-[#0064D0] via-sky-400 to-[#0064D0]" />
+          <div className="h-2 bg-gradient-to-r from-primary via-sky-400 to-primary" />
 
           {/* Close Button */}
           <button
@@ -152,11 +152,11 @@ export default function AuthModal() {
           <div className="p-6 sm:p-8 space-y-6">
             {/* Header */}
             <div className="space-y-1.5 text-center">
-              <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-[#0064D0]/10 rounded-full text-[#0064D0] text-[10px] font-bold uppercase tracking-widest">
+              <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-primary/10 rounded-full text-primary text-[10px] font-bold uppercase tracking-widest">
                 <Sparkles size={12} />
                 <span>Watlys Customer Portal</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white tracking-wide pt-1">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground tracking-wide pt-1">
                 {activeTab === 'login' ? 'Welcome Back' : 'Create Account'}
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-200">
@@ -167,7 +167,7 @@ export default function AuthModal() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-[#0a1128] rounded-xl text-xs font-bold">
+            <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-background rounded-xl text-xs font-bold">
               <button
                 type="button"
                 onClick={() => {
@@ -176,7 +176,7 @@ export default function AuthModal() {
                 }}
                 className={`py-2.5 rounded-lg transition-all cursor-pointer ${
                   activeTab === 'login'
-                    ? 'bg-white dark:bg-[#131c38] text-[#0064D0] shadow-sm'
+                    ? 'bg-card text-primary shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -190,7 +190,7 @@ export default function AuthModal() {
                 }}
                 className={`py-2.5 rounded-lg transition-all cursor-pointer ${
                   activeTab === 'signup'
-                    ? 'bg-white dark:bg-[#131c38] text-[#0064D0] shadow-sm'
+                    ? 'bg-card text-primary shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -208,7 +208,7 @@ export default function AuthModal() {
             {activeTab === 'login' && (
               <form onSubmit={handleLoginSubmit} className="space-y-4">
                 {/* Method Switcher: Password vs OTP */}
-                <div className="flex justify-end text-[11px] font-semibold text-[#0064D0] space-x-2 pb-1">
+                <div className="flex justify-end text-[11px] font-semibold text-primary space-x-2 pb-1">
                   <button
                     type="button"
                     onClick={() => setAuthMethod(authMethod === 'password' ? 'otp' : 'password')}
@@ -241,7 +241,7 @@ export default function AuthModal() {
                               setEmail('')
                             }
                           }}
-                          className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                          className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                         />
                       </div>
                     </div>
@@ -258,7 +258,7 @@ export default function AuthModal() {
                           placeholder="••••••••"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                          className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                         />
                       </div>
                     </div>
@@ -278,14 +278,14 @@ export default function AuthModal() {
                             placeholder="+92 300 1234567"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                            className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                           />
                         </div>
                         <button
                           type="button"
                           onClick={handleSendOtp}
                           disabled={otpSent || loading}
-                          className="px-4 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-[#0064D0] hover:text-white text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                          className="px-4 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-primary hover:text-white text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-colors cursor-pointer"
                         >
                           {otpSent ? 'Resend' : 'Send Code'}
                         </button>
@@ -296,7 +296,7 @@ export default function AuthModal() {
                       <div className="space-y-1">
                         <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex justify-between">
                           <span>Verification Code (SMS OTP)</span>
-                          <span className="text-[#0064D0]">Demo Code: 1234</span>
+                          <span className="text-primary">Demo Code: 1234</span>
                         </label>
                         <div className="relative">
                           <ShieldCheck size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -306,7 +306,7 @@ export default function AuthModal() {
                             placeholder="Enter 4-digit OTP"
                             value={otpCode}
                             onChange={(e) => setOtpCode(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                            className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                           />
                         </div>
                       </div>
@@ -317,7 +317,7 @@ export default function AuthModal() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.15em] flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#0064D0]/30 cursor-pointer"
+                  className="w-full py-3.5 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.15em] flex items-center justify-center space-x-2 transition-all shadow-lg shadow-primary/30 cursor-pointer"
                 >
                   <span>{loading ? 'Signing In...' : 'Sign In to Account'}</span>
                   <ArrowRight size={14} />
@@ -340,7 +340,7 @@ export default function AuthModal() {
                       placeholder="e.g. Muhammad Ali"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -357,7 +357,7 @@ export default function AuthModal() {
                       placeholder="+92 300 1234567"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -374,7 +374,7 @@ export default function AuthModal() {
                       placeholder="ali@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -391,7 +391,7 @@ export default function AuthModal() {
                       placeholder="At least 6 characters"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -399,7 +399,7 @@ export default function AuthModal() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.15em] flex items-center justify-center space-x-2 transition-all shadow-lg shadow-[#0064D0]/30 cursor-pointer"
+                  className="w-full py-3.5 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.15em] flex items-center justify-center space-x-2 transition-all shadow-lg shadow-primary/30 cursor-pointer"
                 >
                   <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
                   <ArrowRight size={14} />

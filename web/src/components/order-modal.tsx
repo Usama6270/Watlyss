@@ -305,11 +305,11 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-2xl bg-white dark:bg-[#111c38] rounded-3xl border border-zinc-200 dark:border-slate-800 shadow-2xl overflow-hidden z-10 my-8"
+          className="relative w-full max-w-2xl bg-white dark:bg-[#111c38] rounded-3xl border border-border shadow-2xl overflow-hidden z-10 my-8"
         >
           {/* Header Bar */}
-          <div className="relative bg-[#0064D0] px-6 py-5 text-white flex justify-between items-center overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-[#0064D0] to-cyan-600 opacity-90" />
+          <div className="relative bg-primary px-6 py-5 text-white flex justify-between items-center overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-primary to-cyan-600 opacity-90" />
             <div className="relative z-10 flex items-center space-x-2.5">
               <Droplets className="w-5 h-5 text-cyan-200" />
               <div>
@@ -347,31 +347,31 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   <span className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-3.5 py-1 rounded-full border border-emerald-300 dark:border-emerald-800">
                     ORDER SUCCESSFULLY CREATED
                   </span>
-                  <h4 className="text-3xl font-serif font-bold text-zinc-900 dark:text-white pt-1">
-                    Order ID: <span className="text-[#0064D0]">{orderSuccess.orderNumber}</span>
+                  <h4 className="text-3xl font-serif font-bold text-foreground pt-1">
+                    Order ID: <span className="text-primary">{orderSuccess.orderNumber}</span>
                   </h4>
-                  <p className="text-xs text-zinc-500 dark:text-slate-300 max-w-md mx-auto">
-                    Thank you, <strong className="text-zinc-900 dark:text-white">{customerName}</strong>! Your order has been recorded in our system and is ready for fulfillment.
+                  <p className="text-xs text-muted-foreground max-w-md mx-auto">
+                    Thank you, <strong className="text-foreground">{customerName}</strong>! Your order has been recorded in our system and is ready for fulfillment.
                   </p>
                 </div>
 
                 {/* Summary Card */}
-                <div className="bg-zinc-50 dark:bg-[#0b1329] p-5 rounded-2xl border border-zinc-200 dark:border-slate-800 text-left text-xs space-y-2.5 shadow-inner">
+                <div className="bg-zinc-50 dark:bg-background p-5 rounded-2xl border border-border text-left text-xs space-y-2.5 shadow-inner">
                   <div className="flex justify-between border-b border-zinc-200/60 dark:border-slate-800 pb-2">
                     <span className="text-zinc-500">Customer Phone:</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">{phone}</span>
+                    <span className="font-semibold text-foreground">{phone}</span>
                   </div>
                   <div className="flex justify-between border-b border-zinc-200/60 dark:border-slate-800 pb-2">
                     <span className="text-zinc-500">Delivery Address:</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white text-right max-w-[240px] truncate">{deliveryAddress}, {city}</span>
+                    <span className="font-semibold text-foreground text-right max-w-[240px] truncate">{deliveryAddress}, {city}</span>
                   </div>
                   <div className="flex justify-between border-b border-zinc-200/60 dark:border-slate-800 pb-2">
                     <span className="text-zinc-500">Package Breakdown:</span>
-                    <span className="font-semibold text-[#0064D0]">{bottleQty} × 19L ({frequency}, {customerSegment})</span>
+                    <span className="font-semibold text-primary">{bottleQty} × 19L ({frequency}, {customerSegment})</span>
                   </div>
                   <div className="flex justify-between border-b border-zinc-200/60 dark:border-slate-800 pb-2">
                     <span className="text-zinc-500">Payment Method:</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">{orderSuccess.paymentMethod}</span>
+                    <span className="font-semibold text-foreground">{orderSuccess.paymentMethod}</span>
                   </div>
                   <div className="flex justify-between border-b border-zinc-200/60 dark:border-slate-800 pb-2">
                     <span className="text-zinc-500">Payment Status:</span>
@@ -388,12 +388,12 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   {orderSuccess.transactionReference && (
                     <div className="flex justify-between border-b border-zinc-200/60 dark:border-slate-800 pb-2">
                       <span className="text-zinc-500">Transaction Ref #:</span>
-                      <code className="font-mono text-[#0064D0] font-bold">{orderSuccess.transactionReference}</code>
+                      <code className="font-mono text-primary font-bold">{orderSuccess.transactionReference}</code>
                     </div>
                   )}
                   <div className="flex justify-between items-baseline pt-1">
                     <span className="font-bold text-zinc-800 dark:text-slate-200 uppercase tracking-wider text-[11px]">Grand Total:</span>
-                    <span className="text-xl font-serif font-bold text-[#0064D0]">PKR {grandTotal.toLocaleString()}</span>
+                    <span className="text-xl font-serif font-bold text-primary">PKR {grandTotal.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -430,52 +430,52 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
 
                 {/* Section 1: Customer Info */}
                 <div className="space-y-4">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0] block">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary block">
                     1. CUSTOMER INFORMATION
                   </span>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">Full Name *</label>
+                      <label className="text-xs font-semibold text-foreground">Full Name *</label>
                       <input
                         type="text"
                         required
                         placeholder="e.g. Usama Khan"
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">Phone Number (WhatsApp) *</label>
+                      <label className="text-xs font-semibold text-foreground">Phone Number (WhatsApp) *</label>
                       <input
                         type="tel"
                         required
                         placeholder="03001234567"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">Email Address (Optional)</label>
+                      <label className="text-xs font-semibold text-foreground">Email Address (Optional)</label>
                       <input
                         type="email"
                         placeholder="name@domain.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">City *</label>
+                      <label className="text-xs font-semibold text-foreground">City *</label>
                       <select
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                       >
                         <option value="Islamabad / Rawalpindi">Islamabad / Rawalpindi</option>
                         <option value="Lahore">Lahore</option>
@@ -488,27 +488,27 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">Delivery Address *</label>
+                    <label className="text-xs font-semibold text-foreground">Delivery Address *</label>
                     <textarea
                       required
                       rows={2}
                       placeholder="Street address, house/building #, sector/area..."
                       value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                      className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
 
                 {/* Section 2: Package Configuration */}
                 <div className="space-y-4 pt-2 border-t border-zinc-200/80 dark:border-slate-800">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0] block">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary block">
                     2. PACKAGE CONFIGURATION
                   </span>
 
                   {/* Customer Segment */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">Customer Segment</label>
+                    <label className="text-xs font-semibold text-foreground">Customer Segment</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {[
                         { id: 'Student', label: 'Student (10% Off)', icon: GraduationCap },
@@ -524,8 +524,8 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                             onClick={() => setCustomerSegment(seg.id)}
                             className={`py-2 px-2 rounded-xl text-[11px] font-bold border flex flex-col items-center justify-center space-y-1 transition-all cursor-pointer ${
                               customerSegment === seg.id
-                                ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                                : 'border-zinc-200 dark:border-slate-800 text-zinc-600 dark:text-slate-300 hover:border-zinc-300 dark:hover:border-slate-700'
+                                ? 'border-primary bg-primary/10 text-primary'
+                                : 'border-border text-zinc-600 dark:text-slate-300 hover:border-zinc-300 dark:hover:border-slate-700'
                             }`}
                           >
                             <IconComponent size={14} />
@@ -540,8 +540,8 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs font-semibold">
-                        <label className="text-zinc-700 dark:text-slate-200">Bottles per Delivery</label>
-                        <span className="text-[#0064D0] font-bold">{bottleQty} × 19L</span>
+                        <label className="text-foreground">Bottles per Delivery</label>
+                        <span className="text-primary font-bold">{bottleQty} × 19L</span>
                       </div>
                       <input
                         type="range"
@@ -549,16 +549,16 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                         max="30"
                         value={bottleQty}
                         onChange={(e) => setBottleQty(parseInt(e.target.value))}
-                        className="w-full h-2 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
+                        className="w-full h-2 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-semibold text-zinc-700 dark:text-slate-200">Delivery Frequency</label>
+                      <label className="text-xs font-semibold text-foreground">Delivery Frequency</label>
                       <select
                         value={frequency}
                         onChange={(e) => setFrequency(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                        className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                       >
                         <option value="Weekly">Weekly Refills (4x / month)</option>
                         <option value="Bi-Weekly">Bi-Weekly Refills (2x / month)</option>
@@ -571,7 +571,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
 
                 {/* Section 3: Payment Method Selection */}
                 <div className="space-y-4 pt-2 border-t border-zinc-200/80 dark:border-slate-800">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0] block">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary block">
                     3. PAYMENT METHOD SELECTION
                   </span>
 
@@ -582,13 +582,13 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                       onClick={() => setPaymentMethod('Cash on Delivery')}
                       className={`p-3.5 rounded-2xl border text-left flex flex-col justify-between space-y-2 transition-all cursor-pointer ${
                         paymentMethod === 'Cash on Delivery'
-                          ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0] shadow-sm'
-                          : 'border-zinc-200 dark:border-slate-800 hover:border-zinc-300 dark:hover:border-slate-700 text-zinc-700 dark:text-slate-300'
+                          ? 'border-primary bg-primary/10 text-primary shadow-sm'
+                          : 'border-border hover:border-zinc-300 dark:hover:border-slate-700 text-zinc-700 dark:text-slate-300'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <Banknote className="w-5 h-5 text-emerald-500" />
-                        {paymentMethod === 'Cash on Delivery' && <CheckCircle2 className="w-4 h-4 text-[#0064D0]" />}
+                        {paymentMethod === 'Cash on Delivery' && <CheckCircle2 className="w-4 h-4 text-primary" />}
                       </div>
                       <div>
                         <h4 className="text-xs font-bold">Cash on Delivery</h4>
@@ -602,13 +602,13 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                       onClick={() => setPaymentMethod('Bank Transfer')}
                       className={`p-3.5 rounded-2xl border text-left flex flex-col justify-between space-y-2 transition-all cursor-pointer ${
                         paymentMethod === 'Bank Transfer'
-                          ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0] shadow-sm'
-                          : 'border-zinc-200 dark:border-slate-800 hover:border-zinc-300 dark:hover:border-slate-700 text-zinc-700 dark:text-slate-300'
+                          ? 'border-primary bg-primary/10 text-primary shadow-sm'
+                          : 'border-border hover:border-zinc-300 dark:hover:border-slate-700 text-zinc-700 dark:text-slate-300'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <Building2 className="w-5 h-5 text-sky-500" />
-                        {paymentMethod === 'Bank Transfer' && <CheckCircle2 className="w-4 h-4 text-[#0064D0]" />}
+                        {paymentMethod === 'Bank Transfer' && <CheckCircle2 className="w-4 h-4 text-primary" />}
                       </div>
                       <div>
                         <h4 className="text-xs font-bold">Bank Transfer</h4>
@@ -622,13 +622,13 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                       onClick={() => setPaymentMethod('Credit/Debit Card')}
                       className={`p-3.5 rounded-2xl border text-left flex flex-col justify-between space-y-2 transition-all cursor-pointer ${
                         paymentMethod === 'Credit/Debit Card'
-                          ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0] shadow-sm'
-                          : 'border-zinc-200 dark:border-slate-800 hover:border-zinc-300 dark:hover:border-slate-700 text-zinc-700 dark:text-slate-300'
+                          ? 'border-primary bg-primary/10 text-primary shadow-sm'
+                          : 'border-border hover:border-zinc-300 dark:hover:border-slate-700 text-zinc-700 dark:text-slate-300'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <CreditCard className="w-5 h-5 text-purple-500" />
-                        {paymentMethod === 'Credit/Debit Card' && <CheckCircle2 className="w-4 h-4 text-[#0064D0]" />}
+                        {paymentMethod === 'Credit/Debit Card' && <CheckCircle2 className="w-4 h-4 text-primary" />}
                       </div>
                       <div>
                         <h4 className="text-xs font-bold">Credit/Debit Card</h4>
@@ -652,19 +652,19 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-700 dark:text-slate-200">
                         <div>
                           <span className="text-slate-400 block text-[10px]">Bank Name:</span>
-                          <strong className="text-slate-900 dark:text-white">Meezan Bank Limited</strong>
+                          <strong className="text-foreground">Meezan Bank Limited</strong>
                         </div>
                         <div>
                           <span className="text-slate-400 block text-[10px]">Account Title:</span>
-                          <strong className="text-slate-900 dark:text-white">Watlys Mineral Water (Pvt) Ltd</strong>
+                          <strong className="text-foreground">Watlys Mineral Water (Pvt) Ltd</strong>
                         </div>
                         <div>
                           <span className="text-slate-400 block text-[10px]">Account Number:</span>
-                          <code className="text-[#0064D0] font-bold">0284-0105829104</code>
+                          <code className="text-primary font-bold">0284-0105829104</code>
                         </div>
                         <div>
                           <span className="text-slate-400 block text-[10px]">IBAN:</span>
-                          <code className="text-[#0064D0] font-bold">PK89MEZN0002840105829104</code>
+                          <code className="text-primary font-bold">PK89MEZN0002840105829104</code>
                         </div>
                       </div>
 
@@ -678,7 +678,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                           placeholder="e.g. TRX-9840128 or HBL Deposit Ref"
                           value={transactionReference}
                           onChange={(e) => setTransactionReference(e.target.value)}
-                          className="w-full px-3.5 py-2.5 bg-white dark:bg-[#0b1329] border border-sky-300 dark:border-sky-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                          className="w-full px-3.5 py-2.5 bg-white dark:bg-background border border-sky-300 dark:border-sky-800 rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                         />
                         <p className="text-[10px] text-slate-500">Enter your bank transfer receipt / reference ID for quick verification.</p>
                       </div>
@@ -707,7 +707,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                             placeholder="4111 2222 3333 4444"
                             value={cardNumber}
                             onChange={(e) => setCardNumber(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-white dark:bg-[#0b1329] border border-purple-200 dark:border-purple-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2.5 bg-white dark:bg-background border border-purple-200 dark:border-purple-800 rounded-xl text-xs text-foreground focus:outline-none focus:border-purple-600"
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
@@ -720,7 +720,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                               placeholder="12/28"
                               value={cardExpiry}
                               onChange={(e) => setCardExpiry(e.target.value)}
-                              className="w-full px-3.5 py-2.5 bg-white dark:bg-[#0b1329] border border-purple-200 dark:border-purple-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-purple-600"
+                              className="w-full px-3.5 py-2.5 bg-white dark:bg-background border border-purple-200 dark:border-purple-800 rounded-xl text-xs text-foreground focus:outline-none focus:border-purple-600"
                             />
                           </div>
                           <div className="space-y-1">
@@ -732,7 +732,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                               placeholder="•••"
                               value={cardCvv}
                               onChange={(e) => setCardCvv(e.target.value)}
-                              className="w-full px-3.5 py-2.5 bg-white dark:bg-[#0b1329] border border-purple-200 dark:border-purple-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-purple-600"
+                              className="w-full px-3.5 py-2.5 bg-white dark:bg-background border border-purple-200 dark:border-purple-800 rounded-xl text-xs text-foreground focus:outline-none focus:border-purple-600"
                             />
                           </div>
                         </div>
@@ -744,7 +744,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                 {/* Section 4: Promo / Coupon Code Input */}
                 <div className="space-y-3 pt-2 border-t border-zinc-200/80 dark:border-slate-800">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
                       4. PROMO / COUPON CODE
                     </span>
                   </div>
@@ -781,12 +781,12 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                               handleApplyCoupon()
                             }
                           }}
-                          className="flex-1 px-3.5 py-2.5 bg-zinc-50 dark:bg-[#0b1329] border border-zinc-200 dark:border-slate-800 rounded-xl text-xs uppercase tracking-wider font-semibold text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                          className="flex-1 px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs uppercase tracking-wider font-semibold text-foreground focus:outline-none focus:border-primary"
                         />
                         <button
                           type="button"
                           onClick={handleApplyCoupon}
-                          className="px-5 py-2.5 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md"
+                          className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md"
                         >
                           Apply
                         </button>
@@ -801,14 +801,14 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                 </div>
 
                 {/* Section 5: Pricing Summary */}
-                <div className="p-5 bg-zinc-50 dark:bg-[#0b1329] rounded-2xl border border-zinc-200/80 dark:border-slate-800 space-y-2.5 text-xs text-zinc-600 dark:text-slate-300">
+                <div className="p-5 bg-zinc-50 dark:bg-background rounded-2xl border border-zinc-200/80 dark:border-slate-800 space-y-2.5 text-xs text-zinc-600 dark:text-slate-300">
                   <div className="flex justify-between">
                     <span>Base Bottle Price:</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">PKR {basePrice} / 19L</span>
+                    <span className="font-semibold text-foreground">PKR {basePrice} / 19L</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Total Bottles ({totalBottles} bottles):</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">PKR {subtotal.toLocaleString()}</span>
+                    <span className="font-semibold text-foreground">PKR {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
                     <span>Segment Discount ({customerSegment} - {appliedDiscountPercentage}%):</span>
@@ -822,11 +822,11 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   )}
                   <div className="flex justify-between">
                     <span>Delivery Fee ({totalDeliveries} trips):</span>
-                    <span className="font-semibold text-zinc-900 dark:text-white">PKR {deliveryFee.toLocaleString()}</span>
+                    <span className="font-semibold text-foreground">PKR {deliveryFee.toLocaleString()}</span>
                   </div>
                   <div className="pt-3 border-t border-zinc-200/80 dark:border-slate-800 flex justify-between items-baseline">
-                    <span className="font-bold uppercase tracking-wider text-zinc-900 dark:text-white text-xs">GRAND TOTAL:</span>
-                    <span className="text-2xl font-serif font-bold text-[#0064D0]">PKR {grandTotal.toLocaleString()}</span>
+                    <span className="font-bold uppercase tracking-wider text-foreground text-xs">GRAND TOTAL:</span>
+                    <span className="text-2xl font-serif font-bold text-primary">PKR {grandTotal.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -834,7 +834,7 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] disabled:opacity-60 text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-xl shadow-[#0064D0]/30 cursor-pointer"
+                  className="w-full py-4 bg-primary hover:bg-primary-hover disabled:opacity-60 text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-xl shadow-primary/30 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { use, useState, useEffect } from 'react'
 import Navbar from '@/components/navbar'
 import FooterSection from '@/components/footer-section'
 import SpecReveal, { SpecProduct } from '@/components/spec-reveal'
@@ -98,49 +98,37 @@ const MOCK_DETAIL_PRODUCTS: Record<string, ProductDetail> = {
 }
 
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const [slug, setSlug] = useState('')
-  const [product, setProduct] = useState<ProductDetail | null>(null)
-  const [related, setRelated] = useState<ProductDetail[]>([])
+  const { slug } = use(params)
+  const fallback = MOCK_DETAIL_PRODUCTS[slug] || MOCK_DETAIL_PRODUCTS['watlys-classic']
+  const [product, setProduct] = useState<ProductDetail>(fallback)
+  const [related, setRelated] = useState<ProductDetail[]>(() =>
+    Object.values(MOCK_DETAIL_PRODUCTS).filter((p) => p.slug !== slug)
+  )
   const [quantity, setQuantity] = useState(1)
   const [zoomStyle, setZoomStyle] = useState({ display: 'none', transform: 'scale(1.5)', transformOrigin: 'center' })
 
   const { addToCart } = useCart()
 
   useEffect(() => {
-    params.then((p) => setSlug(p.slug))
-  }, [params])
-
-  useEffect(() => {
-    if (!slug) return
+    let cancelled = false
     async function load() {
       try {
-        const prodData = await client.fetch<ProductDetail | null>(PRODUCT_DETAIL_QUERY, { slug })
-        const relatedData = await client.fetch<ProductDetail[]>(RELATED_PRODUCTS_QUERY, { slug })
-        if (prodData) {
-          setProduct(prodData)
-        } else {
-          setProduct(MOCK_DETAIL_PRODUCTS[slug] || MOCK_DETAIL_PRODUCTS['watlys-classic'])
-        }
-        if (relatedData && relatedData.length > 0) {
-          setRelated(relatedData)
-        } else {
-          setRelated(Object.values(MOCK_DETAIL_PRODUCTS).filter((p) => p.slug !== slug))
-        }
-      } catch (err) {
-        setProduct(MOCK_DETAIL_PRODUCTS[slug] || MOCK_DETAIL_PRODUCTS['watlys-classic'])
-        setRelated(Object.values(MOCK_DETAIL_PRODUCTS).filter((p) => p.slug !== slug))
+        const [prodData, relatedData] = await Promise.all([
+          client.fetch<ProductDetail | null>(PRODUCT_DETAIL_QUERY, { slug }),
+          client.fetch<ProductDetail[]>(RELATED_PRODUCTS_QUERY, { slug }),
+        ])
+        if (cancelled) return
+        if (prodData) setProduct(prodData)
+        if (relatedData?.length) setRelated(relatedData)
+      } catch {
+        // Keep instant mock fallback — no blank loading screen
       }
     }
     load()
+    return () => {
+      cancelled = true
+    }
   }, [slug])
-
-  if (!product) {
-    return (
-      <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-white flex items-center justify-center">
-        <span className="font-bold text-[#0064D0]">Loading premium container...</span>
-      </div>
-    )
-  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
@@ -171,14 +159,14 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   ]
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 flex-1 w-full space-y-24">
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Column: Image with zoom */}
-          <div className="lg:col-span-6 relative aspect-square bg-white dark:bg-[#131c38] rounded-2xl overflow-hidden border border-zinc-200/65 dark:border-slate-800/60 shadow-sm">
+          <div className="lg:col-span-6 relative aspect-square bg-card rounded-2xl overflow-hidden border border-zinc-200/65 dark:border-slate-800/60 shadow-sm">
             <div
               className="w-full h-full relative cursor-zoom-in"
               onMouseMove={handleMouseMove}
@@ -188,6 +176,8 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 src={product.imageUrl}
                 alt={product.title}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
                 className="object-contain p-12 transition-transform duration-200"
                 style={zoomStyle.display === 'block' ? { transform: zoomStyle.transform, transformOrigin: zoomStyle.transformOrigin } : {}}
               />
@@ -196,38 +186,38 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
           {/* Right Column: Details */}
           <div className="lg:col-span-6 flex flex-col justify-center space-y-6">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-zinc-900 dark:text-[#FAFAFA]">{product.title}</h1>
-            <div className="flex items-center space-x-2 text-sm text-[#0064D0]">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-foreground">{product.title}</h1>
+            <div className="flex items-center space-x-2 text-sm text-primary">
               <span className="flex">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={16} fill="currentColor" />
                 ))}
               </span>
-              <span className="text-zinc-500 dark:text-slate-200 font-semibold">(4.9 rating / 82 reviews)</span>
+              <span className="text-muted-foreground font-semibold">(4.9 rating / 82 reviews)</span>
             </div>
-            <p className="text-3xl font-black text-zinc-900 dark:text-[#FAFAFA]">${product.price.toFixed(2)}</p>
+            <p className="text-3xl font-black text-foreground">${product.price.toFixed(2)}</p>
             <p className="text-zinc-555 dark:text-slate-200 leading-relaxed text-base">{product.description}</p>
 
             {/* Add to Cart Actions */}
-            <div className="flex items-center space-x-4 pt-6 border-t border-zinc-200/60 dark:border-slate-800/60">
-              <div className="flex items-center border border-zinc-200 dark:border-slate-800 bg-white dark:bg-[#131c38] rounded-xl overflow-hidden shadow-sm">
+            <div className="flex items-center space-x-4 pt-6 border-t border-border">
+              <div className="flex items-center border border-border bg-card rounded-xl overflow-hidden shadow-sm">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-slate-200 font-bold"
+                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-muted-foreground font-bold"
                 >
                   -
                 </button>
-                <span className="px-4 font-bold text-sm text-zinc-800 dark:text-[#FAFAFA]">{quantity}</span>
+                <span className="px-4 font-bold text-sm text-zinc-800 dark:text-foreground">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-slate-200 font-bold"
+                  className="px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-muted-foreground font-bold"
                 >
                   +
                 </button>
               </div>
               <button
                 onClick={() => addToCart({ id: product._id, title: product.title, price: product.price, imageUrl: product.imageUrl, capacity: product.capacity }, quantity)}
-                className="flex-1 py-4 bg-[#0064D0] text-white hover:bg-[#0064D0]/85 font-bold rounded-xl flex items-center justify-center space-x-3 transition-colors duration-300 shadow-sm cursor-pointer"
+                className="flex-1 py-4 bg-primary text-primary-foreground hover:bg-primary/85 font-bold rounded-xl flex items-center justify-center space-x-3 transition-colors duration-300 shadow-sm cursor-pointer"
               >
                 <ShoppingBag size={20} />
                 <span>Add to Cart</span>
@@ -238,13 +228,13 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
         {/* Spec Reveal */}
         <div className="space-y-8">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111827] dark:text-[#FAFAFA] text-center">Technical Breakdown</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111827] dark:text-foreground text-center">Technical Breakdown</h2>
           <SpecReveal products={specProducts} />
         </div>
 
         {/* Related Products */}
         <div className="space-y-12">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-[#FAFAFA]">Related Products</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {related.map((p) => (
               <ProductCard

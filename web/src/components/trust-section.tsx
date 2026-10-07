@@ -40,18 +40,18 @@ const TESTIMONIALS = [
 
 export default function TrustSection() {
   return (
-    <section id="trust" className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] space-y-12 sm:space-y-20 transition-colors duration-300 font-sans">
+    <section id="trust" className="py-12 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto w-full border-t border-border/60 bg-background space-y-12 sm:space-y-20 transition-colors duration-300 font-sans">
 
       {/* 1. TESTIMONIALS SECTION */}
       <div className="space-y-8 sm:space-y-12 text-center">
         <div className="space-y-3 sm:space-y-4">
-          <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#0064D0]">
+          <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary">
             CLIENT TESTIMONIALS
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold tracking-wide text-zinc-900 dark:text-white leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold tracking-wide text-foreground leading-tight">
             Trusted by Homes & Businesses.
           </h2>
-          <p className="text-xs sm:text-sm text-zinc-500 dark:text-slate-200 font-light max-w-lg mx-auto">
+          <p className="text-xs sm:text-sm text-muted-foreground font-light max-w-lg mx-auto">
             See what Pakistani families, student hostels, and corporate offices say about Watlys.
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function TrustSection() {
           {TESTIMONIALS.map((item, idx) => (
             <div
               key={idx}
-              className="p-6 bg-zinc-50/80 dark:bg-[#162447]/90 border border-zinc-200/60 dark:border-slate-700/60 rounded-2xl space-y-4 flex flex-col justify-between shadow-lg shadow-black/10 hover:border-[#0064D0] transition-colors"
+              className="p-6 bg-zinc-50/80 dark:bg-card/90 border border-zinc-200/60 dark:border-slate-700/60 rounded-2xl space-y-4 flex flex-col justify-between shadow-lg shadow-black/10 hover:border-primary transition-colors"
             >
               <div className="space-y-3">
                 <div className="flex items-center space-x-1 text-amber-400">
@@ -73,11 +73,11 @@ export default function TrustSection() {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-zinc-200/40 dark:border-slate-800/60 space-y-0.5">
-                <span className="text-xs font-bold text-zinc-900 dark:text-white block">
+              <div className="pt-4 border-t border-border space-y-0.5">
+                <span className="text-xs font-bold text-foreground block">
                   {item.name}
                 </span>
-                <span className="text-[10px] text-[#0064D0] font-semibold block uppercase tracking-wider">
+                <span className="text-[10px] text-primary font-semibold block uppercase tracking-wider">
                   {item.type} • {item.location}
                 </span>
               </div>
@@ -93,7 +93,7 @@ export default function TrustSection() {
         </span>
         <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-14 opacity-40 dark:opacity-60 font-sans">
           {PARTNERS.map((partner) => (
-            <span key={partner} className="text-xs font-bold tracking-[0.2em] text-zinc-700 dark:text-slate-200">
+            <span key={partner} className="text-xs font-bold tracking-[0.2em] text-foreground">
               {partner}
             </span>
           ))}

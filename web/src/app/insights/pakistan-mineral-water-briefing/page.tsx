@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 
 export default function IndustryReportArticlePage() {
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-slate-900 dark:text-[#f8fafc] flex flex-col pt-24 font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 font-sans transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-16 py-8 sm:py-12 space-y-10">
         
         {/* Back Link */}
-        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-[#0064D0]">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
           <Link href="/#industry-briefing" className="inline-flex items-center space-x-1 hover:underline">
             <ArrowLeft size={14} />
             <span>Back to Home Briefing</span>
@@ -35,7 +35,7 @@ export default function IndustryReportArticlePage() {
         </div>
 
         {/* TOP DOWNLOAD CTA BOX */}
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#0064D0] to-sky-700 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-primary to-sky-700 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-4">
             <div className="p-3.5 bg-white/10 backdrop-blur-md rounded-2xl shrink-0">
               <FileText size={32} />
@@ -56,7 +56,7 @@ export default function IndustryReportArticlePage() {
           <a
             href="/docs/Pakistan_Mineral_Water_Newsletter.pdf"
             download="Pakistan_Mineral_Water_Newsletter.pdf"
-            className="w-full sm:w-auto px-6 py-3.5 bg-white text-[#0064D0] hover:bg-sky-50 font-bold text-xs uppercase tracking-widest rounded-2xl transition-all shadow-lg text-center shrink-0 inline-flex items-center justify-center space-x-2"
+            className="w-full sm:w-auto px-6 py-3.5 bg-white text-primary hover:bg-sky-50 font-bold text-xs uppercase tracking-widest rounded-2xl transition-all shadow-lg text-center shrink-0 inline-flex items-center justify-center space-x-2"
           >
             <Download size={16} />
             <span>Download PDF Version</span>
@@ -64,13 +64,13 @@ export default function IndustryReportArticlePage() {
         </div>
 
         {/* ARTICLE HEADER */}
-        <header className="space-y-4 border-b border-slate-200 dark:border-slate-800 pb-8">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-[#0064D0]/10 text-[#0064D0] dark:text-sky-400 text-[10px] font-bold uppercase tracking-wider">
+        <header className="space-y-4 border-b border-border pb-8">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-primary/10 text-primary dark:text-sky-400 text-[10px] font-bold uppercase tracking-wider">
             <Sparkles size={12} />
             <span>SPECIAL FEATURE ARTICLE</span>
           </div>
           
-          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-tight">
             Pakistan Water Industry Report (2026): Quality Trends, Sourcing & What You Need to Know
           </h1>
 
@@ -88,7 +88,7 @@ export default function IndustryReportArticlePage() {
           
           {/* SECTION 1 */}
           <section className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white border-l-4 border-[#0064D0] pl-4">
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-foreground border-l-4 border-primary pl-4">
               1. PCRWR Quality Audit: 29 Bottled Water Brands Flagged as Unsafe
             </h2>
             <p>
@@ -111,22 +111,22 @@ export default function IndustryReportArticlePage() {
           </section>
 
           {/* WATLYS SAFETY BOX 1 */}
-          <div className="p-6 sm:p-8 bg-sky-50 dark:bg-[#131c38] border border-sky-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-md">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#0064D0] block">
+          <div className="p-6 sm:p-8 bg-sky-50 dark:bg-card border border-sky-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-md">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-primary block">
               WATLYS BRAND TIE-IN
             </span>
-            <h3 className="text-lg font-serif font-bold text-slate-900 dark:text-white flex items-center space-x-2">
-              <ShieldCheck size={20} className="text-[#0064D0]" />
+            <h3 className="text-lg font-serif font-bold text-foreground flex items-center space-x-2">
+              <ShieldCheck size={20} className="text-primary" />
               <span>How Watlys Guarantees Safety</span>
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light">
               Watlys enforces zero-compromise purification standards. Our 19L bottles pass through a 9-stage purification cycle featuring medical-grade reverse osmosis, active carbon adsorption, twin UV-C sterilizers, and online ozone dosing. Every bottle features a tamper-evident seal and batch QR code verifying PSQCA & PCRWR compliance.
             </p>
           </div>
 
           {/* SECTION 2 */}
           <section className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white border-l-4 border-[#0064D0] pl-4">
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-foreground border-l-4 border-primary pl-4">
               2. Sourcing Disparities: Northern Springs vs. Saline Groundwater
             </h2>
             <p>
@@ -138,22 +138,22 @@ export default function IndustryReportArticlePage() {
           </section>
 
           {/* WATLYS SAFETY BOX 2 */}
-          <div className="p-6 sm:p-8 bg-sky-50 dark:bg-[#131c38] border border-sky-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-md">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#0064D0] block">
+          <div className="p-6 sm:p-8 bg-sky-50 dark:bg-card border border-sky-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-md">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-primary block">
               WATLYS BRAND TIE-IN
             </span>
-            <h3 className="text-lg font-serif font-bold text-slate-900 dark:text-white flex items-center space-x-2">
-              <Droplet size={20} className="text-[#0064D0]" />
+            <h3 className="text-lg font-serif font-bold text-foreground flex items-center space-x-2">
+              <Droplet size={20} className="text-primary" />
               <span>How Watlys Guarantees Optimal Sourcing</span>
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light">
               Watlys selects subterranean aquifer sources rich in natural electrolytes (Calcium, Magnesium, and Bicarbonates) while removing unwanted total dissolved solids. The result is pure, refreshing water calibrated precisely to 180 mg/L TDS for optimal cellular hydration.
             </p>
           </div>
 
           {/* SECTION 3 */}
           <section className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white border-l-4 border-[#0064D0] pl-4">
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-foreground border-l-4 border-primary pl-4">
               3. Consumer Myth Buster: TDS Pens Do Not Measure Bacterial Safety
             </h2>
             <p>
@@ -172,23 +172,23 @@ export default function IndustryReportArticlePage() {
         </article>
 
         {/* EMBEDDED PDF PREVIEW / CONTAINER */}
-        <div className="bg-white dark:bg-[#131c38] p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+        <div className="bg-card p-6 sm:p-8 rounded-3xl border border-border shadow-xl space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-serif font-bold text-slate-900 dark:text-white">
+            <h3 className="text-lg font-serif font-bold text-foreground">
               Embedded PDF Document
             </h3>
             <a
               href="/docs/Pakistan_Mineral_Water_Newsletter.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold text-[#0064D0] hover:underline inline-flex items-center space-x-1"
+              className="text-xs font-bold text-primary hover:underline inline-flex items-center space-x-1"
             >
               <span>Open in new tab</span>
               <ExternalLink size={12} />
             </a>
           </div>
 
-          <div className="w-full h-[500px] bg-slate-100 dark:bg-[#0a1128] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <div className="w-full h-[500px] bg-slate-100 dark:bg-background rounded-2xl overflow-hidden border border-border">
             <iframe
               src="/docs/Pakistan_Mineral_Water_Newsletter.pdf#toolbar=1"
               title="Pakistan Water Newsletter PDF"
@@ -200,7 +200,7 @@ export default function IndustryReportArticlePage() {
         {/* BOTTOM DOWNLOAD CTA BOX */}
         <div className="p-8 sm:p-12 rounded-3xl bg-slate-900 text-white shadow-2xl text-center space-y-6">
           <div className="max-w-xl mx-auto space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#0064D0]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
               DOWNLOAD FULL REPORT
             </span>
             <h3 className="text-2xl sm:text-3xl font-serif font-bold">
@@ -214,7 +214,7 @@ export default function IndustryReportArticlePage() {
           <a
             href="/docs/Pakistan_Mineral_Water_Newsletter.pdf"
             download="Pakistan_Mineral_Water_Newsletter.pdf"
-            className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white font-bold text-xs uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-[#0064D0]/30 hover:scale-105"
+            className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-xs uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-primary/30 hover:scale-105"
           >
             <Download size={18} />
             <span>📄 Download Full Industry Report (PDF)</span>

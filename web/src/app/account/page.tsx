@@ -349,27 +349,27 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300 font-sans">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-8 sm:py-12 flex-1 w-full space-y-8 overflow-x-hidden">
         
         {/* Header Profile Banner */}
-        <div className="bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="bg-card border border-border p-5 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className={`flex items-center space-x-4 ${isRtl ? 'space-x-reverse' : ''}`}>
-            <div className="w-14 h-14 bg-[#0064D0] text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg shadow-[#0064D0]/30 shrink-0">
+            <div className="w-14 h-14 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg shadow-primary/30 shrink-0">
               {currentUser.fullName.charAt(0)}
             </div>
             <div>
-              <div className={`flex items-center space-x-2 ${isRtl ? 'space-x-reverse' : ''}`}>
-                <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white">
+              <div className={`flex items-center space-x-2 flex-wrap ${isRtl ? 'space-x-reverse' : ''}`}>
+                <h1 className="text-2xl sm:text-3xl font-serif font-bold text-foreground leading-tight">
                   {currentUser.fullName}
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
                   {isRtl ? 'تصدیق شدہ ممبر' : 'Verified Member'}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mt-1">
                 {currentUser.email} • {currentUser.phone}
               </p>
             </div>
@@ -378,14 +378,14 @@ export default function AccountPage() {
           <div className={`flex items-center space-x-3 ${isRtl ? 'space-x-reverse' : ''} w-full md:w-auto`}>
             <Link
               href="/order"
-              className={`flex-1 md:flex-none px-5 py-2.5 bg-[#0064D0] hover:bg-[#0052ad] text-white text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center space-x-2 ${isRtl ? 'space-x-reverse' : ''} transition-all shadow-md`}
+              className={`w-full sm:w-auto flex-1 md:flex-none px-5 py-2.5 bg-primary hover:bg-primary-hover text-primary-foreground text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center space-x-2 ${isRtl ? 'space-x-reverse' : ''} transition-all shadow-md touch-manipulation text-center`}
             >
               <Droplets size={15} />
               <span>{isRtl ? '19 لیٹر ری فل آرڈر کریں' : 'Order 19L Refill'}</span>
             </Link>
             <button
               onClick={logout}
-              className="p-2.5 text-red-500 hover:bg-red-500/10 rounded-xl border border-red-500/20 transition-colors cursor-pointer"
+              className="p-2.5 text-red-500 hover:bg-red-500/10 rounded-xl border border-red-500/20 transition-colors cursor-pointer touch-manipulation shrink-0"
               title={t.account?.logout || (isRtl ? 'لاگ آؤٹ' : 'Sign Out')}
             >
               <LogOut size={18} />
@@ -393,8 +393,8 @@ export default function AccountPage() {
           </div>
         </div>
 
-        {/* Dashboard Navigation Tabs */}
-        <div className="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto gap-2 pb-1">
+        {/* Dashboard Navigation Tabs — horizontally scrollable on mobile */}
+        <div className="flex overflow-x-auto no-scrollbar w-full p-1 sm:p-1.5 gap-2 border-b border-border">
           {[
             { id: 'overview', label: t.account?.overviewTab || (isRtl ? 'خلاصہ (اوور ویو)' : 'Overview & Schedule'), icon: Package },
             { id: 'orders', label: `${t.account?.ordersTab || (isRtl ? 'سابقہ آرڈرز' : 'Order History')} (${orders.length})`, icon: ShoppingBag },
@@ -407,9 +407,9 @@ export default function AccountPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center space-x-2 ${isRtl ? 'space-x-reverse' : ''} px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-t-xl transition-all whitespace-nowrap cursor-pointer ${
+                className={`flex items-center space-x-2 ${isRtl ? 'space-x-reverse' : ''} px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-t-xl transition-all whitespace-nowrap cursor-pointer touch-manipulation shrink-0 ${
                   isActive
-                    ? 'bg-white dark:bg-[#131c38] text-[#0064D0] border-t-2 border-[#0064D0] shadow-sm'
+                    ? 'bg-card text-primary border-t-2 border-primary shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50'
                 }`}
               >
@@ -425,18 +425,18 @@ export default function AccountPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             {/* Active Subscription Delivery Card */}
-            <div className="lg:col-span-8 bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-sm">
+            <div className="lg:col-span-8 bg-card border border-border p-6 sm:p-8 rounded-3xl space-y-6 shadow-sm">
               
               {/* Latest Live Sanity Order Banner if present */}
               {latestOrder && (
-                <div className="p-4 bg-[#0064D0]/10 border border-[#0064D0]/30 rounded-2xl flex flex-wrap justify-between items-center gap-3">
+                <div className="p-4 bg-primary/10 border border-primary/30 rounded-2xl flex flex-wrap justify-between items-center gap-3">
                   <div className="flex items-center space-x-3">
-                    <Truck className="w-5 h-5 text-[#0064D0]" />
+                    <Truck className="w-5 h-5 text-primary" />
                     <div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#0064D0] block">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary block">
                         LATEST RECENT ORDER ({latestOrder.orderNumber})
                       </span>
-                      <p className="text-xs font-bold text-slate-900 dark:text-white">
+                      <p className="text-xs font-bold text-foreground">
                         {latestOrder.packageDetails?.bottleQty || 10} × 19L Bottles • {latestOrder.packageDetails?.customerSegment || 'Family'}
                       </p>
                     </div>
@@ -447,12 +447,12 @@ export default function AccountPage() {
                 </div>
               )}
 
-              <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-4">
+              <div className="flex justify-between items-center border-b border-border pb-4">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#0064D0]">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                     CURRENT HYDRATION PLAN
                   </span>
-                  <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-xl font-serif font-bold text-foreground">
                     {sub.packageType}
                   </h3>
                 </div>
@@ -468,7 +468,7 @@ export default function AccountPage() {
               </div>
 
               {toggleNotice && (
-                <div className="p-3.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl text-xs text-[#0064D0] font-semibold flex items-center space-x-2">
+                <div className="p-3.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl text-xs text-primary font-semibold flex items-center space-x-2">
                   <CheckCircle2 size={16} className="shrink-0" />
                   <span>{toggleNotice}</span>
                 </div>
@@ -477,14 +477,14 @@ export default function AccountPage() {
               {sub.status !== 'active' && (
                 <div className="p-4 bg-sky-50 dark:bg-blue-950/50 border border-sky-200 dark:border-blue-800 rounded-2xl flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#0066FF] text-white font-black text-base flex items-center justify-center shadow-md shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground font-black text-base flex items-center justify-center shadow-md shrink-0">
                       {currentUser.activeSubscription?.pendingRolloverBottles || sub.bottleQty}
                     </div>
                     <div>
-                      <span className="text-xs font-extrabold uppercase tracking-wider text-[#0066FF] dark:text-sky-300 block">
+                      <span className="text-xs font-extrabold uppercase tracking-wider text-primary dark:text-sky-300 block">
                         SAVED ROLLOVER BOTTLE QUOTA
                       </span>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">
                         {currentUser.activeSubscription?.pendingRolloverBottles || sub.bottleQty} bottles will automatically roll over and add to your next active cycle upon resumption.
                       </p>
                     </div>
@@ -495,14 +495,14 @@ export default function AccountPage() {
                 </div>
               )}
 
-              {/* Delivery Schedule Highlights */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-[#0a1128] rounded-2xl space-y-1 border border-slate-100 dark:border-slate-800">
+              {/* Delivery Schedule Highlights — responsive metric cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                <div className="p-4 bg-slate-50 dark:bg-background rounded-2xl space-y-1 border border-border">
                   <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold">
-                    <Calendar size={14} className="text-[#0064D0]" />
+                    <Calendar size={14} className="text-primary" />
                     <span>Next Estimated Delivery</span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white pt-1">
+                  <p className="text-sm sm:text-base font-bold text-foreground pt-1">
                     {getFormattedNextDelivery()}
                   </p>
                   <span className={`text-[10px] font-medium ${sub.status === 'active' ? 'text-emerald-600' : 'text-amber-600'}`}>
@@ -510,23 +510,23 @@ export default function AccountPage() {
                   </span>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-[#0a1128] rounded-2xl space-y-1 border border-slate-100 dark:border-slate-800">
+                <div className="p-4 bg-slate-50 dark:bg-background rounded-2xl space-y-1 border border-border">
                   <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold">
-                    <Droplets size={14} className="text-[#0064D0]" />
+                    <Droplets size={14} className="text-primary" />
                     <span>Bottle Allocation</span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white pt-1">
+                  <p className="text-sm sm:text-base font-bold text-foreground pt-1">
                     {sub.bottleQty} × 19L Bottles
                   </p>
                   <span className="text-[10px] text-slate-400 font-medium">Refilled {sub.frequency}</span>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-[#0a1128] rounded-2xl space-y-1 border border-slate-100 dark:border-slate-800">
+                <div className="p-4 bg-slate-50 dark:bg-background rounded-2xl space-y-1 border border-border sm:col-span-2 lg:col-span-1">
                   <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold">
-                    <MapPin size={14} className="text-[#0064D0]" />
+                    <MapPin size={14} className="text-primary" />
                     <span>Primary Location</span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white pt-1 truncate">
+                  <p className="text-sm sm:text-base font-bold text-foreground pt-1 truncate">
                     {currentUser.addressList?.[0]?.city || 'Lahore'}, Pakistan
                   </p>
                   <span className="text-[10px] text-slate-400 font-medium">Doorstep delivery</span>
@@ -534,12 +534,12 @@ export default function AccountPage() {
               </div>
 
               {/* Quick Actions */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between border-t border-slate-100 dark:border-slate-800">
-                <div className="space-y-1">
+              <div className="pt-2 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between border-t border-border">
+                <div className="space-y-1 w-full sm:w-auto">
                   <button
                     onClick={handleToggleSubscription}
                     disabled={isToggling}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-all cursor-pointer disabled:opacity-60 ${
+                    className={`w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-60 touch-manipulation text-center ${
                       sub.status === 'active'
                         ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border border-amber-500/30'
                         : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md'
@@ -569,7 +569,7 @@ export default function AccountPage() {
 
                 <button
                   onClick={() => setActiveTab('subscription')}
-                  className="text-xs text-[#0064D0] font-bold hover:underline flex items-center space-x-1 cursor-pointer"
+                  className="text-xs text-primary font-bold hover:underline flex items-center space-x-1 cursor-pointer"
                 >
                   <span>Customize Plan & Quantity</span>
                   <ChevronRight size={14} />
@@ -579,27 +579,27 @@ export default function AccountPage() {
 
             {/* Account Quick Stats Sidebar */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 rounded-3xl space-y-4 shadow-sm">
+              <div className="bg-card border border-border p-6 rounded-3xl space-y-4 shadow-sm">
                 <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Account Summary</h4>
                 <div className="space-y-3 text-xs">
-                  <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex justify-between py-2 border-b border-border">
                     <span className="text-slate-500">Total Sanity Orders</span>
-                    <span className="font-bold text-slate-900 dark:text-white">{orders.length} Order(s)</span>
+                    <span className="font-bold text-foreground">{orders.length} Order(s)</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex justify-between py-2 border-b border-border">
                     <span className="text-slate-500">Delivery Frequency</span>
-                    <span className="font-bold text-[#0064D0] capitalize">{sub.frequency}</span>
+                    <span className="font-bold text-primary capitalize">{sub.frequency}</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex justify-between py-2 border-b border-border">
                     <span className="text-slate-500">Saved Addresses</span>
-                    <span className="font-bold text-slate-900 dark:text-white">
+                    <span className="font-bold text-foreground">
                       {currentUser.addressList?.length || 1} Address(es)
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-[#0064D0] to-sky-700 text-white p-6 rounded-3xl space-y-3 shadow-lg">
+              <div className="bg-gradient-to-br from-primary to-sky-700 text-white p-6 rounded-3xl space-y-3 shadow-lg">
                 <Shield size={24} className="text-sky-200" />
                 <h4 className="font-serif font-bold text-lg">Pure Mineral Assurance</h4>
                 <p className="text-xs text-sky-100 leading-relaxed">
@@ -616,7 +616,7 @@ export default function AccountPage() {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-2">
-                <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white">
+                <h3 className="text-xl font-serif font-bold text-foreground">
                   Live Sanity Orders History
                 </h3>
                 <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] font-bold border border-emerald-500/20">
@@ -631,16 +631,16 @@ export default function AccountPage() {
 
             {loadingOrders ? (
               <div className="p-12 text-center text-xs text-slate-400 flex flex-col items-center space-y-3">
-                <RefreshCw className="w-6 h-6 animate-spin text-[#0064D0]" />
+                <RefreshCw className="w-6 h-6 animate-spin text-primary" />
                 <span>Fetching live order records from Sanity Studio...</span>
               </div>
             ) : orders.length === 0 ? (
-              <div className="bg-white dark:bg-[#131c38] border border-dashed border-slate-200 dark:border-slate-800 p-12 rounded-3xl text-center space-y-4">
+              <div className="bg-card border border-dashed border-border p-12 rounded-3xl text-center space-y-4">
                 <ShoppingBag size={36} className="mx-auto text-slate-300" />
                 <p className="text-sm text-slate-500">No live 19L bottle orders found for your account.</p>
                 <Link
                   href="/order"
-                  className="inline-block px-6 py-2.5 bg-[#0064D0] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:bg-[#0052ad] transition-all"
+                  className="inline-flex w-full sm:w-auto items-center justify-center px-6 py-2.5 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:bg-primary-hover transition-all touch-manipulation text-center"
                 >
                   Place New 19L Order
                 </Link>
@@ -659,14 +659,14 @@ export default function AccountPage() {
                       key={order._id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 rounded-2xl space-y-4 shadow-sm hover:shadow-md transition-shadow"
+                      className="bg-card border border-border p-6 rounded-2xl space-y-4 shadow-sm hover:shadow-md transition-shadow"
                     >
-                      <div className="flex flex-wrap justify-between items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+                      <div className="flex flex-wrap justify-between items-center gap-3 border-b border-border pb-4">
                         <div>
                           <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-widest">
                             Order Number
                           </span>
-                          <span className="text-base font-serif font-bold text-[#0064D0]">
+                          <span className="text-base font-serif font-bold text-primary">
                             {order.orderNumber}
                           </span>
                         </div>
@@ -674,7 +674,7 @@ export default function AccountPage() {
                           <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-widest">
                             Placed On
                           </span>
-                          <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                          <span className="text-xs font-semibold text-muted-foreground">
                             {new Date(order._createdAt).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'short',
@@ -728,11 +728,11 @@ export default function AccountPage() {
 
                         <div className="space-y-1">
                           <span className="text-slate-400 font-semibold block text-[11px]">Package Specs:</span>
-                          <p className="font-semibold text-[#0064D0]">{bottleCount} × 19L Bottles</p>
-                          <p className="text-slate-600 dark:text-slate-300 text-[11px]">
+                          <p className="font-semibold text-primary">{bottleCount} × 19L Bottles</p>
+                          <p className="text-muted-foreground text-[11px]">
                             Frequency: <strong>{freq}</strong>
                           </p>
-                          <p className="text-slate-600 dark:text-slate-300 text-[11px]">
+                          <p className="text-muted-foreground text-[11px]">
                             Segment: <strong>{segment}</strong>
                           </p>
                         </div>
@@ -776,19 +776,19 @@ export default function AccountPage() {
                       </div>
 
                       {order.transactionReference && (
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400 pt-2 flex items-center space-x-1.5 border-t border-slate-100 dark:border-slate-800">
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 pt-2 flex items-center space-x-1.5 border-t border-border">
                           <span className="font-semibold text-slate-400">Transaction Reference ID:</span>
-                          <code className="font-mono text-[#0064D0] font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                          <code className="font-mono text-primary font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
                             {order.transactionReference}
                           </code>
                         </div>
                       )}
 
-                      <div className="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800 font-bold text-sm">
+                      <div className="flex justify-between items-center pt-3 border-t border-border font-bold text-sm">
                         <span className="text-xs uppercase tracking-wider text-slate-700 dark:text-slate-200">
                           Grand Total Amount:
                         </span>
-                        <span className="text-xl font-serif text-[#0064D0]">
+                        <span className="text-xl font-serif text-primary">
                           PKR {grandTotal.toLocaleString()}
                         </span>
                       </div>
@@ -802,10 +802,10 @@ export default function AccountPage() {
 
         {/* TAB 3: SUBSCRIPTION CONTROLS */}
         {activeTab === 'subscription' && (
-          <div className="bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 sm:p-10 rounded-3xl space-y-8 shadow-sm">
+          <div className="bg-card border border-border p-6 sm:p-10 rounded-3xl space-y-8 shadow-sm">
             <div className="space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#0064D0]">RECURRING SETTINGS</span>
-              <h3 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-primary">RECURRING SETTINGS</span>
+              <h3 className="text-2xl font-serif font-bold text-foreground">
                 Subscription & Delivery Controls
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-300">
@@ -814,10 +814,10 @@ export default function AccountPage() {
             </div>
 
             {/* Pause / Resume Panel */}
-            <div className="p-6 bg-slate-50 dark:bg-[#0a1128] rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-slate-200/60 dark:border-slate-800">
+            <div className="p-6 bg-slate-50 dark:bg-background rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-slate-200/60 dark:border-slate-800">
               <div className="space-y-1">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Subscription Status</span>
-                <span className="text-lg font-bold text-slate-900 dark:text-white">
+                <span className="text-lg font-bold text-foreground">
                   {sub.status === 'active' ? 'Deliveries are ACTIVE' : 'Deliveries are PAUSED'}
                 </span>
                 <p className="text-xs text-slate-500">
@@ -833,7 +833,7 @@ export default function AccountPage() {
               <button
                 onClick={handleToggleSubscription}
                 disabled={isToggling}
-                className={`px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center space-x-2 disabled:opacity-60 ${
+                className={`w-full sm:w-auto px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-2 disabled:opacity-60 touch-manipulation text-center ${
                   sub.status === 'active'
                     ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-md'
                     : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md'
@@ -874,8 +874,8 @@ export default function AccountPage() {
                     onClick={() => handleUpdateSubscriptionConfig({ frequency: f.id as any })}
                     className={`py-3 px-4 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                       sub.frequency === f.id
-                        ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-border text-slate-500 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     {f.label}
@@ -888,12 +888,12 @@ export default function AccountPage() {
             <div className="space-y-3">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex justify-between">
                 <span>19L Bottles Per Delivery</span>
-                <span className="text-[#0064D0] text-sm font-bold">{sub.bottleQty} Bottles</span>
+                <span className="text-primary text-sm font-bold">{sub.bottleQty} Bottles</span>
               </label>
               <div className="flex items-center space-x-4">
                 <button
                   onClick={() => handleUpdateSubscriptionConfig({ bottleQty: Math.max(1, sub.bottleQty - 1) })}
-                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors cursor-pointer"
+                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-foreground rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   -
                 </button>
@@ -903,11 +903,11 @@ export default function AccountPage() {
                   max="20"
                   value={sub.bottleQty}
                   onChange={(e) => handleUpdateSubscriptionConfig({ bottleQty: parseInt(e.target.value) })}
-                  className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
+                  className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary"
                 />
                 <button
                   onClick={() => handleUpdateSubscriptionConfig({ bottleQty: sub.bottleQty + 1 })}
-                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors cursor-pointer"
+                  className="w-10 h-10 bg-slate-100 dark:bg-slate-800 text-foreground rounded-xl font-bold text-lg hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -919,13 +919,13 @@ export default function AccountPage() {
         {/* TAB 4: SAVED ADDRESSES */}
         {activeTab === 'addresses' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white">
+            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+              <h3 className="text-xl font-serif font-bold text-foreground">
                 Saved Delivery Addresses
               </h3>
               <button
                 onClick={() => setShowAddressForm(true)}
-                className="px-4 py-2 bg-[#0064D0] text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center space-x-1 cursor-pointer"
+                className="w-full sm:w-auto px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-1 cursor-pointer touch-manipulation text-center"
               >
                 <Plus size={14} />
                 <span>Add Address</span>
@@ -937,10 +937,10 @@ export default function AccountPage() {
               {currentUser.addressList?.map((addr, idx) => (
                 <div
                   key={idx}
-                  className="bg-white dark:bg-[#131c38] border border-slate-200/80 dark:border-slate-800 p-6 rounded-2xl space-y-3 relative shadow-sm"
+                  className="bg-card border border-border p-6 rounded-2xl space-y-3 relative shadow-sm"
                 >
                   <div className="flex justify-between items-center">
-                    <span className="px-2.5 py-0.5 rounded bg-[#0064D0]/10 text-[#0064D0] text-[10px] font-bold uppercase tracking-wider">
+                    <span className="px-2.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
                       {addr.addressLabel || 'Saved Location'}
                     </span>
                     {idx > 0 && (
@@ -965,9 +965,9 @@ export default function AccountPage() {
             {showAddressForm && (
               <form
                 onSubmit={handleAddAddressSubmit}
-                className="bg-white dark:bg-[#131c38] border border-slate-200 dark:border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl max-w-lg"
+                className="bg-card border border-border p-6 rounded-3xl space-y-4 shadow-xl max-w-lg"
               >
-                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">
                   Add New Delivery Address
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
@@ -979,7 +979,7 @@ export default function AccountPage() {
                       placeholder="Home / Office / Hostel"
                       value={newLabel}
                       onChange={(e) => setNewLabel(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs"
                     />
                   </div>
                   <div className="space-y-1">
@@ -990,7 +990,7 @@ export default function AccountPage() {
                       placeholder="Lahore"
                       value={newCity}
                       onChange={(e) => setNewCity(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs"
                     />
                   </div>
                 </div>
@@ -1002,7 +1002,7 @@ export default function AccountPage() {
                     placeholder="House/Plot #, Block, Sector, Road"
                     value={newStreet}
                     onChange={(e) => setNewStreet(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0a1128] border border-slate-200 dark:border-slate-800 rounded-xl text-xs"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-background border border-border rounded-xl text-xs"
                   />
                 </div>
                 <div className="flex justify-end space-x-2 pt-2">
@@ -1015,7 +1015,7 @@ export default function AccountPage() {
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 bg-[#0064D0] text-white rounded-xl text-xs font-bold uppercase tracking-wider"
+                    className="px-5 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-wider"
                   >
                     Save Address
                   </button>

@@ -153,7 +153,7 @@ export default function CertificationsSection() {
       onMouseMove={handleSectionMouseMove}
       onMouseEnter={() => setIsOutsideHovered(true)}
       onMouseLeave={() => setIsOutsideHovered(false)}
-      className="relative py-14 sm:py-24 w-full border-t border-slate-200/80 dark:border-slate-800/60 bg-[#FAF9F6] dark:bg-[#0b1329] transition-colors duration-300 font-sans overflow-hidden select-none"
+      className="relative py-14 sm:py-24 w-full border-t border-border/60 bg-background transition-colors duration-300 font-sans overflow-hidden select-none"
     >
       
       {/* COMPACT CURSOR-FOLLOWING LIGHT PATTERN SPOTLIGHT (ACTIVE ONLY OUTSIDE CONTENT) */}
@@ -178,7 +178,7 @@ export default function CertificationsSection() {
         
         {/* Soft Compact Light Glow Sphere at Cursor */}
         <div
-          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/15 dark:bg-[#0066FF]/25 blur-2xl pointer-events-none"
+          className="absolute w-[240px] h-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/15 dark:bg-primary/25 blur-2xl pointer-events-none"
           style={{
             left: `${cursorPos.x}px`,
             top: `${cursorPos.y}px`,
@@ -193,16 +193,12 @@ export default function CertificationsSection() {
           setIsOutsideHovered(false)
         }}
         onMouseLeave={() => setIsOutsideHovered(true)}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center mb-10 sm:mb-16"
       >
-        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-[#0066FF]">
-          CERTIFICATIONS & QUALITY CONTROL
-        </span>
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight tracking-wide">
-          Quality You Can Trust.
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light max-w-lg mx-auto leading-relaxed">
-          Every batch of Watlys 19L drinking water undergoes rigorous testing and compliance procedures. Click any pill to view detailed assay reports.
+        <span className="eyebrow">Certifications & Quality Control</span>
+        <h2 className="section-title mt-3 sm:mt-4">Quality You Can Trust.</h2>
+        <p className="section-lead mx-auto mt-3">
+          Every 19L batch is lab-tested for purity. Tap a certification to open its assay report.
         </p>
       </div>
 
@@ -220,10 +216,10 @@ export default function CertificationsSection() {
         }}
       >
         {/* Left Fade Overlay */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-r from-[#FAF9F6] dark:from-[#0b1329] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-r from-[var(--background)] dark:from-[var(--background)] to-transparent z-10 pointer-events-none" />
         
         {/* Right Fade Overlay */}
-        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-l from-[#FAF9F6] dark:from-[#0b1329] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-l from-[var(--background)] dark:from-[var(--background)] to-transparent z-10 pointer-events-none" />
 
         {/* Marquee Motion Track */}
         <motion.div
@@ -249,10 +245,10 @@ export default function CertificationsSection() {
                   setIsPaused(true)
                   setSelectedCert(cert)
                 }}
-                className="rounded-full inline-flex items-center gap-3 px-6 py-3.5 bg-white/90 dark:bg-[#131c38]/90 backdrop-blur-md border border-blue-100 dark:border-slate-800 shadow-sm hover:border-[#0066FF] dark:hover:border-[#0066FF] hover:shadow-blue-500/20 cursor-pointer transition-all shrink-0 group select-none"
+                className="rounded-full inline-flex items-center gap-3 px-6 py-3.5 bg-white/90 dark:bg-card/90 backdrop-blur-md border border-blue-100 dark:border-slate-800 shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-blue-500/20 cursor-pointer transition-all shrink-0 group select-none"
               >
                 {/* Left Icon in Ocean Blue */}
-                <div className="w-8 h-8 rounded-full bg-[#0066FF]/10 text-[#0066FF] dark:bg-[#0066FF]/20 dark:text-sky-400 flex items-center justify-center group-hover:bg-[#0066FF] group-hover:text-white transition-colors shrink-0">
+                <div className="w-8 h-8 rounded-full bg-primary/10 text-primary dark:bg-primary/20 dark:text-sky-400 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
                   <IconComponent size={17} />
                 </div>
 
@@ -262,7 +258,7 @@ export default function CertificationsSection() {
                 </span>
 
                 {/* Right Action Arrow */}
-                <div className="w-6 h-6 rounded-full flex items-center justify-center text-slate-400 dark:text-slate-500 group-hover:text-[#0066FF] dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-slate-400 dark:text-slate-500 group-hover:text-primary dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0">
                   <ArrowUpRight size={16} />
                 </div>
               </motion.div>
@@ -290,12 +286,12 @@ export default function CertificationsSection() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.92, opacity: 0, y: 15 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 w-full max-w-xl bg-white dark:bg-[#131c38] text-slate-900 dark:text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700/80 overflow-hidden"
+              className="relative z-10 w-full max-w-xl bg-card text-foreground rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700/80 overflow-hidden"
             >
               {/* Close (X) Button */}
               <button
                 onClick={() => setSelectedCert(null)}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-500 hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer border border-slate-200 dark:border-slate-700 z-20"
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-500 hover:text-white text-muted-foreground flex items-center justify-center transition-colors cursor-pointer border border-slate-200 dark:border-slate-700 z-20"
                 aria-label="Close Certification Details"
               >
                 <X size={18} />
@@ -306,35 +302,35 @@ export default function CertificationsSection() {
                 
                 {/* Header Badge & Title */}
                 <div className="space-y-3 pr-8">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-[#0066FF]/10 text-[#0066FF] dark:text-sky-400 border border-[#0066FF]/20">
-                    <Check size={12} className="text-[#0066FF] dark:text-sky-400" />
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-primary/10 text-primary dark:text-sky-400 border border-primary/20">
+                    <Check size={12} className="text-primary dark:text-sky-400" />
                     {selectedCert.status}
                   </span>
                   
                   <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-2xl bg-[#0066FF]/10 text-[#0066FF] dark:bg-[#0066FF]/20 dark:text-sky-400 shrink-0">
+                    <div className="p-3 rounded-2xl bg-primary/10 text-primary dark:bg-primary/20 dark:text-sky-400 shrink-0">
                       <selectedCert.icon size={26} />
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white tracking-wide">
+                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-foreground tracking-wide">
                       {selectedCert.name}
                     </h3>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 leading-relaxed font-sans">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-sans">
                   {selectedCert.desc}
                 </p>
 
                 {/* TDS & pH Key Parameters Grid */}
-                <div className="grid grid-cols-3 gap-3 p-3.5 rounded-2xl bg-sky-50/80 dark:bg-[#0b1329] border border-sky-100 dark:border-slate-800 text-center">
+                <div className="grid grid-cols-3 gap-3 p-3.5 rounded-2xl bg-sky-50/80 dark:bg-background border border-sky-100 dark:border-slate-800 text-center">
                   <div className="space-y-1">
                     <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider block">TDS Level</span>
-                    <span className="text-xs sm:text-sm font-extrabold text-[#0066FF] dark:text-sky-400 block">{selectedCert.tds}</span>
+                    <span className="text-xs sm:text-sm font-extrabold text-primary dark:text-sky-400 block">{selectedCert.tds}</span>
                   </div>
-                  <div className="space-y-1 border-x border-slate-200 dark:border-slate-800 px-2">
+                  <div className="space-y-1 border-x border-border px-2">
                     <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider block">pH Balance</span>
-                    <span className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white block">{selectedCert.ph}</span>
+                    <span className="text-xs sm:text-sm font-extrabold text-foreground block">{selectedCert.ph}</span>
                   </div>
                   <div className="space-y-1">
                     <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider block">Compliance</span>
@@ -343,8 +339,8 @@ export default function CertificationsSection() {
                 </div>
 
                 {/* Batch Protocols List */}
-                <div className="space-y-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#0066FF] dark:text-sky-400 flex items-center gap-1.5">
+                <div className="space-y-2.5 pt-2 border-t border-border">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-primary dark:text-sky-400 flex items-center gap-1.5">
                     <Droplet size={14} /> Batch Verification Protocols
                   </h4>
                   <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-200">
@@ -360,7 +356,7 @@ export default function CertificationsSection() {
                 </div>
 
                 {/* Technical Specifications */}
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#0b1329] border border-slate-200/80 dark:border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-background border border-border space-y-2">
                   <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
                     <Microchip size={13} /> Technical Quality Matrix
                   </h4>
@@ -368,7 +364,7 @@ export default function CertificationsSection() {
                     {selectedCert.specs.map((spec, idx) => (
                       <div key={idx} className="space-y-0.5">
                         <span className="text-[10px] text-slate-400 block">{spec.label}</span>
-                        <span className="text-xs font-bold text-slate-900 dark:text-white block">{spec.value}</span>
+                        <span className="text-xs font-bold text-foreground block">{spec.value}</span>
                       </div>
                     ))}
                   </div>

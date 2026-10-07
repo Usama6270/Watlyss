@@ -64,10 +64,11 @@ export default function Responsive3DBottleHero() {
           {/* Main 19L Bottle Asset (`public/Water19.png`) */}
           <div className="relative h-full w-full rounded-none overflow-hidden select-none pointer-events-none flex items-center justify-center">
             <Image
-              src="/Water19.png"
+              src="/Water19.webp"
               alt="Watlys Premium 19L Bottle"
               fill
               priority
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 420px"
               className="object-contain drop-shadow-[0_25px_35px_rgba(0,100,200,0.15)] dark:drop-shadow-[0_25px_35px_rgba(0,100,200,0.25)] select-none pointer-events-none"
             />
           </div>

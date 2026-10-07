@@ -32,7 +32,7 @@ export default function ProcessPage() {
       num: '04',
       title: 'Sterilized Recyclable Glass Bottling',
       desc: 'Water is enclosed directly at source under sterile nitrogen atmosphere into lead-free recyclable glass containers, locking in crisp subterranean freshness.',
-      image: '/Water19.png',
+      image: '/Water19.webp',
     },
     {
       num: '05',
@@ -43,13 +43,13 @@ export default function ProcessPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 space-y-24">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-24">
         {/* Hero Section */}
         <section className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+          <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
             <Link href="/" className="hover:underline">Home</Link>
             <span>/</span>
             <span>Process</span>
@@ -57,11 +57,11 @@ export default function ProcessPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide"
+            className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide"
           >
             The Geological Journey
           </motion.h1>
-          <p className="text-zinc-550 dark:text-slate-200 max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base font-light leading-relaxed">
             Discover the 5-stage subterranean process that transforms natural mountain rain into our award-winning mineral water collection.
           </p>
         </section>
@@ -70,26 +70,29 @@ export default function ProcessPage() {
         <section className="space-y-24">
           {steps.map((step, idx) => {
             const isEven = idx % 2 === 0
-            const isPng = step.image.endsWith('.png')
+            const isProductShot = step.image.startsWith('/')
             return (
               <div key={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className={`lg:col-span-6 relative h-[420px] sm:h-[500px] bg-gradient-to-br from-blue-50/30 via-white to-slate-50 dark:from-[#0f1a3a] dark:via-[#0a1128] dark:to-[#0a1128] rounded-3xl overflow-hidden border border-blue-100/80 dark:border-slate-800 shadow-md flex items-center justify-center p-2 ${!isEven ? 'lg:order-2' : ''}`}>
+                <div className={`lg:col-span-6 relative h-[420px] sm:h-[500px] bg-gradient-to-br from-blue-50/30 via-white to-slate-50 dark:from-[#0f1a3a] dark:via-[var(--background)] dark:to-[var(--background)] rounded-3xl overflow-hidden border border-blue-100/80 dark:border-slate-800 shadow-md flex items-center justify-center p-2 ${!isEven ? 'lg:order-2' : ''}`}>
                   <Image
                     src={step.image}
                     alt={step.title}
                     fill
-                    className={`${isPng ? 'object-contain scale-[1.42] hover:scale-[1.5]' : 'object-cover'} grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer select-none drop-shadow-xl`}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    priority={idx === 0}
+                    className={`${isProductShot ? 'object-contain scale-[1.42] hover:scale-[1.5]' : 'object-cover'} grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer select-none drop-shadow-xl`}
                   />
                 </div>
 
                 <div className="lg:col-span-6 space-y-4">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#0064D0] block">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary block">
                     STAGE {step.num}
                   </span>
-                  <h2 className="text-3xl sm:text-4xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
+                  <h2 className="text-2xl sm:text-4xl font-serif font-light text-foreground tracking-wide">
                     {step.title}
                   </h2>
-                  <p className="text-sm text-zinc-550 dark:text-slate-200 font-light leading-relaxed">
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
@@ -99,12 +102,12 @@ export default function ProcessPage() {
         </section>
 
         {/* CTA */}
-        <div className="p-12 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 rounded-2xl text-center space-y-6">
-          <h3 className="text-3xl font-serif font-light text-zinc-900 dark:text-white">Experience Uncompromised Purity</h3>
+        <div className="p-12 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
+          <h3 className="text-3xl font-serif font-light text-foreground">Experience Uncompromised Purity</h3>
           <div className="pt-2">
             <Link
               href="/shop"
-              className="px-8 py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all shadow-md"
+              className="px-8 py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all shadow-md"
             >
               <span>Explore Water Collection</span>
               <ArrowRight size={14} />

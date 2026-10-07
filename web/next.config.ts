@@ -8,8 +8,9 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 86400,
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     deviceSizes: [375, 428, 640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [64, 96, 128, 256, 384],
     remotePatterns: [
       {
         protocol: 'https',
@@ -23,6 +24,28 @@ const nextConfig: NextConfig = {
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
+  },
+  async headers() {
+    return [
+      {
+        source: '/frames/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/gazette/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/:all*(webp|avif|png|jpg|jpeg|svg|woff2|otf)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+    ];
   },
 };
 

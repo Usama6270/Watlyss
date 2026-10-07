@@ -175,27 +175,27 @@ function OrderWaterContent() {
   )
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0a1128] text-zinc-900 dark:text-[#FAFAFA] flex flex-col pt-24 transition-colors duration-300">
+    <div className="page-atmosphere min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 space-y-16">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
         {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-[#0064D0]">
+        <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
           <span>/</span>
-          <span className="text-zinc-400">Order 19L Water Plan</span>
+          <span className="text-muted-foreground">Order 19L Water Plan</span>
         </div>
 
         {/* Page Header */}
         <div className="space-y-4 text-center max-w-2xl mx-auto">
-          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-[#0064D0] bg-[#0064D0]/10 px-3.5 py-1.5 rounded-full border border-[#0064D0]/20">
-            SIMPLE 19L WATER CONFIGURATOR
+          <span className="eyebrow bg-primary-muted px-3.5 py-1.5 rounded-full border border-primary/20">
+            19L Water Configurator
           </span>
-          <h1 className="text-4xl sm:text-6xl font-serif font-light text-zinc-900 dark:text-white tracking-wide">
+          <h1 className="page-title">
             Build Your 19L Water Delivery Plan
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-550 dark:text-slate-200 font-light leading-relaxed">
-            Select your household or business requirements below and instantly dispatch your order via WhatsApp or online confirmation.
+          <p className="section-lead mx-auto">
+            Select your household or business requirements below and dispatch via WhatsApp or online confirmation.
           </p>
         </div>
 
@@ -203,11 +203,11 @@ function OrderWaterContent() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left Column: Form Controls */}
-          <div className="lg:col-span-7 space-y-8 bg-white dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm">
+          <div className="lg:col-span-7 space-y-8 surface-card p-8 sm:p-10">
             
             {/* Step 1: Customer Type */}
             <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
+              <label className="text-xs font-bold uppercase tracking-wider text-foreground block">
                 1. Select Account Type
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -220,10 +220,10 @@ function OrderWaterContent() {
                     key={item.id}
                     type="button"
                     onClick={() => setCustomerType(item.id as any)}
-                    className={`py-3 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
+                    className={`py-3 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center min-h-11 touch-manipulation ${
                       customerType === item.id
-                        ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                        ? 'border-primary bg-primary-muted text-primary'
+                        : 'border-border text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     {item.label}
@@ -234,9 +234,9 @@ function OrderWaterContent() {
 
             {/* Step 2: 19L Bottle Quantity */}
             <div className="space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200">
+              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-foreground">
                 <span>2. Monthly 19L Bottle Quantity</span>
-                <span className="text-[#0064D0] font-serif text-lg">{quantity} x 19L Bottles</span>
+                <span className="text-primary font-serif text-lg">{quantity} x 19L Bottles</span>
               </div>
               <input
                 type="range"
@@ -245,7 +245,7 @@ function OrderWaterContent() {
                 step="2"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
-                className="w-full h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#0064D0]"
+                className="w-full h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-primary"
               />
               <div className="flex justify-between text-[10px] text-zinc-400 font-semibold">
                 <span>2 Bottles (Minimal)</span>
@@ -256,7 +256,7 @@ function OrderWaterContent() {
 
             {/* Step 3: Delivery Frequency */}
             <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
+              <label className="text-xs font-bold uppercase tracking-wider text-foreground block">
                 3. Delivery Frequency
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -271,8 +271,8 @@ function OrderWaterContent() {
                     onClick={() => setFrequency(item.id as any)}
                     className={`py-3 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
                       frequency === item.id
-                        ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-border text-zinc-500 hover:text-foreground'
                     }`}
                   >
                     {item.label}
@@ -283,9 +283,9 @@ function OrderWaterContent() {
 
             {/* Step 4: Contract Duration */}
             <div className="space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200">
+              <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-foreground">
                 <span>4. Contract Duration (Months)</span>
-                <span className="text-[#0064D0] font-serif text-lg">{months} {months === 1 ? 'Month' : 'Months'}</span>
+                <span className="text-primary font-serif text-lg">{months} {months === 1 ? 'Month' : 'Months'}</span>
               </div>
               <div className="grid grid-cols-4 gap-2">
                 {[1, 3, 6, 12].map((m) => (
@@ -295,8 +295,8 @@ function OrderWaterContent() {
                     onClick={() => setMonths(m)}
                     className={`py-2.5 px-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center ${
                       months === m
-                        ? 'border-[#0064D0] bg-[#0064D0]/10 text-[#0064D0]'
-                        : 'border-zinc-200 dark:border-slate-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-border text-zinc-500 hover:text-foreground'
                     }`}
                   >
                     {m} {m === 1 ? 'Month' : 'Months'}
@@ -307,13 +307,13 @@ function OrderWaterContent() {
 
             {/* Step 5: City Selection */}
             <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-slate-200 block">
+              <label className="text-xs font-bold uppercase tracking-wider text-foreground block">
                 5. Delivery City in Pakistan
               </label>
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-[#0a1128] border border-zinc-200 dark:border-slate-800 text-xs font-semibold text-zinc-900 dark:text-white focus:outline-none focus:border-[#0064D0]"
+                className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-background border border-border text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
               >
                 {cities.map((c) => (
                   <option key={c} value={c}>{c}</option>
@@ -324,38 +324,38 @@ function OrderWaterContent() {
           </div>
 
           {/* Right Column: Order Summary & Actions */}
-          <div className="lg:col-span-5 space-y-6 bg-[#FAF9F6] dark:bg-[#131c38] border border-zinc-200/60 dark:border-slate-800/60 p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
-            <h3 className="text-2xl font-serif font-light text-zinc-900 dark:text-white">Order Summary</h3>
+          <div className="lg:col-span-5 space-y-6 bg-background dark:bg-card border border-border p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
+            <h3 className="text-2xl font-serif font-light text-foreground">Order Summary</h3>
 
-            <div className="space-y-3 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-zinc-200 dark:border-slate-800 py-6">
+            <div className="space-y-3 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-border py-6">
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Core Product:</span>
-                <span className="font-semibold text-zinc-900 dark:text-white">19L Pure Water Bottle</span>
+                <span className="font-semibold text-foreground">19L Pure Water Bottle</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Account Type:</span>
-                <span className="font-semibold text-zinc-900 dark:text-white uppercase">{customerType}</span>
+                <span className="font-semibold text-foreground uppercase">{customerType}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Bottles per Delivery:</span>
-                <span className="font-semibold text-[#0064D0]">{quantity} × 19L Bottles</span>
+                <span className="font-semibold text-primary">{quantity} × 19L Bottles</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Frequency:</span>
-                <span className="font-semibold text-zinc-900 dark:text-white capitalize">{frequency}</span>
+                <span className="font-semibold text-foreground capitalize">{frequency}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">Duration:</span>
-                <span className="font-semibold text-zinc-900 dark:text-white">{months} Months</span>
+                <span className="font-semibold text-foreground">{months} Months</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-zinc-400">City Coverage:</span>
-                <span className="font-semibold text-zinc-900 dark:text-white">{city}, Pakistan</span>
+                <span className="font-semibold text-foreground">{city}, Pakistan</span>
               </div>
 
               {/* Exact Calculator Financial Breakdown (Only for custom calculator mode) */}
               {!isCuratedPlan && (
-                <div className="pt-3 border-t border-zinc-100 dark:border-slate-800 space-y-2 text-[11px]">
+                <div className="pt-3 border-t border-border space-y-2 text-[11px]">
                   <div className="flex justify-between text-zinc-500">
                     <span>Water ({totalBottles} x 19L Bottles):</span>
                     <span>PKR {subtotal.toLocaleString()}</span>
@@ -377,14 +377,14 @@ function OrderWaterContent() {
                 {isCuratedPlan ? 'Selected Package Rate' : `Total Contract Price (${months} Mo)`}
               </span>
               <div className="flex items-baseline space-x-2">
-                <span className="text-3xl font-serif font-bold text-[#0064D0]">
+                <span className="text-3xl font-serif font-bold text-primary">
                   PKR {estimatedMonthlyCost.toLocaleString()}
                 </span>
                 <span className="text-xs text-zinc-400 font-semibold">/ Month</span>
               </div>
-              <div className="text-[11px] text-zinc-500 pt-1 font-medium flex justify-between border-t border-zinc-100 dark:border-slate-800 mt-2">
+              <div className="text-[11px] text-zinc-500 pt-1 font-medium flex justify-between border-t border-border mt-2">
                 <span>Contract Total ({months} {months === 1 ? 'Month' : 'Months'}):</span>
-                <span className="font-bold text-zinc-900 dark:text-white">PKR {estimatedTotal.toLocaleString()}</span>
+                <span className="font-bold text-foreground">PKR {estimatedTotal.toLocaleString()}</span>
               </div>
             </div>
 
@@ -403,7 +403,7 @@ function OrderWaterContent() {
               <button
                 type="button"
                 onClick={() => setIsOrderModalOpen(true)}
-                className="w-full py-4 bg-[#0064D0] hover:bg-[#0052ad] text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
+                className="w-full py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] flex items-center justify-center space-x-2 transition-all shadow-md cursor-pointer"
               >
                 <span>Confirm & Place Order</span>
                 <ArrowRight size={14} />
@@ -441,8 +441,8 @@ export default function OrderWaterPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#FAF9F6] dark:bg-[#0a1128]">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0064D0]" />
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
         </div>
       }
     >

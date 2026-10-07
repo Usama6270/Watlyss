@@ -83,7 +83,7 @@ export default function WatlysPatternHover({
         onHoverEnd={() => setIsHovered(false)}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.98 }}
-        className={`relative inline-flex items-center justify-center p-2 rounded-2xl bg-[#0a1128] border border-blue-500/30 overflow-hidden cursor-pointer shadow-2xl transition-all duration-300 group ${className}`}
+        className={`relative inline-flex items-center justify-center p-2 rounded-2xl bg-background border border-blue-500/30 overflow-hidden cursor-pointer shadow-2xl transition-all duration-300 group ${className}`}
       >
         {/* Dynamic Glowing Ambient Backlight */}
         <AnimatePresence>
@@ -110,7 +110,7 @@ export default function WatlysPatternHover({
           />
 
           {/* Clean Metallic Overlay Grid */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/30 via-transparent to-[#0a1128]/80 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/30 via-transparent to-[var(--background)]/80 pointer-events-none" />
 
           {/* Logo Mark Text / Icon or Custom Children */}
           <div className="absolute inset-0 flex items-center justify-center gap-2 px-3 py-1.5 z-20">
@@ -137,7 +137,7 @@ export default function WatlysPatternHover({
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         whileHover={{ scale: 1.04 }}
-        className={`relative inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#0a1128] border border-blue-400/30 overflow-hidden cursor-pointer shadow-lg transition-all duration-300 ${className}`}
+        className={`relative inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-background border border-blue-400/30 overflow-hidden cursor-pointer shadow-lg transition-all duration-300 ${className}`}
       >
         {/* Pulsing Ambient Backlight Glow */}
         <div
@@ -157,7 +157,7 @@ export default function WatlysPatternHover({
         />
 
         {/* Metallic Dark Overlay */}
-        <div className="absolute inset-0 bg-[#0a1128]/70 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px]" />
 
         {/* Badge Content */}
         <div className="relative z-10 flex items-center gap-2 text-xs font-semibold tracking-wider text-blue-100 uppercase">
@@ -175,7 +175,7 @@ export default function WatlysPatternHover({
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
-      className={`relative w-full rounded-2xl p-6 bg-[#0a1128] border border-blue-500/30 overflow-hidden cursor-pointer shadow-2xl transition-all duration-300 group ${className}`}
+      className={`relative w-full rounded-2xl p-6 bg-background border border-blue-500/30 overflow-hidden cursor-pointer shadow-2xl transition-all duration-300 group ${className}`}
     >
       {/* Ambient Pulsing Backlight */}
       <div
@@ -196,7 +196,7 @@ export default function WatlysPatternHover({
       />
 
       {/* Subtle Metallic Edge Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a1128]/40 via-transparent to-[#0a1128]/90 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)]/40 via-transparent to-[var(--background)]/90 pointer-events-none" />
 
       {/* Card Content Structure */}
       <div className="relative z-10 flex flex-col space-y-4">

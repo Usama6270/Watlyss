@@ -82,7 +82,7 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-[#FAF9F6] dark:bg-[#0a1128] border border-slate-200/40 dark:border-slate-800/60"
+      className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-background border border-slate-200/40 dark:border-slate-800/60"
     >
       {/* Delicate background accent */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_var(--tw-gradient-stops))] from-brand-blue/5 via-transparent to-transparent pointer-events-none" />
@@ -97,14 +97,14 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
           animate="center"
           exit="exit"
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center px-8 sm:px-20"
+          className="absolute inset-0 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center px-4 sm:px-8 lg:px-16"
         >
           {/* Banner Details (span 7) */}
           <div className={`lg:col-span-7 space-y-6 text-left relative z-10 ${isRtl ? 'text-right' : 'text-left'}`}>
             <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-brand-blue border-b border-brand-blue/30 pb-1">
               WATLYS PREMIER
             </span>
-            <h1 className="text-4xl sm:text-7xl font-serif font-light tracking-wide text-zinc-900 dark:text-white leading-[1.08] max-w-2xl">
+            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light tracking-wide text-foreground leading-[1.08] max-w-2xl">
               {currentSlide.title}
             </h1>
             <p
@@ -142,14 +142,14 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
       <div className={`absolute bottom-8 z-20 flex items-center space-x-4 ${isRtl ? 'left-8' : 'right-8'}`}>
         <button
           onClick={handlePrev}
-          className="p-3 border border-zinc-200 dark:border-slate-800 text-zinc-650 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
+          className="p-3 border border-border text-zinc-650 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
           aria-label="Previous slide"
         >
           <ArrowLeft size={16} />
         </button>
         <button
           onClick={handleNext}
-          className="p-3 border border-zinc-200 dark:border-slate-800 text-zinc-650 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
+          className="p-3 border border-border text-zinc-650 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all cursor-pointer"
           aria-label="Next slide"
         >
           <ArrowRight size={16} />

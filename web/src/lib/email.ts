@@ -84,13 +84,13 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
       <style>
         body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7fa; color: #1e293b; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .header { background: linear-gradient(135deg, #0066FF 0%, #0044B3 100%); padding: 36px 32px; text-align: center; color: #ffffff; }
+        .header { background: linear-gradient(135deg, #0A6EBD 0%, #0044B3 100%); padding: 36px 32px; text-align: center; color: #ffffff; }
         .header h1 { margin: 0 0 8px 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
         .header p { margin: 0; font-size: 14px; opacity: 0.9; }
         .logo-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
         .content { padding: 32px; }
         .card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-        .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0066FF; margin-bottom: 12px; }
+        .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0A6EBD; margin-bottom: 12px; }
         .detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
         .detail-label { color: #64748b; font-weight: 500; }
         .detail-value { color: #0f172a; font-weight: 600; text-align: right; }
@@ -98,9 +98,9 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
         .table th { text-align: left; padding: 10px 12px; background-color: #f1f5f9; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #475569; }
         .table td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
         .total-row { background-color: #eef6ff; font-weight: 700; }
-        .total-row td { border-bottom: none; font-size: 16px; color: #0066FF; }
+        .total-row td { border-bottom: none; font-size: 16px; color: #0A6EBD; }
         .btn-container { text-align: center; margin: 32px 0 20px 0; }
-        .btn { display: inline-block; background-color: #0066FF; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
+        .btn { display: inline-block; background-color: #0A6EBD; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
         .footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 24px 32px; font-size: 13px; line-height: 1.6; }
         .footer strong { color: #ffffff; }
       </style>
@@ -278,8 +278,8 @@ export async function sendAdminOrderNotification(orderData: OrderEmailData) {
       <title>New Order Alert - Watlys Fulfillments</title>
       <style>
         body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #0f172a; color: #f8fafc; padding: 20px; }
-        .card { max-width: 580px; margin: 0 auto; background-color: #1e293b; border: 2px solid #0066FF; border-radius: 12px; overflow: hidden; }
-        .banner { background-color: #0066FF; color: #ffffff; padding: 16px 20px; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card { max-width: 580px; margin: 0 auto; background-color: #1e293b; border: 2px solid #0A6EBD; border-radius: 12px; overflow: hidden; }
+        .banner { background-color: #0A6EBD; color: #ffffff; padding: 16px 20px; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
         .body { padding: 24px; }
         .row { margin-bottom: 14px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
         .row:last-child { border-bottom: none; }
@@ -389,18 +389,18 @@ export async function sendSubscriptionPauseConfirmation(pauseData: SubscriptionP
       <style>
         body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7fa; color: #1e293b; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .header { background: linear-gradient(135deg, #0066FF 0%, #0044B3 100%); padding: 36px 32px; text-align: center; color: #ffffff; }
+        .header { background: linear-gradient(135deg, #0A6EBD 0%, #0044B3 100%); padding: 36px 32px; text-align: center; color: #ffffff; }
         .header h1 { margin: 0 0 8px 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
         .header p { margin: 0; font-size: 14px; opacity: 0.9; }
         .logo-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
         .content { padding: 32px; }
         .card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-        .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0066FF; margin-bottom: 12px; }
+        .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0A6EBD; margin-bottom: 12px; }
         .rollover-box { background: linear-gradient(135deg, #eef6ff 0%, #dbeafe 100%); border: 1.5px solid #93c5fd; border-radius: 14px; padding: 22px; text-align: center; margin: 20px 0; }
-        .rollover-count { font-size: 30px; font-weight: 900; color: #0066FF; margin: 6px 0; }
-        .explanation { font-size: 13.5px; color: #1e3a8a; line-height: 1.6; background: #ffffff; padding: 14px; border-radius: 10px; border-left: 4px solid #0066FF; margin-top: 14px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .rollover-count { font-size: 30px; font-weight: 900; color: #0A6EBD; margin: 6px 0; }
+        .explanation { font-size: 13.5px; color: #1e3a8a; line-height: 1.6; background: #ffffff; padding: 14px; border-radius: 10px; border-left: 4px solid #0A6EBD; margin-top: 14px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
         .btn-container { text-align: center; margin: 32px 0 20px 0; }
-        .btn { display: inline-block; background-color: #0066FF; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 34px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
+        .btn { display: inline-block; background-color: #0A6EBD; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 34px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
         .footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 24px 32px; font-size: 13px; line-height: 1.6; }
         .footer strong { color: #ffffff; }
       </style>
@@ -445,7 +445,7 @@ export async function sendSubscriptionPauseConfirmation(pauseData: SubscriptionP
                 </tr>
                 <tr>
                   <td style="color: #64748b; padding: 6px 0;">Saved Rollover Quota:</td>
-                  <td style="text-align: right; font-weight: 700; color: #0066FF;">${pauseData.pendingRolloverBottles} Bottles</td>
+                  <td style="text-align: right; font-weight: 700; color: #0A6EBD;">${pauseData.pendingRolloverBottles} Bottles</td>
                 </tr>
               </table>
             </div>

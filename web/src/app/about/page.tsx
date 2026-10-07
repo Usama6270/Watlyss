@@ -108,7 +108,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#070e20] text-slate-900 dark:text-[#FAFAFA] flex flex-col transition-colors duration-300 overflow-x-hidden pt-20 font-sans">
+    <div className="page-atmosphere min-h-screen bg-background text-foreground flex flex-col transition-colors duration-300 overflow-x-hidden pt-20 font-sans">
       <Navbar />
 
       <main className="flex-1 w-full pb-32">
@@ -133,9 +133,10 @@ export default function AboutPage() {
             className="relative w-full h-full"
           >
             <Image
-              src="/Waterabout.jpg"
+              src="/Waterabout.webp"
               alt="Watlys Premium Water Banner"
               fill
+              sizes="100vw"
               className="object-cover object-center transition-transform duration-300"
               priority
             />
@@ -151,7 +152,7 @@ export default function AboutPage() {
           />
 
           {/* Bottom Fade Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF9F6] dark:from-[#070e20] via-transparent to-black/20 pointer-events-none z-20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/20 pointer-events-none z-20" />
         </section>
 
         {/* 2. Centered "Our Story" Section (Below Banner) */}
@@ -171,7 +172,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight"
+            className="page-title"
           >
             Our Story
           </motion.h1>
@@ -181,7 +182,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl font-semibold text-blue-600 dark:text-sky-400 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl font-serif font-medium text-primary max-w-2xl mx-auto leading-relaxed"
           >
             Reimagining the ritual of daily drinking water in Pakistan.
           </motion.p>
@@ -191,7 +192,7 @@ export default function AboutPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed text-sm md:text-base font-light"
+            className="section-lead mx-auto"
           >
             Watlys was founded with a singular commitment: delivering uncompromised, laboratory-certified 19-Liter mineral water with complete transparency and doorstep convenience.
           </motion.p>
@@ -224,7 +225,7 @@ export default function AboutPage() {
         </section>
 
         {/* 3. Detailed Sections & Visual Showcase */}
-        <div className="max-w-7xl mx-auto px-6 space-y-28 pt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-28 pt-8">
 
           {/* Section A: The Watlys Mission (3-Column Grid) */}
           <motion.section {...textFadeIn} className="space-y-12">
@@ -232,10 +233,10 @@ export default function AboutPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-3.5 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
                 THE WATLYS COMMITMENT
               </span>
-              <h2 className="text-3xl sm:text-4xl font-sans font-bold text-slate-900 dark:text-white">
+              <h2 className="text-2xl sm:text-4xl font-sans font-bold text-foreground">
                 Our Core Pillars & Mission
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
                 We combine environmental responsibility with rigorous scientific filtration to transform your daily hydration experience.
               </p>
             </div>
@@ -246,7 +247,7 @@ export default function AboutPage() {
                 return (
                   <div
                     key={idx}
-                    className="p-8 rounded-2xl bg-white dark:bg-[#0e1938] border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-300 flex flex-col justify-between group"
+                    className="p-8 rounded-2xl bg-card border border-border shadow-sm hover:shadow-xl hover:border-primary transition-all duration-300 flex flex-col justify-between group"
                   >
                     <div className="space-y-4">
                       <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-sky-300 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -255,15 +256,15 @@ export default function AboutPage() {
                       <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-sky-400 block">
                         {item.badge}
                       </span>
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                      <h3 className="text-xl font-bold text-foreground">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                      <p className="text-xs text-muted-foreground font-light leading-relaxed">
                         {item.desc}
                       </p>
                     </div>
 
-                    <div className="pt-6 border-t border-slate-100 dark:border-slate-800/60 flex items-center text-xs font-semibold text-blue-600 dark:text-sky-400">
+                    <div className="pt-6 border-t border-border/60 flex items-center text-xs font-semibold text-blue-600 dark:text-sky-400">
                       <span>Verified Standard</span>
                       <CheckCircle2 className="w-4 h-4 ml-auto text-blue-600 dark:text-sky-400" />
                     </div>
@@ -279,10 +280,10 @@ export default function AboutPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-3.5 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
                 SCIENTIFIC EXCELLENCE
               </span>
-              <h2 className="text-3xl sm:text-4xl font-sans font-bold text-slate-900 dark:text-white">
+              <h2 className="text-2xl sm:text-4xl font-sans font-bold text-foreground">
                 Our 7-Step Purification Pipeline
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
                 Every drop of Watlys 19L water passes through our state-of-the-art multi-barrier filtration process before bottling.
               </p>
             </div>
@@ -293,7 +294,7 @@ export default function AboutPage() {
                 return (
                   <div
                     key={idx}
-                    className="p-6 rounded-2xl bg-white dark:bg-[#0e1938] border border-slate-200/80 dark:border-slate-800 space-y-3 hover:border-blue-400 transition-all shadow-xs relative overflow-hidden"
+                    className="p-6 rounded-2xl bg-card border border-border space-y-3 hover:border-primary transition-all shadow-xs relative overflow-hidden"
                   >
                     <span className="absolute top-3 right-4 text-3xl font-extrabold text-blue-100 dark:text-blue-900/40 select-none">
                       {s.step}
@@ -301,7 +302,7 @@ export default function AboutPage() {
                     <div className="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
                       <StepIcon className="w-4 h-4" />
                     </div>
-                    <h4 className="font-bold text-sm text-slate-900 dark:text-white pt-1">
+                    <h4 className="font-bold text-sm text-foreground pt-1">
                       {s.title}
                     </h4>
                     <p className="text-xs text-slate-500 dark:text-slate-300 font-light leading-relaxed">
@@ -318,7 +319,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-blue-700/60">
               {impactStats.map((stat, idx) => (
                 <div key={idx} className="pt-6 md:pt-0 px-4 space-y-2">
-                  <span className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white block">
+                  <span className="text-2xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-white block">
                     {stat.value}
                   </span>
                   <h4 className="text-sm font-bold text-sky-200 uppercase tracking-wider block">
@@ -333,11 +334,11 @@ export default function AboutPage() {
           </motion.section>
 
           {/* Lab Metrics Transparency Section */}
-          <motion.section {...textFadeIn} className="bg-white dark:bg-[#0e1938] border border-slate-200/80 dark:border-slate-800 p-8 sm:p-12 rounded-3xl space-y-8 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/80 pb-6">
+          <motion.section {...textFadeIn} className="bg-card border border-border p-8 sm:p-12 rounded-3xl space-y-8 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/80 pb-6">
               <div>
                 <span className="text-[10px] font-bold text-blue-600 dark:text-sky-400 uppercase tracking-wider block">LABORATORY CERTIFICATION</span>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Chemical & Mineral Assay Results</h3>
+                <h3 className="text-2xl font-bold text-foreground">Chemical & Mineral Assay Results</h3>
               </div>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-sky-300 bg-blue-50 dark:bg-blue-950/60 px-3 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
                 <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-sky-400" />
@@ -348,7 +349,7 @@ export default function AboutPage() {
             <div className="overflow-x-auto w-full">
               <table className="w-full text-left text-xs font-light">
                 <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-800 text-[10px] uppercase tracking-wider text-slate-400 font-bold">
+                  <tr className="border-b border-border text-[10px] uppercase tracking-wider text-slate-400 font-bold">
                     <th className="py-3">Component Analyzed</th>
                     <th className="py-3">Regulatory Limit</th>
                     <th className="py-3">Watlys Assayed</th>
@@ -357,8 +358,8 @@ export default function AboutPage() {
                 </thead>
                 <tbody>
                   {labMetrics.map((row) => (
-                    <tr key={row.component} className="border-b border-slate-100 dark:border-slate-800/60 text-slate-700 dark:text-slate-200">
-                      <td className="py-3.5 font-semibold text-slate-900 dark:text-white">{row.component}</td>
+                    <tr key={row.component} className="border-b border-border/60 text-slate-700 dark:text-slate-200">
+                      <td className="py-3.5 font-semibold text-foreground">{row.component}</td>
                       <td className="py-3.5 text-slate-400">{row.limit}</td>
                       <td className="py-3.5 text-blue-600 dark:text-sky-400 font-bold">{row.value}</td>
                       <td className="py-3.5 text-right font-medium">
@@ -380,7 +381,7 @@ export default function AboutPage() {
                 <Sparkles className="w-3.5 h-3.5" /> Start Your Subscription Today
               </span>
 
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
                 Ready to Upgrade Your Daily Hydration?
               </h2>
 

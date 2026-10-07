@@ -140,12 +140,12 @@ export default function Navbar() {
         onMouseEnter={() => setIsNavHovered(true)}
         onMouseLeave={() => setIsNavHovered(false)}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
-            ? 'bg-[#FAF9F6]/95 dark:bg-[#0a1128]/95 backdrop-blur-md border-slate-200/80 dark:border-slate-800/60 shadow-sm shadow-slate-200/50'
-            : 'bg-[#FAF9F6] dark:bg-[#0a1128] border-slate-200/60 dark:border-slate-800/40'
+            ? 'bg-background/95 backdrop-blur-md border-border shadow-sm'
+            : 'bg-background border-border/60'
           }`}
       >
-        {/* DESKTOP NAVBAR CONTAINER — NON-OVERLAPPING BALANCED 3-COLUMN LAYOUT */}
-        <div className="relative w-full max-w-[1600px] mx-auto h-20 sm:h-[84px] px-4 lg:px-6 2xl:px-10 hidden xl:flex items-center justify-between">
+        {/* DESKTOP NAVBAR CONTAINER — visible from lg (1024px)+ */}
+        <div className="relative w-full max-w-[1600px] mx-auto h-20 sm:h-[84px] px-4 lg:px-6 2xl:px-10 hidden lg:flex items-center justify-between">
 
           {/* LEFT SIDE NAVIGATION */}
           <div className={`flex-1 flex items-center justify-start gap-3 lg:gap-4 2xl:gap-6 z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
@@ -157,12 +157,12 @@ export default function Navbar() {
                 onMouseLeave={() => link.type === 'dropdown' && setActiveDropdown(null)}
               >
                 {link.type === 'dropdown' ? (
-                  <button className="flex items-center space-x-1 py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
+                  <button className="flex items-center space-x-1 py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.14em] font-semibold text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
                     <span>{link.label}</span>
-                    <ChevronDown size={11} className={`text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
+                    <ChevronDown size={11} className={`text-muted-foreground/70 group-hover:text-foreground transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
                   </button>
                 ) : (
-                  <Link href={link.href || '#'} className="py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
+                  <Link href={link.href || '#'} className="py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.14em] font-semibold text-muted-foreground hover:text-foreground transition-colors duration-300 whitespace-nowrap font-sans block">
                     {link.label}
                   </Link>
                 )}
@@ -175,13 +175,13 @@ export default function Navbar() {
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute top-full left-0 mt-1 w-56 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
+                      className="absolute top-full left-0 mt-1 w-56 bg-card border border-border py-3 shadow-lg rounded-xl z-50 glass"
                     >
                       {link.items?.map((item) => (
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="block px-4 py-2 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
+                          className="block px-4 py-2 text-[11px] text-muted-foreground hover:bg-primary-muted hover:text-primary transition-colors font-medium whitespace-nowrap"
                         >
                           {item.label}
                         </Link>
@@ -197,10 +197,11 @@ export default function Navbar() {
           <div className="flex-shrink-0 px-3 lg:px-6 z-20 flex items-center justify-center pointer-events-auto">
             <Link href="/" aria-label="Watlys Homepage" className="relative block h-12 sm:h-14 lg:h-16 w-44 sm:w-48 lg:w-52 transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Watlys Pure Mineral Water"
                 fill
                 priority
+                sizes="(max-width: 640px) 176px, (max-width: 1024px) 192px, 208px"
                 className="object-contain"
               />
             </Link>
@@ -219,12 +220,12 @@ export default function Navbar() {
                   onMouseLeave={() => link.type === 'dropdown' && setActiveDropdown(null)}
                 >
                   {link.type === 'dropdown' ? (
-                    <button className="flex items-center space-x-1 py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
+                    <button className="flex items-center space-x-1 py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.14em] font-semibold text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer whitespace-nowrap font-sans">
                       <span>{link.label}</span>
-                      <ChevronDown size={11} className={`text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={11} className={`text-muted-foreground/70 group-hover:text-foreground transition-transform duration-300 ${activeDropdown === link.id ? 'rotate-180' : ''}`} />
                     </button>
                   ) : (
-                    <Link href={link.href || '#'} className="py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.12em] 2xl:tracking-[0.16em] font-semibold text-zinc-600 dark:text-slate-200 hover:text-zinc-950 dark:hover:text-white transition-colors duration-300 whitespace-nowrap font-sans block">
+                    <Link href={link.href || '#'} className="py-2 text-[10px] 2xl:text-[11px] uppercase tracking-[0.14em] font-semibold text-muted-foreground hover:text-foreground transition-colors duration-300 whitespace-nowrap font-sans block">
                       {link.label}
                     </Link>
                   )}
@@ -237,13 +238,13 @@ export default function Navbar() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute top-full right-0 mt-1 w-52 bg-white dark:bg-[#131c38] border border-zinc-200/80 dark:border-slate-800 py-3 shadow-xl rounded-xl z-50"
+                        className="absolute top-full right-0 mt-1 w-52 bg-card border border-border py-3 shadow-lg rounded-xl z-50 glass"
                       >
                         {link.items?.map((item) => (
                           <Link
                             key={item.label}
                             href={item.href}
-                            className="block px-4 py-2 text-[11px] text-zinc-600 dark:text-slate-200 hover:bg-[#0064D0]/10 hover:text-[#0064D0] dark:hover:text-[#0064D0] transition-colors font-medium whitespace-nowrap"
+                            className="block px-4 py-2 text-[11px] text-muted-foreground hover:bg-primary-muted hover:text-primary transition-colors font-medium whitespace-nowrap"
                           >
                             {item.label}
                           </Link>
@@ -255,20 +256,16 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Utility Group: Animated LanguageToggle Pill | Dark Mode | Customer | Cart */}
+            {/* Utility Group */}
             <div className={`relative z-50 flex items-center gap-2 lg:gap-2.5 2xl:gap-3 pointer-events-auto ${isRtl ? 'flex-row-reverse' : ''}`}>
-              {/* Language Selector Pill Toggle */}
               <LanguageToggle />
-
-              {/* Dark Mode Icon */}
               <ThemeToggle />
 
-              {/* Account Portal or Sign In Trigger */}
               {user ? (
                 <Link
                   href="/account"
                   aria-label="Customer Account"
-                  className="flex items-center space-x-1.5 px-2.5 lg:px-3 py-1.5 rounded-full bg-[#0064D0]/10 text-[#0064D0] hover:bg-[#0064D0] hover:text-white transition-all text-[11px] font-bold whitespace-nowrap"
+                  className="flex items-center space-x-1.5 px-2.5 lg:px-3 py-1.5 rounded-full bg-primary-muted text-primary hover:bg-primary hover:text-primary-foreground transition-all text-[11px] font-bold whitespace-nowrap"
                 >
                   <User size={14} />
                   <span className="max-w-[75px] truncate">{user.fullName.split(' ')[0]}</span>
@@ -278,7 +275,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => openAuthModal('login')}
                   aria-label="Sign In"
-                  className="p-1.5 rounded-full text-zinc-600 hover:text-zinc-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
                 >
                   <User size={16} />
                 </button>
@@ -289,18 +286,19 @@ export default function Navbar() {
 
         </div>
 
-        {/* MOBILE HEADER (< xl) — RE-ARCHITECTED NON-OVERLAPPING LAYOUT */}
-        <div className="relative w-full h-16 px-4 flex xl:hidden items-center justify-between z-50 bg-[#FAF9F6]/90 dark:bg-[#0a1128]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
+        {/* MOBILE HEADER (< lg / 1024px) — glassmorphic hamburger shell */}
+        <div className="relative w-full h-16 px-4 flex lg:hidden items-center justify-between z-50 bg-background/80 backdrop-blur-xl border-b border-border/60 shadow-sm">
 
           {/* Left Slot: Navigation Menu Trigger */}
           <div className="flex items-center z-10">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 cursor-pointer rounded-full transition-all duration-300 ${isOpen
-                ? 'bg-[#0064D0]/10 text-[#0064D0] dark:text-sky-400 rotate-90 scale-105 border border-[#0064D0]/30'
-                : 'text-zinc-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+              className={`p-2 cursor-pointer rounded-full touch-manipulation transition-all duration-300 ${isOpen
+                ? 'bg-primary/10 text-primary rotate-90 scale-105 border border-primary/30'
+                : 'text-foreground hover:bg-muted'
                 }`}
               aria-label="Toggle Navigation Menu"
+              aria-expanded={isOpen}
             >
               {isOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -310,10 +308,11 @@ export default function Navbar() {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center pointer-events-auto">
             <Link href="/" className="relative block h-12 w-44 sm:h-15 sm:w-56">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Watlys Logo"
                 fill
                 priority
+                sizes="176px"
                 className="object-contain scale-110"
               />
             </Link>
@@ -332,7 +331,7 @@ export default function Navbar() {
               <Link
                 href="/account"
                 aria-label="Customer Account"
-                className="p-1.5 rounded-full text-[#0064D0] bg-[#0064D0]/10"
+                className="p-1.5 rounded-full text-primary bg-primary/10"
               >
                 <User size={16} />
               </Link>
@@ -341,7 +340,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => openAuthModal('login')}
                 aria-label="Sign In"
-                className="p-1.5 rounded-full text-zinc-600 dark:text-slate-200"
+                className="p-1.5 rounded-full text-muted-foreground hover:text-foreground"
               >
                 <User size={16} />
               </button>
@@ -349,7 +348,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* REDESIGNED LUXURY DIMENSIONAL MOBILE DRAWER OVERLAY (SITS DIRECTLY BELOW NAVBAR) */}
+        {/* Glassmorphic mobile drawer — lg:hidden */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -357,31 +356,46 @@ export default function Navbar() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-16 left-0 right-0 bottom-0 h-[calc(100dvh-64px)] w-full z-[999] bg-[#FAF9F6] dark:bg-[#0a1128] bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6] to-sky-50/50 dark:from-[#0a1128] dark:via-[#0e1738] dark:to-[#080d20] flex flex-col justify-between p-5 sm:p-8 xl:hidden overflow-y-auto font-sans shadow-2xl"
+              className="fixed top-16 left-0 right-0 bottom-0 h-[calc(100dvh-64px)] w-full z-[999] lg:hidden overflow-y-auto overflow-x-hidden font-sans
+                bg-background/92 backdrop-blur-2xl
+                border-t border-border shadow-xl
+                flex flex-col justify-between p-5 sm:p-8"
             >
               {/* SUBTLE BRAND WATERMARK GRAPHIC IN BACKGROUND */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#0064D0]/5 dark:text-[#0064D0]/10 font-bold text-9xl pointer-events-none select-none z-0">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary/5 dark:text-primary/10 font-bold text-9xl pointer-events-none select-none z-0">
                 WATLYS
               </div>
 
+              {/* Language toggle inside drawer (Urdu / EN) */}
+              <div className="relative z-10 flex items-center justify-between gap-3 pb-2">
+                <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
+                  {isRtl ? 'زبان' : 'Language'}
+                </span>
+                <LanguageToggle />
+              </div>
+
               {/* MAIN STAGGERED NAVIGATION LINKS (VERTICALLY BALANCED) */}
-              <div className="relative z-10 py-6 flex-1 flex flex-col justify-center space-y-2">
+              <div className="relative z-10 py-4 flex-1 flex flex-col justify-center space-y-2">
                 {mobileNavItems.map((item) => (
                   <motion.div key={item.num} variants={menuItemVariants}>
                     <Link
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="group py-3.5 px-4 rounded-2xl flex items-center justify-between bg-white dark:bg-[#131c38] hover:bg-[#0064D0]/10 dark:hover:bg-[#0064D0]/20 border border-slate-200/80 dark:border-slate-800/80 hover:border-[#0064D0]/40 transition-all duration-300 active:scale-[0.98] shadow-sm"
+                      className="group py-3.5 px-4 rounded-2xl flex items-center justify-between touch-manipulation
+                        bg-white/70 dark:bg-card/75 backdrop-blur-md
+                        hover:bg-primary/10 dark:hover:bg-primary/20
+                        border border-white/60 dark:border-slate-700/60 hover:border-primary/40
+                        transition-all duration-300 active:scale-[0.98] shadow-sm"
                     >
                       <div className="flex items-center space-x-3.5">
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-950/80 text-[#0064D0] dark:text-sky-400 group-hover:bg-[#0064D0] group-hover:text-white transition-all">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-950/80 text-primary dark:text-sky-400 group-hover:bg-primary group-hover:text-white transition-all">
                           {item.num}
                         </span>
-                        <span className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 group-hover:text-[#0064D0] dark:group-hover:text-sky-400 transition-colors">
+                        <span className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 group-hover:text-primary dark:group-hover:text-sky-400 transition-colors">
                           {item.label}
                         </span>
                       </div>
-                      <ArrowRight size={16} className={`text-slate-400 group-hover:text-[#0064D0] transition-transform duration-300 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                      <ArrowRight size={16} className={`text-slate-400 group-hover:text-primary transition-transform duration-300 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                     </Link>
                   </motion.div>
                 ))}
@@ -402,32 +416,32 @@ export default function Navbar() {
                 </a>
 
                 {/* 2-Column Secondary Links Grid */}
-                <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-300 font-medium px-1">
+                <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground font-medium px-1">
                   <Link
                     href="/sustainability"
                     onClick={() => setIsOpen(false)}
-                    className="hover:text-[#0064D0] dark:hover:text-white transition-colors"
+                    className="hover:text-primary dark:hover:text-white transition-colors"
                   >
                     Sustainability
                   </Link>
                   <Link
                     href="/certifications"
                     onClick={() => setIsOpen(false)}
-                    className="hover:text-[#0064D0] dark:hover:text-white transition-colors"
+                    className="hover:text-primary dark:hover:text-white transition-colors"
                   >
                     Certifications
                   </Link>
                   <Link
                     href="/about"
                     onClick={() => setIsOpen(false)}
-                    className="hover:text-[#0064D0] dark:hover:text-white transition-colors"
+                    className="hover:text-primary dark:hover:text-white transition-colors"
                   >
                     About Watlys
                   </Link>
                   <Link
                     href="/contact"
                     onClick={() => setIsOpen(false)}
-                    className="hover:text-[#0064D0] dark:hover:text-white transition-colors"
+                    className="hover:text-primary dark:hover:text-white transition-colors"
                   >
                     Contact Concierge
                   </Link>
