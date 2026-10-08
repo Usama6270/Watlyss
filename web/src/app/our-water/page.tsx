@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -31,7 +31,7 @@ export default function OurWaterPage() {
 
       <main className="flex-1 w-full space-y-24 pb-24">
         {/* Breadcrumb & Hero Header */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-8 space-y-12">
+        <section className="container-custom pt-8 space-y-12">
           <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
             <Link href="/" className="hover:underline">Home</Link>
             <span>/</span>
@@ -43,7 +43,7 @@ export default function OurWaterPage() {
               <span className="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-primary bg-primary/10 px-3.5 py-1.5 rounded-full border border-primary/20">
                 THE 19L FLAGSHIP VESSEL
               </span>
-              <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide leading-tight">
+              <h1 className="page-title font-light text-foreground tracking-wide leading-tight">
                 Watlys Premium 19-Liter Drinking Water
               </h1>
               <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
@@ -77,7 +77,7 @@ export default function OurWaterPage() {
         </section>
 
         {/* Specifications Matrix */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
+        <section className="container-custom">
           <div className="bg-card border border-border p-8 sm:p-12 rounded-2xl shadow-sm space-y-8">
             <h2 className="text-2xl sm:text-3xl font-serif font-light text-foreground">
               19-Liter Bottle Specifications & Assay
@@ -95,10 +95,10 @@ export default function OurWaterPage() {
         </section>
 
         {/* Hygiene & Sanitation Protocol */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-12">
+        <section className="container-custom space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-4">
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">SAFETY GUARANTEE</span>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-light text-foreground">
+            <h2 className="page-title font-light text-foreground">
               Strict 19L Hygiene Protocol
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground font-light">

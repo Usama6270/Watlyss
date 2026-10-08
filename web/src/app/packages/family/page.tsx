@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -12,7 +12,7 @@ export default function FamilyPackagePage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
+      <main className="flex-1 w-full container-custom py-12 space-y-16">
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
@@ -28,14 +28,14 @@ export default function FamilyPackagePage() {
             <span className="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-primary bg-primary/10 px-3.5 py-1.5 rounded-full border border-primary/20">
               POPULAR HOUSEHOLD WELLNESS
             </span>
-            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
+            <h1 className="page-title font-light text-foreground tracking-wide">
               Family Wellness Collection
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
               Complete daily mineral hydration for households of all sizes. Sourced from protected volcanic aquifers and delivered in elegant wooden crates containing our signature 1L & 1.5L glass vessels.
             </p>
             <div className="pt-2 flex items-baseline space-x-4">
-              <span className="text-2xl sm:text-4xl font-serif font-light text-primary">PKR 2,800</span>
+              <span className="section-title font-light text-primary">PKR 2,800</span>
               <span className="text-xs uppercase text-zinc-400 font-bold tracking-widest">/ Month (Bi-weekly Refills)</span>
             </div>
             <div className="pt-4 flex flex-col sm:flex-row gap-4">

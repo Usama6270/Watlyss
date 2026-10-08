@@ -225,7 +225,7 @@ export default function AboutPage() {
         </section>
 
         {/* 3. Detailed Sections & Visual Showcase */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 space-y-28 pt-8">
+        <div className="container-custom space-y-16 sm:space-y-20 pt-8">
 
           {/* Section A: The Watlys Mission (3-Column Grid) */}
           <motion.section {...textFadeIn} className="space-y-12">
@@ -233,7 +233,7 @@ export default function AboutPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-3.5 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
                 THE WATLYS COMMITMENT
               </span>
-              <h2 className="text-2xl sm:text-4xl font-sans font-bold text-foreground">
+              <h2 className="section-title text-foreground">
                 Our Core Pillars & Mission
               </h2>
               <p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
@@ -280,7 +280,7 @@ export default function AboutPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-3.5 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
                 SCIENTIFIC EXCELLENCE
               </span>
-              <h2 className="text-2xl sm:text-4xl font-sans font-bold text-foreground">
+              <h2 className="section-title text-foreground">
                 Our 7-Step Purification Pipeline
               </h2>
               <p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
@@ -296,7 +296,7 @@ export default function AboutPage() {
                     key={idx}
                     className="p-6 rounded-2xl bg-card border border-border space-y-3 hover:border-primary transition-all shadow-xs relative overflow-hidden"
                   >
-                    <span className="absolute top-3 right-4 text-3xl font-extrabold text-blue-100 dark:text-blue-900/40 select-none">
+                    <span className="absolute top-3 right-4 text-3xl font-medium text-blue-100 dark:text-blue-900/40 select-none">
                       {s.step}
                     </span>
                     <div className="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
@@ -319,7 +319,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-blue-700/60">
               {impactStats.map((stat, idx) => (
                 <div key={idx} className="pt-6 md:pt-0 px-4 space-y-2">
-                  <span className="text-2xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-white block">
+                  <span className="page-title font-medium tracking-tight text-white block">
                     {stat.value}
                   </span>
                   <h4 className="text-sm font-bold text-sky-200 uppercase tracking-wider block">
@@ -381,7 +381,7 @@ export default function AboutPage() {
                 <Sparkles className="w-3.5 h-3.5" /> Start Your Subscription Today
               </span>
 
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+              <h2 className="page-title font-medium tracking-tight leading-tight">
                 Ready to Upgrade Your Daily Hydration?
               </h2>
 
@@ -392,7 +392,7 @@ export default function AboutPage() {
               <div className="pt-2 flex flex-wrap gap-4">
                 <Link
                   href="/order"
-                  className="px-8 py-4 rounded-xl bg-white hover:bg-blue-50 text-blue-900 font-extrabold text-xs uppercase tracking-widest inline-flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer"
+                  className="px-8 py-4 rounded-xl bg-white hover:bg-blue-50 text-blue-900 font-medium text-xs uppercase tracking-widest inline-flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer"
                 >
                   <span>Order Your 19L Bottle Now</span>
                   <ArrowRight className="w-4 h-4" />

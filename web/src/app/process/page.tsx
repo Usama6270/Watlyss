@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -46,7 +46,7 @@ export default function ProcessPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-24">
+      <main className="flex-1 w-full container-custom py-12 space-y-24">
         {/* Hero Section */}
         <section className="max-w-4xl mx-auto text-center space-y-6">
           <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
@@ -57,7 +57,7 @@ export default function ProcessPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide"
+            className="page-title font-light text-foreground tracking-wide"
           >
             The Geological Journey
           </motion.h1>
@@ -89,7 +89,7 @@ export default function ProcessPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary block">
                     STAGE {step.num}
                   </span>
-                  <h2 className="text-2xl sm:text-4xl font-serif font-light text-foreground tracking-wide">
+                  <h2 className="section-title font-light text-foreground tracking-wide">
                     {step.title}
                   </h2>
                   <p className="text-sm text-muted-foreground font-light leading-relaxed">

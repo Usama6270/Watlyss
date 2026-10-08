@@ -140,12 +140,16 @@ export default function Navbar() {
         onMouseEnter={() => setIsNavHovered(true)}
         onMouseLeave={() => setIsNavHovered(false)}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
-            ? 'bg-background/95 backdrop-blur-md border-border shadow-sm'
-            : 'bg-background border-border/60'
+            ? 'bg-background/90 backdrop-blur-xl border-border/80 shadow-xs'
+            : 'bg-background/70 backdrop-blur-md border-border/40'
           }`}
       >
-        {/* DESKTOP NAVBAR CONTAINER — visible from lg (1024px)+ */}
-        <div className="relative w-full max-w-[1600px] mx-auto h-20 sm:h-[84px] px-4 lg:px-6 2xl:px-10 hidden lg:flex items-center justify-between">
+        {/* DESKTOP NAVBAR — condenses elegantly on scroll */}
+        <div
+          className={`relative w-full max-w-[var(--content-max)] mx-auto px-[var(--gutter)] hidden lg:flex items-center justify-between transition-[height] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isScrolled ? 'h-14' : 'h-16'
+          }`}
+        >
 
           {/* LEFT SIDE NAVIGATION */}
           <div className={`flex-1 flex items-center justify-start gap-3 lg:gap-4 2xl:gap-6 z-10 ${isRtl ? 'flex-row-reverse' : ''}`}>
@@ -194,14 +198,20 @@ export default function Navbar() {
           </div>
 
           {/* CENTER WATLYS LOGO */}
-          <div className="flex-shrink-0 px-3 lg:px-6 z-20 flex items-center justify-center pointer-events-auto">
-            <Link href="/" aria-label="Watlys Homepage" className="relative block h-12 sm:h-14 lg:h-16 w-44 sm:w-48 lg:w-52 transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]">
+          <div className="flex-shrink-0 px-2 lg:px-4 z-20 flex items-center justify-center pointer-events-auto">
+            <Link
+              href="/"
+              aria-label="Watlys Homepage"
+              className={`relative block transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
+                isScrolled ? 'h-9 w-36' : 'h-11 w-40'
+              }`}
+            >
               <Image
                 src="/logo.webp"
                 alt="Watlys Pure Mineral Water"
                 fill
                 priority
-                sizes="(max-width: 640px) 176px, (max-width: 1024px) 192px, 208px"
+                sizes="160px"
                 className="object-contain"
               />
             </Link>
@@ -306,14 +316,14 @@ export default function Navbar() {
 
           {/* Absolute Center Slot: Geometric Center Logo */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center pointer-events-auto">
-            <Link href="/" className="relative block h-12 w-44 sm:h-15 sm:w-56">
+            <Link href="/" className="relative block h-10 w-40 sm:h-11 sm:w-44">
               <Image
                 src="/logo.webp"
                 alt="Watlys Logo"
                 fill
                 priority
                 sizes="176px"
-                className="object-contain scale-110"
+                className="object-contain"
               />
             </Link>
           </div>

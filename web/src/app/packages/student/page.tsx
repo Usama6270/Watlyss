@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -12,7 +12,7 @@ export default function StudentPackagePage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
+      <main className="flex-1 w-full container-custom py-12 space-y-16">
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
@@ -28,14 +28,14 @@ export default function StudentPackagePage() {
             <span className="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-primary bg-primary/10 px-3.5 py-1.5 rounded-full border border-primary/20">
               ACTIVE ESSENTIAL HYDRATION
             </span>
-            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
+            <h1 className="page-title font-light text-foreground tracking-wide">
               Student Hydration Plan
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
               Designed specifically for students, young researchers, and active individuals needing pure cellular hydration, enhanced stamina, and zero microplastic exposure during long study and training sessions.
             </p>
             <div className="pt-2 flex items-baseline space-x-4">
-              <span className="text-2xl sm:text-4xl font-serif font-light text-primary">PKR 1,200</span>
+              <span className="section-title font-light text-primary">PKR 1,200</span>
               <span className="text-xs uppercase text-zinc-400 font-bold tracking-widest">/ Month (Weekly Refills)</span>
             </div>
             <div className="pt-4 flex flex-col sm:flex-row gap-4">

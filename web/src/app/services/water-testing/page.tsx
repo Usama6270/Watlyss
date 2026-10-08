@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -33,7 +33,7 @@ export default function WaterTestingPage() {
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <Droplets size={28} />
           </div>
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
+          <h1 className="page-title font-light text-foreground tracking-wide">
             Chemical & TDS Assay Testing
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
@@ -69,7 +69,7 @@ export default function WaterTestingPage() {
         </div>
 
         {/* Custom Water Test Request */}
-        <div className="p-10 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
+        <div className="p-6 sm:p-7 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-foreground">Request a Private Home Water Test</h3>
           <p className="text-xs text-muted-foreground max-w-md mx-auto">
             Concerned about tap water contaminants in your residential area? Order a certified Watlys sample collection kit.

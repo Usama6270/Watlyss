@@ -57,7 +57,7 @@ export default function PackagesSection() {
       btnText: 'CHOOSE PLAN',
       isPopular: false,
       btnStyle: 'bg-muted text-foreground group-hover:bg-primary group-hover:text-primary-foreground',
-      priceStyle: 'text-2xl sm:text-3xl font-semibold font-serif text-foreground',
+      priceStyle: 'text-xl sm:text-2xl font-medium font-serif text-foreground tracking-tight',
     },
     {
       id: 'family',
@@ -76,8 +76,8 @@ export default function PackagesSection() {
       btnText: 'CHOOSE PLAN',
       isPopular: true,
       badge: 'MOST POPULAR',
-      btnStyle: 'bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40',
-      priceStyle: 'text-3xl sm:text-4xl font-semibold font-serif text-primary',
+      btnStyle: 'bg-primary hover:bg-primary-hover text-primary-foreground shadow-md shadow-primary/20',
+      priceStyle: 'text-xl sm:text-2xl font-medium font-serif text-primary tracking-tight',
     },
     {
       id: 'corporate',
@@ -96,7 +96,7 @@ export default function PackagesSection() {
       btnText: 'CHOOSE PLAN',
       isPopular: false,
       btnStyle: 'bg-muted text-foreground group-hover:bg-primary group-hover:text-primary-foreground',
-      priceStyle: 'text-2xl sm:text-3xl font-semibold font-serif text-foreground',
+      priceStyle: 'text-xl sm:text-2xl font-medium font-serif text-foreground tracking-tight',
     },
     {
       id: 'custom',
@@ -160,60 +160,60 @@ export default function PackagesSection() {
   const renderCardContent = (pkg: typeof packagesData[0]) => {
     const IconComp = pkg.Icon
     return (
-      <div className="relative flex flex-col justify-between h-full overflow-visible bg-card p-5 sm:p-8 rounded-2xl shadow-md group">
+      <div className="relative flex flex-col justify-between h-full overflow-visible bg-card/95 p-4 sm:p-5 rounded-[var(--radius-xl)] shadow-xs group">
         {pkg.isPopular && (
-          <div className="mb-4 flex justify-center">
-            <div className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground px-3.5 py-1 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-widest shadow-md shadow-primary/30 whitespace-nowrap">
-              <Star size={11} className="fill-current" />
+          <div className="mb-3 flex justify-center">
+            <div className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-[0.16em] shadow-sm whitespace-nowrap">
+              <Star size={9} className="fill-current" />
               <span>{pkg.badge}</span>
             </div>
           </div>
         )}
 
-        <div className="space-y-4 sm:space-y-6">
+        <div className="space-y-3 sm:space-y-4">
           <div className="flex justify-between items-center">
-            <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${pkg.isPopular || pkg.id === 'custom' ? 'text-primary' : 'text-muted-foreground'}`}>
+            <span className={`text-[8px] font-semibold uppercase tracking-[0.16em] ${pkg.isPopular || pkg.id === 'custom' ? 'text-primary' : 'text-muted-foreground'}`}>
               {pkg.num}
             </span>
-            <IconComp size={16} className="text-primary sm:w-[18px] sm:h-[18px]" />
+            <IconComp size={14} className="text-primary" />
           </div>
 
-          <div className="space-y-1 sm:space-y-2">
-            <h3 className="text-xl sm:text-2xl font-serif font-bold text-foreground tracking-wide">
+          <div className="space-y-1">
+            <h3 className="text-lg sm:text-xl font-serif font-medium text-foreground tracking-tight">
               {pkg.title}
             </h3>
-            <p className="text-[11px] sm:text-xs text-muted-foreground font-light leading-relaxed">
+            <p className="text-[12px] text-muted-foreground font-normal leading-relaxed">
               {pkg.desc}
             </p>
           </div>
 
-          <div className="py-3 sm:py-4 border-y border-zinc-100 dark:border-slate-700/60">
+          <div className="py-2.5 border-y border-border/70">
             <span className={pkg.priceStyle}>
               {pkg.price}
             </span>
-            <span className="text-[9px] sm:text-[10px] text-zinc-400 dark:text-slate-400 font-light block mt-0.5 sm:mt-1">
+            <span className="text-[10px] text-muted-foreground font-normal block mt-0.5">
               {pkg.freq}
             </span>
           </div>
 
-          <ul className="space-y-2.5 sm:space-y-3 text-[11px] sm:text-xs text-zinc-600 dark:text-slate-200 font-light">
+          <ul className="space-y-2 text-[12px] text-muted-foreground font-normal">
             {pkg.bullets.map((bullet, idx) => (
-              <li key={idx} className="flex items-center space-x-2.5">
-                <Check size={13} className="text-primary shrink-0 sm:w-[14px] sm:h-[14px]" />
+              <li key={idx} className="flex items-center gap-2">
+                <Check size={12} className="text-primary shrink-0" />
                 <span>{bullet}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="pt-5 sm:pt-8 relative z-50 pointer-events-auto" style={{ transform: 'translateZ(25px)' }}>
+        <div className="pt-4 sm:pt-5 relative z-50 pointer-events-auto" style={{ transform: 'translateZ(25px)' }}>
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation()
               handlePlanClick(pkg)
             }}
-            className={`w-full py-3 sm:py-3.5 rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center justify-center transition-all duration-300 cursor-pointer relative z-50 pointer-events-auto ${pkg.btnStyle}`}
+            className={`w-full min-h-11 py-2.5 rounded-[var(--radius-lg)] text-[10px] font-semibold uppercase tracking-[0.14em] inline-flex items-center justify-center transition-all duration-300 cursor-pointer relative z-50 pointer-events-auto ${pkg.btnStyle}`}
           >
             {user || pkg.id === 'custom' ? pkg.btnText : 'SUBSCRIBE PLAN'}
           </button>
@@ -224,14 +224,12 @@ export default function PackagesSection() {
   }
 
   return (
-    <section id="packages" className="scroll-mt-28 sm:scroll-mt-36 w-full border-t border-border/60 transition-colors duration-300 font-sans overflow-x-clip">
-      {/* Content constrained — no solid bg so page atmosphere merges edge-to-edge */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-16 pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24">
-      {/* Editorial Header */}
-      <div className="text-center mb-8 sm:mb-12">
+    <section id="packages" className="scroll-mt-24 sm:scroll-mt-28 w-full border-t border-border/50 transition-colors duration-300 font-sans overflow-x-clip">
+      <div className="container-custom section-padding">
+      <div className="text-center mb-7 sm:mb-9">
         <span className="eyebrow">Curated Hydration Plans</span>
-        <h2 className="section-title mt-3 sm:mt-4">Water Plans Made For You.</h2>
-        <p className="section-lead mx-auto mt-3">
+        <h2 className="section-title mt-2.5 sm:mt-3">Water Plans Made For You.</h2>
+        <p className="section-lead mx-auto mt-2.5">
           Choose a standard delivery plan or build a custom plan with our interactive calculator.
         </p>
 
@@ -290,7 +288,7 @@ export default function PackagesSection() {
       </div>
 
       {/* PRICING CONTAINER WITH EDGE NAVIGATION ARROWS AND FRAMER MOTION SLIDING VIEWS */}
-      <div className="relative w-full max-w-7xl mx-auto">
+      <div className="relative w-full">
         {/* Left Edge Arrow Button */}
         {!isCustomActive ? (
           <button

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -203,7 +203,7 @@ function OrderWaterContent() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left Column: Form Controls */}
-          <div className="lg:col-span-7 space-y-8 surface-card p-8 sm:p-10">
+          <div className="lg:col-span-7 space-y-8 surface-card p-5 sm:p-6">
             
             {/* Step 1: Customer Type */}
             <div className="space-y-3">
@@ -324,7 +324,7 @@ function OrderWaterContent() {
           </div>
 
           {/* Right Column: Order Summary & Actions */}
-          <div className="lg:col-span-5 space-y-6 bg-background dark:bg-card border border-border p-8 sm:p-10 rounded-2xl shadow-sm sticky top-28">
+          <div className="lg:col-span-5 space-y-6 bg-background dark:bg-card border border-border p-5 sm:p-6 rounded-2xl shadow-sm sticky top-28">
             <h3 className="text-2xl font-serif font-light text-foreground">Order Summary</h3>
 
             <div className="space-y-3 text-xs font-light text-zinc-650 dark:text-slate-200 border-t border-b border-border py-6">

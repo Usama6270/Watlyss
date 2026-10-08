@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -26,7 +26,7 @@ export default function FreeInstallationPage() {
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <Wrench size={28} />
           </div>
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
+          <h1 className="page-title font-light text-foreground tracking-wide">
             Free Bottle & Stand Installation
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
@@ -74,7 +74,7 @@ export default function FreeInstallationPage() {
         </div>
 
         {/* CTA Banner */}
-        <div className="p-10 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
+        <div className="p-6 sm:p-7 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-foreground">Ready for white-glove setup?</h3>
           <p className="text-xs text-muted-foreground max-w-md mx-auto">
             Book installation during checkout or contact our concierge support for custom requests.

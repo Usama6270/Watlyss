@@ -18,8 +18,8 @@ export default function PricingCard3D({ children, isPopular = false, className =
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['12deg', '-12deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-12deg', '12deg']);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['6deg', '-6deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-6deg', '6deg']);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -55,13 +55,13 @@ export default function PricingCard3D({ children, isPopular = false, className =
           transformStyle: 'preserve-3d',
         }}
         whileHover={{
-          scale: isPopular ? 1.08 : 1.05,
-          y: isPopular ? -14 : -10,
+          scale: isPopular ? 1.03 : 1.02,
+          y: isPopular ? -6 : -4,
         }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className={`relative h-full w-full overflow-visible rounded-2xl bg-card transition-all duration-300 ${onClick ? 'cursor-pointer' : ''} ${isPopular
-          ? 'border-2 border-primary shadow-xl shadow-primary/25 hover:shadow-primary/40'
-          : 'border border-border hover:border-primary/70 hover:shadow-lg hover:shadow-primary/10'
+        transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+        className={`relative h-full w-full overflow-visible rounded-[var(--radius-xl)] bg-card/95 transition-all duration-300 ${onClick ? 'cursor-pointer' : ''} ${isPopular
+          ? 'border border-primary/70 shadow-md shadow-primary/15 hover:shadow-lg hover:shadow-primary/20'
+          : 'border border-border hover:border-primary/50 hover:shadow-md'
           } ${className}`}
       >
         {/* Subtle Water Pattern Background Texture Layer — hover only, never clips badge */}

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState } from 'react'
 import Navbar from '@/components/navbar'
@@ -29,7 +29,7 @@ export default function ContactPage() {
 
         <div className="space-y-4 text-center max-w-xl mx-auto">
           <span className="text-xs uppercase tracking-[0.25em] text-primary font-bold">PAKISTAN CONCIERGE</span>
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground">Contact Watlys Pure Water</h1>
+          <h1 className="page-title font-light text-foreground">Contact Watlys Pure Water</h1>
           <p className="text-xs sm:text-sm text-muted-foreground font-light">
             Have questions about 19L bottle delivery, custom corporate orders, or water testing? Reach out directly via WhatsApp or email.
           </p>

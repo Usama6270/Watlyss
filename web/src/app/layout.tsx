@@ -19,7 +19,7 @@ const velocitySans = localFont({
 
 const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-fraunces',
   display: 'swap',
 })

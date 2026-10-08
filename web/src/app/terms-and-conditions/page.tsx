@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -19,7 +19,7 @@ export default function TermsAndConditionsPage() {
         </div>
 
         <div className="space-y-4">
-          <h1 className="text-2xl sm:text-4xl font-serif font-light text-foreground">Terms & Conditions</h1>
+          <h1 className="section-title font-light text-foreground">Terms & Conditions</h1>
           <p className="text-xs text-zinc-400">Last updated: August 2026 | Watlys Pure Water Pakistan</p>
         </div>
 

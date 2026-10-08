@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/navbar'
@@ -352,7 +352,7 @@ export default function AccountPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300 font-sans">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-8 sm:py-12 flex-1 w-full space-y-8 overflow-x-hidden">
+      <main className="container-custom py-8 sm:py-12 flex-1 w-full space-y-8 overflow-x-hidden">
         
         {/* Header Profile Banner */}
         <div className="bg-card border border-border p-5 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -433,7 +433,7 @@ export default function AccountPage() {
                   <div className="flex items-center space-x-3">
                     <Truck className="w-5 h-5 text-primary" />
                     <div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary block">
+                      <span className="text-[10px] font-medium uppercase tracking-widest text-primary block">
                         LATEST RECENT ORDER ({latestOrder.orderNumber})
                       </span>
                       <p className="text-xs font-bold text-foreground">
@@ -477,11 +477,11 @@ export default function AccountPage() {
               {sub.status !== 'active' && (
                 <div className="p-4 bg-sky-50 dark:bg-blue-950/50 border border-sky-200 dark:border-blue-800 rounded-2xl flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground font-black text-base flex items-center justify-center shadow-md shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground font-semibold text-base flex items-center justify-center shadow-md shrink-0">
                       {currentUser.activeSubscription?.pendingRolloverBottles || sub.bottleQty}
                     </div>
                     <div>
-                      <span className="text-xs font-extrabold uppercase tracking-wider text-primary dark:text-sky-300 block">
+                      <span className="text-xs font-medium uppercase tracking-wider text-primary dark:text-sky-300 block">
                         SAVED ROLLOVER BOTTLE QUOTA
                       </span>
                       <p className="text-xs text-muted-foreground font-medium mt-0.5">

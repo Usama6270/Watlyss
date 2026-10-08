@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -48,7 +48,7 @@ export default function CertificationsPage() {
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <Award size={28} />
           </div>
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
+          <h1 className="page-title font-light text-foreground tracking-wide">
             Certified Quality Standards
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
@@ -83,7 +83,7 @@ export default function CertificationsPage() {
         </div>
 
         {/* Download PDF Audit Reports */}
-        <div className="p-10 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
+        <div className="p-6 sm:p-7 bg-background dark:bg-card border border-border rounded-2xl text-center space-y-6">
           <h3 className="text-2xl font-serif font-light text-foreground">Download Full Lab Audit Certificates</h3>
           <p className="text-xs text-muted-foreground max-w-md mx-auto">
             Access our latest unedited chemical laboratory assay reports and ISO compliance documentation.

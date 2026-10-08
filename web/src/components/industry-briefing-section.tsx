@@ -7,7 +7,7 @@ export default function IndustryBriefingSection() {
   return (
     <section
       id="industry-briefing"
-      className="w-full border-t border-border/60 bg-transparent font-sans transition-colors duration-300"
+      className="w-full bg-transparent font-sans transition-colors duration-300"
     >
       <NewsletterBubbleUniverse />
     </section>

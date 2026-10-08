@@ -1,318 +1,341 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useId, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
+import {
+  motion,
+  AnimatePresence,
+  useInView,
+  useReducedMotion,
+} from 'framer-motion'
+import {
+  MessageCircle,
+  Mail,
+  MapPin,
+  ChevronDown,
+  ChevronUp,
+  ArrowRight,
+  Check,
+  Loader2,
+} from 'lucide-react'
 import { useLanguage } from '@/context/language'
-import { MessageCircle, Mail, MapPin, ChevronDown } from 'lucide-react'
-import FooterWaterEffect from '@/components/footer-water-effect'
+import {
+  FOOTER_BRAND,
+  FOOTER_NAV,
+  FOOTER_CONTACT,
+  FOOTER_LEGAL,
+} from '@/data/footer-nav'
+import { subscribeToNewsletter } from '@/lib/newsletter-subscribe'
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
+
+function FooterWave({ animate }: { animate: boolean }) {
+  return (
+    <div className="pointer-events-none absolute inset-x-0 top-0 z-20 -translate-y-[calc(100%-1px)] overflow-hidden leading-[0]">
+      <svg
+        className={`watlys-footer-wave block w-[200%] max-w-none ${animate ? 'watlys-footer-wave--live' : ''}`}
+        viewBox="0 0 1440 64"
+        preserveAspectRatio="none"
+        aria-hidden
+      >
+        <path
+          className="fill-[var(--footer-surface)]"
+          d="M0,32 C240,64 480,0 720,32 C960,64 1200,8 1440,36 L1440,64 L0,64 Z"
+        />
+      </svg>
+      {animate ? (
+        <div className="watlys-footer-microbubbles absolute inset-x-0 bottom-2 h-10" aria-hidden>
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+function SubscribeForm() {
+  const { t } = useLanguage()
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [error, setError] = useState('')
+  const inputId = useId()
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setError('')
+    const result = await subscribeToNewsletter(email)
+    if (!result.ok) {
+      setStatus('error')
+      setError(result.error)
+      return
+    }
+    setStatus('success')
+    window.setTimeout(() => {
+      setEmail('')
+      setStatus('idle')
+    }, 3200)
+  }
+
+  return (
+    <div className="w-full max-w-md">
+      <label
+        htmlFor={inputId}
+        className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--footer-label)]"
+      >
+        Water Insights
+      </label>
+      <form onSubmit={onSubmit} className="relative" noValidate>
+        <div
+          className={`relative flex min-h-12 items-center rounded-full border bg-white/[0.07] pl-4 pr-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md transition-[box-shadow,border-color] duration-300 ${
+            status === 'error'
+              ? 'border-rose-300/60 focus-within:shadow-[0_0_0_3px_rgba(251,113,133,0.25)]'
+              : 'border-white/20 focus-within:border-sky-200/50 focus-within:shadow-[0_0_0_3px_rgba(125,211,252,0.22)]'
+          }`}
+        >
+          <input
+            id={inputId}
+            type="email"
+            name="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              if (status === 'error') setStatus('idle')
+            }}
+            placeholder={t.newsletter.emailPlaceholder}
+            disabled={status === 'loading' || status === 'success'}
+            aria-invalid={status === 'error'}
+            aria-describedby={`${inputId}-hint`}
+            className="min-w-0 flex-1 bg-transparent py-2.5 text-[13px] text-white placeholder:text-sky-100/45 outline-none disabled:opacity-70"
+          />
+          <button
+            type="submit"
+            disabled={status === 'loading' || status === 'success'}
+            aria-label={t.newsletter.button}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[color:var(--footer-deep)] shadow-sm transition hover:scale-[1.04] hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/70 disabled:opacity-80"
+          >
+            {status === 'loading' ? (
+              <Loader2 size={15} className="animate-spin" />
+            ) : status === 'success' ? (
+              <Check size={16} className="text-emerald-600" strokeWidth={2.5} />
+            ) : (
+              <ArrowRight size={15} />
+            )}
+          </button>
+          {status === 'success' && (
+            <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+              <span className="watlys-footer-success-ripple absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/60" />
+            </span>
+          )}
+        </div>
+      </form>
+      <p
+        id={`${inputId}-hint`}
+        className={`mt-2 text-[11px] leading-relaxed ${
+          status === 'error'
+            ? 'text-rose-200'
+            : status === 'success'
+              ? 'text-emerald-200'
+              : 'text-sky-100/55'
+        }`}
+        role={status === 'error' ? 'alert' : undefined}
+      >
+        {status === 'error'
+          ? error
+          : status === 'success'
+            ? t.newsletter.success
+            : 'Weekly water insights — unsubscribe anytime.'}
+      </p>
+    </div>
+  )
+}
+
+function FooterLinkItem({ href, label }: { href: string; label: string }) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="watlys-footer-link group relative inline-flex min-h-8 items-center text-[13px] text-sky-50/85 transition-[color,transform] duration-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--footer-deep)]"
+      >
+        <span className="relative">
+          {label}
+          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-sky-200/80 transition-[width] duration-300 ease-out group-hover:w-full" />
+        </span>
+      </Link>
+    </li>
+  )
+}
 
 export default function FooterSection() {
   const { t } = useLanguage()
-  const [email, setEmail] = useState('')
-  const [success, setSuccess] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isOverInteractive, setIsOverInteractive] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [openSection, setOpenSection] = useState<string | null>(null)
-  const [isPointerFine, setIsPointerFine] = useState(false)
+  const reduceMotion = useReducedMotion()
   const footerRef = useRef<HTMLElement>(null)
-
-  // Framer Motion Springs for Desktop Cursor-Follow Parallax Shift
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  const rafId = useRef<number | null>(null)
+  const inView = useInView(footerRef, { once: true, margin: '-40px' })
+  const [activeInView, setActiveInView] = useState(false)
+  const [openSection, setOpenSection] = useState<string | null>(null)
+  const year = new Date().getFullYear()
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsPointerFine(window.matchMedia('(hover: hover) and (pointer: fine)').matches)
-    }
+    const el = footerRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setActiveInView(!!entry?.isIntersecting),
+      { rootMargin: '80px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
   }, [])
 
-  const toggleSection = (section: string) => {
-    setOpenSection(prev => (prev === section ? null : section))
+  const animateFx = !reduceMotion && activeInView
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
   }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    const target = e.target as HTMLElement
-    const isInteractive = target.closest('button, a, input, select, textarea, [role="button"]') !== null
-    setIsOverInteractive(isInteractive)
-
-    if (rafId.current !== null) {
-      cancelAnimationFrame(rafId.current)
-    }
-
-    rafId.current = requestAnimationFrame(() => {
-      setMousePosition({ x, y })
-
-      if (isPointerFine) {
-        const offsetX = (x / rect.width) - 0.5
-        const offsetY = (y / rect.height) - 0.5
-        mouseX.set(offsetX * 30)
-        mouseY.set(offsetY * 30)
-      }
-    })
-  }
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLElement>) => {
-    if (!e.touches[0]) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    const touch = e.touches[0]
-    const x = touch.clientX - rect.left
-    const y = touch.clientY - rect.top
-
-    const target = document.elementFromPoint(touch.clientX, touch.clientY) as HTMLElement
-    const isInteractive = target ? target.closest('button, a, input, select, textarea, [role="button"]') !== null : false
-    setIsOverInteractive(isInteractive)
-
-    setIsHovered(true)
-    setMousePosition({ x, y })
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-    setIsOverInteractive(false)
-    if (isPointerFine) {
-      mouseX.set(0)
-      mouseY.set(0)
-    }
-  }
-
-  const handleTouchEnd = () => {
-    setIsHovered(false)
-    setIsOverInteractive(false)
-  }
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-    setSuccess(true)
-    setTimeout(() => {
-      setEmail('')
-      setSuccess(false)
-    }, 3000)
-  }
-
-  const sections = [
-    {
-      id: 'explore',
-      title: 'EXPLORE',
-      links: [
-        { label: 'Our Water (19L)', href: '/our-water' },
-        { label: 'How It Works', href: '/process' },
-        { label: 'Sustainability', href: '/sustainability' },
-        { label: 'About Us', href: '/about' },
-      ],
-    },
-    {
-      id: 'services',
-      title: 'SERVICES',
-      links: [
-        { label: '19L Water Delivery', href: '/services/water-delivery' },
-        { label: 'Free Bottle Installation', href: '/services/free-bottle-installation' },
-        { label: 'Water Testing Assay', href: '/services/water-testing' },
-        { label: 'Dispenser Service', href: '/services/dispenser-service' },
-      ],
-    },
-    {
-      id: 'locations',
-      title: 'LOCATIONS & CONTACT',
-      links: [
-        { label: 'Contact Concierge', href: '/contact' },
-        { label: 'Service Locations', href: '/locations' },
-        { label: 'Corporate Inquiry', href: '/contact?type=corporate' },
-      ],
-    },
-  ]
 
   return (
     <footer
       id="footer"
       ref={footerRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      onMouseMove={handleMouseMove}
-      onTouchStart={handleTouchMove}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchEnd}
-      className={`relative w-full pt-6 sm:pt-8 pb-4 sm:pb-6 border-t font-sans transition-all duration-700 ease-in-out overflow-hidden ${
-        isHovered
-          ? 'bg-primary dark:bg-primary-hover text-white border-primary'
-          : 'bg-background text-foreground border-border'
-      }`}
+      className="watlys-footer relative mt-[-2.5rem] w-full overflow-hidden pt-10 sm:mt-[-3rem] sm:pt-12"
+      style={
+        {
+          '--footer-deep': '#061525',
+          '--footer-mid': '#0A2A45',
+          '--footer-teal': '#0E4A6E',
+          '--footer-surface': '#072033',
+          '--footer-label': 'rgba(186, 230, 253, 0.72)',
+        } as React.CSSProperties
+      }
     >
-      {/* Dynamic Cursor-Following Pattern Spotlight (Reveals Pattern ONLY on Hover and NOT over clickable buttons) */}
-      <AnimatePresence>
-        {isHovered && !isOverInteractive && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="pointer-events-none absolute w-[380px] h-[380px] sm:w-[500px] sm:h-[500px] rounded-full z-10 overflow-hidden transform-gpu will-change-transform"
-            style={{
-              left: mousePosition.x - 250,
-              top: mousePosition.y - 250,
-              maskImage: 'radial-gradient(circle 220px at center, black 30%, transparent 85%)',
-              WebkitMaskImage: 'radial-gradient(circle 220px at center, black 30%, transparent 85%)',
-            }}
-          >
-            {/* Ambient White/Sky Blue Radial Spotlight Glow */}
-            <div className="absolute inset-0 bg-white/20 dark:bg-white/25 rounded-full blur-xl" />
+      <FooterWave animate={animateFx} />
 
-            {/* Pattern Layer revealed exclusively around mouse cursor */}
-            <div
-              className="absolute inset-0 w-full h-full bg-repeat opacity-50 dark:opacity-70 mix-blend-overlay"
-              style={{
-                backgroundImage: `url('/patterns/pattern-05.svg'), url('/patterns/pattern-04.svg')`,
-                backgroundSize: '240px auto',
-                backgroundPosition: 'center',
-              }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(165deg,var(--footer-deep)_0%,var(--footer-mid)_42%,var(--footer-teal)_78%,#0B3D5C_100%)] dark:bg-[linear-gradient(165deg,#030B14_0%,#061525_40%,#0A2740_75%,#0C3550_100%)]"
+      />
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 opacity-[0.14] dark:opacity-[0.1] ${
+          animateFx ? 'watlys-footer-caustic' : ''
+        }`}
+        style={{
+          background: `
+            radial-gradient(ellipse 22% 50% at 18% 12%, rgba(255,255,255,0.55) 0%, transparent 70%),
+            radial-gradient(ellipse 16% 40% at 72% 8%, rgba(125,211,252,0.4) 0%, transparent 70%),
+            radial-gradient(ellipse 28% 35% at 48% 0%, rgba(186,230,253,0.25) 0%, transparent 65%)
+          `,
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-8 -right-6 h-56 w-56 opacity-[0.07] dark:opacity-[0.09]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' fill='none'%3E%3Ccircle cx='60' cy='60' r='18' stroke='%237dd3fc' stroke-width='0.6'/%3E%3Ccircle cx='60' cy='60' r='32' stroke='%237dd3fc' stroke-width='0.5'/%3E%3Ccircle cx='60' cy='60' r='46' stroke='%237dd3fc' stroke-width='0.4'/%3E%3Cpath d='M10 70c20-8 30 12 50 4s30-18 50-8' stroke='%237dd3fc' stroke-width='0.5'/%3E%3C/svg%3E")`,
+          backgroundSize: '120px 120px',
+        }}
+      />
 
-      {/* Subtle Premium Cursor Water Effect Canvas */}
-      <FooterWaterEffect containerRef={footerRef} />
-
-      <div className="relative z-20 max-w-[1240px] mx-auto px-6 sm:px-8 space-y-4 sm:space-y-5 pointer-events-auto">
-
-        {/* Brand Statement Lead-in */}
-        <div className={`grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 pb-4 sm:pb-5 border-b transition-colors duration-700 items-start ${
-          isHovered ? 'border-white/30' : 'border-border'
-        }`}>
-          <div className="lg:col-span-6 space-y-1.5">
-            <Link href="/" className="relative block h-9 sm:h-11 w-32 sm:w-40">
+      <div className="relative z-10 mx-auto max-w-[1200px] px-5 pb-5 pt-2 sm:px-8 sm:pb-6">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="grid grid-cols-1 items-start gap-7 border-b border-white/10 pb-7 lg:grid-cols-12 lg:gap-10"
+        >
+          <div className="lg:col-span-5">
+            <Link
+              href="/"
+              className="relative mb-3 inline-block h-12 w-[140px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/50 sm:h-14 sm:w-[150px]"
+            >
               <Image
                 src="/logo.webp"
-                alt="Watlys 19L Pure Water Logo"
+                alt="Watlys"
                 fill
-                sizes="160px"
-                loading="lazy"
-                className={`object-contain object-left transition-transform duration-300 hover:scale-105 ${
-                  isHovered ? 'brightness-200 contrast-125' : ''
-                }`}
+                sizes="150px"
+                className="object-contain object-left brightness-0 invert"
               />
             </Link>
-            <p className={`text-[11px] sm:text-xs font-normal leading-tight max-w-md transition-colors duration-500 ${
-              isHovered ? 'text-sky-100' : 'text-zinc-600 dark:text-slate-300'
-            }`}>
-              Premier 19-Liter mineral drinking water subscription service delivered directly to your home or office.
+            <p className="font-serif text-[1.05rem] font-medium tracking-tight text-white sm:text-[1.15rem]">
+              {FOOTER_BRAND.tagline}
             </p>
+            <p className="mt-1.5 max-w-sm text-[12.5px] leading-relaxed text-sky-100/65">
+              {FOOTER_BRAND.description}
+            </p>
+            <div className="mt-3.5 flex flex-wrap gap-2">
+              {FOOTER_BRAND.trustMarks.map((mark) => (
+                <span
+                  key={mark}
+                  className="rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-sky-100/80 backdrop-blur-sm"
+                >
+                  {mark}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <div className="lg:col-span-6 space-y-1.5">
-            <span className={`text-[9.5px] font-bold uppercase tracking-[0.25em] block transition-colors duration-500 ${
-              isHovered ? 'text-white' : 'text-primary'
-            }`}>
-              SUBSCRIBE TO WATER INSIGHTS
-            </span>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t.newsletter.emailPlaceholder}
-                required
-                className={`flex-1 px-3.5 py-1.5 border text-xs rounded-xl shadow-xs transition-all ${
-                  isHovered 
-                    ? 'bg-white/10 text-white placeholder-sky-100 border-white/30 focus:bg-white focus:text-slate-900 focus:placeholder-slate-400' 
-                    : 'bg-card border-border text-foreground placeholder-slate-400 focus:border-primary'
-                }`}
-              />
-              <button
-                type="submit"
-                className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shrink-0 ${
-                  isHovered 
-                    ? 'bg-white text-primary hover:bg-sky-50 hover:scale-105 shadow-xl font-bold' 
-                    : 'bg-primary hover:bg-primary-hover text-primary-foreground'
-                }`}
-              >
-                {t.newsletter.button}
-              </button>
-            </form>
-            <p className={`text-[10px] font-light pt-0.5 transition-colors duration-500 ${
-              isHovered ? 'text-sky-100' : 'text-slate-500 dark:text-slate-400'
-            }`}>
-              Weekly water insights — unsubscribe anytime.
-            </p>
-            {success && (
-              <p className={`text-xs font-light pt-1 ${isHovered ? 'text-emerald-200 font-bold' : 'text-emerald-600 dark:text-emerald-400'}`}>
-                {t.newsletter.success}
-              </p>
-            )}
+          <div className="lg:col-span-7 lg:flex lg:justify-end">
+            <SubscribeForm />
           </div>
-        </div>
+        </motion.div>
 
-        {/* Desktop & Tablet Navigation Columns (3 Columns strictly matching Navbar) */}
-        <div className="hidden sm:grid sm:grid-cols-3 gap-5 text-xs font-normal">
-          {sections.map((sec) => (
-            <div key={sec.id} className="space-y-2">
-              <h4 className={`text-[9.5px] font-bold uppercase tracking-[0.2em] transition-colors duration-500 ${
-                isHovered ? 'text-white' : 'text-primary'
-              }`}>
+        <motion.nav
+          aria-label="Footer"
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.5, delay: 0.06, ease: EASE }}
+          className="hidden gap-8 border-b border-white/10 py-6 sm:grid sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {FOOTER_NAV.map((sec, i) => (
+            <motion.div
+              key={sec.id}
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={inView ? { opacity: 1, y: 0 } : undefined}
+              transition={{ duration: 0.45, delay: 0.08 + i * 0.06, ease: EASE }}
+            >
+              <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--footer-label)]">
                 {sec.title}
-              </h4>
-              <ul className={`space-y-1 transition-colors duration-500 ${
-                isHovered ? 'text-sky-100' : 'text-muted-foreground'
-              }`}>
+              </h3>
+              <ul className="space-y-1.5">
                 {sec.links.map((link) => (
-                  <li key={link.href}>
-                    <Link 
-                      href={link.href} 
-                      className={`transition-colors inline-block ${
-                        isHovered ? 'hover:text-white hover:underline' : 'hover:text-primary'
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
+                  <FooterLinkItem key={link.href} href={link.href} label={link.label} />
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.nav>
 
-        {/* Mobile Accordion Navigation */}
-        <div className="sm:hidden space-y-1.5">
-          {sections.map((sec) => {
-            const isOpen = openSection === sec.id
+        <div className="space-y-1 border-b border-white/10 py-3 sm:hidden">
+          {FOOTER_NAV.map((sec) => {
+            const open = openSection === sec.id
             return (
-              <div key={sec.id} className={`border-b pb-1.5 ${isHovered ? 'border-white/30' : 'border-border/60'}`}>
+              <div key={sec.id} className="border-b border-white/10 last:border-0">
                 <button
-                  onClick={() => toggleSection(sec.id)}
-                  className={`w-full flex justify-between items-center py-1 text-xs font-bold uppercase tracking-wider ${
-                    isHovered ? 'text-white' : 'text-primary'
-                  }`}
+                  type="button"
+                  onClick={() => setOpenSection(open ? null : sec.id)}
+                  aria-expanded={open}
+                  className="flex min-h-11 w-full items-center justify-between py-2 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--footer-label)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/50"
                 >
-                  <span>{sec.title}</span>
+                  {sec.title}
                   <ChevronDown
-                    size={14}
-                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : isHovered ? 'text-white' : 'text-slate-400'}`}
+                    size={16}
+                    className={`text-sky-100/70 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
                   />
                 </button>
-                <AnimatePresence>
-                  {isOpen && (
+                <AnimatePresence initial={false}>
+                  {open && (
                     <motion.ul
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className={`pt-1 pb-0.5 space-y-1 text-xs font-light ${isHovered ? 'text-sky-100' : 'text-muted-foreground'}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: EASE }}
+                      className="overflow-hidden pb-2"
                     >
                       {sec.links.map((link) => (
-                        <li key={link.href}>
-                          <Link href={link.href} className="block py-0.5 hover:underline">
-                            {link.label}
-                          </Link>
-                        </li>
+                        <FooterLinkItem key={link.href} href={link.href} label={link.label} />
                       ))}
                     </motion.ul>
                   )}
@@ -322,67 +345,91 @@ export default function FooterSection() {
           })}
         </div>
 
-        {/* Concierge & Direct Contact Strip (3 Ultra-Compact Glass Cards with Right-Aligned Icons) */}
-        <div className="pt-2.5 sm:pt-3 border-t border-border/60 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs font-light items-stretch">
-          
-          {/* WhatsApp Contact Card */}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.5, delay: 0.12, ease: EASE }}
+          className="my-5 grid grid-cols-1 overflow-hidden rounded-[1rem] border border-white/12 bg-white/[0.06] backdrop-blur-md sm:grid-cols-3"
+        >
           <a
-            href="https://wa.me/923001234567?text=Hi%20Watlys%20I%20want%20to%20order%20drinking%20water"
+            href={FOOTER_CONTACT.whatsapp.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-between h-9 sm:h-10 px-3 sm:px-3.5 rounded-lg border shadow-xs transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] group ${
-              isHovered ? 'bg-white text-slate-900 border-white shadow-md' : 'bg-card text-foreground border-border'
-            }`}
+            className="group flex min-h-12 items-center gap-3 px-4 py-3 transition hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-200/40 sm:border-r sm:border-white/10"
           >
-            <div className="min-w-0 flex-1">
-              <span className="text-[8px] uppercase font-bold text-primary block tracking-wider truncate leading-none mb-0.5">WHATSAPP CONCIERGE</span>
-              <span className="font-semibold text-[11px] text-foreground truncate block group-hover:text-primary transition-colors leading-none">+92 300 1234567</span>
-            </div>
-            <MessageCircle size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0 ml-2 group-hover:scale-110 transition-transform" />
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-emerald-500/15 text-emerald-300 transition group-hover:shadow-[0_0_16px_rgba(52,211,153,0.35)]">
+              <MessageCircle size={16} />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-100/55">
+                {FOOTER_CONTACT.whatsapp.label}
+              </span>
+              <span className="block truncate text-[13px] font-medium text-white">
+                {FOOTER_CONTACT.whatsapp.value}
+              </span>
+            </span>
           </a>
-
-          {/* Email Assistance Card */}
           <a
-            href="mailto:care@watlys.com"
-            className={`flex items-center justify-between h-9 sm:h-10 px-3 sm:px-3.5 rounded-lg border shadow-xs transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] group ${
-              isHovered ? 'bg-white text-slate-900 border-white shadow-md' : 'bg-card text-foreground border-border'
-            }`}
+            href={FOOTER_CONTACT.email.href}
+            className="group flex min-h-12 items-center gap-3 px-4 py-3 transition hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-200/40 sm:border-r sm:border-white/10"
           >
-            <div className="min-w-0 flex-1">
-              <span className="text-[8px] uppercase font-bold text-primary block tracking-wider truncate leading-none mb-0.5">EMAIL ASSISTANCE</span>
-              <span className="font-semibold text-[11px] text-foreground truncate block group-hover:text-primary transition-colors leading-none">care@watlys.com</span>
-            </div>
-            <Mail size={15} className="text-primary shrink-0 ml-2 group-hover:scale-110 transition-transform" />
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-sky-400/15 text-sky-200 transition group-hover:shadow-[0_0_16px_rgba(125,211,252,0.35)]">
+              <Mail size={16} />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-100/55">
+                {FOOTER_CONTACT.email.label}
+              </span>
+              <span className="block truncate text-[13px] font-medium text-white">
+                {FOOTER_CONTACT.email.value}
+              </span>
+            </span>
           </a>
-
-          {/* Service Regions Card */}
           <Link
-            href="/locations"
-            className={`flex items-center justify-between h-9 sm:h-10 px-3 sm:px-3.5 rounded-lg border shadow-xs transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] group ${
-              isHovered ? 'bg-white text-slate-900 border-white shadow-md' : 'bg-card text-foreground border-border'
-            }`}
+            href={FOOTER_CONTACT.regions.href}
+            className="group flex min-h-12 items-center gap-3 px-4 py-3 transition hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-200/40"
           >
-            <div className="min-w-0 flex-1">
-              <span className="text-[8px] uppercase font-bold text-primary block tracking-wider truncate leading-none mb-0.5">SERVICE REGIONS</span>
-              <span className="font-semibold text-[11px] text-foreground truncate block group-hover:text-primary transition-colors leading-none">Lahore • Islamabad • Karachi</span>
-            </div>
-            <MapPin size={15} className="text-primary shrink-0 ml-2 group-hover:scale-110 transition-transform" />
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-sky-400/15 text-sky-200 transition group-hover:shadow-[0_0_16px_rgba(125,211,252,0.35)]">
+              <MapPin size={16} />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-100/55">
+                {FOOTER_CONTACT.regions.label}
+              </span>
+              <span className="block truncate text-[13px] font-medium text-white">
+                {FOOTER_CONTACT.regions.value}
+              </span>
+            </span>
           </Link>
+        </motion.div>
 
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-4 sm:flex-row">
+          <p className="text-center text-[12px] text-sky-100/50 sm:text-left">
+            © {year} {t.footer.rights}
+          </p>
+          <nav
+            aria-label="Legal"
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] text-sky-100/55"
+          >
+            {FOOTER_LEGAL.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/40"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <button
+            type="button"
+            onClick={scrollTop}
+            aria-label="Back to top"
+            className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/[0.07] text-sky-100/80 shadow-sm backdrop-blur-md transition hover:-translate-y-0.5 hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200/50"
+          >
+            <ChevronUp size={18} />
+          </button>
         </div>
-
-        {/* Bottom Rights & Legal Row */}
-        <div className={`pt-4 border-t transition-colors duration-700 flex flex-col sm:flex-row justify-between items-center text-[10px] gap-3 ${
-          isHovered ? 'border-white/30 text-sky-100' : 'border-border text-zinc-500 dark:text-slate-400'
-        }`}>
-          <p>{t.footer.rights}</p>
-          <div className="flex items-center space-x-5">
-            <Link href="/privacy-policy" className={isHovered ? 'hover:text-white hover:underline' : 'hover:text-primary'}>Privacy Policy</Link>
-            <Link href="/terms-and-conditions" className={isHovered ? 'hover:text-white hover:underline' : 'hover:text-primary'}>Terms & Conditions</Link>
-            <Link href="/terms-and-conditions#refund" className={isHovered ? 'hover:text-white hover:underline' : 'hover:text-primary'}>Refund / Delivery Policy</Link>
-          </div>
-        </div>
-
       </div>
     </footer>
   )

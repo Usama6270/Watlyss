@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState } from 'react'
 import Navbar from '@/components/navbar'
@@ -81,7 +81,7 @@ export default function CheckoutPage() {
     <div className="page-atmosphere min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 flex-1 w-full space-y-12">
+      <main className="container-custom py-12 flex-1 w-full space-y-12">
         <div className="space-y-2">
           <span className="eyebrow">Secure Checkout</span>
           <h1 className="page-title">Checkout</h1>
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
 
                   <div className="flex justify-between border-t border-border pt-4 text-base">
                     <span className="font-bold text-foreground">Total</span>
-                    <span className="font-extrabold text-zinc-950 dark:text-white">${finalTotal.toFixed(2)}</span>
+                    <span className="font-medium text-zinc-950 dark:text-white">${finalTotal.toFixed(2)}</span>
                   </div>
                 </div>
 

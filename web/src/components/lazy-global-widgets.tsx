@@ -7,6 +7,7 @@ const ChatWidget = dynamic(() => import('@/components/chat-widget').then((m) => 
   ssr: false,
 })
 const AuthModal = dynamic(() => import('@/components/auth-modal'), { ssr: false })
+const PremiumCursor = dynamic(() => import('@/components/premium-cursor'), { ssr: false })
 
 /**
  * Auth modal after hydration; chat only after idle + short delay
@@ -56,6 +57,7 @@ export default function LazyGlobalWidgets() {
 
   return (
     <>
+      <PremiumCursor />
       {authReady && <AuthModal />}
       {chatReady && <ChatWidget />}
     </>

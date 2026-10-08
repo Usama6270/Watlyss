@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import Navbar from '@/components/navbar'
 import FooterSection from '@/components/footer-section'
 
@@ -25,7 +25,7 @@ export default function FAQPage() {
       <main className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-16 py-16 flex-1 w-full space-y-12">
         <div className="space-y-4 text-center">
           <span className="text-xs uppercase tracking-[0.25em] text-primary font-bold">Inquiries</span>
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#111827] dark:text-foreground">Frequently Asked Questions</h1>
+          <h1 className="page-title font-medium text-[#111827] dark:text-foreground">Frequently Asked Questions</h1>
           <p className="text-muted-foreground">Everything you need to know about the premium hydration standard.</p>
         </div>
 

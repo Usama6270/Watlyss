@@ -31,10 +31,10 @@ export default function FinalCtaSection() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      className={`relative py-20 sm:py-28 px-4 sm:px-8 lg:px-16 text-center overflow-x-hidden border-t font-sans transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`relative section-padding px-[var(--gutter)] text-center overflow-x-hidden border-t font-sans transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isHovered
           ? 'bg-primary text-primary-foreground border-primary'
-          : 'bg-background text-foreground border-border/60'
+          : 'bg-background text-foreground border-border/50'
       }`}
     >
       <AnimatePresence>

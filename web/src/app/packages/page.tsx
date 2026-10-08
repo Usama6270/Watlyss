@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -82,7 +82,7 @@ export default function PackagesOverviewPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide"
+            className="page-title font-light text-foreground tracking-wide"
           >
             Watlys Hydration Plans
           </motion.h1>
@@ -92,10 +92,10 @@ export default function PackagesOverviewPage() {
         </section>
 
         {/* Package Grid */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="container-custom grid grid-cols-1 md:grid-cols-3 gap-8">
           {packages.map((pkg) => (
             <PricingCard3D key={pkg.id} isPopular={pkg.id === 'family'}>
-              <div className="group relative flex flex-col justify-between h-full bg-card p-8 sm:p-10 rounded-2xl shadow-sm">
+              <div className="group relative flex flex-col justify-between h-full bg-card p-5 sm:p-6 rounded-2xl shadow-sm">
                 <div className="space-y-4 flex-1">
                   <span className="inline-block text-[9px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
                     {pkg.tag}

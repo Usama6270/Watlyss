@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState } from 'react'
 import Navbar from '@/components/navbar'
@@ -51,7 +51,7 @@ export default function LocationsPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 space-y-16">
+      <main className="flex-1 w-full container-custom py-12 space-y-16">
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
           <Link href="/" className="hover:underline">Home</Link>
@@ -64,7 +64,7 @@ export default function LocationsPage() {
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-primary/10 text-primary">
             <MapPin size={28} />
           </div>
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide">
+          <h1 className="page-title font-light text-foreground tracking-wide">
             Watlys 19L Delivery Coverage in Pakistan
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useEffect } from 'react'
 import Navbar from '@/components/navbar'
@@ -80,7 +80,7 @@ export default function SuccessPage() {
         </div>
 
         <div className="space-y-4">
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-zinc-900">Order Confirmed!</h1>
+          <h1 className="section-title font-medium text-zinc-900">Order Confirmed!</h1>
           <p className="text-zinc-550 font-medium">
             Thank you for choosing Watlys. Your order has been placed successfully and is currently being processed.
           </p>

@@ -162,11 +162,11 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
     <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 transition-colors duration-300">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 flex-1 w-full space-y-24">
+      <main className="container-custom py-10 sm:py-12 flex-1 w-full space-y-16">
         {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Column: Image with zoom */}
-          <div className="lg:col-span-6 relative aspect-square bg-card rounded-2xl overflow-hidden border border-zinc-200/65 dark:border-slate-800/60 shadow-sm">
+          <div className="lg:col-span-6 relative aspect-square bg-card rounded-[var(--radius-xl)] overflow-hidden border border-border shadow-xs">
             <div
               className="w-full h-full relative cursor-zoom-in"
               onMouseMove={handleMouseMove}
@@ -178,25 +178,25 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
-                className="object-contain p-12 transition-transform duration-200"
+                className="object-contain p-8 transition-transform duration-200"
                 style={zoomStyle.display === 'block' ? { transform: zoomStyle.transform, transformOrigin: zoomStyle.transformOrigin } : {}}
               />
             </div>
           </div>
 
           {/* Right Column: Details */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-6">
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-foreground">{product.title}</h1>
+          <div className="lg:col-span-6 flex flex-col justify-center space-y-5">
+            <h1 className="page-title font-medium text-foreground">{product.title}</h1>
             <div className="flex items-center space-x-2 text-sm text-primary">
               <span className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} fill="currentColor" />
+                  <Star key={i} size={14} fill="currentColor" />
                 ))}
               </span>
-              <span className="text-muted-foreground font-semibold">(4.9 rating / 82 reviews)</span>
+              <span className="text-muted-foreground font-medium text-xs">(4.9 rating / 82 reviews)</span>
             </div>
-            <p className="text-3xl font-black text-foreground">${product.price.toFixed(2)}</p>
-            <p className="text-zinc-555 dark:text-slate-200 leading-relaxed text-base">{product.description}</p>
+            <p className="text-xl sm:text-2xl font-medium font-serif text-foreground tracking-tight">${product.price.toFixed(2)}</p>
+            <p className="text-muted-foreground leading-relaxed text-[0.9375rem]">{product.description}</p>
 
             {/* Add to Cart Actions */}
             <div className="flex items-center space-x-4 pt-6 border-t border-border">

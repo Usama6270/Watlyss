@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import Navbar from '@/components/navbar'
@@ -58,7 +58,7 @@ export default function ServicesOverviewPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-2xl sm:text-4xl lg:text-6xl font-serif font-light text-foreground tracking-wide"
+            className="page-title font-light text-foreground tracking-wide"
           >
             Watlys Concierge Services
           </motion.h1>
@@ -68,7 +68,7 @@ export default function ServicesOverviewPage() {
         </section>
 
         {/* Services Grid */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section className="container-custom grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((srv) => (
             <div
               key={srv.slug}

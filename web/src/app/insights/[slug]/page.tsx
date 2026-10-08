@@ -32,7 +32,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
           <span className="inline-block text-[10px] font-bold uppercase tracking-[0.3em] text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
             {article.categoryLabel}
           </span>
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-light text-foreground leading-tight">
+          <h1 className="page-title font-light text-foreground leading-tight">
             {article.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-xs text-zinc-400 font-light">
