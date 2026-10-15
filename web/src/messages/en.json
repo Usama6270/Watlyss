@@ -428,7 +428,11 @@
     "successTitle": "You're subscribed",
     "successDesc": "We'll send fresh water science straight to your inbox.",
     "close": "Close",
-    "exploreCta": "Read Article"
+    "exploreCta": "Read Article",
+    "keyHighlights": "Key Research Highlights",
+    "pdfPlaceholder": "Email for full PDF briefing",
+    "getBriefing": "Get Briefing",
+    "subscribed": "Subscribed! Full PDF briefing sent to your email."
   },
   "about": {
     "title": "Our Story",
