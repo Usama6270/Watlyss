@@ -44,15 +44,16 @@ export default function FinalCtaSection() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.85 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-none absolute w-[380px] h-[380px] sm:w-[500px] sm:h-[500px] rounded-full z-10 overflow-hidden transform-gpu will-change-transform"
+            className="pointer-events-none absolute w-[380px] h-[380px] sm:w-[500px] sm:h-[500px] z-10 transform-gpu will-change-transform"
             style={{
               left: mousePosition.x - 250,
               top: mousePosition.y - 250,
-              maskImage: 'radial-gradient(circle 220px at center, black 30%, transparent 85%)',
-              WebkitMaskImage: 'radial-gradient(circle 220px at center, black 30%, transparent 85%)',
+              maskImage:
+                'radial-gradient(circle 220px at center, black 0%, black 45%, transparent 78%)',
+              WebkitMaskImage:
+                'radial-gradient(circle 220px at center, black 0%, black 45%, transparent 78%)',
             }}
           >
-            <div className="absolute inset-0 bg-white/15 rounded-full blur-xl" />
             <div
               className="absolute inset-0 w-full h-full bg-repeat opacity-40 mix-blend-overlay"
               style={{

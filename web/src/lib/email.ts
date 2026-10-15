@@ -37,14 +37,85 @@ export interface OrderEmailData {
 }
 
 /**
- * Sends a branded Customer Order Confirmation Receipt via Resend.
+ * Minimal English/Urdu string table for the customer-facing order receipt.
+ * Assumption: the admin notification email always stays English-only (the
+ * fulfillment team operates in English), so only the customer receipt
+ * templates below are locale-aware.
  */
-export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
+const CUSTOMER_RECEIPT_STRINGS = {
+  en: {
+    htmlLang: 'en',
+    subjectPrefix: 'Order Confirmation',
+    title: 'Thank You for Your Order!',
+    subtitle: 'Your order has been placed successfully and is being processed.',
+    orderInfoTitle: 'Order Information',
+    orderId: 'Order ID:',
+    orderDate: 'Order Date:',
+    customerName: 'Customer Name:',
+    phoneNumber: 'Phone Number:',
+    deliveryAddress: 'Delivery Address:',
+    pricingTitle: 'Pricing & Items Breakdown',
+    itemCol: 'Item / Description',
+    qtyCol: 'Qty',
+    amountCol: 'Amount',
+    defaultItemTitle: '19L Refill Mineral Water Bottle',
+    rateLabel: 'Rate',
+    perBottle: 'per bottle',
+    subtotal: 'Subtotal:',
+    deliveryFee: 'Delivery Fee:',
+    appliedDiscount: 'Applied Discount',
+    grandTotal: 'Grand Total (PKR):',
+    trackOrder: 'Track Your Order',
+    footerLine1: 'Pure Mineral Water Delivered To Your Doorstep',
+    footerLine2: 'Need assistance? Contact support at support@watlys.com | +92 300 1234567',
+    rightsReserved: 'Watlys Ultra-Pure Water. All rights reserved.',
+  },
+  ur: {
+    htmlLang: 'ur',
+    subjectPrefix: 'آرڈر کی تصدیق',
+    title: 'آپ کے آرڈر کا شکریہ!',
+    subtitle: 'آپ کا آرڈر کامیابی سے موصول ہو گیا ہے اور اس پر عمل جاری ہے۔',
+    orderInfoTitle: 'آرڈر کی معلومات',
+    orderId: 'آرڈر آئی ڈی:',
+    orderDate: 'آرڈر کی تاریخ:',
+    customerName: 'کسٹمر کا نام:',
+    phoneNumber: 'فون نمبر:',
+    deliveryAddress: 'ڈیلیوری کا پتہ:',
+    pricingTitle: 'قیمت اور اشیاء کی تفصیل',
+    itemCol: 'شے / تفصیل',
+    qtyCol: 'تعداد',
+    amountCol: 'رقم',
+    defaultItemTitle: '۱۹ لیٹر ریفل منرل واٹر بوتل',
+    rateLabel: 'ریٹ',
+    perBottle: 'فی بوتل',
+    subtotal: 'ذیلی رقم:',
+    deliveryFee: 'ڈیلیوری فیس:',
+    appliedDiscount: 'لاگو شدہ رعایت',
+    grandTotal: 'کل رقم (PKR):',
+    trackOrder: 'اپنا آرڈر ٹریک کریں',
+    footerLine1: 'خالص منرل واٹر آپ کی دہلیز تک پہنچایا گیا',
+    footerLine2: 'مدد درکار ہے؟ support@watlys.com | +92 300 1234567 پر رابطہ کریں',
+    rightsReserved: 'Watlys الٹرا پیور واٹر۔ جملہ حقوق محفوظ ہیں۔',
+  },
+} as const
+
+/**
+ * Sends a branded Customer Order Confirmation Receipt via Resend.
+ * `locale` only affects this customer-facing receipt — the admin
+ * notification (sendAdminOrderNotification) is always sent in English.
+ */
+export async function sendCustomerOrderConfirmation(
+  orderData: OrderEmailData,
+  locale: 'en' | 'ur' = 'en'
+) {
   const customerEmail = orderData.email || orderData.email
   if (!customerEmail || !customerEmail.includes('@')) {
     console.log(`[Email Dispatch] Skipped customer confirmation email: No valid email provided for order ${orderData.orderNumber}`)
     return { success: false, reason: 'No customer email provided' }
   }
+
+  const s = CUSTOMER_RECEIPT_STRINGS[locale] ?? CUSTOMER_RECEIPT_STRINGS.en
+  const dir = locale === 'ur' ? 'rtl' : 'ltr'
 
   const fromEmail = process.env.EMAIL_FROM || 'Watlys Hydration <onboarding@resend.dev>'
   const orderDateStr = orderData.createdAt
@@ -76,11 +147,11 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
 
   const htmlContent = `
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="${s.htmlLang}" dir="${dir}">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Order Confirmation - Watlys</title>
+      <title>${s.subjectPrefix} - Watlys</title>
       <style>
         body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7fa; color: #1e293b; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
@@ -111,34 +182,34 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
           <!-- Header -->
           <div class="header">
             <div class="logo-badge">Watlys Hydration</div>
-            <h1>Thank You for Your Order!</h1>
-            <p>Your order has been placed successfully and is being processed.</p>
+            <h1>${s.title}</h1>
+            <p>${s.subtitle}</p>
           </div>
 
           <!-- Content -->
           <div class="content">
             <!-- Order Details Card -->
             <div class="card">
-              <div class="card-title">Order Information</div>
+              <div class="card-title">${s.orderInfoTitle}</div>
               <table style="width: 100%;">
                 <tr>
-                  <td class="detail-label" style="padding: 4px 0;">Order ID:</td>
+                  <td class="detail-label" style="padding: 4px 0;">${s.orderId}</td>
                   <td class="detail-value" style="padding: 4px 0;"><strong>${orderData.orderNumber}</strong></td>
                 </tr>
                 <tr>
-                  <td class="detail-label" style="padding: 4px 0;">Order Date:</td>
+                  <td class="detail-label" style="padding: 4px 0;">${s.orderDate}</td>
                   <td class="detail-value" style="padding: 4px 0;">${orderDateStr}</td>
                 </tr>
                 <tr>
-                  <td class="detail-label" style="padding: 4px 0;">Customer Name:</td>
+                  <td class="detail-label" style="padding: 4px 0;">${s.customerName}</td>
                   <td class="detail-value" style="padding: 4px 0;">${orderData.customerName}</td>
                 </tr>
                 <tr>
-                  <td class="detail-label" style="padding: 4px 0;">Phone Number:</td>
+                  <td class="detail-label" style="padding: 4px 0;">${s.phoneNumber}</td>
                   <td class="detail-value" style="padding: 4px 0;">${orderData.phone}</td>
                 </tr>
                 <tr>
-                  <td class="detail-label" style="padding: 4px 0;">Delivery Address:</td>
+                  <td class="detail-label" style="padding: 4px 0;">${s.deliveryAddress}</td>
                   <td class="detail-value" style="padding: 4px 0;">${orderData.deliveryAddress}, ${orderData.city || 'Islamabad/Rawalpindi'}</td>
                 </tr>
               </table>
@@ -146,13 +217,13 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
 
             <!-- Pricing Breakdown -->
             <div style="margin-bottom: 24px;">
-              <div class="card-title">Pricing & Items Breakdown</div>
+              <div class="card-title">${s.pricingTitle}</div>
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Item / Description</th>
-                    <th style="text-align: center;">Qty</th>
-                    <th style="text-align: right;">Amount</th>
+                    <th>${s.itemCol}</th>
+                    <th style="text-align: center;">${s.qtyCol}</th>
+                    <th style="text-align: right;">${s.amountCol}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -171,32 +242,32 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
                           .join('')
                       : `
                         <tr>
-                          <td><strong>19L Refill Mineral Water Bottle</strong><br><span style="font-size: 11px; color: #64748b;">Rate: PKR ${basePrice} per bottle</span></td>
+                          <td><strong>${s.defaultItemTitle}</strong><br><span style="font-size: 11px; color: #64748b;">${s.rateLabel}: PKR ${basePrice} ${s.perBottle}</span></td>
                           <td style="text-align: center;">${bottleQty}</td>
                           <td style="text-align: right;">PKR ${subtotal.toLocaleString()}</td>
                         </tr>
                       `
                   }
                   <tr>
-                    <td colspan="2" style="text-align: right; color: #64748b;">Subtotal:</td>
+                    <td colspan="2" style="text-align: right; color: #64748b;">${s.subtotal}</td>
                     <td style="text-align: right; font-weight: 600;">PKR ${subtotal.toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td colspan="2" style="text-align: right; color: #64748b;">Delivery Fee:</td>
+                    <td colspan="2" style="text-align: right; color: #64748b;">${s.deliveryFee}</td>
                     <td style="text-align: right; font-weight: 600;">PKR ${deliveryFee.toLocaleString()}</td>
                   </tr>
                   ${
                     discountPct > 0 || couponDiscount > 0
                       ? `
                     <tr>
-                      <td colspan="2" style="text-align: right; color: #16a34a;">Applied Discount ${couponCode ? `(${couponCode})` : ''}:</td>
+                      <td colspan="2" style="text-align: right; color: #16a34a;">${s.appliedDiscount} ${couponCode ? `(${couponCode})` : ''}:</td>
                       <td style="text-align: right; font-weight: 600; color: #16a34a;">- PKR ${(couponDiscount || Math.round(subtotal * (discountPct / 100))).toLocaleString()}</td>
                     </tr>
                   `
                       : ''
                   }
                   <tr class="total-row">
-                    <td colspan="2" style="text-align: right;">Grand Total (PKR):</td>
+                    <td colspan="2" style="text-align: right;">${s.grandTotal}</td>
                     <td style="text-align: right;">PKR ${grandTotal.toLocaleString()}</td>
                   </tr>
                 </tbody>
@@ -205,15 +276,15 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
 
             <!-- Action Button -->
             <div class="btn-container">
-              <a href="${trackingUrl}" class="btn">Track Your Order</a>
+              <a href="${trackingUrl}" class="btn">${s.trackOrder}</a>
             </div>
           </div>
 
           <!-- Footer -->
           <div class="footer">
-            <p style="margin: 0 0 8px 0;"><strong>Pure Mineral Water Delivered To Your Doorstep</strong></p>
-            <p style="margin: 0; font-size: 12px;">Need assistance? Contact support at support@watlys.com | +92 300 1234567</p>
-            <p style="margin: 12px 0 0 0; font-size: 11px; opacity: 0.6;">© ${new Date().getFullYear()} Watlys Ultra-Pure Water. All rights reserved.</p>
+            <p style="margin: 0 0 8px 0;"><strong>${s.footerLine1}</strong></p>
+            <p style="margin: 0; font-size: 12px;">${s.footerLine2}</p>
+            <p style="margin: 12px 0 0 0; font-size: 11px; opacity: 0.6;">© ${new Date().getFullYear()} ${s.rightsReserved}</p>
           </div>
         </div>
       </div>
@@ -225,7 +296,7 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: customerEmail,
-      subject: `Order Confirmation - #${orderData.orderNumber}`,
+      subject: `${s.subjectPrefix} - #${orderData.orderNumber}`,
       html: htmlContent,
     })
 
@@ -238,7 +309,7 @@ export async function sendCustomerOrderConfirmation(orderData: OrderEmailData) {
         const fallbackRes = await resend.emails.send({
           from: fromEmail,
           to: adminFallback,
-          subject: `[TEST MODE - Customer Copy for ${customerEmail}] Order Confirmation - #${orderData.orderNumber}`,
+          subject: `[TEST MODE - Customer Copy for ${customerEmail}] ${s.subjectPrefix} - #${orderData.orderNumber}`,
           html: htmlContent,
         })
         if (fallbackRes.data) {

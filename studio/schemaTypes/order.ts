@@ -55,10 +55,14 @@ export const order = defineType({
         }),
         defineField({
           name: 'frequency',
-          title: 'Delivery Frequency',
+          title: 'Delivery Frequency / Duration',
           type: 'string',
           options: {
             list: [
+              { title: '1 Week', value: '1 Week' },
+              { title: '2 Weeks', value: '2 Weeks' },
+              { title: '3 Weeks', value: '3 Weeks' },
+              { title: '1 Month', value: '1 Month' },
               { title: 'Weekly', value: 'Weekly' },
               { title: 'Bi-Weekly', value: 'Bi-Weekly' },
               { title: 'Monthly', value: 'Monthly' },
@@ -73,11 +77,38 @@ export const order = defineType({
           options: {
             list: [
               { title: 'Student', value: 'Student' },
+              { title: 'Family / Individual', value: 'Family / Individual' },
               { title: 'Individual', value: 'Individual' },
               { title: 'Family', value: 'Family' },
               { title: 'Corporate', value: 'Corporate' },
+              { title: 'Single Bottle', value: 'Single Bottle' },
             ],
           },
+        }),
+        defineField({
+          name: 'weeks',
+          title: 'Plan Weeks',
+          type: 'number',
+        }),
+        defineField({
+          name: 'durationId',
+          title: 'Duration ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'packageId',
+          title: 'Package ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'locationId',
+          title: 'Location ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'totalBottles',
+          title: 'Total Scheduled Bottles',
+          type: 'number',
         }),
       ],
     }),
@@ -88,18 +119,58 @@ export const order = defineType({
       fields: [
         defineField({
           name: 'basePrice',
-          title: 'Base Price (PKR)',
+          title: 'Refill Unit Price (PKR)',
           type: 'number',
           initialValue: 320,
         }),
         defineField({
+          name: 'firstFillUnitPrice',
+          title: 'First-Fill Unit Price (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'firstFillSubtotal',
+          title: 'First-Fill Subtotal (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'refillUnitPrice',
+          title: 'Refill Unit Price After Floor (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'refillSubtotal',
+          title: 'Refill Subtotal (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'productSubtotal',
+          title: 'Product Subtotal After Discount (PKR)',
+          type: 'number',
+        }),
+        defineField({
           name: 'subtotal',
-          title: 'Subtotal (PKR)',
+          title: 'Undiscounted Product Subtotal (PKR)',
           type: 'number',
         }),
         defineField({
           name: 'appliedDiscountPercentage',
           title: 'Applied Discount Percentage (%)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'customerDiscountAmount',
+          title: 'Customer Package Discount (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'durationDiscountAmount',
+          title: 'Duration Discount (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'securityDeposit',
+          title: 'Refundable Security Deposit (PKR)',
           type: 'number',
         }),
         defineField({
@@ -119,8 +190,18 @@ export const order = defineType({
           initialValue: 100,
         }),
         defineField({
+          name: 'estimatedMonthlyCost',
+          title: 'Estimated Monthly Cost Ex-Deposit (PKR)',
+          type: 'number',
+        }),
+        defineField({
+          name: 'totalSavings',
+          title: 'Total Savings (PKR)',
+          type: 'number',
+        }),
+        defineField({
           name: 'grandTotal',
-          title: 'Grand Total (PKR)',
+          title: 'Grand Total Payable (PKR)',
           type: 'number',
         }),
       ],

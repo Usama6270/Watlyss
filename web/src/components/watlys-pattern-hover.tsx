@@ -93,15 +93,15 @@ export default function WatlysPatternHover({
               animate={{ opacity: 0.6, scale: 1.25 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-400 blur-2xl opacity-40 shadow-blue-500 pointer-events-none rounded-full"
+              className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-cyan-400 opacity-40 shadow-blue-500 blur-2xl dark:hidden"
             />
           )}
         </AnimatePresence>
 
         {/* Liquid Pattern Layer Masked by Logo */}
-        <div className="relative w-full h-full flex items-center justify-center z-10 overflow-hidden rounded-xl">
+        <div className="relative z-10 flex h-full w-full items-center justify-center overflow-hidden rounded-xl">
           <div
-            className="pointer-events-none w-full h-full bg-cover bg-center transition-all duration-75 mix-blend-screen opacity-80 transform-gpu will-change-transform"
+            className="pointer-events-none h-full w-full transform-gpu bg-cover bg-center opacity-80 mix-blend-screen transition-all duration-75 will-change-transform dark:opacity-50 dark:mix-blend-normal"
             suppressHydrationWarning
             style={{
               backgroundImage: `url(${activePatternUrl})`,
@@ -109,8 +109,8 @@ export default function WatlysPatternHover({
             }}
           />
 
-          {/* Clean Metallic Overlay Grid */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/30 via-transparent to-[var(--background)]/80 pointer-events-none" />
+          {/* Clean Metallic Overlay Grid — solid scrim in dark */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blue-900/30 via-transparent to-[var(--background)]/80 dark:bg-[rgba(11,42,74,0.45)] dark:bg-none" />
 
           {/* Logo Mark Text / Icon or Custom Children */}
           <div className="absolute inset-0 flex items-center justify-center gap-2 px-3 py-1.5 z-20">
@@ -141,8 +141,8 @@ export default function WatlysPatternHover({
       >
         {/* Pulsing Ambient Backlight Glow */}
         <div
-          className={`absolute -inset-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 blur-xl transition-opacity duration-500 ${
-            isHovered ? 'opacity-70 animate-pulse' : 'opacity-0'
+          className={`absolute -inset-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 blur-xl transition-opacity duration-500 dark:hidden ${
+            isHovered ? 'animate-pulse opacity-70' : 'opacity-0'
           }`}
         />
 
@@ -179,14 +179,14 @@ export default function WatlysPatternHover({
     >
       {/* Ambient Pulsing Backlight */}
       <div
-        className={`absolute -inset-4 bg-gradient-to-tr from-blue-600/40 via-cyan-500/30 to-blue-900/0 blur-2xl pointer-events-none transition-all duration-500 ${
-          isHovered ? 'opacity-80 scale-105' : 'opacity-0 scale-95'
+        className={`pointer-events-none absolute -inset-4 bg-gradient-to-tr from-blue-600/40 via-cyan-500/30 to-blue-900/0 blur-2xl transition-all duration-500 dark:hidden ${
+          isHovered ? 'scale-105 opacity-80' : 'scale-95 opacity-0'
         }`}
       />
 
       {/* Dynamic Animated Pattern Layer */}
       <div
-        className="pointer-events-none absolute inset-0 bg-cover bg-center transition-all duration-100 mix-blend-screen transform-gpu will-change-transform"
+        className="pointer-events-none absolute inset-0 transform-gpu bg-cover bg-center mix-blend-screen transition-all duration-100 will-change-transform dark:mix-blend-normal"
         suppressHydrationWarning
         style={{
           backgroundImage: `url(${activePatternUrl})`,
@@ -195,8 +195,8 @@ export default function WatlysPatternHover({
         }}
       />
 
-      {/* Subtle Metallic Edge Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)]/40 via-transparent to-[var(--background)]/90 pointer-events-none" />
+      {/* Subtle Metallic Edge Overlay — solid in dark */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--background)]/40 via-transparent to-[var(--background)]/90 dark:bg-[rgba(11,42,74,0.35)] dark:bg-none" />
 
       {/* Card Content Structure */}
       <div className="relative z-10 flex flex-col space-y-4">

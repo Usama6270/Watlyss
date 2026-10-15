@@ -6,7 +6,6 @@ import {
   motion,
   AnimatePresence,
   useReducedMotion,
-  useInView,
 } from 'framer-motion'
 import {
   ShieldCheck,
@@ -17,7 +16,8 @@ import {
   X,
   ArrowUpRight,
 } from 'lucide-react'
-import BrandStats from '@/components/brand-stats'
+import SectionHeader from '@/components/section-header'
+import { useLanguage } from '@/context/language'
 
 interface FeatureCard {
   id: string
@@ -30,84 +30,25 @@ interface FeatureCard {
   specs: { label: string; value: string }[]
 }
 
-const FEATURE_CARDS: FeatureCard[] = [
-  {
-    id: 'pure-hygienic',
-    title: 'Pure & Hygienic',
-    shortDesc: 'Pharmaceutical-grade bottle handling with a 9-stage purity barrier.',
-    fullDesc:
-      'Watlys implements a 9-stage multi-barrier purification system combined with dual-pass 254nm UV-C lamps and activated ozone infusion. Every 19L carboy undergoes automated high-pressure hydro-thermal washing to eliminate biofilm and microscopic impurities.',
-    icon: ShieldCheck,
-    badge: '9-Stage Purity',
-    highlights: [
-      'Dual UV-C & Ozone Sterilization Process',
-      'Automated High-Pressure CIP Carboy Washing',
-      'Zero Microbiological & E. Coli Contaminants',
-    ],
-    specs: [
-      { label: 'pH Balance', value: '7.8 – 8.2 (Mildly Alkaline)' },
-      { label: 'TDS Level', value: '140 – 180 mg/L (WHO Benchmark)' },
-      { label: 'Bottle Material', value: 'BPA-Free Medical Grade PC' },
-    ],
-  },
-  {
-    id: 'reliable-delivery',
-    title: 'Reliable Delivery',
-    shortDesc: 'Doorstep 19L refills on your schedule — never run dry.',
-    fullDesc:
-      'Our scheduled logistics network ensures your home or business never runs dry. Smart automated routing and dedicated concierges deliver replacement bottles right to your doorstep at your preferred time slots.',
-    icon: Truck,
-    badge: 'On-Time Guarantee',
-    highlights: [
-      'Scheduled Recurring Delivery Slot',
-      'Dedicated Delivery Concierge in Your Area',
-      'Live Order Tracking & Refill Reminders',
-    ],
-    specs: [
-      { label: 'Delivery Windows', value: 'Morning & Evening slots' },
-      { label: 'Service Cities', value: 'Lahore, Karachi, Islamabad' },
-      { label: 'Refill Speed', value: 'Same-Day / 24-Hour Express' },
-    ],
-  },
-  {
-    id: 'flexible-plans',
-    title: 'Flexible Plans',
-    shortDesc: 'Weekly, monthly, or custom — pause anytime, zero lock-in.',
-    fullDesc:
-      'Customized hydration packages tailored for individuals, growing households, and large corporate floors. Easily pause, skip, or modify bottle quantities anytime with zero penalty or locked contracts.',
-    icon: Calendar,
-    badge: 'Zero Lock-in',
-    highlights: [
-      'Weekly, Monthly & Annual Subscriptions',
-      'Instant Bottle Count Adjustments',
-      'Free Pause & Vacation Mode',
-    ],
-    specs: [
-      { label: 'Subscription Discount', value: 'Up to 20% Off Retail' },
-      { label: 'Minimum Order', value: '1 Bottle — No Strict Minimums' },
-      { label: 'Billing Terms', value: 'Pay per delivery or invoice' },
-    ],
-  },
-  {
-    id: 'modern-living',
-    title: 'Made for Modern Living',
-    shortDesc: 'Recurring hydration designed for homes and modern offices.',
-    fullDesc:
-      'Designed to elevate everyday living. From touchless smart coolers with auto-dispense technology to sleek glass carboy options, Watlys merges modern aesthetics with health-first mineral hydration.',
-    icon: Sparkles,
-    badge: 'Smart Hydration',
-    highlights: [
-      'Compatible with Touchless IoT Coolers',
-      'Sleek Eco-Friendly Recyclable Packaging',
-      'Automated Monthly Billing & Invoicing',
-    ],
-    specs: [
-      { label: 'Dispenser Support', value: 'Free Install & Maintenance' },
-      { label: 'Corporate Perks', value: 'Dedicated Account Manager' },
-      { label: 'Customer Care', value: '24/7 WhatsApp Concierge' },
-    ],
-  },
-]
+/**
+ * Builds the feature card data from `t.whyCards` (see src/messages/en.json).
+ * Icons stay hard-coded in source since they aren't localized content.
+ * Note: `whyCards.*` has no dedicated long-form description key, so
+ * `fullDesc` currently reuses `shortDesc` as a fallback (see missing-keys note).
+ */
+function buildFeatureCards(whyCards: {
+  pureHygienic: { title: string; shortDesc: string; badge: string; highlights: string[]; specs: { label: string; value: string }[] }
+  reliableDelivery: { title: string; shortDesc: string; badge: string; highlights: string[]; specs: { label: string; value: string }[] }
+  flexiblePlans: { title: string; shortDesc: string; badge: string; highlights: string[]; specs: { label: string; value: string }[] }
+  modernLiving: { title: string; shortDesc: string; badge: string; highlights: string[]; specs: { label: string; value: string }[] }
+}): FeatureCard[] {
+  return [
+    { id: 'pure-hygienic', icon: ShieldCheck, fullDesc: whyCards.pureHygienic.shortDesc, ...whyCards.pureHygienic },
+    { id: 'reliable-delivery', icon: Truck, fullDesc: whyCards.reliableDelivery.shortDesc, ...whyCards.reliableDelivery },
+    { id: 'flexible-plans', icon: Calendar, fullDesc: whyCards.flexiblePlans.shortDesc, ...whyCards.flexiblePlans },
+    { id: 'modern-living', icon: Sparkles, fullDesc: whyCards.modernLiving.shortDesc, ...whyCards.modernLiving },
+  ]
+}
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -116,61 +57,76 @@ function FeatureCardView({
   index,
   isActive,
   isRecessed,
+  isFar,
   onActivate,
+  onDeactivate,
   onOpen,
 }: {
   item: FeatureCard
   index: number
   isActive: boolean
   isRecessed: boolean
+  isFar: boolean
   onActivate: () => void
+  onDeactivate: () => void
   onOpen: () => void
 }) {
   const Icon = item.icon
+  const [isPressed, setIsPressed] = useState(false)
+  const reduceMotion = useReducedMotion()
+
+  const lift =
+    isActive || isPressed
+      ? 'translate3d(0,-4px,0) scale(1.01)'
+      : 'translate3d(0,0,0) scale(1)'
+
   return (
     <motion.button
       type="button"
       layout={false}
       onMouseEnter={onActivate}
       onFocus={onActivate}
+      onBlur={onDeactivate}
+      onPointerDown={() => {
+        setIsPressed(true)
+        onActivate()
+      }}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
       onClick={onOpen}
       aria-label={`${item.title} — explore specs`}
       className={`glass-feature-card group w-[min(84vw,280px)] sm:w-[300px] shrink-0 p-4 sm:p-5 text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${
         isActive ? 'is-active' : ''
-      } ${isRecessed ? 'is-recessed' : ''}`}
+      } ${isPressed ? 'is-pressed' : ''} ${isFar ? 'is-far' : isRecessed ? 'is-recessed' : ''}`}
       style={{
-        transform: isActive
-          ? 'translate3d(0,-6px,0) scale(1.025)'
-          : isRecessed
-            ? 'translate3d(0,3px,0) scale(0.96)'
-            : 'translate3d(0,0,0) scale(1)',
-        zIndex: isActive ? 2 : 1,
+        transform: reduceMotion ? undefined : lift,
+        zIndex: isActive || isPressed ? 2 : 1,
       }}
-      transition={{ duration: 0.55, ease: EASE }}
+      transition={{ duration: 0.35, ease: EASE }}
     >
       <div className="relative z-[1] flex flex-col h-full min-h-[200px] sm:min-h-[220px]">
         <div className="flex items-start justify-between gap-2 mb-4">
-          <div className={`icon-orb ${index % 2 === 0 ? 'icon-orb-pulse' : ''}`} style={{ animationDelay: `${index * 0.35}s` }}>
+          <div
+            className={`icon-orb ${index % 2 === 0 ? 'icon-orb-pulse' : ''}`}
+            style={{ animationDelay: `${index * 0.35}s` }}
+          >
             <Icon size={18} strokeWidth={1.75} />
           </div>
-          <span className="mt-0.5 inline-flex items-center rounded-full border border-primary/20 bg-primary/8 px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.12em] uppercase text-primary">
-            {item.badge}
-          </span>
+          <span className="feature-badge mt-0.5">{item.badge}</span>
         </div>
 
-        <h3 className="font-display text-[1.15rem] sm:text-[1.25rem] font-medium tracking-[-0.02em] text-foreground leading-snug mb-2">
+        <h3 className="feature-title font-display text-[1.15rem] sm:text-[1.25rem] font-medium tracking-[-0.02em] leading-snug mb-2">
           {item.title}
         </h3>
-        <p className="text-[13px] text-muted-foreground leading-relaxed flex-1">
-          {item.shortDesc}
-        </p>
+        <p className="feature-desc text-[13px] leading-relaxed flex-1">{item.shortDesc}</p>
 
-        <div className="mt-4 pt-3 border-t border-primary/12 flex items-center justify-between">
+        <div className="feature-divider mt-4 pt-3 border-t flex items-center justify-between">
           <span className="cta-explore">
             Explore Specs
             <ArrowUpRight className="cta-arrow" size={13} strokeWidth={2.25} />
           </span>
-          <span className="text-[9px] uppercase tracking-[0.16em] text-muted-foreground/80 font-semibold">
+          <span className="feature-tap text-[9px] uppercase tracking-[0.16em] font-semibold">
             Tap to open
           </span>
         </div>
@@ -212,14 +168,21 @@ function WaterWaveDivider() {
 }
 
 export default function WhyWatlysSection() {
+  const { t, isRtl } = useLanguage()
   const reduceMotion = useReducedMotion()
   const sectionRef = React.useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef, { once: true, margin: '-80px' })
   const [isPaused, setIsPaused] = useState(false)
   const [focusedId, setFocusedId] = useState<string | null>(null)
   const [selectedCard, setSelectedCard] = useState<FeatureCard | null>(null)
   const [isDesktop, setIsDesktop] = useState(false)
   const [portalReady, setPortalReady] = useState(false)
+
+  const FEATURE_CARDS = React.useMemo(() => buildFeatureCards(t.whyCards), [t])
+  const [mobileFeaturedId, setMobileFeaturedId] = useState<string | null>(null)
+
+  useEffect(() => {
+    setMobileFeaturedId(FEATURE_CARDS[0]?.id ?? null)
+  }, [FEATURE_CARDS])
 
   useEffect(() => {
     setPortalReady(true)
@@ -247,12 +210,29 @@ export default function WhyWatlysSection() {
     }
   }, [selectedCard])
 
+  useEffect(() => {
+    if (selectedCard) return
+    setFocusedId(null)
+  }, [selectedCard])
+
   const marqueeItems = [...FEATURE_CARDS, ...FEATURE_CARDS, ...FEATURE_CARDS]
   const hasFocus = focusedId !== null
+  const focusedOrder = focusedId
+    ? FEATURE_CARDS.findIndex((c) => c.id === focusedId)
+    : -1
 
   const openCard = (item: FeatureCard) => {
     setIsPaused(true)
+    setFocusedId(item.id)
     setSelectedCard(item)
+  }
+
+  const neighbourDistance = (itemId: string) => {
+    if (focusedOrder < 0) return 0
+    const order = FEATURE_CARDS.findIndex((c) => c.id === itemId)
+    if (order < 0) return 0
+    const n = FEATURE_CARDS.length
+    return Math.min(Math.abs(order - focusedOrder), n - Math.abs(order - focusedOrder))
   }
 
   return (
@@ -261,24 +241,17 @@ export default function WhyWatlysSection() {
         ref={sectionRef}
         className="trust-story relative section-padding w-full overflow-x-clip select-none"
       >
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="relative z-10 container-custom text-center mb-8 sm:mb-10"
-        >
-          <span className="eyebrow">The Watlys Advantage</span>
-          <h2 className="section-title mt-2.5 sm:mt-3 tracking-[-0.03em]">Why Choose WATLYS?</h2>
-          <p className="section-lead mx-auto mt-2.5 text-pretty">
-            Crystalline purity, doorstep reliability, and plans that flex with your life — tap a card to explore the details.
-          </p>
-        </motion.div>
-
-        <BrandStats />
+        <div className="relative z-10 container-custom">
+          <SectionHeader
+            eyebrow={t.home.why.eyebrow}
+            title={t.home.why.title}
+            lead={t.home.why.lead}
+          />
+        </div>
 
         {isDesktop ? (
           <div
-            className="relative z-10 w-full marquee-mask py-6"
+            className="relative z-10 w-full marquee-mask pb-2"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => {
               setIsPaused(false)
@@ -290,7 +263,7 @@ export default function WhyWatlysSection() {
               animate={
                 reduceMotion || isPaused || selectedCard
                   ? undefined
-                  : { x: ['0%', '-33.333%'] }
+                  : { x: isRtl ? ['-33.333%', '0%'] : ['0%', '-33.333%'] }
               }
               transition={{
                 x: {
@@ -301,38 +274,81 @@ export default function WhyWatlysSection() {
                 },
               }}
             >
-              {marqueeItems.map((item, index) => (
-                <FeatureCardView
-                  key={`${item.id}-${index}`}
-                  item={item}
-                  index={index}
-                  isActive={focusedId === item.id}
-                  isRecessed={hasFocus && focusedId !== item.id}
-                  onActivate={() => setFocusedId(item.id)}
-                  onOpen={() => openCard(item)}
-                />
-              ))}
+              {marqueeItems.map((item, index) => {
+                const dist = neighbourDistance(item.id)
+                return (
+                  <FeatureCardView
+                    key={`${item.id}-${index}`}
+                    item={item}
+                    index={index}
+                    isActive={focusedId === item.id}
+                    isRecessed={hasFocus && focusedId !== item.id && dist === 1}
+                    isFar={hasFocus && focusedId !== item.id && dist > 1}
+                    onActivate={() => setFocusedId(item.id)}
+                    onDeactivate={() => {
+                      if (!selectedCard) setFocusedId(null)
+                    }}
+                    onOpen={() => openCard(item)}
+                  />
+                )
+              })}
             </motion.div>
           </div>
         ) : (
           <div
-            className="relative z-10 w-full marquee-mask px-4"
+            className="relative z-10 w-full marquee-mask px-4 pb-2"
             role="region"
             aria-label="Why choose Watlys features"
           >
-            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {FEATURE_CARDS.map((item, index) => (
-                <div key={item.id} className="snap-center shrink-0 first:ml-2 last:mr-2">
-                  <FeatureCardView
-                    item={item}
-                    index={index}
-                    isActive={focusedId === item.id || focusedId === null}
-                    isRecessed={false}
-                    onActivate={() => setFocusedId(item.id)}
-                    onOpen={() => openCard(item)}
-                  />
-                </div>
-              ))}
+            <div
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              onScroll={(e) => {
+                const el = e.currentTarget
+                const cards = Array.from(el.querySelectorAll<HTMLElement>('[data-feature-id]'))
+                if (!cards.length) return
+                const mid = el.scrollLeft + el.clientWidth / 2
+                let bestId = cards[0]?.dataset.featureId ?? null
+                let bestDist = Infinity
+                for (const card of cards) {
+                  const center = card.offsetLeft + card.offsetWidth / 2
+                  const dist = Math.abs(center - mid)
+                  if (dist < bestDist) {
+                    bestDist = dist
+                    bestId = card.dataset.featureId ?? null
+                  }
+                }
+                if (bestId) setMobileFeaturedId(bestId)
+              }}
+            >
+              {FEATURE_CARDS.map((item, index) => {
+                const activeId = focusedId ?? mobileFeaturedId
+                const activeIdx = FEATURE_CARDS.findIndex((c) => c.id === activeId)
+                const d = Math.min(
+                  Math.abs(index - activeIdx),
+                  FEATURE_CARDS.length - Math.abs(index - activeIdx)
+                )
+                const featured = item.id === activeId
+                return (
+                  <div
+                    key={item.id}
+                    data-feature-id={item.id}
+                    className="snap-center shrink-0 first:ml-2 last:mr-2"
+                  >
+                    <FeatureCardView
+                      item={item}
+                      index={index}
+                      isActive={featured}
+                      isRecessed={!featured && d === 1}
+                      isFar={!featured && d > 1}
+                      onActivate={() => setFocusedId(item.id)}
+                      onDeactivate={() => {
+                        if (!selectedCard) setFocusedId(null)
+                      }}
+                      onOpen={() => openCard(item)}
+                    />
+                  </div>
+                )
+              })}
             </div>
           </div>
         )}
@@ -426,9 +442,9 @@ export default function WhyWatlysSection() {
             </AnimatePresence>,
             document.body
           )}
+        {/* Decorative wave sits in bottom padding — no extra band between sections */}
+        <WaterWaveDivider />
       </section>
-
-      <WaterWaveDivider />
     </>
   )
 }

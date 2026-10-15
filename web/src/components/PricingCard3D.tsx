@@ -74,9 +74,9 @@ export default function PricingCard3D({ children, isPopular = false, className =
           }}
         />
 
-        {/* Soft top wash on hover — below content, no overflow clip */}
+        {/* Soft top wash on hover — light only; dark uses hairline border elsewhere */}
         <div
-          className={`pointer-events-none absolute inset-x-0 top-0 h-20 rounded-t-2xl z-[1] transition-opacity duration-300 ${
+          className={`pointer-events-none absolute inset-x-0 top-0 z-[1] h-20 rounded-t-2xl transition-opacity duration-300 dark:hidden ${
             isHovered ? 'opacity-100' : 'opacity-0'
           }`}
           style={{

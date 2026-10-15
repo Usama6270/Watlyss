@@ -1,0 +1,678 @@
+{
+  "_meta": {
+    "locale": "en",
+    "numeralStyle": "latn",
+    "currency": "PKR"
+  },
+  "meta": {
+    "title": "Watlys — Premium 19L Mineral Water Delivery in Pakistan",
+    "description": "Watlys delivers premium 19L mineral water sourced from protected mountain aquifers to homes, hostels, and offices across Lahore, Karachi & Islamabad. ISO & PSQCA certified purity, on your schedule.",
+    "ogTitle": "Watlys — Pure Water. Delivered Simply.",
+    "ogDescription": "Pakistan's premium 19L mineral water subscription. Lab-tested purity, flexible plans, doorstep delivery across Lahore, Karachi & Islamabad."
+  },
+  "common": {
+    "loading": "Loading",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "search": "Search",
+    "learnMore": "Learn More",
+    "viewAll": "View All",
+    "orderNow": "Order Now",
+    "getDirections": "Get Directions",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "call": "Call",
+    "share": "Share",
+    "copy": "Copy",
+    "copied": "Copied",
+    "required": "Required",
+    "optional": "Optional",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and",
+    "perMonth": "/ month",
+    "perWeek": "/ week",
+    "perYear": "/ year",
+    "pkr": "PKR",
+    "bottles": "Bottles",
+    "people": "People"
+  },
+  "nav": {
+    "home": "Home",
+    "ourWater": "Our Water (19L)",
+    "sustainability": "Sustainability",
+    "services": "Services",
+    "servicesList": {
+      "delivery": "19L Water Delivery",
+      "installation": "Free Bottle Installation",
+      "testing": "Water Testing",
+      "dispenser": "Dispenser Service"
+    },
+    "process": "How It Works",
+    "about": "About Us",
+    "findUs": "Find Us",
+    "findUsList": {
+      "contact": "Contact & WhatsApp",
+      "locations": "Coverage Areas",
+      "inquiry": "Corporate Inquiry"
+    },
+    "order": "Order 19L Water",
+    "whatsapp": "WhatsApp Us",
+    "certifications": "Certifications",
+    "journal": "Water Journal",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "shop": "Shop",
+    "cart": "Cart",
+    "account": "Account",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "languageToggle": "Switch language"
+  },
+  "hero": {
+    "tagline": "Pure Hydration, Delivered",
+    "subtitle": "Pakistan's premier 19L mineral water delivery across Lahore, Karachi & Islamabad",
+    "ctaOrder": "Order 19L Water",
+    "ctaWorks": "How It Works",
+    "ctaWhatsapp": "WhatsApp Concierge",
+    "ctaShop": "Explore 19L Water",
+    "ctaStory": "Our Brand Story",
+    "orderNow": "Order Now"
+  },
+  "home": {
+    "packages": {
+      "eyebrow": "Delivery Plans",
+      "title": "Water Plans for You",
+      "lead": "Choose a standard delivery plan or build a custom plan with our interactive calculator",
+      "standardPlans": "Standard Plans",
+      "customConfigurator": "Custom Configurator",
+      "howOften": "How often do you need water?",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "annual": "Annual (Save 20%)"
+    },
+    "process": {
+      "eyebrow": "Purification",
+      "title": "Five-Stage Purification"
+    },
+    "why": {
+      "eyebrow": "The Watlys Advantage",
+      "title": "Why Choose Watlys",
+      "lead": "Crystalline purity, doorstep reliability, and plans that flex with your life"
+    },
+    "map": {
+      "eyebrow": "Locations",
+      "title": "Find Us Across Pakistan",
+      "lead": "Explore our bottling facilities and regional express fulfillment hubs",
+      "selectHub": "Select Watlys Hub",
+      "activeCenters": "Active Centers",
+      "regionalNetwork": "Regional Delivery Network",
+      "conciergeLine": "Dedicated Concierge Line",
+      "getDirections": "Get Directions",
+      "whatsapp": "WhatsApp"
+    },
+    "certs": {
+      "eyebrow": "Certifications",
+      "title": "Quality You Can Trust"
+    },
+    "newsletter": {
+      "eyebrow": "Water Insights",
+      "title": "Pure Hydration Insights",
+      "lead": "Hover or click any floating mineral bubble below",
+      "soundOn": "Water Pop Audio On",
+      "soundMuted": "Sound Muted"
+    }
+  },
+  "packages": {
+    "tag": "RECOMMENDED WATER PLANS",
+    "title": "Choose Your 19L Delivery Plan",
+    "byAudience": "By Audience",
+    "byDuration": "By Frequency",
+    "student": {
+      "name": "Student & Hostel Plan",
+      "desc": "Ideal for 1–2 students needing pure, uninterrupted drinking water during study routines.",
+      "price": "Starting from PKR 1,200 / mo",
+      "details": [
+        "4 x 19L Bottles per month",
+        "Free dorm/apartment doorstep delivery",
+        "Flexible pause during exam breaks"
+      ]
+    },
+    "family": {
+      "name": "Family Household Collection",
+      "desc": "Complete household daily hydration. Sourced from protected aquifers for family health.",
+      "price": "Starting from PKR 2,800 / mo",
+      "details": [
+        "10 x 19L Bottles per month",
+        "Bi-weekly scheduled doorstep delivery",
+        "Free stainless steel bottle stand included"
+      ]
+    },
+    "corporate": {
+      "name": "Corporate & Office Suite",
+      "desc": "High-volume supply for teams, corporate meeting rooms, and executive suites.",
+      "price": "Custom B2B Quotation",
+      "details": [
+        "20+ x 19L Bottles per month",
+        "Weekly delivery logistics",
+        "Dual-temperature dispenser leasing option"
+      ]
+    },
+    "weekly": {
+      "name": "Weekly 19L Dispatch",
+      "desc": "Regular weekly delivery for active households and hostels.",
+      "price": "Starting from PKR 700 / wk",
+      "details": [
+        "2 x 19L Bottles weekly",
+        "Free doorstep delivery",
+        "Sanitized vessel exchange"
+      ]
+    },
+    "monthly": {
+      "name": "Monthly 19L Subscription",
+      "desc": "Consistent monthly mineral water supply with regular refills.",
+      "price": "Starting from PKR 2,800 / mo",
+      "details": [
+        "8–12 x 19L Bottles monthly",
+        "Bi-weekly scheduled refills",
+        "Free tabletop stand"
+      ]
+    },
+    "annual": {
+      "name": "Annual 19L Pass",
+      "desc": "Year-round guaranteed mineral water supply for corporate & large estates.",
+      "price": "Custom Annual Tier",
+      "details": [
+        "100+ x 19L Bottles annually",
+        "Dedicated account manager",
+        "Free electric chiller maintenance"
+      ]
+    },
+    "custom": {
+      "name": "Custom Plan",
+      "desc": "Build a plan according to your exact requirements.",
+      "btn": "Build Your Plan"
+    },
+    "subscribePlan": "Subscribe Plan",
+    "buildPlan": "Build Your Plan",
+    "cards": {
+      "student": {
+        "shortDesc": "For individuals and students."
+      },
+      "family": {
+        "shortDesc": "For regular household water needs."
+      },
+      "corporate": {
+        "shortDesc": "For offices and businesses."
+      },
+      "custom": {
+        "shortDesc": "Configurable pricing, calculated in real time."
+      }
+    }
+  },
+  "whyCards": {
+    "pureHygienic": {
+      "title": "Pure & Hygienic",
+      "shortDesc": "Pharmaceutical-grade bottle handling with a 9-stage purity barrier.",
+      "badge": "9-Stage Purity",
+      "highlights": [
+        "Dual UV-C & ozone sterilization process",
+        "Automated high-pressure CIP carboy washing",
+        "Zero microbiological & E. coli contaminants"
+      ],
+      "specs": [
+        {
+          "label": "pH Balance",
+          "value": "7.8 – 8.2 (Mildly Alkaline)"
+        },
+        {
+          "label": "TDS Level",
+          "value": "140 – 180 mg/L (WHO Benchmark)"
+        },
+        {
+          "label": "Bottle Material",
+          "value": "BPA-Free Medical Grade PC"
+        }
+      ]
+    },
+    "reliableDelivery": {
+      "title": "Reliable Delivery",
+      "shortDesc": "Doorstep 19L refills on your schedule — never run dry.",
+      "badge": "On-Time Guarantee",
+      "highlights": [
+        "Scheduled recurring delivery slot",
+        "Dedicated delivery concierge in your area",
+        "Live order tracking & refill reminders"
+      ],
+      "specs": [
+        {
+          "label": "Delivery Windows",
+          "value": "Morning & Evening slots"
+        },
+        {
+          "label": "Service Cities",
+          "value": "Lahore, Karachi, Islamabad"
+        },
+        {
+          "label": "Refill Speed",
+          "value": "Same-Day / 24-Hour Express"
+        }
+      ]
+    },
+    "flexiblePlans": {
+      "title": "Flexible Plans",
+      "shortDesc": "Weekly, monthly, or custom — pause anytime, zero lock-in.",
+      "badge": "Zero Lock-in",
+      "highlights": [
+        "Weekly, monthly & annual subscriptions",
+        "Instant bottle count adjustments",
+        "Free pause & vacation mode"
+      ],
+      "specs": [
+        {
+          "label": "Subscription Discount",
+          "value": "Up to 20% Off Retail"
+        },
+        {
+          "label": "Minimum Order",
+          "value": "1 Bottle — No Strict Minimums"
+        },
+        {
+          "label": "Billing Terms",
+          "value": "Pay per delivery or invoice"
+        }
+      ]
+    },
+    "modernLiving": {
+      "title": "Made for Modern Living",
+      "shortDesc": "Recurring hydration designed for homes and modern offices.",
+      "badge": "Smart Hydration",
+      "highlights": [
+        "Compatible with touchless IoT coolers",
+        "Sleek eco-friendly recyclable packaging",
+        "Automated monthly billing & invoicing"
+      ],
+      "specs": [
+        {
+          "label": "Dispenser Support",
+          "value": "Free Install & Maintenance"
+        },
+        {
+          "label": "Corporate Perks",
+          "value": "Dedicated Account Manager"
+        },
+        {
+          "label": "Customer Care",
+          "value": "24/7 WhatsApp Concierge"
+        }
+      ]
+    }
+  },
+  "certsItems": {
+    "labAssay": {
+      "name": "Laboratory Testing Assay",
+      "status": "Verified Batch Protocol",
+      "shortTag": "24/7 QC Lab",
+      "desc": "Every batch of Watlys 19L drinking water undergoes continuous laboratory assay testing for pathogens, mineral balance, and microplastic content before dispatch."
+    },
+    "foodHygiene": {
+      "name": "Food Safety & Hygiene",
+      "status": "Cleanroom Certified",
+      "shortTag": "HACCP Class 100",
+      "desc": "Bottling runs inside a Class 100 sterile positive-pressure cleanroom with ozonated washing and touchless, tamper-evident sealing."
+    },
+    "aquifer": {
+      "name": "Natural Aquifer Stewardship",
+      "status": "Eco-Protected Source",
+      "shortTag": "Deep Aquifer",
+      "desc": "Sourced from protected artesian aquifers beneath mountain rock strata, extracted under strict sustainability limits."
+    },
+    "psqca": {
+      "name": "Pakistani Standards Compliance",
+      "status": "National Standard Compliant",
+      "shortTag": "PSQCA & PCRWR",
+      "desc": "Exceeds statutory PSQCA and PCRWR requirements for bottled drinking water, with full batch traceability on every 19L carboy."
+    },
+    "iso": {
+      "name": "ISO 22000 & HACCP",
+      "status": "Global Quality Assured",
+      "shortTag": "International FSMS",
+      "desc": "Certified under international food safety management systems with HACCP critical control monitoring and annual audits."
+    }
+  },
+  "calculator": {
+    "title": "19L Water Requirement Estimator",
+    "subtitle": "Estimate how many 19L bottles your home, hostel, or office requires dynamically.",
+    "peopleLabel": "Number of People",
+    "placeLabel": "Environment Type",
+    "freqLabel": "Delivery Frequency",
+    "resultTitle": "Estimated Monthly Requirement",
+    "resultEstimate": "Recommended: {count} × 19L Bottles per Month",
+    "cta": "Build My Water Plan",
+    "places": {
+      "home": "Home",
+      "hostel": "Hostel",
+      "office": "Office"
+    },
+    "freqs": {
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    }
+  },
+  "process": {
+    "title": "Our Water Journey",
+    "step1": {
+      "title": "1. Natural Aquifer Source",
+      "desc": "Collected from deep mountain subterranean springs naturally protected from industrial runoff."
+    },
+    "step2": {
+      "title": "2. Decade Geological Filtration",
+      "desc": "Percolates through volcanic stones absorbing bioavailable calcium and magnesium."
+    },
+    "step3": {
+      "title": "3. Lab Batch Assay",
+      "desc": "Tested 24/7 for zero microplastics, TDS 180 mg/L stability, and pH balance."
+    },
+    "step4": {
+      "title": "4. Sterilized 19L Bottling",
+      "desc": "Enclosed into sterilized 19-liter containers under nitrogen pressure."
+    },
+    "step5": {
+      "title": "5. Temperature-Controlled Delivery",
+      "desc": "Delivered directly to your kitchen, hostel room, or office lounge."
+    }
+  },
+  "specs": {
+    "tag": "19L BOTTLE SPECIFICATIONS",
+    "title": "Purity in Every Drop",
+    "subtitle": "Inspected and sealed at subterranean mountain aquifers for optimal daily hydration.",
+    "ph": "pH 7.8 Natural Alkaline",
+    "capacity": "19 Liters (5 Gallons)",
+    "material": "Sterilized Food-Grade Recyclable Glass",
+    "minerals": "TDS 180 mg/L Bioavailable Minerals",
+    "idealUse": "Homes, Hostels, Offices & Corporate Boardrooms"
+  },
+  "products": {
+    "tag": "THE CORE PRODUCT",
+    "title": "Watlys 19L Premium Drinking Water",
+    "viewAll": "View 19L Specifications",
+    "addToCart": "Order 19L Water"
+  },
+  "testimonials": {
+    "tag": "CLIENT VERIFICATIONS",
+    "title": "Trusted Across Pakistan"
+  },
+  "newsletter": {
+    "tag": "KNOWLEDGE & RESEARCH",
+    "title": "Water Insights & Health Papers",
+    "desc": "Read WHO drinking water guidelines, microplastic research, and hydration science.",
+    "emailPlaceholder": "Enter your email address",
+    "button": "Subscribe",
+    "success": "Thank you for subscribing to Watlys Water Insights."
+  },
+  "bubbleModal": {
+    "title": "Water Insights & Health Papers",
+    "subtitle": "Tap a bubble to explore research on purity, minerals & hydration.",
+    "emailPlaceholder": "Enter your email address",
+    "submit": "Subscribe",
+    "successTitle": "You're subscribed",
+    "successDesc": "We'll send fresh water science straight to your inbox.",
+    "close": "Close",
+    "exploreCta": "Read Article"
+  },
+  "about": {
+    "title": "Our Story",
+    "subtitle": "Reimagining the ritual of daily drinking water in Pakistan.",
+    "intro": "Watlys is a premium mineral water brand designed for those who appreciate purity, reliability, and sustainability.",
+    "storyTitle": "The Genesis",
+    "storyText1": "Founded with a vision to deliver uncompromised drinking water across Pakistan, Watlys elevates hydration from a routine necessity into a trusted, premium standard.",
+    "storyText2": "Our water is collected from pristine natural aquifers and delivered in sanitized 19-liter containers.",
+    "sourceTitle": "Sustainably Sourced",
+    "sourceText": "We operate under strict ecological protection principles, ensuring subterranean springs remain preserved for future generations.",
+    "missionTitle": "Our Mission",
+    "missionText": "To make pharmaceutical-grade mineral water a dependable, everyday standard for every home, hostel, and office in Pakistan.",
+    "valuesTitle": "What We Stand For",
+    "values": [
+      {
+        "title": "Purity First",
+        "desc": "Every batch is lab-tested before it reaches your door."
+      },
+      {
+        "title": "Reliability",
+        "desc": "Scheduled delivery you can plan your week around."
+      },
+      {
+        "title": "Sustainability",
+        "desc": "Protecting aquifers and reducing single-use plastic."
+      }
+    ],
+    "teamTitle": "The People Behind Watlys",
+    "teamText": "A dedicated team of hydrogeologists, quality engineers, and delivery concierges working around the clock.",
+    "statsTitle": "Watlys in Numbers",
+    "stats": [
+      {
+        "label": "Cities Served",
+        "value": "3+"
+      },
+      {
+        "label": "Households Hydrated",
+        "value": "10,000+"
+      },
+      {
+        "label": "Lab Tests per Batch",
+        "value": "24/7"
+      }
+    ],
+    "ctaTitle": "Ready to switch to Watlys?",
+    "ctaText": "Join thousands of households and offices enjoying reliable, pure hydration.",
+    "ctaButton": "Order 19L Water"
+  },
+  "account": {
+    "title": "My Account",
+    "welcome": "Welcome back, {name}",
+    "signInPrompt": "Sign in to manage your orders and subscription.",
+    "tabs": {
+      "orders": "Orders",
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "orders": {
+      "title": "Order History",
+      "empty": "You have no orders yet.",
+      "viewDetails": "View Details",
+      "status": {
+        "pending": "Pending",
+        "active": "Active",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled"
+      }
+    },
+    "profile": {
+      "title": "Profile Details",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "address": "Delivery Address",
+      "saveChanges": "Save Changes"
+    },
+    "settings": {
+      "title": "Account Settings",
+      "language": "Language",
+      "notifications": "Notifications",
+      "logout": "Log Out"
+    },
+    "subscription": {
+      "title": "Your Subscription",
+      "plan": "Current Plan",
+      "nextDelivery": "Next Delivery",
+      "bottlesRemaining": "Bottles Remaining",
+      "manage": "Manage Plan"
+    },
+    "overviewTab": "Overview",
+    "ordersTab": "Order History",
+    "subTab": "Active Subscription",
+    "addressesTab": "Saved Addresses",
+    "logout": "Log Out",
+    "activeStatus": "Active Subscription",
+    "pausedStatus": "Subscription Paused",
+    "pauseSub": "Pause Subscription",
+    "resumeSub": "Resume Delivery",
+    "addAddress": "Add New Address",
+    "recentOrders": "Recent Water Orders",
+    "noOrders": "No water delivery orders found yet",
+    "deliveryAddress": "Delivery Address",
+    "totalAmount": "Total Amount",
+    "orderDate": "Order Date"
+  },
+  "footer": {
+    "tagline": "Pakistan's premier 19-liter mineral drinking water subscription service. Delivering subterranean aquifer water directly to homes, student hostels, and corporate offices across Lahore, Karachi, and Islamabad.",
+    "rights": "Watlys Pure Water Pakistan. All rights reserved.",
+    "product": {
+      "title": "PRODUCT",
+      "links": {
+        "water": "19L Water Bottle",
+        "buildPlan": "Build 19L Water Plan",
+        "student": "Student & Hostel Plan",
+        "family": "Family Household Plan",
+        "corporate": "Corporate Suite Plan"
+      }
+    },
+    "services": {
+      "title": "SERVICES",
+      "links": {
+        "delivery": "19L Water Delivery",
+        "installation": "Free Bottle Installation",
+        "testing": "Water Testing Assay",
+        "dispenser": "Dispenser Service"
+      }
+    },
+    "company": {
+      "title": "COMPANY",
+      "links": {
+        "about": "About Watlys",
+        "process": "Water Process",
+        "sustainability": "Sustainability",
+        "insights": "Water Insights",
+        "certifications": "Certifications"
+      }
+    },
+    "support": {
+      "title": "SUPPORT",
+      "links": {
+        "faq": "FAQ",
+        "locations": "Coverage Areas",
+        "contact": "Contact Concierge"
+      }
+    },
+    "legal": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "refund": "Refund / Delivery Policy"
+    },
+    "contact": {
+      "whatsappLabel": "WHATSAPP CONCIERGE",
+      "emailLabel": "EMAIL ASSISTANCE",
+      "regionsLabel": "SERVICE REGIONS",
+      "regions": "Lahore • Karachi • Islamabad"
+    },
+    "newsletterLabel": "SUBSCRIBE TO WATER INSIGHTS",
+    "newsletterNote": "Weekly water insights, no spam — unsubscribe anytime.",
+    "whatsappPrefill": "Hi Watlys, I want to order drinking water",
+    "taglineShort": "Pure by nature, delivered with care"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email Address",
+    "password": "Password",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "errors": {
+      "invalid": "Invalid email or password.",
+      "required": "This field is required.",
+      "network": "Network error. Please try again."
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "steps": {
+      "shipping": "Shipping",
+      "payment": "Payment",
+      "review": "Review"
+    },
+    "shipping": "Shipping Details",
+    "payment": "Payment Method",
+    "review": "Order Review",
+    "placeOrder": "Place Order",
+    "promoCode": "Promo Code",
+    "apply": "Apply",
+    "success": "Your order has been placed successfully",
+    "methods": {
+      "cod": "Cash on Delivery",
+      "card": "Credit / Debit Card",
+      "bank": "Bank Transfer"
+    }
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty.",
+    "subtotal": "Subtotal",
+    "checkout": "Proceed to Checkout",
+    "remove": "Remove",
+    "quantity": "Quantity"
+  },
+  "chatbot": {
+    "greeting": "Hi, I'm the Watlys Concierge. How can I help with your water delivery today?",
+    "placeholder": "Type your message...",
+    "open": "Open chat",
+    "close": "Close chat",
+    "chips": [
+      "Order 19L Water",
+      "Check Delivery Areas",
+      "Pricing & Plans",
+      "Talk to a Human"
+    ],
+    "offline": "We're offline right now — message us on WhatsApp and we'll respond shortly."
+  },
+  "map": {
+    "selectHub": "Select Watlys Hub",
+    "activeCenters": "Active Centers",
+    "regionalNetwork": "Regional Delivery Network",
+    "concierge": "Dedicated Concierge Line",
+    "getDirections": "Get Directions",
+    "whatsappPrefill": "Hi Watlys — I'd like delivery info for {hub}"
+  },
+  "legal": {
+    "privacyTitle": "Privacy Policy",
+    "termsTitle": "Terms & Conditions",
+    "refundTitle": "Refund & Delivery Policy",
+    "needsReviewNote": "This document is pending final legal review and may be updated."
+  },
+  "errors": {
+    "notFoundTitle": "Page Not Found",
+    "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go Home",
+    "generic": "An unexpected error occurred. Please try again."
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "backToTop": "Back to top",
+    "toggleDark": "Switch to dark mode",
+    "toggleLight": "Switch to light mode",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  }
+}

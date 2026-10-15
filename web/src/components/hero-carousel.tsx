@@ -85,7 +85,7 @@ export default function HeroCarousel({ banners }: { banners?: BannerSlide[] }) {
       className="relative w-full h-[650px] sm:h-[750px] overflow-hidden bg-background border border-slate-200/40 dark:border-slate-800/60"
     >
       {/* Delicate background accent */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_var(--tw-gradient-stops))] from-brand-blue/5 via-transparent to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_var(--tw-gradient-stops))] from-brand-blue/5 via-transparent to-transparent dark:hidden" />
 
       {/* Slide Content */}
       <AnimatePresence initial={false} custom={direction} mode="wait">

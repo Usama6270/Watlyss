@@ -8,6 +8,13 @@ const MapSection = dynamic(() => import('@/components/map-section'), {
   loading: () => <div className="min-h-[50vh]" aria-hidden />,
 })
 
+const CertificationsSection = dynamic(
+  () => import('@/components/certifications-section'),
+  {
+    loading: () => <div className="min-h-[30vh]" aria-hidden />,
+  }
+)
+
 const IndustryBriefingSection = dynamic(
   () => import('@/components/industry-briefing-section'),
   {
@@ -16,14 +23,17 @@ const IndustryBriefingSection = dynamic(
   }
 )
 
-/** Client-only below-fold homepage chunks (map + bubble universe). */
+/** Below-fold: map → certifications (just above newsletter) → bubble universe. */
 export default function HomeDeferredSections() {
   return (
     <>
-      <DeferredMount minHeight={480} rootMargin="300px">
+      <DeferredMount minHeight={360} rootMargin="300px">
         <MapSection />
       </DeferredMount>
-      <DeferredMount minHeight={560} rootMargin="400px">
+      <DeferredMount minHeight={280} rootMargin="280px">
+        <CertificationsSection />
+      </DeferredMount>
+      <DeferredMount minHeight={480} rootMargin="400px">
         <IndustryBriefingSection />
       </DeferredMount>
     </>

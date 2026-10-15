@@ -1,495 +1,690 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, animate, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import React, { useMemo, useRef, useState, useEffect, useCallback } from 'react'
+import {
+  motion,
+  AnimatePresence,
+  animate,
+  useReducedMotion,
+} from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Sparkles, Check, Droplets, SlidersHorizontal, Calculator } from 'lucide-react'
+import {
+  ArrowRight,
+  Sparkles,
+  Droplets,
+  SlidersHorizontal,
+  Calculator,
+  GraduationCap,
+  Users,
+  Building2,
+  MapPin,
+  Check,
+  Lock,
+} from 'lucide-react'
 
 import OrderModal from '@/components/order-modal'
+import {
+  CUSTOM_PLAN_CONFIG,
+  calculateCustomPlan,
+  arePackagesUnlocked,
+  toOrderPackageDetails,
+  toOrderPricingSummary,
+  type CustomerPackageId,
+  type DurationId,
+  type LocationId,
+} from '@/lib/pricing/custom-plan'
 
-// CMS / Admin Configurable Pricing Data Structure
-const PRICING_CONFIG = {
-  basePricePer19LBottle: 320,
-  locations: [
-    { id: 'lahore', name: 'Lahore', deliveryFee: 100 },
-    { id: 'islamabad', name: 'Islamabad / Rawalpindi', deliveryFee: 100 },
-    { id: 'rawalpindi', name: 'Rawalpindi', deliveryFee: 100 },
-    { id: 'sialkot', name: 'Sialkot', deliveryFee: 120 },
-    { id: 'other', name: 'Other', deliveryFee: 150 },
-  ],
-  frequencies: [
-    { id: 'weekly', name: 'Weekly', deliveriesPerMonth: 4, discount: 0.05 },
-    { id: 'biweekly', name: 'Every 2 Weeks', deliveriesPerMonth: 2, discount: 0.10 },
-    { id: 'monthly', name: 'Monthly', deliveriesPerMonth: 1, discount: 0.15 },
-  ],
-  customerTypes: [
-    { id: 'student', name: 'Student', discount: 0.10 },
-    { id: 'individual', name: 'Individual', discount: 0.05 },
-    { id: 'family', name: 'Family', discount: 0.08 },
-    { id: 'office', name: 'Office', discount: 0.12 },
-    { id: 'corporate', name: 'Corporate', discount: 0.15 },
-  ],
+function formatPkr(n: number) {
+  return `PKR ${n.toLocaleString()}`
 }
 
-// Smooth Spring Number Counter Component
 function CountUp({ value }: { value: number }) {
+  const reduceMotion = useReducedMotion()
   const [displayValue, setDisplayValue] = useState(value)
 
   useEffect(() => {
+    if (reduceMotion) {
+      setDisplayValue(value)
+      return
+    }
     const controls = animate(displayValue, value, {
-      duration: 0.4,
+      duration: 0.35,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (latest) => setDisplayValue(Math.round(latest)),
     })
     return () => controls.stop()
-  }, [value])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, reduceMotion])
 
   return <span>{displayValue.toLocaleString()}</span>
 }
 
-// 3D Perspective Tilt Card Wrapper
-function TiltCard({ children, className = '', floating = false }: { children: React.ReactNode; className?: string; floating?: boolean }) {
-  const [isHovered, setIsHovered] = useState(false)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 })
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 })
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['6deg', '-6deg'])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-6deg', '6deg'])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
-
-    x.set(mouseX / width - 0.5)
-    y.set(mouseY / height - 0.5)
-  }
-
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-    x.set(0)
-    y.set(0)
-  }
-
-  return (
-    <div style={{ perspective: 1000 }} className="h-full w-full">
-      <motion.div
-        onMouseEnter={handleMouseEnter}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          rotateY,
-          rotateX,
-          transformStyle: 'preserve-3d',
-        }}
-        animate={floating ? { y: [0, -6, 0] } : undefined}
-        transition={floating ? { y: { duration: 4, repeat: Infinity, ease: 'easeInOut' } } : undefined}
-        whileHover={{ scale: 1.01 }}
-        className={`relative h-full w-full overflow-hidden transition-all duration-300 ${className}`}
-      >
-        <div
-          className={`pointer-events-none absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-screen transition-opacity duration-500 rounded-2xl z-0 transform-gpu will-change-transform ${isHovered ? 'opacity-[0.015] dark:opacity-[0.04]' : 'opacity-0'
-            }`}
-          style={{
-            backgroundImage: `url('/patterns/pattern-02.svg'), url('/patterns/Patterns-02.svg')`,
-          }}
-        />
-
-        <div style={{ transform: 'translateZ(25px)', transformStyle: 'preserve-3d' }} className="relative z-10 h-full w-full">
-          {children}
-        </div>
-      </motion.div>
-    </div>
-  )
+const PACKAGE_ICONS: Record<
+  CustomerPackageId,
+  React.ComponentType<{ size?: number; className?: string }>
+> = {
+  student: GraduationCap,
+  family: Users,
+  corporate: Building2,
 }
 
-export default function PackageCalculator({ embedded = false }: { embedded?: boolean }) {
-  const [bottlesPerDelivery, setBottlesPerDelivery] = useState<number>(10)
-  const [frequencyId, setFrequencyId] = useState<string>('biweekly')
-  const [months, setMonths] = useState<number>(6)
-  const [customerTypeId, setCustomerTypeId] = useState<string>('family')
-  const [locationId, setLocationId] = useState<string>('lahore')
+export default function PackageCalculator({
+  embedded = false,
+}: {
+  embedded?: boolean
+}) {
+  const reduceMotion = useReducedMotion()
+  const [packageId, setPackageId] = useState<CustomerPackageId>(
+    CUSTOM_PLAN_CONFIG.defaults.packageId
+  )
+  const [bottlesPerWeek, setBottlesPerWeek] = useState<number>(
+    CUSTOM_PLAN_CONFIG.defaults.bottlesPerWeek
+  )
+  const [durationId, setDurationId] = useState<DurationId>(
+    CUSTOM_PLAN_CONFIG.defaults.durationId
+  )
+  const [locationId, setLocationId] = useState<LocationId>(
+    CUSTOM_PLAN_CONFIG.defaults.locationId
+  )
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
-
-  // Mobile Slide State
-  const [activeSlide, setActiveSlide] = useState<number>(0)
+  const [submitLock, setSubmitLock] = useState(false)
+  const [activeSlide, setActiveSlide] = useState(0)
   const sliderRef = useRef<HTMLDivElement>(null)
+
+  const packagesUnlocked = arePackagesUnlocked(bottlesPerWeek)
+
+  const pricing = useMemo(
+    () =>
+      calculateCustomPlan({
+        packageId: packagesUnlocked ? packageId : CUSTOM_PLAN_CONFIG.defaults.packageId,
+        bottlesPerWeek,
+        durationId,
+        locationId,
+      }),
+    [packageId, bottlesPerWeek, durationId, locationId, packagesUnlocked]
+  )
+
+  const handleBottlesChange = useCallback(
+    (next: number) => {
+      const qty = Math.min(
+        CUSTOM_PLAN_CONFIG.maxBottles,
+        Math.max(CUSTOM_PLAN_CONFIG.minBottles, next)
+      )
+      setBottlesPerWeek(qty)
+      if (!arePackagesUnlocked(qty)) {
+        // Lock packages — reset to safe default for when they unlock again
+        setPackageId(CUSTOM_PLAN_CONFIG.defaults.packageId)
+      } else if (!packagesUnlocked && arePackagesUnlocked(qty)) {
+        // Just unlocked — ensure Family / Individual default
+        setPackageId(CUSTOM_PLAN_CONFIG.defaults.packageId)
+      }
+    },
+    [packagesUnlocked]
+  )
+
+  const selectPackage = useCallback(
+    (id: CustomerPackageId) => {
+      if (!arePackagesUnlocked(bottlesPerWeek)) return
+      setPackageId(id)
+    },
+    [bottlesPerWeek]
+  )
 
   const handleScroll = () => {
     if (!sliderRef.current) return
-    const scrollLeft = sliderRef.current.scrollLeft
     const width = sliderRef.current.clientWidth
     if (width > 0) {
-      const index = Math.round(scrollLeft / width)
-      setActiveSlide(index)
+      setActiveSlide(Math.round(sliderRef.current.scrollLeft / width))
     }
   }
 
   const scrollToSlide = (index: number) => {
     setActiveSlide(index)
-    if (!sliderRef.current) return
-    const width = sliderRef.current.clientWidth
-    sliderRef.current.scrollTo({
-      left: index * width,
-      behavior: 'smooth',
+    sliderRef.current?.scrollTo({
+      left: index * (sliderRef.current.clientWidth || 0),
+      behavior: reduceMotion ? 'auto' : 'smooth',
     })
   }
 
-  // Config lookup
-  const selectedFreq = PRICING_CONFIG.frequencies.find((f) => f.id === frequencyId) || PRICING_CONFIG.frequencies[1]
-  const selectedType = PRICING_CONFIG.customerTypes.find((c) => c.id === customerTypeId) || PRICING_CONFIG.customerTypes[2]
-  const selectedLoc = PRICING_CONFIG.locations.find((l) => l.id === locationId) || PRICING_CONFIG.locations[0]
+  const openOrder = () => {
+    if (pricing.validationErrors.length || submitLock) return
+    setSubmitLock(true)
+    setIsOrderModalOpen(true)
+    window.setTimeout(() => setSubmitLock(false), 600)
+  }
 
-  // Formula Calculations
-  const estimatedDeliveries = selectedFreq.deliveriesPerMonth * months
-  const totalBottles = bottlesPerDelivery * estimatedDeliveries
-  const totalLiters = totalBottles * 19
-
-  const durationDiscount = months >= 12 ? 0.10 : months >= 6 ? 0.05 : 0.0
-  const totalDiscountRate = Math.min(0.35, selectedFreq.discount + selectedType.discount + durationDiscount)
-
-  const subtotal = totalBottles * PRICING_CONFIG.basePricePer19LBottle
-  const discountAmount = Math.round(subtotal * totalDiscountRate)
-  const deliveryCost = selectedLoc.deliveryFee * estimatedDeliveries
-  const estimatedTotal = Math.max(0, subtotal - discountAmount + deliveryCost)
-
-  const monthlyEstimatedCost = Math.round(estimatedTotal / months)
-  const monthlySavings = Math.round(discountAmount / months)
+  const motionSafe = reduceMotion
+    ? { initial: false, animate: {}, exit: {}, transition: { duration: 0 } }
+    : undefined
 
   return (
-    <section id="calculator" className={`relative w-full transition-colors duration-300 font-sans ${embedded ? 'py-2' : 'py-12 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto border-t border-border bg-background overflow-hidden'}`}>
+    <section
+      id="calculator"
+      className={`relative w-full font-sans transition-colors duration-300 ${
+        embedded
+          ? 'py-2'
+          : 'mx-auto max-w-7xl overflow-hidden border-t border-border bg-background px-4 py-12 sm:px-8 sm:py-16 lg:px-16 lg:py-20'
+      }`}
+    >
+      {/* Soft glacier wash — restrained, not neon */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_30%_20%,color-mix(in_srgb,var(--primary)_12%,transparent),transparent_55%),radial-gradient(ellipse_at_80%_60%,color-mix(in_srgb,var(--navy)_6%,transparent),transparent_50%)] dark:bg-[radial-gradient(ellipse_at_30%_10%,color-mix(in_srgb,var(--primary)_18%,transparent),transparent_50%)]"
+      />
 
-      {/* Glassmorphism Background Ambient Glow Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-primary/10 dark:bg-blue-600/15 rounded-full blur-[140px] pointer-events-none z-0" />
-
-      <div className="relative z-10 space-y-8 sm:space-y-12">
-        {/* Animated Title Header (Only if standalone) */}
+      <div className="relative z-10 space-y-6 sm:space-y-8">
         {!embedded && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="text-center space-y-3 sm:space-y-4 max-w-2xl mx-auto"
-          >
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.35em] text-primary inline-flex items-center gap-1.5">
+          <div className="mx-auto max-w-2xl space-y-3 text-center">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.32em] text-primary sm:text-xs">
               <Calculator size={14} />
-              <span>INTERACTIVE CONFIGURATOR</span>
+              <span>Custom Plan Builder</span>
             </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-foreground tracking-wide leading-tight">
-              Build Your Perfect Water Plan.
+            <h2 className="font-serif text-2xl font-bold leading-tight tracking-wide text-foreground sm:text-4xl md:text-[2.75rem]">
+              Build Your Watlys Plan
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-              Tell us what you need. We'll calculate your estimated plan instantly.
+            <p className="text-xs font-light leading-relaxed text-muted-foreground sm:text-sm">
+              Premium 19L mineral water — configure quantity, duration, and
+              delivery in seconds.
             </p>
-          </motion.div>
+          </div>
         )}
 
-        {/* MOBILE SLIDE TOGGLE TABS (Only visible on mobile/tablet below lg) */}
-        <div className="flex lg:hidden justify-center items-center gap-2 p-1.5 bg-zinc-200/70 dark:bg-slate-800/80 rounded-2xl max-w-xs mx-auto shadow-inner">
+        {/* Smart savings banner */}
+        <div className="mx-auto w-full max-w-5xl" style={{ minHeight: '4.5rem' }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${pricing.promoBanner.title}-${packagesUnlocked}-${durationId}`}
+              initial={motionSafe?.initial === false ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+              transition={{ duration: reduceMotion ? 0 : 0.22 }}
+              className={`flex w-full flex-col items-center gap-1 rounded-2xl border px-4 py-3.5 text-center sm:px-6 sm:py-4 ${
+                pricing.promoBanner.locked
+                  ? 'border-amber-500/30 bg-amber-500/8 dark:border-amber-400/25 dark:bg-amber-400/10'
+                  : 'border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent dark:from-primary/15 dark:via-primary/8'
+              }`}
+              role="status"
+              aria-live="polite"
+            >
+              <div
+                className={`flex items-center justify-center gap-2 ${
+                  pricing.promoBanner.locked
+                    ? 'text-amber-700 dark:text-amber-300'
+                    : 'text-primary'
+                }`}
+              >
+                {pricing.promoBanner.locked ? (
+                  <Lock size={15} aria-hidden />
+                ) : (
+                  <Sparkles size={15} aria-hidden />
+                )}
+                <span className="text-[11px] font-bold uppercase tracking-[0.16em] sm:text-xs">
+                  {pricing.promoBanner.title}
+                </span>
+              </div>
+              <p className="max-w-xl text-xs text-foreground/75 sm:text-sm">
+                {pricing.promoBanner.subtitle}
+              </p>
+              {pricing.promoBanner.discountLabel ? (
+                <p className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  {pricing.promoBanner.discountLabel}
+                </p>
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Mobile tabs */}
+        <div className="mx-auto flex max-w-xs items-center justify-center gap-1.5 rounded-2xl border border-border/60 bg-muted/40 p-1.5 lg:hidden">
           <button
             type="button"
             onClick={() => scrollToSlide(0)}
-            className={`flex-1 py-2 px-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
               activeSlide === 0
-                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30'
-                : 'text-zinc-600 dark:text-slate-300 hover:text-foreground'
+                ? 'bg-primary text-primary-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             <SlidersHorizontal size={13} />
-            <span>1. Configure</span>
+            <span>Configure</span>
           </button>
           <button
             type="button"
             onClick={() => scrollToSlide(1)}
-            className={`flex-1 py-2 px-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
               activeSlide === 1
-                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30'
-                : 'text-zinc-600 dark:text-slate-300 hover:text-foreground'
+                ? 'bg-primary text-primary-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             <Sparkles size={13} />
-            <span>2. Summary</span>
+            <span>
+              Summary · {formatPkr(pricing.totalPayable).replace('PKR ', '')}
+            </span>
           </button>
         </div>
 
-        {/* MOBILE SWIPEABLE CAROUSEL & DESKTOP 50/50 GRID */}
         <div
           ref={sliderRef}
           onScroll={handleScroll}
-          className="flex lg:grid lg:grid-cols-12 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none gap-4 lg:gap-10 items-stretch pb-4 lg:pb-0 scrollbar-none transition-all duration-300"
+          className="scrollbar-none flex items-start gap-4 overflow-x-auto pb-4 snap-x snap-mandatory lg:grid lg:grid-cols-12 lg:gap-8 lg:overflow-visible lg:pb-0 lg:snap-none"
         >
+          {/* LEFT — configure */}
+          <div className="w-[88vw] shrink-0 snap-center sm:w-[85vw] lg:col-span-6 lg:w-auto lg:shrink">
+            <div className="space-y-6 rounded-2xl border border-border/80 bg-card/90 p-5 shadow-xl shadow-sky-950/5 backdrop-blur-sm dark:border-slate-700/50 dark:bg-[color-mix(in_srgb,var(--card)_92%,#0A1628)] dark:shadow-black/20 sm:space-y-7 sm:p-7 lg:p-8">
+              {/* 1. Customer type */}
+              <fieldset className="space-y-3">
+                <legend className="flex w-full items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">
+                  <span>1. Customer Type</span>
+                  {!packagesUnlocked ? (
+                    <span className="inline-flex items-center gap-1 normal-case tracking-normal text-amber-700 dark:text-amber-300">
+                      <Lock size={11} />
+                      Locked at 1 bottle
+                    </span>
+                  ) : null}
+                </legend>
 
-          {/* LEFT PANEL: INTERACTIVE CONTROLS (Slide 1 on Mobile) */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, type: 'spring', stiffness: 200, damping: 20 }}
-            className="w-[88vw] sm:w-[85vw] lg:w-auto shrink-0 lg:shrink snap-center lg:col-span-6 h-full"
-          >
-            <TiltCard className="bg-zinc-50/90 dark:bg-card/95 backdrop-blur-xl p-5 sm:p-8 lg:p-10 rounded-2xl border border-zinc-200/80 dark:border-slate-700/60 shadow-xl shadow-sky-950/5 hover:shadow-2xl hover:shadow-primary/10 flex flex-col justify-between space-y-6 sm:space-y-8">
+                {!packagesUnlocked ? (
+                  <p className="rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-[11px] leading-relaxed text-amber-800 dark:text-amber-200/90">
+                    Subscription benefits unlock with 2 or more bottles.
+                  </p>
+                ) : null}
 
-              {/* Variable 1: Number of Bottles */}
-              <div className="space-y-3">
-                <div className="flex justify-between items-baseline flex-wrap gap-1">
-                  <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200">
-                    1. Number of Bottles
-                  </label>
-                  <span className="text-xl sm:text-2xl font-serif font-bold text-primary inline-flex items-center gap-1.5">
-                    <Droplets size={18} />
-                    <span>{bottlesPerDelivery} × 19L Bottles</span>
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="30"
-                  value={bottlesPerDelivery}
-                  onChange={(e) => setBottlesPerDelivery(parseInt(e.target.value))}
-                  className="w-full h-2.5 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary transition-all hover:scale-[1.01]"
-                />
-                <div className="flex justify-between text-[10px] font-semibold text-zinc-400 dark:text-slate-400">
-                  <span>1 Bottle</span>
-                  <span>15 Bottles</span>
-                  <span>30 Bottles</span>
-                </div>
-              </div>
-
-              {/* Variable 2: Delivery Frequency */}
-              <div className="space-y-3">
-                <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200 block">
-                  2. Delivery Frequency
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {PRICING_CONFIG.frequencies.map((f) => (
-                    <motion.button
-                      key={f.id}
-                      type="button"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.96 }}
-                      onClick={() => setFrequencyId(f.id)}
-                      className={`py-2.5 px-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${frequencyId === f.id
-                        ? 'border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/30'
-                        : 'border-zinc-200/80 dark:border-slate-800 text-muted-foreground hover:text-foreground bg-white dark:bg-background'
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+                  {CUSTOM_PLAN_CONFIG.packages.map((pkg) => {
+                    const Icon = PACKAGE_ICONS[pkg.id]
+                    const active = packagesUnlocked && packageId === pkg.id
+                    const locked = !packagesUnlocked
+                    return (
+                      <button
+                        key={pkg.id}
+                        type="button"
+                        disabled={locked}
+                        aria-pressed={active}
+                        aria-disabled={locked}
+                        onClick={() => selectPackage(pkg.id)}
+                        className={`group relative rounded-xl border p-3 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                          locked
+                            ? 'cursor-not-allowed border-border/50 bg-muted/30 opacity-60'
+                            : active
+                              ? 'border-primary bg-primary/12 shadow-md shadow-primary/15 ring-1 ring-primary/40'
+                              : 'border-border/80 bg-background hover:border-primary/45 hover:bg-primary/5'
                         }`}
-                    >
-                      {f.name}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
+                      >
+                        {locked ? (
+                          <span className="absolute right-2 top-2 text-muted-foreground">
+                            <Lock size={12} aria-hidden />
+                          </span>
+                        ) : active ? (
+                          <span className="absolute right-2 top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                            <Check size={10} strokeWidth={3} aria-hidden />
+                          </span>
+                        ) : null}
 
-              {/* Variable 3: Number of Months Slider */}
+                        <div className="mb-2 flex items-center gap-2 pr-5">
+                          <Icon
+                            size={18}
+                            className={
+                              active
+                                ? 'text-primary'
+                                : locked
+                                  ? 'text-muted-foreground/70'
+                                  : 'text-muted-foreground'
+                            }
+                          />
+                          <span
+                            className={`text-[10px] font-bold ${
+                              active ? 'text-primary' : 'text-muted-foreground'
+                            }`}
+                          >
+                            {Math.round(pkg.discount * 100)}% OFF
+                          </span>
+                        </div>
+                        <p
+                          className={`text-xs font-bold uppercase tracking-wider ${
+                            active ? 'text-primary' : 'text-foreground'
+                          }`}
+                        >
+                          {pkg.name}
+                        </p>
+                        {pkg.badge && !locked ? (
+                          <span className="mt-1 inline-block text-[9px] font-semibold uppercase tracking-wide text-primary/80">
+                            {pkg.badge}
+                          </span>
+                        ) : null}
+                        <ul className="mt-2 space-y-1">
+                          {pkg.benefits.slice(0, 3).map((b) => (
+                            <li
+                              key={b}
+                              className="flex items-start gap-1 text-[10px] leading-snug text-muted-foreground"
+                            >
+                              <Check
+                                size={10}
+                                className="mt-0.5 shrink-0 text-primary/70"
+                              />
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </button>
+                    )
+                  })}
+                </div>
+              </fieldset>
+
+              {/* 2. Bottles */}
               <div className="space-y-3">
-                <div className="flex justify-between items-baseline flex-wrap gap-1">
-                  <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200">
-                    3. Duration (Months)
-                  </label>
-                  <span className="text-lg sm:text-xl font-serif font-bold text-foreground">
-                    {months} Months
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="12"
-                  value={months}
-                  onChange={(e) => setMonths(parseInt(e.target.value))}
-                  className="w-full h-2.5 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary transition-all hover:scale-[1.01]"
-                />
-                <div className="flex justify-between text-[10px] font-semibold text-zinc-400 dark:text-slate-400">
-                  <span>1 Month</span>
-                  <span>6 Months</span>
-                  <span>12 Months</span>
-                </div>
-              </div>
-
-              {/* Variable 4: Customer Type */}
-              <div className="space-y-3">
-                <label className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200 block">
-                  4. Customer Type
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                  {PRICING_CONFIG.customerTypes.map((c) => (
-                    <motion.button
-                      key={c.id}
-                      type="button"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.96 }}
-                      onClick={() => setCustomerTypeId(c.id)}
-                      className={`py-2 px-1 text-[10px] font-bold uppercase tracking-wider rounded-xl border transition-all duration-300 cursor-pointer text-center ${customerTypeId === c.id
-                        ? 'border-primary bg-primary/15 text-primary font-extrabold shadow-md shadow-primary/20'
-                        : 'border-zinc-200/80 dark:border-slate-800 text-muted-foreground hover:text-foreground bg-white dark:bg-background'
-                        }`}
-                    >
-                      {c.name}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Variable 5: Delivery Location Dropdown */}
-              <div className="space-y-3">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:text-slate-200 block">
-                  5. Delivery Location
-                </label>
-                <select
-                  value={locationId}
-                  onChange={(e) => setLocationId(e.target.value)}
-                  className="w-full px-4 py-3.5 bg-white dark:bg-background border border-zinc-200/80 dark:border-slate-800 text-xs text-foreground rounded-xl font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
-                >
-                  {PRICING_CONFIG.locations.map((loc) => (
-                    <option key={loc.id} value={loc.id}>
-                      {loc.name} (PKR {loc.deliveryFee} delivery fee / trip)
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-            </TiltCard>
-          </motion.div>
-
-          {/* RIGHT PANEL: LIVE 3D SUMMARY RESULT CARD (Slide 2 on Mobile) */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, type: 'spring', stiffness: 200, damping: 20 }}
-            className="w-[88vw] sm:w-[85vw] lg:w-auto shrink-0 lg:shrink snap-center lg:col-span-6 h-full"
-          >
-            <TiltCard floating className="bg-card p-5 sm:p-8 lg:p-10 rounded-2xl border-2 border-primary shadow-2xl shadow-primary/25 hover:shadow-primary/45 flex flex-col justify-between space-y-6">
-
-              <div className="space-y-6">
-                <div className="flex justify-between items-center border-b border-zinc-100 dark:border-slate-700 pb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary flex items-center gap-1.5">
-                    <Sparkles size={14} />
-                    <span>YOUR CUSTOM PLAN</span>
-                  </span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground bg-zinc-100 dark:bg-background px-3 py-1 rounded-full border dark:border-slate-800 shadow-sm">
-                    Estimated Price
-                  </span>
-                </div>
-
-                {/* Animated Dynamic Counter Trigger */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`${bottlesPerDelivery}-${frequencyId}-${months}-${customerTypeId}-${locationId}`}
-                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    className="space-y-1"
+                <div className="flex flex-wrap items-baseline justify-between gap-1">
+                  <label
+                    htmlFor="bottles-per-week"
+                    className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]"
                   >
-                    <span className="text-2xl sm:text-4xl font-serif font-bold text-foreground block tracking-wide">
-                      {bottlesPerDelivery} × 19L BOTTLES
-                    </span>
-                    <span className="text-xs sm:text-sm font-serif font-medium text-primary block">
-                      Approximately <CountUp value={totalLiters} /> LITERS ({totalBottles} bottles total)
-                    </span>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Price Line Breakdown */}
-                <div className="p-4 sm:p-6 bg-zinc-50/80 dark:bg-background/80 rounded-xl border border-zinc-200/60 dark:border-slate-800 space-y-3 text-xs font-light text-zinc-600 dark:text-slate-200 shadow-inner">
-                  <div className="flex justify-between">
-                    <span>Water ({totalBottles} x 19L Bottles):</span>
-                    <span className="font-semibold text-foreground">PKR <CountUp value={subtotal} /></span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Delivery ({estimatedDeliveries} trips to {selectedLoc.name}):</span>
-                    <span className="font-semibold text-foreground">PKR <CountUp value={deliveryCost} /></span>
-                  </div>
-                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
-                    <span>Discount ({Math.round(totalDiscountRate * 100)}%):</span>
-                    <span>- PKR <CountUp value={discountAmount} /></span>
-                  </div>
-                  <div className="pt-3 border-t border-zinc-200/60 dark:border-slate-800 flex justify-between items-baseline">
-                    <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground">TOTAL:</span>
-                    <span className="text-xl sm:text-3xl font-serif font-bold text-primary">
-                      PKR <CountUp value={estimatedTotal} />
-                    </span>
-                  </div>
+                    2. Bottles / Week
+                  </label>
+                  <span className="inline-flex items-center gap-1.5 font-serif text-xl font-bold text-primary sm:text-2xl">
+                    <Droplets size={18} aria-hidden />
+                    <span>{bottlesPerWeek} × 19L</span>
+                  </span>
                 </div>
+                <input
+                  id="bottles-per-week"
+                  type="range"
+                  min={CUSTOM_PLAN_CONFIG.minBottles}
+                  max={CUSTOM_PLAN_CONFIG.maxBottles}
+                  value={bottlesPerWeek}
+                  onChange={(e) =>
+                    handleBottlesChange(parseInt(e.target.value, 10))
+                  }
+                  className="h-2.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-valuemin={CUSTOM_PLAN_CONFIG.minBottles}
+                  aria-valuemax={CUSTOM_PLAN_CONFIG.maxBottles}
+                  aria-valuenow={bottlesPerWeek}
+                  aria-label="Bottles per week"
+                />
+                <div className="flex justify-between text-[10px] font-semibold text-muted-foreground/80">
+                  <span>1</span>
+                  <span>15</span>
+                  <span>30</span>
+                </div>
+                <p className="text-[10px] leading-relaxed text-muted-foreground">
+                  {bottlesPerWeek === 1 &&
+                    'Single bottle: PKR 1,800 + delivery. Subscription packages locked.'}
+                  {bottlesPerWeek === 2 &&
+                    'Two-bottle rule: PKR 1,500 each + refundable security deposit. Refills from PKR 280.'}
+                  {bottlesPerWeek > 2 &&
+                    `First delivery: PKR ${CUSTOM_PLAN_CONFIG.firstFillBulkUnit.toLocaleString()} / bottle. Refills never below PKR ${CUSTOM_PLAN_CONFIG.minRefillPrice}.`}
+                </p>
+              </div>
 
-                {/* Estimated Monthly Summary */}
-                <div className="flex justify-between items-center text-xs text-muted-foreground font-light px-1 flex-wrap gap-2">
-                  <span>Estimated Monthly Cost: <strong className="text-foreground font-bold">PKR <CountUp value={monthlyEstimatedCost} /></strong></span>
-                  <span>Estimated Savings: <strong className="text-emerald-600 dark:text-emerald-400 font-bold">PKR <CountUp value={monthlySavings} /></strong></span>
+              {/* 3. Duration */}
+              <div className="space-y-3">
+                <label className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">
+                  3. Subscription Duration
+                </label>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {CUSTOM_PLAN_CONFIG.durations.map((d) => {
+                    const active = durationId === d.id
+                    return (
+                      <button
+                        key={d.id}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => setDurationId(d.id)}
+                        className={`rounded-xl border px-2 py-3 text-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                          active
+                            ? 'border-primary bg-primary text-primary-foreground shadow-md shadow-primary/25'
+                            : 'border-border/80 bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground'
+                        }`}
+                      >
+                        <span className="block text-[10px] font-bold uppercase tracking-wider sm:text-[11px]">
+                          {d.name}
+                        </span>
+                        <span
+                          className={`mt-0.5 block text-[9px] font-medium ${
+                            active
+                              ? 'text-primary-foreground/85'
+                              : 'text-muted-foreground'
+                          }`}
+                        >
+                          {d.savingsLabel}
+                        </span>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="space-y-3 pt-2">
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              {/* 4. Location */}
+              <div className="space-y-3">
+                <label
+                  htmlFor="delivery-location"
+                  className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]"
+                >
+                  4. Delivery Location
+                </label>
+                <div className="relative">
+                  <MapPin
+                    size={14}
+                    className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-primary"
+                    aria-hidden
+                  />
+                  <select
+                    id="delivery-location"
+                    value={locationId}
+                    onChange={(e) =>
+                      setLocationId(e.target.value as LocationId)
+                    }
+                    className="w-full cursor-pointer rounded-xl border border-border/80 bg-background py-3.5 pl-9 pr-4 text-xs font-medium text-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+                  >
+                    {CUSTOM_PLAN_CONFIG.locations.map((loc) => (
+                      <option key={loc.id} value={loc.id}>
+                        {loc.name} (PKR {loc.deliveryFee} / trip)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {packagesUnlocked && packageId === 'student' ? (
+                  <p className="text-[10px] text-emerald-600 dark:text-emerald-400">
+                    Student package includes free delivery on all trips.
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — sticky summary */}
+          <div className="w-[88vw] shrink-0 snap-center sm:w-[85vw] lg:col-span-6 lg:w-auto lg:shrink">
+            <div className="lg:sticky lg:top-24">
+              <div className="flex flex-col justify-between space-y-5 rounded-2xl border border-primary/40 bg-gradient-to-b from-card via-card to-primary/[0.04] p-5 shadow-xl shadow-primary/10 dark:border-primary/35 dark:from-[color-mix(in_srgb,var(--card)_95%,#0A1628)] dark:to-primary/10 dark:shadow-black/30 sm:space-y-6 sm:p-7 lg:p-8">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-2 border-b border-border/60 pb-3">
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-primary">
+                      <Sparkles size={13} aria-hidden />
+                      Your Plan Summary
+                    </span>
+                    <span className="rounded-full border border-border/70 bg-muted/50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
+                      {pricing.packagesUnlocked
+                        ? pricing.package?.shortName
+                        : 'Single bottle'}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="font-serif text-2xl font-bold tracking-wide text-foreground sm:text-3xl">
+                      {pricing.bottlesPerWeek} × 19L / Week
+                    </p>
+                    <p className="text-xs font-medium text-primary sm:text-sm">
+                      {pricing.duration.name} · {pricing.totalBottles} bottles
+                      scheduled ({pricing.totalLiters.toLocaleString()} L) ·{' '}
+                      {pricing.deliveryTrips} delivery
+                      {pricing.deliveryTrips === 1 ? '' : ' trips'}
+                    </p>
+                    {pricing.refillBottles > 0 ? (
+                      <p className="text-[11px] text-muted-foreground">
+                        Refill unit after discounts:{' '}
+                        <strong className="text-foreground">
+                          {formatPkr(pricing.refillUnitPrice)}
+                        </strong>{' '}
+                        (min {formatPkr(CUSTOM_PLAN_CONFIG.minRefillPrice)})
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div className="space-y-2.5 rounded-xl border border-border/50 bg-background/70 p-4 text-xs text-muted-foreground dark:bg-background/40 sm:p-5">
+                    {pricing.lineItems.map((item) => {
+                      if (item.tone === 'total') {
+                        return (
+                          <div
+                            key={item.label}
+                            className="flex items-baseline justify-between gap-3 border-t border-border/60 pt-3.5"
+                          >
+                            <span className="text-xs font-bold uppercase tracking-wider text-foreground sm:text-sm">
+                              {item.label}
+                            </span>
+                            <span className="font-serif text-2xl font-bold tabular-nums text-primary sm:text-3xl">
+                              PKR <CountUp value={item.amount} />
+                            </span>
+                          </div>
+                        )
+                      }
+                      return (
+                        <div
+                          key={item.label}
+                          className={`flex justify-between gap-3 ${
+                            item.tone === 'discount'
+                              ? 'font-medium text-emerald-600 dark:text-emerald-400'
+                              : item.tone === 'muted'
+                                ? 'text-muted-foreground/90'
+                                : ''
+                          }`}
+                        >
+                          <span className="min-w-0 leading-snug">
+                            {item.label}
+                          </span>
+                          <span
+                            className={`shrink-0 tabular-nums ${
+                              item.tone === 'discount'
+                                ? 'font-semibold'
+                                : 'font-semibold text-foreground'
+                            }`}
+                          >
+                            {item.amount < 0 ? '− ' : ''}
+                            PKR <CountUp value={Math.abs(item.amount)} />
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {pricing.securityDepositNote ? (
+                    <p className="text-[10px] leading-relaxed text-muted-foreground">
+                      {pricing.securityDepositNote}
+                    </p>
+                  ) : null}
+
+                  <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground sm:grid-cols-2">
+                    <div className="rounded-lg border border-border/40 bg-muted/20 px-3 py-2">
+                      <span className="block text-[9px] font-bold uppercase tracking-wider">
+                        Est. monthly (ex-deposit)
+                      </span>
+                      <strong className="font-serif text-base font-bold text-foreground">
+                        PKR <CountUp value={pricing.estimatedMonthlyCost} />
+                      </strong>
+                    </div>
+                    <div className="rounded-lg border border-border/40 bg-muted/20 px-3 py-2">
+                      <span className="block text-[9px] font-bold uppercase tracking-wider">
+                        Total savings
+                      </span>
+                      <strong className="font-serif text-base font-bold text-emerald-600 dark:text-emerald-400">
+                        PKR <CountUp value={pricing.totalSavings} />
+                      </strong>
+                    </div>
+                  </div>
+
+                  {pricing.benefits.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {pricing.benefits.map((b) => (
+                        <span
+                          key={b}
+                          className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/8 px-2.5 py-1 text-[10px] font-semibold text-primary"
+                        >
+                          <Check size={10} aria-hidden />
+                          {b}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-muted-foreground">
+                      Add a second bottle to unlock subscription benefits and
+                      package discounts.
+                    </p>
+                  )}
+
+                  {pricing.validationErrors.length > 0 ? (
+                    <p className="text-xs font-medium text-rose-500" role="alert">
+                      {pricing.validationErrors[0]}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className="space-y-2.5 pt-1">
                   <button
                     type="button"
-                    onClick={() => setIsOrderModalOpen(true)}
-                    className="w-full py-3.5 sm:py-4 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-bold text-xs uppercase tracking-[0.2em] inline-flex items-center justify-center space-x-2 transition-all duration-300 shadow-xl shadow-primary/35 hover:shadow-primary/50 cursor-pointer"
+                    onClick={openOrder}
+                    disabled={
+                      pricing.validationErrors.length > 0 || submitLock
+                    }
+                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold uppercase tracking-[0.18em] text-primary-foreground shadow-lg shadow-primary/25 transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:py-4"
                   >
-                    <span>ORDER THIS PLAN</span>
-                    <ArrowRight size={14} />
+                    <span>Order This Plan</span>
+                    <ArrowRight size={14} aria-hidden />
                   </button>
-                </motion.div>
-
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     href="/contact"
-                    className="w-full py-3 bg-zinc-100 dark:bg-white dark:text-black hover:dark:bg-slate-100 text-zinc-900 rounded-xl text-[10px] font-bold uppercase tracking-[0.18em] inline-flex items-center justify-center transition-all duration-300 text-center"
+                    className="inline-flex w-full items-center justify-center rounded-xl border border-border/70 bg-background/60 py-3 text-center text-[10px] font-bold uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   >
-                    Talk to WATLYS
+                    Talk to Watlys
                   </Link>
-                </motion.div>
+                </div>
               </div>
-
-            </TiltCard>
-          </motion.div>
-
+            </div>
+          </div>
         </div>
 
-        {/* MOBILE SLIDE DOT INDICATORS (Only visible on mobile/tablet below lg) */}
-        <div className="flex lg:hidden justify-center items-center gap-2 pt-1">
+        <div className="flex items-center justify-center gap-2 pt-1 lg:hidden">
           <button
             type="button"
             onClick={() => scrollToSlide(0)}
-            aria-label="Slide 1"
-            className={`h-2 rounded-full transition-all duration-300 ${
-              activeSlide === 0 ? 'w-6 bg-primary' : 'w-2 bg-zinc-300 dark:bg-slate-700'
+            aria-label="Configure plan"
+            className={`h-2 rounded-full transition-all ${
+              activeSlide === 0 ? 'w-6 bg-primary' : 'w-2 bg-muted-foreground/30'
             }`}
           />
           <button
             type="button"
             onClick={() => scrollToSlide(1)}
-            aria-label="Slide 2"
-            className={`h-2 rounded-full transition-all duration-300 ${
-              activeSlide === 1 ? 'w-6 bg-primary' : 'w-2 bg-zinc-300 dark:bg-slate-700'
+            aria-label="View summary"
+            className={`h-2 rounded-full transition-all ${
+              activeSlide === 1 ? 'w-6 bg-primary' : 'w-2 bg-muted-foreground/30'
             }`}
           />
         </div>
       </div>
 
-      {/* DYNAMIC CHECKOUT ORDER MODAL */}
       <OrderModal
         isOpen={isOrderModalOpen}
         onClose={() => setIsOrderModalOpen(false)}
         initialPackageDetails={{
-          bottleQty: bottlesPerDelivery,
-          frequency: selectedFreq.name,
-          customerSegment: selectedType.name,
-          city: selectedLoc.name,
-          months,
+          ...toOrderPackageDetails(pricing),
+          frequency: pricing.duration.name,
+          customerSegment: pricing.packagesUnlocked
+            ? pricing.package?.name ?? 'Single Bottle'
+            : 'Single Bottle',
+          months: Math.max(1, Math.ceil(pricing.weeks / 4)),
+          weeks: pricing.weeks,
+          pricingSnapshot: toOrderPricingSummary(pricing),
         }}
       />
     </section>
   )
 }
-

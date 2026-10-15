@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/context/language'
+import MicroFoamCanvas from '@/components/micro-foam-canvas'
+import SectionHeader from '@/components/section-header'
 import {
   Sparkles,
   Mail,
@@ -18,12 +20,13 @@ import {
 const EASE_HOVER: [number, number, number, number] = [0.16, 1, 0.3, 1]
 /** Deliberate ease-in-out for morph open/close */
 const EASE_MORPH: [number, number, number, number] = [0.45, 0.05, 0.55, 0.95]
-/** Slow brand hover — inflate / glow / lift (seconds) */
-const HOVER_DURATION = 0.85
-const HOVER_CAPTION_DELAY = 0.38
-const HOVER_CAPTION_DURATION = 0.5
-const HOVER_SCALE = 1.2
-const HOVER_LIFT = -14
+/** Soft hover — scale / opacity / lift (seconds) */
+const HOVER_DURATION = 0.55
+const HOVER_OPACITY_DURATION = 0.5
+const HOVER_CAPTION_DELAY = 0.2
+const HOVER_CAPTION_DURATION = 0.45
+const HOVER_SCALE = 1.16
+const HOVER_LIFT = -10
 
 export type BubbleOrigin = { x: number; y: number; w: number; h: number }
 
@@ -447,24 +450,35 @@ const BUBBLES: BubbleItem[] = [
 
 const DEPTH_STYLE: Record<
   Depth,
-  { size: { mobile: number; tablet: number; desktop: number }; opacity: number; blur: number; z: number }
+  {
+    size: { mobile: number; tablet: number; desktop: number }
+    /** Image layer only — glass rim/highlights stay at full strength */
+    imageOpacity: number
+    imageOpacityHover: number
+    /** Soft depth blur on the photo only (px) */
+    imageBlur: number
+    z: number
+  }
 > = {
   near: {
     size: { mobile: 108, tablet: 148, desktop: 180 },
-    opacity: 1,
-    blur: 0,
+    imageOpacity: 0.6,
+    imageOpacityHover: 0.98,
+    imageBlur: 0,
     z: 30,
   },
   mid: {
     size: { mobile: 80, tablet: 112, desktop: 136 },
-    opacity: 0.86,
-    blur: 0.85,
+    imageOpacity: 0.52,
+    imageOpacityHover: 0.95,
+    imageBlur: 0.7,
     z: 20,
   },
   far: {
     size: { mobile: 54, tablet: 72, desktop: 90 },
-    opacity: 0.58,
-    blur: 1.8,
+    imageOpacity: 0.45,
+    imageOpacityHover: 0.92,
+    imageBlur: 1.4,
     z: 10,
   },
 }
@@ -482,19 +496,6 @@ function riseDurationFor(item: BubbleItem, breakpoint: Breakpoint): number {
   if (breakpoint === 'mobile') d *= 1.08
   return Math.round(d * 10) / 10
 }
-
-const MICRO_BUBBLES = Array.from({ length: 10 }, (_, i) => ({
-  id: `micro-${i}`,
-  lane: 6 + ((i * 37) % 88),
-  size: 4 + (i % 5) * 2.2,
-  duration: 28 + (i % 7) * 3.5,
-  delay: -((i * 4.2) % 30),
-  wobbleA: 6 + (i % 4) * 2,
-  wobbleB: -8 - (i % 3) * 2,
-  wobbleC: 5 + (i % 5),
-  wobbleD: -6 - (i % 4),
-  depth: (i % 3 === 0 ? 'far' : i % 3 === 1 ? 'mid' : 'near') as Depth,
-}))
 
 let sharedAudioCtx: AudioContext | null = null
 
@@ -647,17 +648,16 @@ function FloatingBubble({
       style={
         {
           left: `${item.lane}%`,
-          bottom: `-${Math.round(size * 0.35)}px`,
+          bottom: `-${Math.round(size * 0.2)}px`,
           width: size,
           height: size,
           marginLeft: -size / 2,
           zIndex: hovered && !isActive ? 60 : depth.z,
-          opacity: isActive ? 0 : undefined,
+          opacity: isActive ? 0 : 1,
           pointerEvents: isActive ? 'none' : undefined,
           animationDuration: `${riseDuration}s`,
           animationDelay: `${riseDelay}s`,
-          '--rise-h': `${fieldHeight + size * 1.2}px`,
-          '--bubble-opacity': String(depth.opacity),
+          '--rise-h': `${fieldHeight + size * 1.05}px`,
           '--wobble-a': `${item.wobbleA}px`,
           '--wobble-b': `${item.wobbleB}px`,
           '--wobble-c': `${item.wobbleC}px`,
@@ -665,125 +665,71 @@ function FloatingBubble({
         } as React.CSSProperties
       }
     >
-      {/* Soft underwater glow under the orb */}
-      <motion.span
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[58%] rounded-full"
-        initial={false}
-        animate={{
-          width: size * (hovered ? 1.85 : 1.35),
-          height: size * (hovered ? 0.55 : 0.4),
-          x: '-50%',
-          y: '-50%',
-          opacity: hovered ? 0.85 : 0.45,
-          filter: `blur(${hovered ? 22 : 14}px)`,
-        }}
-        transition={{ duration: HOVER_DURATION, ease: EASE_HOVER }}
-        style={{ background: `radial-gradient(ellipse, ${item.glowColor} 0%, transparent 72%)` }}
-      />
-
-      {/* Aura bloom */}
-      <motion.span
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 rounded-full"
-        initial={false}
-        animate={{
-          width: size * (hovered ? 2.2 : 1.6),
-          height: size * (hovered ? 2.2 : 1.6),
-          x: '-50%',
-          y: '-50%',
-          opacity: hovered ? 0.95 : 0.55,
-          filter: `blur(${hovered ? 26 : 15}px)`,
-        }}
-        transition={{ duration: HOVER_DURATION, ease: EASE_HOVER }}
-        style={{ background: `radial-gradient(circle, ${item.glowColor} 0%, transparent 68%)` }}
-      />
-
-      {/* Glass orb */}
+      {/* Glass sphere — wrapper always opacity 1; only the photo layer fades */}
       <motion.span
         className="bubble-glass-shell relative will-change-transform"
         initial={false}
         animate={{
           scale: hovered ? HOVER_SCALE : 1,
           y: hovered ? HOVER_LIFT : 0,
-          filter: depth.blur
-            ? `blur(${hovered ? Math.max(0, depth.blur * 0.25) : depth.blur}px)`
-            : 'blur(0px)',
         }}
         transition={{ duration: HOVER_DURATION, ease: EASE_HOVER }}
-        style={{
-          boxShadow: hovered
-            ? `0 28px 56px ${item.glowColor}, 0 0 0 1.5px rgba(255,255,255,0.7) inset, inset 0 -14px 26px rgba(10,70,160,0.2)`
-            : undefined,
-        }}
       >
-        {/* Image through lens */}
-        <motion.img
-          src={item.imageSrc}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="absolute inset-0 z-[1] h-full w-full object-cover"
-          sizes={`${size}px`}
-          initial={false}
-          animate={{
-            scale: hovered ? 1.18 : 1.1,
-            filter: hovered
-              ? 'saturate(1.2) contrast(1.1) brightness(1.05)'
-              : 'saturate(1.05) contrast(1.04) brightness(0.98)',
-          }}
-          transition={{ duration: HOVER_DURATION, ease: EASE_HOVER }}
-        />
+        {/* IMAGE LAYER — soft radial dissolve + depth opacity */}
+        <span className="bubble-image-layer" aria-hidden={false}>
+          <motion.img
+            src={item.imageSrc}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            sizes={`${size}px`}
+            initial={false}
+            animate={{
+              opacity: hovered ? depth.imageOpacityHover : depth.imageOpacity,
+              scale: hovered ? 1.22 : 1.18,
+              filter: hovered
+                ? `saturate(0.95) contrast(1.04) brightness(1.02) blur(0px)`
+                : `saturate(0.85) contrast(1.02) brightness(1) blur(${depth.imageBlur}px)`,
+            }}
+            transition={{ duration: HOVER_OPACITY_DURATION, ease: EASE_HOVER }}
+          />
+        </span>
 
-        {/* Volume glass wash */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-[2] rounded-full"
-          style={{
-            background:
-              'linear-gradient(155deg, rgba(255,255,255,0.42) 0%, transparent 38%, transparent 62%, rgba(10,110,189,0.2) 100%)',
-          }}
-        />
+        {/* Flat cool tint — brand family, masked with the photo */}
+        <span aria-hidden className="bubble-image-tint" />
 
-        {/* Specular highlights */}
-        <span
-          aria-hidden
-          className="bubble-specular left-[16%] top-[11%] h-[30%] w-[40%]"
-          style={{ filter: 'blur(0.4px)' }}
-        />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute bottom-[16%] right-[18%] z-[5] h-[16%] w-[22%] rounded-[50%] bg-white/25 blur-[1px]"
-        />
+        {/* Delicate crescent + tiny secondary reflection */}
+        <span aria-hidden className="bubble-specular" />
+        <span aria-hidden className="bubble-specular-secondary" />
 
-        {/* Caption */}
+        {/* Caption — appears with hover */}
         <motion.span
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex flex-col items-center justify-end px-2.5 pb-3.5 pt-12"
+          className="bubble-caption-scrim pointer-events-none absolute inset-x-0 bottom-0 z-30 flex flex-col items-center justify-end px-2.5 pb-3.5 pt-12"
           style={{
             background:
-              'linear-gradient(to top, rgba(7,16,28,0.84) 0%, rgba(7,16,28,0.35) 55%, transparent 100%)',
+              'linear-gradient(to top, rgba(7,16,28,0.78) 0%, rgba(7,16,28,0.28) 55%, transparent 100%)',
           }}
           initial={false}
-          animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
+          animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 8 }}
           transition={{
             duration: HOVER_CAPTION_DURATION,
             delay: hovered ? HOVER_CAPTION_DELAY : 0,
             ease: EASE_HOVER,
           }}
         >
-          <span className="mb-1 text-[8px] font-bold uppercase tracking-[0.18em] text-sky-200/90">
+          <span className="mb-1 text-[8px] uppercase tracking-[0.18em] text-sky-200/90">
             {item.badge}
           </span>
           <span
-            className={`font-serif font-bold leading-tight text-white drop-shadow-md ${
+            className={`leading-tight tracking-tight text-white drop-shadow-md ${
               item.depth === 'near' ? 'text-[14px] sm:text-[16px]' : 'text-[12px] sm:text-[14px]'
             }`}
           >
             {item.title}
           </span>
           {item.depth !== 'far' && (
-            <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-sky-100/90">
+            <span className="mt-0.5 text-[9px] uppercase tracking-[0.14em] text-sky-100/90">
               {item.subtitle}
             </span>
           )}
@@ -942,7 +888,11 @@ function BubbleMorphCard({
             draggable={false}
           />
           <div
-            className="pointer-events-none absolute inset-0"
+            className={`pointer-events-none absolute inset-0 ${
+              phase === 'open' || phase === 'closingText'
+                ? 'bubble-morph-scrim'
+                : 'bubble-morph-scrim-light'
+            }`}
             style={{
               background:
                 phase === 'open' || phase === 'closingText'
@@ -1005,7 +955,7 @@ function BubbleMorphCard({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 12 }}
                 transition={{ duration: 0.48, delay: 0.36, ease: EASE_HOVER }}
-                className="mb-2 font-serif text-[1.25rem] sm:text-[1.5rem] font-medium leading-snug tracking-tight text-foreground"
+                className="mb-2 text-[1.25rem] font-medium leading-snug tracking-tight text-foreground sm:text-[1.5rem]"
               >
                 {item.headline}
               </motion.h3>
@@ -1016,10 +966,10 @@ function BubbleMorphCard({
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.45, delay: 0.48, ease: EASE_HOVER }}
               >
-                <div className="mb-3 h-0.5 w-14 rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500" />
+                <div className="mb-3 h-0.5 w-14 rounded-full bg-gradient-to-r from-sky-500 via-cyan-400 to-indigo-500 dark:bg-white dark:bg-none" />
                 <p className="mb-4 text-[14px] leading-relaxed text-muted-foreground">{item.excerpt}</p>
-                <div className="mb-5 space-y-2 rounded-2xl border border-sky-100/80 bg-sky-50/70 p-3.5 dark:border-sky-900/50 dark:bg-sky-950/40">
-                  <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
+                <div className="mb-5 space-y-2 rounded-2xl border border-sky-100/80 bg-sky-50/70 p-3.5 dark:border-[var(--border)] dark:bg-[var(--bg-raised)]">
+                  <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-700 dark:text-white/80">
                     ✦ {t.bubbleModal?.keyHighlights || (isRtl ? 'اہم تحقیقی نکات' : 'Key Research Highlights')}
                   </span>
                   {item.highlights.map((h) => (
@@ -1029,7 +979,7 @@ function BubbleMorphCard({
                         isRtl ? 'flex-row-reverse' : ''
                       }`}
                     >
-                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-white">
+                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-white dark:bg-white dark:bg-none dark:text-[var(--bg-base)]">
                         <CheckCircle2 size={10} strokeWidth={3} />
                       </span>
                       <span>{h}</span>
@@ -1066,7 +1016,7 @@ function BubbleMorphCard({
                 </div>
                 <button
                   type="submit"
-                  className="shrink-0 cursor-pointer rounded-xl bg-gradient-to-r from-primary via-[#007AFF] to-[#0099FF] px-5 py-3 text-[13px] font-bold text-white shadow-[0_12px_32px_rgba(0,100,208,0.4)]"
+                  className="btn-primary shrink-0 cursor-pointer !rounded-xl px-5 py-3 text-[13px] font-bold"
                 >
                   <span className="inline-flex items-center gap-2">
                     {t.bubbleModal?.getBriefing || t.newsletter.button}
@@ -1121,8 +1071,6 @@ export default function NewsletterBubbleUniverse() {
     () => BUBBLES.filter((b) => b.show.includes(breakpoint)),
     [breakpoint]
   )
-
-  const microCount = breakpoint === 'mobile' ? 5 : breakpoint === 'tablet' ? 7 : 10
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -1196,32 +1144,22 @@ export default function NewsletterBubbleUniverse() {
 
   return (
     <section
+      id="industry-briefing"
       ref={sectionRef}
-      className="newsletter-universe relative w-full overflow-x-clip pt-14 pb-12 sm:pt-18 sm:pb-16 md:pt-20 md:pb-20 font-sans text-foreground select-none"
+      className="newsletter-universe relative w-full overflow-x-visible section-padding font-sans text-foreground select-none"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, ease: EASE_HOVER }}
-        className="relative z-20 mx-auto mb-1 max-w-5xl px-4 text-center sm:mb-2"
-      >
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-primary shadow-xs backdrop-blur-sm dark:bg-sky-500/20 dark:text-sky-300 sm:text-xs">
-          <Sparkles size={13} className="text-amber-400" />
-          <span>Watlys Interactive Newsletter Universe</span>
-        </div>
-
-        <h2 className="section-title mb-2">
-          Explore Pure Hydration Intelligence
-        </h2>
-        <p className="section-lead mx-auto">
-          Hover or click any floating mineral bubble below
-        </p>
+      <div className="relative z-20 container-custom text-center">
+        <SectionHeader
+          eyebrow={t.home.newsletter.eyebrow}
+          title={t.home.newsletter.title}
+          lead={t.home.newsletter.lead}
+          className="mb-3"
+        />
 
         <button
           type="button"
           onClick={() => setSoundMuted((m) => !m)}
-          className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground shadow-xs backdrop-blur-sm transition-colors hover:bg-muted sm:text-[11px]"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground shadow-xs backdrop-blur-sm transition-colors hover:bg-muted sm:text-[11px]"
           title={soundMuted ? 'Unmute water pop sound effects' : 'Mute water pop sound effects'}
         >
           {soundMuted ? (
@@ -1229,107 +1167,37 @@ export default function NewsletterBubbleUniverse() {
           ) : (
             <Volume2 size={13} className="text-emerald-500" />
           )}
-          <span>{soundMuted ? 'Sound Muted' : 'Water Pop Audio On'}</span>
+          <span>{soundMuted ? t.home.newsletter.soundMuted : t.home.newsletter.soundOn}</span>
         </button>
-      </motion.div>
+      </div>
 
+      {/* Bubble field fills section — no extra empty band below */}
       <div
         ref={fieldRef}
-        className="relative mx-auto w-full max-w-6xl px-2 sm:px-4"
+        className="relative z-10 mx-auto mt-4 w-full max-w-none overflow-visible px-0 sm:mt-5 sm:px-2"
         style={{
           height:
-            breakpoint === 'mobile' ? 480 : breakpoint === 'tablet' ? 600 : 720,
+            breakpoint === 'mobile' ? 400 : breakpoint === 'tablet' ? 480 : 560,
         }}
       >
-        {/* Underwater wash */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse 75% 65% at 50% 58%, rgba(56,189,248,0.2) 0%, rgba(59,130,246,0.08) 48%, transparent 78%)',
-          }}
-        />
-        {/* Caustic rays */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.16] dark:opacity-[0.22]"
-          style={{
-            background: `
-              radial-gradient(ellipse 18% 42% at 24% 18%, rgba(255,255,255,0.9) 0%, transparent 70%),
-              radial-gradient(ellipse 14% 36% at 72% 12%, rgba(186,230,253,0.85) 0%, transparent 70%),
-              radial-gradient(ellipse 12% 28% at 52% 8%, rgba(224,242,254,0.7) 0%, transparent 65%)
-            `,
-            animation: pauseAll ? undefined : 'causticShift 18s ease-in-out infinite',
-          }}
-        />
-        {/* Sparkle motes */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 opacity-35 dark:opacity-25"
-          style={{
-            backgroundImage: `radial-gradient(circle at 18% 28%, rgba(224,242,254,0.95) 0.7px, transparent 1.4px),
-              radial-gradient(circle at 72% 48%, rgba(186,230,253,0.85) 0.6px, transparent 1.3px),
-              radial-gradient(circle at 42% 78%, rgba(255,255,255,0.9) 0.5px, transparent 1.2px)`,
-            backgroundSize: '55% 70%, 50% 65%, 60% 75%',
-            animation: pauseAll ? undefined : 'motesFloat 26s linear infinite',
-          }}
-        />
-
-        {/* Soft dissolve bands — prevent hard rectangular clip at top/bottom */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-40 h-24 sm:h-28"
-          style={{
-            background: 'linear-gradient(to bottom, var(--background) 0%, transparent 100%)',
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-20 sm:h-24"
-          style={{
-            background:
-              'linear-gradient(to top, color-mix(in srgb, #072033 35%, transparent) 0%, transparent 100%)',
-          }}
-        />
-
         <div
           ref={bubbleStageRef}
-          className={`bubble-field-stage absolute inset-0 ${pauseAll ? '[&_.bubble-rise]:![animation-play-state:paused] [&_.micro-bubble]:![animation-play-state:paused]' : ''}`}
+          className={`bubble-field-stage absolute inset-0 ${pauseAll ? '[&_.bubble-rise]:![animation-play-state:paused]' : ''}`}
         >
-          {!reduceMotion &&
-            MICRO_BUBBLES.slice(0, microCount).map((m) => (
-              <span
-                key={m.id}
-                aria-hidden
-                className="micro-bubble"
-                style={
-                  {
-                    left: `${m.lane}%`,
-                    bottom: `-${m.size}px`,
-                    width: m.size,
-                    height: m.size,
-                    marginLeft: -m.size / 2,
-                    zIndex: DEPTH_STYLE[m.depth].z - 1,
-                    animationDuration: `${m.duration}s`,
-                    animationDelay: `${m.delay}s`,
-                    '--rise-h': `${fieldHeight + 40}px`,
-                    '--bubble-opacity': '0.5',
-                    '--wobble-a': `${m.wobbleA}px`,
-                    '--wobble-b': `${m.wobbleB}px`,
-                    '--wobble-c': `${m.wobbleC}px`,
-                    '--wobble-d': `${m.wobbleD}px`,
-                  } as React.CSSProperties
-                }
-              />
-            ))}
+          <MicroFoamCanvas
+            active={!pauseAll}
+            reduceMotion={reduceMotion}
+            breakpoint={breakpoint}
+          />
 
           {visibleBubbles.map((item, index) => {
             const dur = reduceMotion ? 120 : riseDurationFor(item, breakpoint)
+            const n = Math.max(visibleBubbles.length, 1)
+            /* Evenly seed along the full rise path so the field is dense top-to-bottom */
             const delay = reduceMotion
               ? 0
-              : -((index / Math.max(visibleBubbles.length, 1)) * dur) -
-                ((item.lane % 7) * 0.35)
+              : -(((index + 0.5) / n) * dur) -
+                (((item.lane * 13 + item.id.charCodeAt(0)) % 100) / 100) * (dur * 0.08)
             return (
               <FloatingBubble
                 key={item.id}

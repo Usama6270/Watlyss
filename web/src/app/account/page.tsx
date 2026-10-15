@@ -599,7 +599,7 @@ export default function AccountPage() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-primary to-sky-700 text-white p-6 rounded-3xl space-y-3 shadow-lg">
+              <div className="space-y-3 rounded-3xl bg-gradient-to-br from-primary to-sky-700 p-6 text-white shadow-lg dark:bg-[var(--bg-raised)] dark:bg-none dark:shadow-none dark:ring-1 dark:ring-[var(--border)]">
                 <Shield size={24} className="text-sky-200" />
                 <h4 className="font-serif font-bold text-lg">Pure Mineral Assurance</h4>
                 <p className="text-xs text-sky-100 leading-relaxed">

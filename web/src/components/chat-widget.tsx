@@ -21,6 +21,7 @@ import {
   PhoneCall,
   Sparkles
 } from 'lucide-react';
+import { useLanguage } from '@/context/language';
 
 interface OrderCardData {
   orderNumber: string;
@@ -53,17 +54,23 @@ interface Message {
   whatsappUrl?: string;
 }
 
-const ACTION_CHIPS = [
-  { id: 'pricing', label: '💰 Pricing & Plans' },
-  { id: 'tracking', label: '🚚 Order Tracking' },
-  { id: 'subscription', label: '⏸️ Pause/Resume Subscription' },
-  { id: 'discounts', label: '🎁 Active Discounts' },
-  { id: 'human', label: '💬 Talk to Human (WhatsApp)' },
-];
-
-const INITIAL_BOT_GREETING = "👋 Welcome to **Watlys Assistant**! How can I help you with your 19L mineral water delivery today?";
-
 export function ChatWidget() {
+  const { t } = useLanguage();
+
+  // Chip `id` drives intent-matching (kept English/stable); `label` is the
+  // localized, user-facing text. `chatbot.chips` only has 4 generic entries
+  // (see en.json/ur.json) so only pricing + human map 1:1 — the rest keep
+  // their English copy until dedicated keys exist (see missing-keys note).
+  const ACTION_CHIPS = [
+    { id: 'pricing', label: `💰 ${t.chatbot.chips[2] ?? 'Pricing & Plans'}` },
+    { id: 'tracking', label: '🚚 Order Tracking' },
+    { id: 'subscription', label: '⏸️ Pause/Resume Subscription' },
+    { id: 'discounts', label: '🎁 Active Discounts' },
+    { id: 'human', label: `💬 ${t.chatbot.chips[3] ?? 'Talk to Human (WhatsApp)'}` },
+  ];
+
+  const INITIAL_BOT_GREETING = t.chatbot.greeting;
+
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -214,7 +221,11 @@ export function ChatWidget() {
     }
   };
 
-  const processUserInput = async (userText: string, isActionChipClick: boolean = false) => {
+  const processUserInput = async (
+    userText: string,
+    isActionChipClick: boolean = false,
+    intentId?: string
+  ) => {
     const raw = userText.trim();
     if (!raw) return;
 
@@ -230,7 +241,10 @@ export function ChatWidget() {
     setInput('');
     setIsTyping(true);
 
-    const q = raw.toLowerCase();
+    // Intent matching always runs on the stable English `intentId` for chip
+    // clicks (so detection works regardless of the active locale's label
+    // text); freeform typed messages still match on the raw text itself.
+    const q = (intentId ?? raw).toLowerCase();
 
     // Reset flags on chip click
     if (isActionChipClick) {
@@ -477,10 +491,10 @@ export function ChatWidget() {
     <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[9999] flex flex-col items-end font-sans">
       {/* Chat Window Container */}
       {isOpen && (
-        <div className="mb-3 w-[calc(100vw-32px)] max-w-[390px] sm:w-[400px] h-[540px] max-h-[84vh] rounded-2xl bg-white dark:bg-[#09132c] shadow-2xl border border-blue-100 dark:border-blue-900/40 overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-5 duration-300">
+        <div className="mb-3 flex h-[540px] max-h-[84vh] w-[calc(100vw-32px)] max-w-[390px] animate-in flex-col overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-2xl fade-in slide-in-from-bottom-5 duration-300 sm:w-[400px] dark:border-[var(--border)] dark:bg-[var(--card)] dark:shadow-none">
           
           {/* Header Bar - Watlys Ocean Blue Header */}
-          <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-sky-600 p-3.5 text-white flex items-center justify-between shadow-md shrink-0">
+          <div className="flex shrink-0 items-center justify-between bg-gradient-to-r from-blue-700 via-blue-600 to-sky-600 p-3.5 text-white shadow-md dark:bg-[var(--bg-raised)] dark:bg-none dark:shadow-none">
             <div className="flex items-center gap-2.5">
               <div className="relative">
                 <div className="w-9 h-9 rounded-full bg-white/20 border border-white/30 flex items-center justify-center font-bold text-white shadow-inner backdrop-blur-md">
@@ -510,7 +524,7 @@ export function ChatWidget() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-1.5 rounded-lg hover:bg-white/15 text-blue-100 hover:text-white transition-colors cursor-pointer"
-                title="Minimize"
+                title={t.chatbot.close}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -518,9 +532,9 @@ export function ChatWidget() {
           </div>
 
           {/* Subheader Notice */}
-          <div className="bg-blue-50/90 dark:bg-blue-950/40 border-b border-blue-100 dark:border-blue-900/30 px-3.5 py-1.5 flex items-center justify-between text-[11px] text-blue-800 dark:text-blue-300">
+          <div className="flex items-center justify-between border-b border-blue-100 bg-blue-50/90 px-3.5 py-1.5 text-[11px] text-blue-800 dark:border-[var(--border)] dark:bg-[var(--bg-raised)] dark:text-white/80">
             <div className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400 shrink-0" />
+              <Sparkles className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-white" />
               <span className="font-medium">24/7 Automated Hydration Assistant</span>
             </div>
             <span className="text-[10px] text-blue-600 dark:text-sky-400 font-semibold">Watlys 19L</span>
@@ -550,7 +564,7 @@ export function ChatWidget() {
                     className={`p-3 rounded-2xl shadow-xs text-xs sm:text-sm ${
                       msg.sender === 'user'
                         ? 'bg-blue-600 text-white rounded-tr-xs'
-                        : 'bg-slate-100 dark:bg-[#0d1838] border border-border text-slate-800 dark:text-slate-100 rounded-tl-xs'
+                        : 'rounded-tl-xs border border-border bg-slate-100 text-slate-800 dark:bg-[var(--bg-raised)] dark:text-white'
                     }`}
                   >
                     <div>{renderFormattedText(msg.text)}</div>
@@ -561,7 +575,7 @@ export function ChatWidget() {
                         {msg.ordersData.map((ord, idx) => (
                           <div
                             key={idx}
-                            className="bg-blue-50/80 dark:bg-[#09132c] border border-blue-200/80 dark:border-blue-800/60 p-2.5 rounded-xl space-y-1.5"
+                            className="space-y-1.5 rounded-xl border border-blue-200/80 bg-blue-50/80 p-2.5 dark:border-[var(--border)] dark:bg-[var(--bg-raised)]"
                           >
                             <div className="flex items-center justify-between">
                               <span className="font-bold text-blue-950 dark:text-blue-100 text-xs flex items-center gap-1">
@@ -581,7 +595,7 @@ export function ChatWidget() {
 
                     {/* Calculator Card */}
                     {msg.type === 'calculator_card' && msg.calcData && (
-                      <div className="mt-2.5 bg-blue-50/80 dark:bg-[#09132c] border border-blue-200 dark:border-blue-800 p-3 rounded-xl space-y-2 text-xs">
+                      <div className="mt-2.5 space-y-2 rounded-xl border border-blue-200 bg-blue-50/80 p-3 text-xs dark:border-[var(--border)] dark:bg-[var(--bg-raised)]">
                         <div className="flex items-center justify-between font-bold text-blue-950 dark:text-blue-100 border-b border-blue-200/60 dark:border-blue-800/60 pb-1.5">
                           <span className="flex items-center gap-1">
                             <Calculator className="w-4 h-4 text-blue-600" />
@@ -646,7 +660,7 @@ export function ChatWidget() {
                 <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-slate-100 dark:bg-[#0d1838] border border-border px-3.5 py-2.5 rounded-2xl rounded-tl-xs flex items-center gap-1.5 shadow-xs text-xs text-muted-foreground">
+                <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-xs border border-border bg-slate-100 px-3.5 py-2.5 text-xs text-muted-foreground shadow-xs dark:bg-[var(--bg-raised)]">
                   <span className="font-semibold text-blue-700 dark:text-sky-300 text-[11px]">Assistant is typing</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce"></span>
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce [animation-delay:0.2s]"></span>
@@ -662,8 +676,8 @@ export function ChatWidget() {
             {ACTION_CHIPS.map((chip) => (
               <button
                 key={chip.id}
-                onClick={() => processUserInput(chip.label, true)}
-                className="text-[11px] font-medium whitespace-nowrap bg-white dark:bg-[#0d1838] hover:bg-blue-50 dark:hover:bg-blue-950/60 text-blue-700 dark:text-sky-300 border border-blue-200 dark:border-blue-800/80 px-3 py-1.5 rounded-full transition-all active:scale-95 shrink-0 cursor-pointer shadow-2xs"
+                onClick={() => processUserInput(chip.label, true, chip.id)}
+                className="shrink-0 cursor-pointer whitespace-nowrap rounded-full border border-blue-200 bg-white px-3 py-1.5 text-[11px] font-medium text-blue-700 shadow-2xs transition-all hover:bg-blue-50 active:scale-95 dark:border-[var(--border)] dark:bg-[var(--bg-raised)] dark:text-white dark:hover:bg-[var(--card)]"
               >
                 {chip.label}
               </button>
@@ -676,7 +690,7 @@ export function ChatWidget() {
               e.preventDefault();
               processUserInput(input, false);
             }}
-            className="p-2.5 bg-white dark:bg-[#09132c] border-t border-blue-100 dark:border-blue-900/40 flex items-center gap-2 shrink-0"
+            className="flex shrink-0 items-center gap-2 border-t border-blue-100 bg-white p-2.5 dark:border-[var(--border)] dark:bg-[var(--card)]"
           >
             <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500 pl-1">
               <button
@@ -699,8 +713,8 @@ export function ChatWidget() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type here and press enter..."
-              className="flex-1 bg-slate-100 dark:bg-[#0d1838] text-slate-800 dark:text-slate-100 text-xs sm:text-sm px-3.5 py-2 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/40 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              placeholder={t.chatbot.placeholder}
+              className="flex-1 rounded-xl bg-slate-100 px-3.5 py-2 text-xs text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:ring-2 focus:ring-blue-500/40 sm:text-sm dark:bg-[var(--bg-raised)] dark:text-white dark:placeholder:text-white/50 dark:focus:ring-white"
             />
 
             <button
@@ -719,11 +733,11 @@ export function ChatWidget() {
       {/* Floating Trigger Button - Watlys Ocean Blue */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 active:scale-95 transition-all duration-300 z-50 cursor-pointer"
-        aria-label="Toggle Watlys Assistant"
+        className="group relative z-50 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/40 active:scale-95 dark:bg-[var(--bg-raised)] dark:shadow-none dark:hover:bg-[var(--card)] dark:hover:shadow-none"
+        aria-label={isOpen ? t.chatbot.close : t.chatbot.open}
       >
-        {/* Ripple Pulse Effect */}
-        <span className="absolute -inset-1 rounded-full bg-blue-500/40 animate-ping opacity-75 group-hover:opacity-100 pointer-events-none"></span>
+        {/* Ripple Pulse Effect — light only */}
+        <span className="pointer-events-none absolute -inset-1 animate-ping rounded-full bg-blue-500/40 opacity-75 group-hover:opacity-100 dark:hidden"></span>
 
         {isOpen ? (
           <X className="w-6 h-6 relative z-10 transition-transform duration-300 rotate-90" />
@@ -733,15 +747,15 @@ export function ChatWidget() {
 
         {/* Unread Badge Indicator */}
         {!isOpen && unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[20px] h-5 bg-rose-500 text-white text-[10px] font-extrabold border-2 border-white dark:border-[#09132c] rounded-full flex items-center justify-center px-1 shadow-md">
+          <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-[10px] font-extrabold text-white shadow-md dark:border-[var(--bg-surface)]">
             {unreadCount}
           </span>
         )}
 
         {/* Active Online Indicator (when unread is 0) */}
         {!isOpen && unreadCount === 0 && (
-          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-sky-300 border-2 border-white dark:border-[#09132c] rounded-full flex items-center justify-center">
-            <span className="w-1.5 h-1.5 bg-blue-950 rounded-full"></span>
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-sky-300 dark:border-[var(--bg-surface)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-950 dark:bg-[var(--bg-base)]"></span>
           </span>
         )}
       </button>

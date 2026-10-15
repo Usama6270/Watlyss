@@ -1,8 +1,13 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
+  // Keep Turbopack rooted on this app (monorepo parent has a sibling src/)
+  turbopack: {
+    root: path.join(__dirname),
+  },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },

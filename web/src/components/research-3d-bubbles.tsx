@@ -190,10 +190,10 @@ export default function Research3DBubbles({
             >
               {/* 3D LIQUID GLASS SPHERE */}
               <div
-                className={`relative w-full h-full rounded-full transition-all duration-300 flex items-center justify-center p-3 overflow-hidden backdrop-blur-md ${
+                className={`research-bubble-orb relative flex h-full w-full items-center justify-center overflow-hidden rounded-full p-3 backdrop-blur-md transition-all duration-300 dark:bg-[rgba(255,255,255,0.1)] dark:backdrop-blur-none ${
                   isHovered
-                    ? 'shadow-[inset_-12px_-12px_28px_rgba(0,100,208,0.45),0_22px_45px_rgba(0,100,208,0.5)] border-2 border-white dark:border-sky-300 ring-4 ring-primary/40 scale-105'
-                    : 'shadow-[inset_-8px_-8px_20px_rgba(0,100,208,0.25),0_12px_28px_rgba(0,100,208,0.25)] border border-white/70 dark:border-sky-400/40 hover:scale-110'
+                    ? 'scale-105 border-2 border-white shadow-[inset_-12px_-12px_28px_rgba(0,100,208,0.45),0_22px_45px_rgba(0,100,208,0.5)] ring-4 ring-primary/40 dark:border-white dark:shadow-none dark:ring-1 dark:ring-white'
+                    : 'border border-white/70 shadow-[inset_-8px_-8px_20px_rgba(0,100,208,0.25),0_12px_28px_rgba(0,100,208,0.25)] hover:scale-110 dark:border-white/55 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.45)]'
                 }`}
                 style={{
                   background:
@@ -202,17 +202,17 @@ export default function Research3DBubbles({
                 }}
               >
                 {/* 3D Specular Highlight */}
-                <div className="absolute top-2 left-3 w-1/2 h-1/3 bg-gradient-to-b from-white/90 to-transparent rounded-full transform -rotate-45 pointer-events-none opacity-85" />
-                <div className="absolute bottom-2 right-3 w-1/4 h-1/4 bg-sky-200/50 rounded-full blur-xs pointer-events-none" />
+                <div className="pointer-events-none absolute top-2 left-3 h-1/3 w-1/2 -rotate-45 rounded-full bg-gradient-to-b from-white/90 to-transparent opacity-85 dark:bg-white/50 dark:bg-none" />
+                <div className="pointer-events-none absolute right-3 bottom-2 h-1/4 w-1/4 rounded-full bg-sky-200/50 blur-xs dark:bg-white/25 dark:blur-none" />
 
                 {/* INSIDE BUBBLE CONTENT */}
-                <div className="relative z-10 w-full h-full rounded-full overflow-hidden flex flex-col items-center justify-center text-center p-2 group-hover:scale-105 transition-transform duration-300">
+                <div className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-full p-2 text-center transition-transform duration-300 group-hover:scale-105">
                   <img
                     src={article.imageSrc}
                     alt={article.title}
-                    className="absolute inset-0 w-full h-full object-cover opacity-45 group-hover:opacity-65 transition-opacity duration-300 rounded-full mix-blend-overlay"
+                    className="absolute inset-0 h-full w-full rounded-full object-cover opacity-45 mix-blend-overlay transition-opacity duration-300 group-hover:opacity-65 dark:mix-blend-normal dark:opacity-50"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-primary/30 to-transparent rounded-full" />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-slate-950/80 via-primary/30 to-transparent dark:bg-[rgba(11,42,74,0.55)] dark:bg-none" />
 
                   <div className="relative z-20 space-y-1 text-white flex flex-col items-center justify-center px-1">
                     <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs ${article.badgeColor}`}>

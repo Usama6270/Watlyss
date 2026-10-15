@@ -118,7 +118,7 @@ export default function AboutPage() {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           style={{ perspective: 1200 }}
-          className="w-full h-[340px] md:h-[450px] relative overflow-hidden bg-slate-950 select-none cursor-pointer group shadow-lg"
+          className="group relative h-[340px] w-full cursor-pointer select-none overflow-hidden bg-slate-950 shadow-lg md:h-[450px] dark:bg-[var(--bg-base)] dark:shadow-none"
         >
           {/* 3D Motion Inner Wrapper */}
           <motion.div
@@ -148,11 +148,11 @@ export default function AboutPage() {
               x: useTransform(mouseX, [-0.5, 0.5], [-120, 120]),
               opacity: useTransform(mouseY, [-0.5, 0.5], [0.08, 0.25]),
             }}
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-300/30 to-transparent pointer-events-none z-10 transition-opacity duration-300" 
+            className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-transparent via-sky-300/30 to-transparent transition-opacity duration-300 dark:hidden" 
           />
 
-          {/* Bottom Fade Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/20 pointer-events-none z-20" />
+          {/* Bottom overlay — gradient in light; solid blue scrim in dark */}
+          <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-t from-background via-transparent to-black/20 dark:bg-[rgba(11,42,74,0.55)] dark:bg-none" />
         </section>
 
         {/* 2. Centered "Our Story" Section (Below Banner) */}
@@ -315,7 +315,7 @@ export default function AboutPage() {
           </motion.section>
 
           {/* Section C: Impact Statistics Bar */}
-          <motion.section {...textFadeIn} className="bg-gradient-to-r from-blue-900 via-blue-800 to-sky-900 rounded-3xl p-8 sm:p-12 text-white shadow-xl">
+          <motion.section {...textFadeIn} className="rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-sky-900 p-8 text-white shadow-xl sm:p-12 dark:bg-[var(--bg-raised)] dark:bg-none dark:shadow-none dark:ring-1 dark:ring-[var(--border)]">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-blue-700/60">
               {impactStats.map((stat, idx) => (
                 <div key={idx} className="pt-6 md:pt-0 px-4 space-y-2">
@@ -375,7 +375,7 @@ export default function AboutPage() {
           </motion.section>
 
           {/* Section D: Final CTA Banner */}
-          <motion.section {...textFadeIn} className="relative rounded-3xl bg-gradient-to-r from-blue-600 via-sky-600 to-blue-700 p-8 sm:p-14 text-white overflow-hidden shadow-xl">
+          <motion.section {...textFadeIn} className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-sky-600 to-blue-700 p-8 text-white shadow-xl sm:p-14 dark:bg-[var(--bg-raised)] dark:bg-none dark:shadow-none dark:ring-1 dark:ring-white">
             <div className="relative z-10 max-w-3xl space-y-6">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white font-bold text-[10px] uppercase tracking-widest backdrop-blur-md">
                 <Sparkles className="w-3.5 h-3.5" /> Start Your Subscription Today

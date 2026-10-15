@@ -4,9 +4,11 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Lock, Phone, Mail, User as UserIcon, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react'
 import { useAuth } from '@/context/auth'
+import { useLanguage } from '@/context/language'
 
 export default function AuthModal() {
   const { isAuthModalOpen, authModalTab, closeAuthModal, login, signup } = useAuth()
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>(authModalTab || 'login')
   const [authMethod, setAuthMethod] = useState<'password' | 'otp'>('password')
 
@@ -61,7 +63,7 @@ export default function AuthModal() {
       try {
         await login(identifier, password)
       } catch (err: any) {
-        setErrorMsg(err.message || 'Failed to sign in')
+        setErrorMsg(err.message || t.auth.errors.network)
       } finally {
         setLoading(false)
       }
@@ -74,7 +76,7 @@ export default function AuthModal() {
       try {
         await login(phone, undefined, otpCode)
       } catch (err: any) {
-        setErrorMsg(err.message || 'Failed to sign in')
+        setErrorMsg(err.message || t.auth.errors.network)
       } finally {
         setLoading(false)
       }
@@ -111,7 +113,7 @@ export default function AuthModal() {
     try {
       await signup(fullName.trim(), cleanPhone, email.trim(), password)
     } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to create account')
+      setErrorMsg(err.message || t.auth.errors.network)
     } finally {
       setLoading(false)
     }
@@ -138,13 +140,13 @@ export default function AuthModal() {
           className="relative w-full max-w-md bg-card border border-border rounded-3xl shadow-2xl overflow-hidden z-10 font-sans"
         >
           {/* Top Decorative Bar */}
-          <div className="h-2 bg-gradient-to-r from-primary via-sky-400 to-primary" />
+          <div className="h-2 bg-gradient-to-r from-primary via-sky-400 to-primary dark:bg-[var(--bg-raised)] dark:bg-none" />
 
           {/* Close Button */}
           <button
             onClick={closeAuthModal}
             className="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors cursor-pointer"
-            aria-label="Close Auth Modal"
+            aria-label={t.common.close}
           >
             <X size={18} />
           </button>
@@ -180,7 +182,7 @@ export default function AuthModal() {
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                Sign In
+                {t.auth.signIn}
               </button>
               <button
                 type="button"
@@ -194,7 +196,7 @@ export default function AuthModal() {
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                Create Account
+                {t.auth.signUp}
               </button>
             </div>
 
@@ -248,7 +250,7 @@ export default function AuthModal() {
 
                     <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                        Password
+                        {t.auth.password}
                       </label>
                       <div className="relative">
                         <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -267,7 +269,7 @@ export default function AuthModal() {
                   <>
                     <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                        Phone Number
+                        {t.auth.phone}
                       </label>
                       <div className="flex gap-2">
                         <div className="relative flex-1">
@@ -330,7 +332,7 @@ export default function AuthModal() {
               <form onSubmit={handleSignupSubmit} className="space-y-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    Full Name
+                    {t.auth.fullName}
                   </label>
                   <div className="relative">
                     <UserIcon size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -347,7 +349,7 @@ export default function AuthModal() {
 
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    Phone Number (Primary Key)
+                    {t.auth.phone}
                   </label>
                   <div className="relative">
                     <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -364,7 +366,7 @@ export default function AuthModal() {
 
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    Email Address
+                    {t.auth.email}
                   </label>
                   <div className="relative">
                     <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -381,7 +383,7 @@ export default function AuthModal() {
 
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    Password / PIN
+                    {t.auth.password}
                   </label>
                   <div className="relative">
                     <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />

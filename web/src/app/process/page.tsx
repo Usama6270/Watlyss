@@ -73,7 +73,7 @@ export default function ProcessPage() {
             const isProductShot = step.image.startsWith('/')
             return (
               <div key={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className={`lg:col-span-6 relative h-[420px] sm:h-[500px] bg-gradient-to-br from-blue-50/30 via-white to-slate-50 dark:from-[#0f1a3a] dark:via-[var(--background)] dark:to-[var(--background)] rounded-3xl overflow-hidden border border-blue-100/80 dark:border-slate-800 shadow-md flex items-center justify-center p-2 ${!isEven ? 'lg:order-2' : ''}`}>
+                <div className={`relative flex h-[420px] items-center justify-center overflow-hidden rounded-3xl border border-blue-100/80 bg-gradient-to-br from-blue-50/30 via-white to-slate-50 p-2 shadow-md sm:h-[500px] lg:col-span-6 dark:border-[var(--border)] dark:bg-[var(--bg-surface)] dark:bg-none dark:shadow-none ${!isEven ? 'lg:order-2' : ''}`}>
                   <Image
                     src={step.image}
                     alt={step.title}

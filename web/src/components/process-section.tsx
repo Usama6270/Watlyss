@@ -4,10 +4,10 @@ import React, { useRef, useState } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useLanguage } from '@/context/language'
 import ProcessScrollCanvas from '@/components/ProcessScrollCanvas'
-import { Droplet } from 'lucide-react'
+import SectionHeader from '@/components/section-header'
 
 export default function ProcessSection() {
-  const { t, isRtl } = useLanguage()
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
 
@@ -76,11 +76,11 @@ export default function ProcessSection() {
       onMouseMove={handleSectionMouseMove}
       onMouseEnter={() => setIsOutsideHovered(true)}
       onMouseLeave={() => setIsOutsideHovered(false)}
-      className="relative w-full py-16 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-16 bg-gradient-to-b from-[var(--background)] via-[var(--background)] to-sky-50/20 dark:from-[var(--background)] dark:via-[var(--background)] dark:to-[var(--background)] transition-colors duration-300 z-10 border-t border-border overflow-x-hidden font-sans select-none"
+      className="relative z-10 w-full select-none overflow-x-hidden border-t border-border bg-gradient-to-b from-[var(--background)] via-[var(--background)] to-sky-50/20 section-padding font-sans transition-colors duration-300 dark:bg-background dark:bg-none"
     >
 
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
+      {/* Background Ambient Glow — light only */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[150px] dark:hidden sm:h-[800px] sm:w-[800px]" />
 
       {/* COMPACT CURSOR-FOLLOWING LIGHT PATTERN SPOTLIGHT (ACTIVE ONLY OUTSIDE CONTENT) */}
       <div
@@ -112,7 +112,7 @@ export default function ProcessSection() {
         />
       </div>
 
-      <div className="max-w-5xl mx-auto w-full flex flex-col items-center justify-center space-y-6 sm:space-y-10 text-center relative z-10">
+      <div className="container-custom relative z-10 flex w-full flex-col items-center justify-center gap-[var(--section-header-gap)] text-center">
 
         {/* TOP HEADING HEADER (REMOVES PATTERN SPOTLIGHT ON HOVER) */}
         <div
@@ -121,16 +121,12 @@ export default function ProcessSection() {
             setIsOutsideHovered(false)
           }}
           onMouseLeave={() => setIsOutsideHovered(true)}
-          className="space-y-3 sm:space-y-4"
+          className="w-full"
         >
-          <span className="eyebrow inline-flex items-center gap-1.5 bg-primary-muted px-4 py-1.5 rounded-full border border-primary/20">
-            <Droplet size={14} />
-            <span>{isRtl ? 'ہماری تیاری کا عمل' : 'Our Purification Process'}</span>
-          </span>
-
-          <h2 className="section-title pt-1">
-            5-Stage Subterranean Process
-          </h2>
+          <SectionHeader
+            eyebrow={t.home.process.eyebrow}
+            title={t.home.process.title}
+          />
 
           {/* Dynamic Animated Step Title & Description */}
           <div className="relative h-16 sm:h-20 flex items-center justify-center overflow-hidden max-w-xl mx-auto">
@@ -154,7 +150,7 @@ export default function ProcessSection() {
           </div>
 
           {/* Stepper Progress Indicator */}
-          <div className="flex justify-center items-center space-x-2.5 pt-1">
+          <div className="flex justify-center items-center space-x-2.5 pt-3">
             {steps.map((_, idx) => (
               <button
                 key={idx}
@@ -196,7 +192,7 @@ export default function ProcessSection() {
             </div>
 
             {/* Specular Light Reflection Overlay */}
-            <div className="absolute inset-0 pointer-events-none rounded-3xl border border-white/20 bg-gradient-to-tr from-transparent via-white/5 to-white/15" />
+            <div className="pointer-events-none absolute inset-0 rounded-3xl border border-white/20 bg-gradient-to-tr from-transparent via-white/5 to-white/15 dark:border-[var(--border)] dark:bg-transparent dark:bg-none" />
           </motion.div>
         </div>
 

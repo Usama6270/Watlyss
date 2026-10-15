@@ -19,6 +19,8 @@ import {
   Sparkles,
   Microchip,
 } from 'lucide-react'
+import SectionHeader from '@/components/section-header'
+import { useLanguage } from '@/context/language'
 
 interface Certification {
   id: string
@@ -34,113 +36,112 @@ interface Certification {
   specs: { label: string; value: string }[]
 }
 
-const CERTIFICATIONS: Certification[] = [
-  {
-    id: 'lab-assay',
-    name: 'Laboratory Testing Assay',
-    status: 'Verified Batch Protocol',
-    shortTag: '24/7 QC Lab',
-    desc: 'Every batch of Watlys 19L drinking water undergoes continuous laboratory assay testing. Certified microbiologists verify zero pathogen count, mineral equilibrium, microplastic filtration, and heavy metal absence prior to dispatch.',
-    icon: ShieldCheck,
-    tds: '140 – 180 mg/L',
-    ph: '7.8 – 8.2 (Mildly Alkaline)',
-    compliance: 'PSQCA & WHO Compliant',
-    protocols: [
-      'Daily 24-hour incubation & pathogen screening',
-      'Continuous TDS & conductivity inline sensors',
-      'Sub-micron zero microplastic membrane filtration',
-    ],
-    specs: [
-      { label: 'Testing Frequency', value: 'Every 2 Hours / Batch' },
-      { label: 'Lab Standard', value: 'ISO 17025 Accredited' },
-      { label: 'Microplastic Purity', value: '0.00% Detected' },
-    ],
-  },
-  {
-    id: 'food-hygiene',
-    name: 'Food Safety & Hygiene',
-    status: 'Cleanroom Certified',
-    shortTag: 'HACCP Class 100',
-    desc: 'Bottling operations run inside a Class 100 sterile positive-pressure cleanroom. Bottles undergo a 9-step hydro-thermal wash with ozonated high-pressure rinsing and automated touchless vessel sealing.',
-    icon: Award,
-    tds: '150 mg/L Balanced',
-    ph: '8.0 Ideal Hydration',
-    compliance: 'HACCP & ISO 22000',
-    protocols: [
-      'Triple-stage ozonated bottle sterilization',
-      'Touchless filling in positive-pressure cleanroom',
-      'Tamper-evident medical grade shrink seal',
-    ],
-    specs: [
-      { label: 'Cleanroom', value: 'Class 100 / ISO 5' },
-      { label: 'Ozone', value: '0.4 ppm O₃ Sterilization' },
-      { label: 'Cap Integrity', value: 'Ultrasonic Seal Check' },
-    ],
-  },
-  {
-    id: 'aquifer-stewardship',
-    name: 'Natural Aquifer Stewardship',
-    status: 'Eco-Protected Source',
-    shortTag: 'Deep Aquifer',
-    desc: 'Source water is drawn from deep protected artesian aquifers below sub-surface rock strata. Environmental stewardship prevents over-extraction while preserving mountain water tables.',
-    icon: FileCheck,
-    tds: 'Natural Mineral Balance',
-    ph: '7.9 Pristine pH',
-    compliance: 'EPA Aligned Stewardship',
-    protocols: [
-      'Hydrogeological monitoring of artesian wells',
-      'Zero chemical run-off ecological perimeter',
-      'Sustainable extraction capping for local tables',
-    ],
-    specs: [
-      { label: 'Aquifer Depth', value: '300+ Feet Well' },
-      { label: 'Minerals', value: 'Ca, Mg, Potassium' },
-      { label: 'Source Security', value: '24/7 Gated Reserve' },
-    ],
-  },
-  {
-    id: 'national-standards',
-    name: 'Pakistani Standards Compliance',
-    status: 'National Standard Compliant',
-    shortTag: 'PSQCA & PCRWR',
-    desc: 'Watlys exceeds statutory requirements from PSQCA and PCRWR for bottled drinking water, with full batch traceability on every 19L carboy.',
-    icon: CheckCircle2,
-    tds: 'Within PCRWR Band',
-    ph: 'Optimal Neutral-Alkaline',
-    compliance: 'PSQCA S.R.O. 463(I)',
-    protocols: [
-      'Quarterly third-party government audits',
-      'Full traceability barcode on every carboy',
-      'Certified under national drinking water guidelines',
-    ],
-    specs: [
-      { label: 'Regulator', value: 'PSQCA & PCRWR' },
-      { label: 'Chemistry', value: 'Zero Chloramines' },
-      { label: 'Traceability', value: 'QR on Every Cap' },
-    ],
-  },
-  {
-    id: 'iso-safety',
-    name: 'ISO 22000 & HACCP',
-    status: 'Global Quality Assured',
-    shortTag: 'International FSMS',
-    desc: 'Certified under international food safety management systems. Comprehensive risk assessments and automated monitoring prevent contamination across bottling and delivery.',
-    icon: Sparkles,
-    tds: 'Controlled Standard',
-    ph: '7.8 – 8.2 Range',
-    compliance: 'ISO 22000:2018',
-    protocols: [
-      'HACCP critical control point monitoring',
-      'Automated digital sensor quality logging',
-      'Annual international surveillance audits',
-    ],
-    specs: [
-      { label: 'Certification Body', value: 'SGS International' },
-      { label: 'System Standard', value: 'ISO 22000:2018' },
-      { label: 'Audit Result', value: 'Grade A / 100% Pass' },
-    ],
-  },
-]
+/**
+ * Builds certification cards from `t.certsItems` (see src/messages/en.json).
+ * Icons stay hard-coded; numeric/quality specs (tds, ph, compliance, protocols)
+ * have no dedicated i18n keys yet, so they remain English-only in source
+ * (see missing-keys note: certsItems.*.tds/ph/compliance/protocols/specs).
+ */
+function buildCertifications(certsItems: {
+  labAssay: { name: string; status: string; shortTag: string; desc: string }
+  foodHygiene: { name: string; status: string; shortTag: string; desc: string }
+  aquifer: { name: string; status: string; shortTag: string; desc: string }
+  psqca: { name: string; status: string; shortTag: string; desc: string }
+  iso: { name: string; status: string; shortTag: string; desc: string }
+}): Certification[] {
+  return [
+    {
+      id: 'lab-assay',
+      icon: ShieldCheck,
+      tds: '140 – 180 mg/L',
+      ph: '7.8 – 8.2 (Mildly Alkaline)',
+      compliance: 'PSQCA & WHO Compliant',
+      protocols: [
+        'Daily 24-hour incubation & pathogen screening',
+        'Continuous TDS & conductivity inline sensors',
+        'Sub-micron zero microplastic membrane filtration',
+      ],
+      specs: [
+        { label: 'Testing Frequency', value: 'Every 2 Hours / Batch' },
+        { label: 'Lab Standard', value: 'ISO 17025 Accredited' },
+        { label: 'Microplastic Purity', value: '0.00% Detected' },
+      ],
+      ...certsItems.labAssay,
+    },
+    {
+      id: 'food-hygiene',
+      icon: Award,
+      tds: '150 mg/L Balanced',
+      ph: '8.0 Ideal Hydration',
+      compliance: 'HACCP & ISO 22000',
+      protocols: [
+        'Triple-stage ozonated bottle sterilization',
+        'Touchless filling in positive-pressure cleanroom',
+        'Tamper-evident medical grade shrink seal',
+      ],
+      specs: [
+        { label: 'Cleanroom', value: 'Class 100 / ISO 5' },
+        { label: 'Ozone', value: '0.4 ppm O₃ Sterilization' },
+        { label: 'Cap Integrity', value: 'Ultrasonic Seal Check' },
+      ],
+      ...certsItems.foodHygiene,
+    },
+    {
+      id: 'aquifer-stewardship',
+      icon: FileCheck,
+      tds: 'Natural Mineral Balance',
+      ph: '7.9 Pristine pH',
+      compliance: 'EPA Aligned Stewardship',
+      protocols: [
+        'Hydrogeological monitoring of artesian wells',
+        'Zero chemical run-off ecological perimeter',
+        'Sustainable extraction capping for local tables',
+      ],
+      specs: [
+        { label: 'Aquifer Depth', value: '300+ Feet Well' },
+        { label: 'Minerals', value: 'Ca, Mg, Potassium' },
+        { label: 'Source Security', value: '24/7 Gated Reserve' },
+      ],
+      ...certsItems.aquifer,
+    },
+    {
+      id: 'national-standards',
+      icon: CheckCircle2,
+      tds: 'Within PCRWR Band',
+      ph: 'Optimal Neutral-Alkaline',
+      compliance: 'PSQCA S.R.O. 463(I)',
+      protocols: [
+        'Quarterly third-party government audits',
+        'Full traceability barcode on every carboy',
+        'Certified under national drinking water guidelines',
+      ],
+      specs: [
+        { label: 'Regulator', value: 'PSQCA & PCRWR' },
+        { label: 'Chemistry', value: 'Zero Chloramines' },
+        { label: 'Traceability', value: 'QR on Every Cap' },
+      ],
+      ...certsItems.psqca,
+    },
+    {
+      id: 'iso-safety',
+      icon: Sparkles,
+      tds: 'Controlled Standard',
+      ph: '7.8 – 8.2 Range',
+      compliance: 'ISO 22000:2018',
+      protocols: [
+        'HACCP critical control point monitoring',
+        'Automated digital sensor quality logging',
+        'Annual international surveillance audits',
+      ],
+      specs: [
+        { label: 'Certification Body', value: 'SGS International' },
+        { label: 'System Standard', value: 'ISO 22000:2018' },
+        { label: 'Audit Result', value: 'Grade A / 100% Pass' },
+      ],
+      ...certsItems.iso,
+    },
+  ]
+}
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -163,13 +164,13 @@ function CertSeal({
         <Icon size={20} strokeWidth={1.75} />
       </div>
       <div className="relative z-[1] min-w-0 flex-1 pr-1">
-        <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-primary mb-1">
+        <p className="cert-seal-tag mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-primary sm:text-[11px]">
           {cert.shortTag}
         </p>
-        <p className="font-display text-[0.95rem] sm:text-base font-medium text-foreground leading-snug tracking-[-0.01em] line-clamp-2">
+        <p className="cert-seal-title font-display line-clamp-2 text-[0.95rem] font-medium leading-snug tracking-[-0.01em] text-foreground sm:text-base">
           {cert.name}
         </p>
-        <p className="mt-1 text-xs text-muted-foreground leading-snug line-clamp-1">
+        <p className="cert-seal-status mt-1 line-clamp-1 text-xs leading-snug text-muted-foreground">
           {cert.status}
         </p>
       </div>
@@ -178,12 +179,15 @@ function CertSeal({
 }
 
 export default function CertificationsSection() {
+  const { t, isRtl } = useLanguage()
   const reduceMotion = useReducedMotion()
   const sectionRef = React.useRef<HTMLElement>(null)
   const inView = useInView(sectionRef, { once: true, margin: '-80px' })
   const [isPaused, setIsPaused] = useState(false)
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null)
   const [portalReady, setPortalReady] = useState(false)
+
+  const CERTIFICATIONS = React.useMemo(() => buildCertifications(t.certsItems), [t])
 
   useEffect(() => {
     setPortalReady(true)
@@ -203,33 +207,28 @@ export default function CertificationsSection() {
     }
   }, [selectedCert])
 
-  const marqueeItems = [...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS]
+  const marqueeItems = React.useMemo(
+    () => [...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS],
+    [CERTIFICATIONS]
+  )
 
   return (
     <section
       ref={sectionRef}
-      className="trust-story relative pt-2 sm:pt-4 pb-[clamp(3rem,6vw,5.5rem)] w-full overflow-x-clip select-none"
+      className="trust-story relative section-padding w-full overflow-x-clip select-none"
     >
-      <motion.div
-        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : undefined}
-        transition={{ duration: 0.65, ease: EASE, delay: 0.06 }}
-        className="relative z-10 container-custom text-center mb-8 sm:mb-10"
-      >
-        <span className="eyebrow">Certifications & Quality Control</span>
-        <h2 className="section-title mt-2.5 sm:mt-3 tracking-[-0.03em]">
-          Quality You Can Trust.
-        </h2>
-        <p className="section-lead mx-auto mt-2.5 text-pretty">
-          Every 19L batch is lab-verified before it leaves our facility. Open a seal to read the assay report.
-        </p>
-      </motion.div>
+      <div className="relative z-10 container-custom">
+        <SectionHeader
+          eyebrow={t.home.certs.eyebrow}
+          title={t.home.certs.title}
+        />
+      </div>
 
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : undefined}
-        transition={{ duration: 0.7, ease: EASE, delay: 0.18 }}
-        className="relative z-10 w-full marquee-mask py-3"
+        transition={{ duration: 0.7, ease: EASE, delay: 0.12 }}
+        className="relative z-10 w-full marquee-mask py-1 sm:py-2"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -238,7 +237,7 @@ export default function CertificationsSection() {
           animate={
             reduceMotion || isPaused || selectedCert
               ? undefined
-              : { x: ['0%', '-33.333%'] }
+              : { x: isRtl ? ['-33.333%', '0%'] : ['0%', '-33.333%'] }
           }
           transition={{
             x: {

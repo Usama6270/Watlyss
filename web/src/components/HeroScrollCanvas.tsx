@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useScroll, useTransform, useSpring, motion, useMotionValueEvent } from 'framer-motion';
 import Link from 'next/link';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/context/language';
 
 const TOTAL_FRAMES = 150;
 const PREFETCH_RADIUS = 8;
@@ -14,6 +15,7 @@ function frameUrl(index: number) {
 }
 
 export default function HeroScrollCanvas() {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | undefined)[]>(new Array(TOTAL_FRAMES));
@@ -272,7 +274,7 @@ export default function HeroScrollCanvas() {
             className="btn-primary group gap-3 px-8 py-4 text-xs shadow-xl sm:px-10 sm:text-sm"
           >
             <ShoppingBag size={18} className="transition-transform group-hover:-translate-y-0.5" />
-            <span>Order Now</span>
+            <span>{t.hero.orderNow}</span>
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </motion.div>

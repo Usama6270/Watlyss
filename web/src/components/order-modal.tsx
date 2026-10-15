@@ -2,9 +2,30 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, CheckCircle2, AlertCircle, Loader2, MessageCircle, ArrowRight, Droplets, Sparkles, Building2, User, Users, GraduationCap, Banknote, CreditCard } from 'lucide-react'
+import {
+  X,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  MessageCircle,
+  ArrowRight,
+  Droplets,
+  Building2,
+  Users,
+  GraduationCap,
+  Banknote,
+  CreditCard,
+} from 'lucide-react'
 
 import { useAuth } from '@/context/auth'
+import {
+  CUSTOM_PLAN_CONFIG,
+  calculateCustomPlan,
+  arePackagesUnlocked,
+  type CustomerPackageId,
+  type DurationId,
+  type LocationId,
+} from '@/lib/pricing/custom-plan'
 
 export interface OrderModalProps {
   isOpen: boolean
@@ -12,24 +33,82 @@ export interface OrderModalProps {
   initialPackageDetails?: {
     bottleQty?: number
     frequency?: 'Weekly' | 'Bi-Weekly' | 'Monthly' | 'One-Time' | string
-    customerSegment?: 'Student' | 'Individual' | 'Family' | 'Corporate' | string
+    customerSegment?: 'Student' | 'Individual' | 'Family' | 'Family / Individual' | 'Corporate' | string
     city?: string
     months?: number
+    weeks?: number
+    durationId?: string
+    packageId?: string
+    locationId?: string
+    totalBottles?: number
+    pricingSnapshot?: {
+      firstFillUnitPrice?: number
+      firstFillSubtotal?: number
+      refillUnitPrice?: number
+      refillSubtotal?: number
+      productSubtotal?: number
+      securityDeposit?: number
+      deliveryFee?: number
+      customerDiscountAmount?: number
+      durationDiscountAmount?: number
+      appliedDiscountPercentage?: number
+      grandTotal?: number
+      estimatedMonthlyCost?: number
+      totalSavings?: number
+    }
   }
 }
 
-const SEGMENT_DISCOUNTS: Record<string, number> = {
-  Student: 10,
-  Individual: 5,
-  Family: 8,
-  Corporate: 15,
+function mapSegmentToPackageId(segment: string): CustomerPackageId {
+  const s = segment.toLowerCase()
+  if (s.includes('single')) return CUSTOM_PLAN_CONFIG.defaults.packageId
+  if (s.includes('student')) return 'student'
+  if (s.includes('corporate')) return 'corporate'
+  return 'family'
 }
 
-const FREQUENCY_DELIVERIES: Record<string, number> = {
-  Weekly: 4,
-  'Bi-Weekly': 2,
-  Monthly: 1,
-  'One-Time': 1,
+function mapPackageIdToSegment(id: CustomerPackageId): string {
+  if (id === 'student') return 'Student'
+  if (id === 'corporate') return 'Corporate'
+  return 'Family / Individual'
+}
+
+function mapFrequencyToDurationId(
+  frequency: string,
+  weeks?: number,
+  durationId?: string
+): DurationId {
+  if (durationId === '1w' || durationId === '2w' || durationId === '3w' || durationId === '1m') {
+    return durationId
+  }
+  if (weeks === 1) return '1w'
+  if (weeks === 2) return '2w'
+  if (weeks === 3) return '3w'
+  if (weeks === 4) return '1m'
+  const f = frequency.toLowerCase()
+  if (f.includes('1 week') || f === 'weekly' || f === 'one-time') return '1w'
+  if (f.includes('2 week') || f.includes('bi')) return '2w'
+  if (f.includes('3 week')) return '3w'
+  if (f.includes('month') || f.includes('4 week')) return '1m'
+  return CUSTOM_PLAN_CONFIG.defaults.durationId
+}
+
+function mapCityToLocationId(city: string, locationId?: string): LocationId {
+  if (
+    locationId === 'lahore' ||
+    locationId === 'islamabad' ||
+    locationId === 'rawalpindi' ||
+    locationId === 'sialkot' ||
+    locationId === 'other'
+  ) {
+    return locationId
+  }
+  const c = city.toLowerCase()
+  if (c.includes('sialkot')) return 'sialkot'
+  if (c.includes('rawalpindi') && !c.includes('islamabad')) return 'rawalpindi'
+  if (c.includes('islamabad') || c.includes('rawalpindi')) return 'islamabad'
+  if (c.includes('lahore')) return 'lahore'
+  return 'other'
 }
 
 export default function OrderModal({ isOpen, onClose, initialPackageDetails }: OrderModalProps) {
@@ -39,12 +118,35 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [deliveryAddress, setDeliveryAddress] = useState('')
-  const [city, setCity] = useState(initialPackageDetails?.city || 'Islamabad / Rawalpindi')
+  const [city, setCity] = useState(
+    initialPackageDetails?.city ||
+      CUSTOM_PLAN_CONFIG.locations.find(
+        (l) => l.id === CUSTOM_PLAN_CONFIG.defaults.locationId
+      )?.name ||
+      'Lahore'
+  )
 
-  const [bottleQty, setBottleQty] = useState<number>(initialPackageDetails?.bottleQty || 10)
-  const [frequency, setFrequency] = useState<string>(initialPackageDetails?.frequency || 'Bi-Weekly')
-  const [customerSegment, setCustomerSegment] = useState<string>(initialPackageDetails?.customerSegment || 'Family')
-  const [months, setMonths] = useState<number>(initialPackageDetails?.months || 1)
+  const [bottleQty, setBottleQty] = useState<number>(
+    initialPackageDetails?.bottleQty ?? CUSTOM_PLAN_CONFIG.defaults.bottlesPerWeek
+  )
+  const [durationId, setDurationId] = useState<DurationId>(
+    mapFrequencyToDurationId(
+      initialPackageDetails?.frequency || '',
+      initialPackageDetails?.weeks,
+      initialPackageDetails?.durationId
+    )
+  )
+  const [customerSegment, setCustomerSegment] = useState<string>(
+    initialPackageDetails?.customerSegment ||
+      mapPackageIdToSegment(CUSTOM_PLAN_CONFIG.defaults.packageId)
+  )
+  const [frequency, setFrequency] = useState<string>(
+    initialPackageDetails?.frequency ||
+      CUSTOM_PLAN_CONFIG.durations.find(
+        (d) => d.id === CUSTOM_PLAN_CONFIG.defaults.durationId
+      )?.name ||
+      '1 Week'
+  )
 
   const [paymentMethod, setPaymentMethod] = useState<'Cash on Delivery' | 'Bank Transfer' | 'Credit/Debit Card'>('Cash on Delivery')
   const [transactionReference, setTransactionReference] = useState('')
@@ -66,63 +168,84 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
     transactionReference?: string
   } | null>(null)
 
-  // Synchronize initial state when modal opens or props change
   useEffect(() => {
-    if (isOpen) {
-      if (user) {
-        if (user.fullName) setCustomerName(user.fullName)
-        if (user.phone) setPhone(user.phone)
-        if (user.email) setEmail(user.email)
-        if (user.addressList?.[0]?.street) setDeliveryAddress(user.addressList[0].street)
-        if (user.addressList?.[0]?.city) setCity(user.addressList[0].city)
-      }
-      if (initialPackageDetails?.bottleQty) setBottleQty(initialPackageDetails.bottleQty)
-      if (initialPackageDetails?.frequency) {
-        const f = initialPackageDetails.frequency
-        if (f.toLowerCase().includes('week')) setFrequency('Weekly')
-        else if (f.toLowerCase().includes('bi')) setFrequency('Bi-Weekly')
-        else if (f.toLowerCase().includes('month')) setFrequency('Monthly')
-        else setFrequency(f)
-      }
-      if (initialPackageDetails?.customerSegment) {
-        const seg = initialPackageDetails.customerSegment
-        if (seg.toLowerCase().includes('student')) setCustomerSegment('Student')
-        else if (seg.toLowerCase().includes('indiv')) setCustomerSegment('Individual')
-        else if (seg.toLowerCase().includes('corp') || seg.toLowerCase().includes('office')) setCustomerSegment('Corporate')
-        else setCustomerSegment('Family')
-      }
-      if (initialPackageDetails?.city) setCity(initialPackageDetails.city)
-      if (initialPackageDetails?.months) setMonths(initialPackageDetails.months)
+    if (!isOpen) return
 
-      // Reset form submission state
-      setErrorMessage(null)
-      setOrderSuccess(null)
-      setPaymentMethod('Cash on Delivery')
-      setTransactionReference('')
-      setCardNumber('')
-      setCardExpiry('')
-      setCardCvv('')
-      setCouponInput('')
-      setAppliedCoupon(null)
-      setCouponError(null)
+    if (user) {
+      if (user.fullName) setCustomerName(user.fullName)
+      if (user.phone) setPhone(user.phone)
+      if (user.email) setEmail(user.email)
+      if (user.addressList?.[0]?.street) setDeliveryAddress(user.addressList[0].street)
+      if (user.addressList?.[0]?.city) setCity(user.addressList[0].city)
     }
+
+    setBottleQty(
+      initialPackageDetails?.bottleQty ?? CUSTOM_PLAN_CONFIG.defaults.bottlesPerWeek
+    )
+
+    const nextDuration = mapFrequencyToDurationId(
+      initialPackageDetails?.frequency || '',
+      initialPackageDetails?.weeks,
+      initialPackageDetails?.durationId
+    )
+    setDurationId(nextDuration)
+    const durationName =
+      CUSTOM_PLAN_CONFIG.durations.find((d) => d.id === nextDuration)?.name ||
+      initialPackageDetails?.frequency ||
+      '1 Week'
+    setFrequency(durationName)
+
+    if (initialPackageDetails?.packageId) {
+      setCustomerSegment(
+        mapPackageIdToSegment(initialPackageDetails.packageId as CustomerPackageId)
+      )
+    } else if (initialPackageDetails?.customerSegment) {
+      const seg = initialPackageDetails.customerSegment
+      if (seg.toLowerCase().includes('student')) setCustomerSegment('Student')
+      else if (seg.toLowerCase().includes('corp') || seg.toLowerCase().includes('office'))
+        setCustomerSegment('Corporate')
+      else setCustomerSegment('Family / Individual')
+    } else {
+      setCustomerSegment(mapPackageIdToSegment(CUSTOM_PLAN_CONFIG.defaults.packageId))
+    }
+
+    if (initialPackageDetails?.city) setCity(initialPackageDetails.city)
+
+    setErrorMessage(null)
+    setOrderSuccess(null)
+    setPaymentMethod('Cash on Delivery')
+    setTransactionReference('')
+    setCardNumber('')
+    setCardExpiry('')
+    setCardCvv('')
+    setCouponInput('')
+    setAppliedCoupon(null)
+    setCouponError(null)
   }, [isOpen, initialPackageDetails, user])
 
-  // Calculation Engine
-  const basePrice = 320
-  const deliveriesPerMonth = FREQUENCY_DELIVERIES[frequency] || 2
-  const totalDeliveries = frequency === 'One-Time' ? 1 : deliveriesPerMonth * months
-  const totalBottles = bottleQty * totalDeliveries
-  
-  const discountRate = (SEGMENT_DISCOUNTS[customerSegment] || 8) / 100
-  const subtotal = totalBottles * basePrice
-  const appliedDiscountPercentage = Math.round(discountRate * 100)
-  const discountAmount = Math.round(subtotal * discountRate)
-  
-  // 5% Coupon Discount
-  const couponDiscountAmount = appliedCoupon ? Math.round(subtotal * 0.05) : 0
-  const deliveryFee = 100 * totalDeliveries
-  const grandTotal = Math.max(0, subtotal - discountAmount - couponDiscountAmount + deliveryFee)
+  const planPricing = calculateCustomPlan({
+    packageId: mapSegmentToPackageId(customerSegment),
+    bottlesPerWeek: bottleQty,
+    durationId,
+    locationId: mapCityToLocationId(city, initialPackageDetails?.locationId),
+  })
+
+  const basePrice = planPricing.refillUnitPrice
+  const firstFillUnitPrice = planPricing.firstFillUnitPrice
+  const totalDeliveries = planPricing.deliveryTrips
+  const totalBottles = planPricing.totalBottles
+  const subtotal = planPricing.undiscountedProductSubtotal
+  const appliedDiscountPercentage = Math.round(planPricing.combinedDiscountRate * 100)
+  const discountAmount = planPricing.totalDiscountAmount
+  const customerDiscountAmount = planPricing.customerDiscountAmount
+  const durationDiscountAmount = planPricing.durationDiscountAmount
+
+  const couponDiscountAmount = appliedCoupon
+    ? Math.round(planPricing.productSubtotal * 0.05)
+    : 0
+  const deliveryFee = planPricing.deliverySubtotal
+  const securityDeposit = planPricing.securityDeposit
+  const grandTotal = Math.max(0, planPricing.totalPayable - couponDiscountAmount)
 
   const VALID_COUPONS = ['SAVE5', 'WELCOME5', 'WATLYS5', 'PURE5', 'PROMO5', 'WATER5', 'FAMILY5', 'DISCOUNT5']
 
@@ -210,16 +333,36 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
           city,
           packageDetails: {
             bottleQty,
-            frequency,
-            customerSegment,
+            frequency: planPricing.duration.name,
+            customerSegment: planPricing.packagesUnlocked
+              ? planPricing.package?.name ?? 'Family / Individual'
+              : 'Single Bottle',
+            weeks: planPricing.weeks,
+            durationId: planPricing.selection.durationId,
+            packageId: planPricing.packagesUnlocked
+              ? planPricing.selection.packageId
+              : undefined,
+            locationId: planPricing.selection.locationId,
+            totalBottles: planPricing.totalBottles,
+            packagesUnlocked: planPricing.packagesUnlocked,
           },
           pricingSummary: {
-            basePrice,
+            basePrice: planPricing.refillUnitPrice,
+            firstFillUnitPrice: planPricing.firstFillUnitPrice,
+            firstFillSubtotal: planPricing.firstFillSubtotal,
+            refillUnitPrice: planPricing.refillUnitPrice,
+            refillSubtotal: planPricing.refillSubtotal,
+            productSubtotal: planPricing.productSubtotal,
             subtotal,
             appliedDiscountPercentage,
+            customerDiscountAmount,
+            durationDiscountAmount,
+            securityDeposit,
             appliedCoupon: appliedCoupon || '',
             couponDiscountAmount,
             deliveryFee,
+            estimatedMonthlyCost: planPricing.estimatedMonthlyCost,
+            totalSavings: planPricing.totalSavings,
             grandTotal,
           },
           appliedCoupon: appliedCoupon || '',
@@ -305,11 +448,11 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-2xl bg-white dark:bg-[#111c38] rounded-3xl border border-border shadow-2xl overflow-hidden z-10 my-8"
+          className="relative z-10 my-8 w-full max-w-2xl overflow-hidden rounded-3xl border border-border bg-white shadow-2xl dark:bg-[var(--card)] dark:shadow-none"
         >
           {/* Header Bar */}
-          <div className="relative bg-primary px-6 py-5 text-white flex justify-between items-center overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-primary to-cyan-600 opacity-90" />
+          <div className="relative flex items-center justify-between overflow-hidden bg-primary px-6 py-5 text-white dark:bg-[var(--bg-raised)]">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-primary to-cyan-600 opacity-90 dark:hidden" />
             <div className="relative z-10 flex items-center space-x-2.5">
               <Droplets className="w-5 h-5 text-cyan-200" />
               <div>
@@ -506,64 +649,106 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                     2. PACKAGE CONFIGURATION
                   </span>
 
-                  {/* Customer Segment */}
+                  {/* Customer Segment — locked below 2 bottles */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-foreground">Customer Segment</label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                      {[
-                        { id: 'Student', label: 'Student (10% Off)', icon: GraduationCap },
-                        { id: 'Individual', label: 'Individual (5% Off)', icon: User },
-                        { id: 'Family', label: 'Family (8% Off)', icon: Users },
-                        { id: 'Corporate', label: 'Corporate (15% Off)', icon: Building2 },
-                      ].map((seg) => {
-                        const IconComponent = seg.icon
+                    <label className="text-xs font-semibold text-foreground">Customer Package</label>
+                    {!arePackagesUnlocked(bottleQty) ? (
+                      <p className="text-[11px] text-amber-700 dark:text-amber-300">
+                        Subscription packages unlock with 2 or more bottles.
+                      </p>
+                    ) : null}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {CUSTOM_PLAN_CONFIG.packages.map((pkg) => {
+                        const IconComponent =
+                          pkg.id === 'student'
+                            ? GraduationCap
+                            : pkg.id === 'corporate'
+                              ? Building2
+                              : Users
+                        const label = mapPackageIdToSegment(pkg.id)
+                        const locked = !arePackagesUnlocked(bottleQty)
+                        const active =
+                          !locked && mapSegmentToPackageId(customerSegment) === pkg.id
                         return (
                           <button
-                            key={seg.id}
+                            key={pkg.id}
                             type="button"
-                            onClick={() => setCustomerSegment(seg.id)}
-                            className={`py-2 px-2 rounded-xl text-[11px] font-bold border flex flex-col items-center justify-center space-y-1 transition-all cursor-pointer ${
-                              customerSegment === seg.id
-                                ? 'border-primary bg-primary/10 text-primary'
-                                : 'border-border text-zinc-600 dark:text-slate-300 hover:border-zinc-300 dark:hover:border-slate-700'
+                            disabled={locked}
+                            aria-disabled={locked}
+                            onClick={() => {
+                              if (locked) return
+                              setCustomerSegment(label)
+                            }}
+                            className={`py-2 px-2 rounded-xl text-[11px] font-bold border flex flex-col items-center justify-center space-y-1 transition-all ${
+                              locked
+                                ? 'cursor-not-allowed opacity-50 border-border'
+                                : active
+                                  ? 'border-primary bg-primary/10 text-primary cursor-pointer'
+                                  : 'border-border text-zinc-600 dark:text-slate-300 hover:border-zinc-300 dark:hover:border-slate-700 cursor-pointer'
                             }`}
                           >
                             <IconComponent size={14} />
-                            <span>{seg.label}</span>
+                            <span>
+                              {pkg.shortName} ({Math.round(pkg.discount * 100)}% Off)
+                            </span>
                           </button>
                         )
                       })}
                     </div>
                   </div>
 
-                  {/* Bottle Quantity & Frequency */}
+                  {/* Bottle Quantity & Duration */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs font-semibold">
-                        <label className="text-foreground">Bottles per Delivery</label>
+                        <label className="text-foreground">Bottles per Week</label>
                         <span className="text-primary font-bold">{bottleQty} × 19L</span>
                       </div>
                       <input
                         type="range"
-                        min="1"
-                        max="30"
+                        min={CUSTOM_PLAN_CONFIG.minBottles}
+                        max={CUSTOM_PLAN_CONFIG.maxBottles}
                         value={bottleQty}
-                        onChange={(e) => setBottleQty(parseInt(e.target.value))}
+                        onChange={(e) => {
+                          const qty = parseInt(e.target.value, 10)
+                          setBottleQty(qty)
+                          if (!arePackagesUnlocked(qty)) {
+                            setCustomerSegment('Single Bottle')
+                          } else if (
+                            customerSegment === 'Single Bottle' ||
+                            !customerSegment
+                          ) {
+                            setCustomerSegment(
+                              mapPackageIdToSegment(CUSTOM_PLAN_CONFIG.defaults.packageId)
+                            )
+                          }
+                        }}
                         className="w-full h-2 bg-zinc-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-semibold text-foreground">Delivery Frequency</label>
+                      <label className="text-xs font-semibold text-foreground">Plan Duration</label>
                       <select
-                        value={frequency}
-                        onChange={(e) => setFrequency(e.target.value)}
+                        value={durationId}
+                        onChange={(e) => {
+                          const next = e.target.value as DurationId
+                          setDurationId(next)
+                          const name =
+                            CUSTOM_PLAN_CONFIG.durations.find((d) => d.id === next)?.name ||
+                            frequency
+                          setFrequency(name)
+                        }}
                         className="w-full px-3.5 py-2.5 bg-zinc-50 dark:bg-background border border-border rounded-xl text-xs text-foreground focus:outline-none focus:border-primary"
                       >
-                        <option value="Weekly">Weekly Refills (4x / month)</option>
-                        <option value="Bi-Weekly">Bi-Weekly Refills (2x / month)</option>
-                        <option value="Monthly">Monthly Refill (1x / month)</option>
-                        <option value="One-Time">One-Time Delivery</option>
+                        {CUSTOM_PLAN_CONFIG.durations.map((d) => (
+                          <option key={d.id} value={d.id}>
+                            {d.name}
+                            {d.discount > 0
+                              ? ` (+${Math.round(d.discount * 100)}% duration)`
+                              : ''}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -800,33 +985,90 @@ export default function OrderModal({ isOpen, onClose, initialPackageDetails }: O
                   )}
                 </div>
 
-                {/* Section 5: Pricing Summary */}
+                {/* Section 5: Pricing Summary — same engine as Custom Plan Builder */}
                 <div className="p-5 bg-zinc-50 dark:bg-background rounded-2xl border border-zinc-200/80 dark:border-slate-800 space-y-2.5 text-xs text-zinc-600 dark:text-slate-300">
                   <div className="flex justify-between">
-                    <span>Base Bottle Price:</span>
-                    <span className="font-semibold text-foreground">PKR {basePrice} / 19L</span>
+                    <span>First-fill unit:</span>
+                    <span className="font-semibold text-foreground">
+                      PKR {firstFillUnitPrice.toLocaleString()} / 19L
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Total Bottles ({totalBottles} bottles):</span>
-                    <span className="font-semibold text-foreground">PKR {subtotal.toLocaleString()}</span>
+                    <span>Refill unit (min PKR 280):</span>
+                    <span className="font-semibold text-foreground">
+                      PKR {basePrice.toLocaleString()} / 19L
+                    </span>
                   </div>
-                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
-                    <span>Segment Discount ({customerSegment} - {appliedDiscountPercentage}%):</span>
-                    <span>- PKR {discountAmount.toLocaleString()}</span>
+                  <div className="flex justify-between">
+                    <span>
+                      Product ({totalBottles} bottles · {planPricing.duration.name}):
+                    </span>
+                    <span className="font-semibold text-foreground">
+                      PKR {subtotal.toLocaleString()}
+                    </span>
                   </div>
+                  {customerDiscountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
+                      <span>
+                        {planPricing.package?.shortName ?? 'Package'} discount (
+                        {Math.round(planPricing.customerDiscountRate * 100)}%):
+                      </span>
+                      <span>- PKR {customerDiscountAmount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  {durationDiscountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
+                      <span>
+                        Duration discount (
+                        {Math.round(planPricing.durationDiscountRate * 100)}%):
+                      </span>
+                      <span>- PKR {durationDiscountAmount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  {appliedDiscountPercentage > 0 &&
+                    customerDiscountAmount === 0 &&
+                    durationDiscountAmount === 0 && (
+                      <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
+                        <span>Plan discount ({appliedDiscountPercentage}%):</span>
+                        <span>- PKR {discountAmount.toLocaleString()}</span>
+                      </div>
+                    )}
                   {appliedCoupon && (
                     <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
-                      <span>Coupon Discount ({appliedCoupon} - 5%):</span>
+                      <span>Coupon ({appliedCoupon} - 5%):</span>
                       <span>- PKR {couponDiscountAmount.toLocaleString()}</span>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span>Delivery Fee ({totalDeliveries} trips):</span>
-                    <span className="font-semibold text-foreground">PKR {deliveryFee.toLocaleString()}</span>
+                    <span>
+                      Delivery ({totalDeliveries} trips
+                      {planPricing.deliveryWaived ? ' — waived' : ''}):
+                    </span>
+                    <span className="font-semibold text-foreground">
+                      PKR {deliveryFee.toLocaleString()}
+                    </span>
+                  </div>
+                  {securityDeposit > 0 && (
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>Refundable security deposit:</span>
+                      <span className="font-semibold">
+                        PKR {securityDeposit.toLocaleString()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>Est. monthly (ex-deposit):</span>
+                    <span className="font-semibold text-foreground">
+                      PKR {planPricing.estimatedMonthlyCost.toLocaleString()}
+                    </span>
                   </div>
                   <div className="pt-3 border-t border-zinc-200/80 dark:border-slate-800 flex justify-between items-baseline">
-                    <span className="font-bold uppercase tracking-wider text-foreground text-xs">GRAND TOTAL:</span>
-                    <span className="text-2xl font-serif font-bold text-primary">PKR {grandTotal.toLocaleString()}</span>
+                    <span className="font-bold uppercase tracking-wider text-foreground text-xs">
+                      PAYABLE TODAY:
+                    </span>
+                    <span className="text-2xl font-serif font-bold text-primary">
+                      PKR {grandTotal.toLocaleString()}
+                    </span>
                   </div>
                 </div>
 

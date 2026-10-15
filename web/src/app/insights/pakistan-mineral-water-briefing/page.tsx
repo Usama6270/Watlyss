@@ -35,7 +35,7 @@ export default function IndustryReportArticlePage() {
         </div>
 
         {/* TOP DOWNLOAD CTA BOX */}
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-primary to-sky-700 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col items-center justify-between gap-6 rounded-3xl bg-gradient-to-r from-primary to-sky-700 p-6 text-white shadow-xl sm:flex-row dark:bg-[var(--bg-raised)] dark:bg-none dark:shadow-none dark:ring-1 dark:ring-white">
           <div className="flex items-center space-x-4">
             <div className="p-3.5 bg-white/10 backdrop-blur-md rounded-2xl shrink-0">
               <FileText size={32} />

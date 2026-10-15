@@ -1,6 +1,58 @@
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
 import { sendCustomerOrderConfirmation, sendAdminOrderNotification } from '@/lib/email'
+import {
+  calculateCustomPlan,
+  type CustomerPackageId,
+  type DurationId,
+  type LocationId,
+} from '@/lib/pricing/custom-plan'
+
+function mapSegmentToPackageId(segment: string): CustomerPackageId {
+  const s = (segment || '').toLowerCase()
+  if (s.includes('single')) return 'family'
+  if (s.includes('student')) return 'student'
+  if (s.includes('corporate')) return 'corporate'
+  return 'family'
+}
+
+function mapDurationId(
+  durationId?: string,
+  weeks?: number,
+  frequency?: string
+): DurationId {
+  if (durationId === '1w' || durationId === '2w' || durationId === '3w' || durationId === '1m') {
+    return durationId
+  }
+  if (weeks === 1) return '1w'
+  if (weeks === 2) return '2w'
+  if (weeks === 3) return '3w'
+  if (weeks === 4) return '1m'
+  const f = (frequency || '').toLowerCase()
+  if (f.includes('1 week') || f === 'weekly' || f === 'one-time') return '1w'
+  if (f.includes('2 week') || f.includes('bi')) return '2w'
+  if (f.includes('3 week')) return '3w'
+  if (f.includes('month') || f.includes('4 week')) return '1m'
+  return '1w'
+}
+
+function mapLocationId(locationId?: string, city?: string): LocationId {
+  if (
+    locationId === 'lahore' ||
+    locationId === 'islamabad' ||
+    locationId === 'rawalpindi' ||
+    locationId === 'sialkot' ||
+    locationId === 'other'
+  ) {
+    return locationId
+  }
+  const c = (city || '').toLowerCase()
+  if (c.includes('sialkot')) return 'sialkot'
+  if (c.includes('rawalpindi') && !c.includes('islamabad')) return 'rawalpindi'
+  if (c.includes('islamabad') || c.includes('rawalpindi')) return 'islamabad'
+  if (c.includes('lahore')) return 'lahore'
+  return 'other'
+}
 
 export async function POST(req: Request) {
   try {
@@ -37,7 +89,6 @@ export async function POST(req: Request) {
       transactionReference,
     } = body
 
-    // 1. Validation
     if (!customerName || typeof customerName !== 'string' || !customerName.trim()) {
       return NextResponse.json({ success: false, error: 'Customer Name is required.' }, { status: 400 })
     }
@@ -58,11 +109,44 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: 'Pricing Summary is required.' }, { status: 400 })
     }
 
-    // 2. Generate Order Number: WAT-2026-XXXX
+    // Authoritative recalculation — never trust client totals alone
+    const bottleQty = Number(packageDetails.bottleQty || 1)
+    const packageId =
+      (packageDetails.packageId as CustomerPackageId) ||
+      mapSegmentToPackageId(packageDetails.customerSegment || 'Family / Individual')
+    const durationId = mapDurationId(
+      packageDetails.durationId,
+      Number(packageDetails.weeks) || undefined,
+      packageDetails.frequency
+    )
+    const locationId = mapLocationId(packageDetails.locationId, city)
+
+    const plan = calculateCustomPlan({
+      packageId,
+      bottlesPerWeek: bottleQty,
+      durationId,
+      locationId,
+    })
+
+    if (plan.validationErrors.length > 0) {
+      return NextResponse.json(
+        { success: false, error: plan.validationErrors[0] },
+        { status: 400 }
+      )
+    }
+
+    const couponDiscountAmount = Math.max(
+      0,
+      Number(body.couponDiscountAmount || pricingSummary.couponDiscountAmount || 0)
+    )
+    // Cap coupon at 5% of product (never on deposit)
+    const maxCoupon = Math.round(plan.productSubtotal * 0.05)
+    const safeCoupon = Math.min(couponDiscountAmount, maxCoupon)
+    const grandTotal = Math.max(0, plan.totalPayable - safeCoupon)
+
     const randomSuffix = Math.floor(1000 + Math.random() * 9000).toString()
     const orderNumber = `WAT-2026-${randomSuffix}`
 
-    // 3. Create document in Sanity
     const doc = await writeClient.create({
       _type: 'order',
       orderNumber,
@@ -70,20 +154,38 @@ export async function POST(req: Request) {
       phone: phone.trim(),
       email: email ? email.trim() : '',
       deliveryAddress: deliveryAddress.trim(),
-      city: city || 'Islamabad / Rawalpindi',
+      city: city || plan.location.name,
       packageDetails: {
-        bottleQty: Number(packageDetails.bottleQty || 1),
-        frequency: packageDetails.frequency || 'Bi-Weekly',
-        customerSegment: packageDetails.customerSegment || 'Family',
+        bottleQty: plan.bottlesPerWeek,
+        frequency: plan.duration.name,
+        customerSegment: plan.packagesUnlocked
+          ? plan.package?.name ?? 'Family / Individual'
+          : 'Single Bottle',
+        weeks: plan.weeks,
+        durationId: plan.selection.durationId,
+        packageId: plan.packagesUnlocked ? plan.selection.packageId : undefined,
+        locationId: plan.selection.locationId,
+        totalBottles: plan.totalBottles,
+        packagesUnlocked: plan.packagesUnlocked,
       },
       pricingSummary: {
-        basePrice: Number(pricingSummary.basePrice || 320),
-        subtotal: Number(pricingSummary.subtotal || 0),
-        appliedDiscountPercentage: Number(pricingSummary.appliedDiscountPercentage || 0),
+        basePrice: plan.refillUnitPrice,
+        firstFillUnitPrice: plan.firstFillUnitPrice,
+        firstFillSubtotal: plan.firstFillSubtotal,
+        refillUnitPrice: plan.refillUnitPrice,
+        refillSubtotal: plan.refillSubtotal,
+        productSubtotal: plan.productSubtotal,
+        subtotal: plan.undiscountedProductSubtotal,
+        appliedDiscountPercentage: Math.round(plan.combinedDiscountRate * 100),
+        customerDiscountAmount: plan.customerDiscountAmount,
+        durationDiscountAmount: plan.durationDiscountAmount,
+        securityDeposit: plan.securityDeposit,
         appliedCoupon: body.appliedCoupon || pricingSummary.appliedCoupon || '',
-        couponDiscountAmount: Number(body.couponDiscountAmount || pricingSummary.couponDiscountAmount || 0),
-        deliveryFee: Number(pricingSummary.deliveryFee || 100),
-        grandTotal: Number(pricingSummary.grandTotal || 0),
+        couponDiscountAmount: safeCoupon,
+        deliveryFee: plan.deliverySubtotal,
+        estimatedMonthlyCost: plan.estimatedMonthlyCost,
+        totalSavings: plan.totalSavings,
+        grandTotal,
       },
       paymentMethod: paymentMethod || 'Cash on Delivery',
       paymentStatus: paymentStatus || 'Unpaid',
@@ -92,7 +194,6 @@ export async function POST(req: Request) {
       createdAt: new Date().toISOString(),
     })
 
-    // 4. Non-blocking Background Transactional Email Notifications
     const emailPayload = {
       orderId: doc._id,
       orderNumber: doc.orderNumber,
@@ -120,20 +221,22 @@ export async function POST(req: Request) {
       }
     })()
 
-    // 5. Return success response
     return NextResponse.json({
       success: true,
       orderId: doc._id,
       orderNumber: doc.orderNumber,
-    })
-  } catch (error: any) {
-    console.error('Failed to create order in Sanity:', error)
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'An error occurred while submitting your order.',
+      pricing: {
+        grandTotal,
+        totalBottles: plan.totalBottles,
+        refillUnitPrice: plan.refillUnitPrice,
       },
-      { status: 500 }
-    )
+    })
+  } catch (error: unknown) {
+    console.error('Failed to create order in Sanity:', error)
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'An error occurred while submitting your order.'
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 }

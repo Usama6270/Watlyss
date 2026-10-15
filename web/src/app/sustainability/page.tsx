@@ -222,7 +222,7 @@ export default function SustainabilityPage() {
                     alt={art.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent p-3 flex items-end">
+                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-slate-950/70 via-transparent to-transparent p-3 dark:bg-[rgba(11,42,74,0.65)] dark:bg-none">
                     <span className="text-[10px] font-bold text-white uppercase tracking-widest font-sans">
                       {art.tag}
                     </span>

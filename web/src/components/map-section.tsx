@@ -19,7 +19,6 @@ import {
   Navigation,
   MessageCircle,
   Phone,
-  Sparkles,
 } from 'lucide-react'
 import { useLanguage } from '@/context/language'
 import {
@@ -28,24 +27,36 @@ import {
   DEFAULT_HUB_ID,
   type WatlysHub,
 } from '@/data/watlys-hubs'
+import SectionHeader from '@/components/section-header'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
+/**
+ * Appends Urdu locale hints to a Google Maps classic embed URL so the
+ * iframe chrome (labels, controls) renders in Urdu for `ur` users.
+ */
+function localizeMapEmbedUrl(url: string, isRtl: boolean): string {
+  if (!isRtl) return url
+  let next = /([?&]hl=)[^&]*/.test(url) ? url.replace(/([?&]hl=)[^&]*/, '$1ur') : `${url}&hl=ur`
+  if (!/[?&]region=/.test(next)) next += '&region=PK'
+  return next
+}
+
 function HubInfoCard({
   hub,
-  isRtl,
   className = '',
 }: {
   hub: WatlysHub
-  isRtl: boolean
   className?: string
 }) {
+  const { t, isRtl, formatMessage } = useLanguage()
   const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
     `${hub.lat},${hub.lng}`
   )}`
-  const wa = `https://wa.me/${hub.whatsapp}?text=${encodeURIComponent(
-    `Hi Watlys — I'd like delivery info for ${hub.shortName} (${hub.address}).`
-  )}`
+  const waText = isRtl
+    ? formatMessage(t.map.whatsappPrefill, { hub: `${hub.shortNameUrdu} (${hub.addressUrdu})` })
+    : formatMessage(t.map.whatsappPrefill, { hub: `${hub.shortName} (${hub.address})` })
+  const wa = `https://wa.me/${hub.whatsapp}?text=${encodeURIComponent(waText)}`
 
   return (
     <motion.div
@@ -89,7 +100,7 @@ function HubInfoCard({
           className="btn-primary group min-h-10 flex-1 !px-3 !text-[10px]"
         >
           <Navigation size={13} />
-          <span>{isRtl ? 'سمت' : 'Get Directions'}</span>
+          <span>{t.map.getDirections}</span>
           <span className="transition-transform group-hover:translate-x-0.5">→</span>
         </a>
         <a
@@ -99,7 +110,7 @@ function HubInfoCard({
           className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-[var(--radius-lg)] bg-emerald-600 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white shadow-sm transition hover:bg-emerald-500"
         >
           <MessageCircle size={14} />
-          WhatsApp
+          {t.common.whatsapp}
         </a>
       </div>
     </motion.div>
@@ -107,7 +118,7 @@ function HubInfoCard({
 }
 
 export default function MapSection() {
-  const { isRtl } = useLanguage()
+  const { t, isRtl } = useLanguage()
   const reduceMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   const inView = useInView(sectionRef, { once: true, margin: '-80px' })
@@ -178,7 +189,7 @@ export default function MapSection() {
               {active && (
                 <motion.span
                   layoutId="hub-active-bar"
-                  className="absolute bottom-2 left-0 top-2 w-[3px] rounded-full bg-primary shadow-[0_0_12px_color-mix(in_srgb,var(--primary)_50%,transparent)]"
+                  className="absolute bottom-2 top-2 inset-inline-start-0 w-[3px] rounded-full bg-primary shadow-[0_0_12px_color-mix(in_srgb,var(--primary)_50%,transparent)]"
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                 />
               )}
@@ -214,28 +225,14 @@ export default function MapSection() {
       ref={sectionRef}
       className="relative section-padding w-full overflow-x-clip font-sans"
     >
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[100px] dark:hidden" />
 
-      <div className="container-custom max-w-[1180px]">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.55, ease: EASE }}
-          className="mb-7 text-center sm:mb-8"
-        >
-          <span className="eyebrow inline-flex items-center gap-1.5">
-            <Sparkles size={12} className="text-primary" />
-            {isRtl ? 'ترسیلی نیٹ ورک' : 'Find Watlys Near You'}
-          </span>
-          <h2 className="section-title mt-2.5">
-            {isRtl ? 'اسلام آباد فلیگ شپ ہب و نیٹ ورک' : 'Islamabad Flagship Hub & Network'}
-          </h2>
-          <p className="section-lead mx-auto mt-2">
-            {isRtl
-              ? 'ہمارے بوتلنگ مراکز اور علاقائی ایکسپریس فلфилمنٹ ہبز دریافت کریں۔'
-              : 'Explore our bottling facilities and regional express fulfillment hubs.'}
-          </p>
-        </motion.div>
+      <div className="container-custom">
+        <SectionHeader
+          eyebrow={t.home.map.eyebrow}
+          title={t.home.map.title}
+          lead={t.home.map.lead}
+        />
 
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
@@ -245,21 +242,25 @@ export default function MapSection() {
         >
           <div className="flex flex-col lg:grid lg:grid-cols-12">
             <motion.aside
-              initial={reduceMotion ? false : { opacity: 0, x: -18 }}
+              initial={reduceMotion ? false : { opacity: 0, x: isRtl ? 18 : -18 }}
               animate={inView ? { opacity: 1, x: 0 } : undefined}
               transition={{ duration: 0.55, delay: 0.12, ease: EASE }}
-              className="order-1 flex flex-col gap-2.5 border-b border-border/60 bg-gradient-to-b from-card/80 to-primary/[0.03] p-3 sm:p-3.5 lg:col-span-4 lg:gap-3 lg:border-b-0 lg:border-r lg:border-border/60 lg:p-4"
+              className={`order-1 flex flex-col gap-2.5 border-b border-border/60 bg-gradient-to-b from-card/80 to-primary/[0.03] p-3 sm:p-3.5 dark:bg-card dark:bg-none lg:gap-3 lg:border-b-0 lg:p-4 ${
+                isRtl
+                  ? 'lg:order-2 lg:col-span-4 lg:border-l lg:border-r-0 lg:border-border/60'
+                  : 'lg:order-1 lg:col-span-4 lg:border-r lg:border-l-0 lg:border-border/60'
+              }`}
             >
               <div className="flex items-center justify-between gap-2 px-0.5">
                 <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">
-                  Select Watlys Hub
+                  {t.map.selectHub}
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/8 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-primary">
-                  {WATLYS_HUBS.length} Active Centers
+                  {WATLYS_HUBS.length} {t.map.activeCenters}
                 </span>
               </div>
               <p className="hidden px-0.5 font-serif text-[0.95rem] font-medium tracking-tight text-foreground lg:block">
-                Regional Delivery Network
+                {t.map.regionalNetwork}
               </p>
 
               {hubList}
@@ -267,7 +268,7 @@ export default function MapSection() {
               <div className="mt-auto hidden rounded-[var(--radius-lg)] border border-border/60 bg-muted/40 px-3 py-2.5 lg:block">
                 <div className="flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-primary">
                   <Phone size={12} />
-                  Dedicated Concierge Line
+                  {t.map.concierge}
                 </div>
                 <a
                   href={`tel:${CONCIERGE_PHONE.replace(/\s/g, '')}`}
@@ -276,7 +277,7 @@ export default function MapSection() {
                   {CONCIERGE_PHONE}
                 </a>
                 <p className="mt-0.5 text-[10.5px] leading-relaxed text-muted-foreground">
-                  Same-day fulfillment for homes & commercial accounts.
+                  Same-day fulfillment for homes & commercial accounts
                 </p>
               </div>
             </motion.aside>
@@ -285,12 +286,12 @@ export default function MapSection() {
               initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.55, delay: 0.16, ease: EASE }}
-              className="relative order-2 lg:col-span-8"
+              className={`relative order-2 lg:col-span-8 ${isRtl ? 'lg:order-1' : 'lg:order-2'}`}
             >
               <div className="relative">
                 <div className="relative h-[300px] w-full overflow-hidden sm:h-[400px] lg:h-[480px]">
                   {!mapReady && (
-                    <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-primary/10 via-muted to-background" />
+                    <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-primary/10 via-muted to-background dark:bg-muted dark:bg-none" />
                   )}
 
                   {mapReady && (
@@ -302,8 +303,8 @@ export default function MapSection() {
                         exit={reduceMotion ? undefined : { opacity: 0 }}
                         transition={{ duration: 0.35 }}
                         title={`Watlys ${activeHub.shortName} map`}
-                        src={activeHub.embedUrl}
-                        className="absolute inset-0 h-full w-full border-0 dark:brightness-90 dark:contrast-125"
+                        src={localizeMapEmbedUrl(activeHub.embedUrl, isRtl)}
+                        className="absolute inset-0 h-full w-full border-0 dark:brightness-[0.85] dark:saturate-50 dark:hue-rotate-[190deg]"
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
                         allowFullScreen
@@ -330,7 +331,7 @@ export default function MapSection() {
                 </div>
 
                 <div className="relative z-20 border-t border-border/50 bg-muted/30 p-3 sm:pointer-events-none sm:absolute sm:bottom-3 sm:left-3 sm:border-0 sm:bg-transparent sm:p-0">
-                  <HubInfoCard hub={activeHub} isRtl={isRtl} className="max-w-none sm:max-w-[320px]" />
+                  <HubInfoCard hub={activeHub} className="max-w-none sm:max-w-[320px]" />
                 </div>
               </div>
             </motion.div>
@@ -339,7 +340,7 @@ export default function MapSection() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-primary">
                   <Phone size={12} />
-                  Concierge
+                  {t.map.concierge}
                 </div>
                 <a
                   href={`tel:${CONCIERGE_PHONE.replace(/\s/g, '')}`}

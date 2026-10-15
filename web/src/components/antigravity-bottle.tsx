@@ -32,7 +32,7 @@ export default function Responsive3DBottleHero() {
       className="relative flex min-h-[50vh] sm:min-h-[80vh] lg:min-h-[90vh] w-full items-center justify-center overflow-hidden pt-6 sm:pt-16 pb-4 sm:pb-8 select-none"
     >
       {/* Clean Ambient Radial Glow (Dark Mode Friendly) */}
-      <div className="absolute w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-200/30 via-slate-50 to-transparent dark:from-sky-900/20 dark:via-slate-950 dark:to-slate-950 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="pointer-events-none absolute -z-10 h-[350px] w-[350px] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-200/30 via-slate-50 to-transparent blur-3xl dark:hidden sm:h-[600px] sm:w-[600px] lg:h-[800px] lg:w-[800px]" />
 
       {/* 1. Parent Container: Mobile (<640px: h-[45vh] w-[90vw] max-w-[340px]), Desktop (>=1024px: h-[85vh] w-[85vh] max-w-[800px]) */}
       <div
